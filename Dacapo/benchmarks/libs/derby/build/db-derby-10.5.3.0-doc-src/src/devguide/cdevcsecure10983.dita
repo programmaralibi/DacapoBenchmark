@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+ 
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN"
+ "../dtd/concept.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+   http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<concept id="cdevcsecure10983" xml:lang="en-us">
+<title>Notes on the Derby security features</title>
+<shortdesc>The<ph conref="../conrefs.dita#prod/productshortname"></ph> security
+model has some basic limitations.</shortdesc>
+<prolog><metadata>
+<keywords><indexterm>security features<indexterm>limitations</indexterm></indexterm>
+</keywords>
+</metadata></prolog>
+<conbody>
+<p>You lock out non full-access users with database properties, which are
+stored in the database (and in an encrypted database these properties are
+also encrypted). Note, however, for a distributed/embedded system that a sophisticated
+user with the database encryption key might be able to physically change those
+properties in the database files.</p>
+<p>In addition, in the <ph conref="../conrefs.dita#prod/productshortname"></ph> system,
+it is not necessary to have a specific connection (or permission to access
+a particular database) to shut down the system. Any authenticated user can
+shut down the system.</p>
+<p>Other security holes to think about are:</p>
+<ul>
+<li>JVM subversion, running the application under a home-grown JVM.</li>
+<li>Trolling for objects</li>
+<li>Class substitution, locating a class that has access to sensitive data
+and replacing it with one that passes on information</li>
+</ul>
+</conbody>
+</concept>

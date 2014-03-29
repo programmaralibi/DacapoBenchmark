@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN"
+ "../dtd/task.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+   http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<task id="tadminnetservbasic" xml:lang="en-us">
+<title>Basic Network Server security policy</title>
+<prolog><metadata>
+<keywords><indexterm>Network Server<indexterm>basic policy</indexterm></indexterm>
+</keywords>
+</metadata></prolog>
+<taskbody>
+<context> <p> If you boot the Network Server without specifying a security
+manager, the Network Server will install a default Java security manager enforcing
+a Basic policy. This happens if you boot the Network Server as your VM's entry
+point, e.g.: </p>  <codeblock>
+java org.apache.derby.drda.NetworkServerControl start ...
+</codeblock>  <p> Note that you should run your Network Server with user authentication
+enabled. For details on how to enable user authentication, please see "Working
+with user authentication" in the <ph conref="../conrefs.dita#pub/citdevelop"></ph>. </p>  <p> Some
+of your application code may run as procedures and functions which you have
+declared using the CREATE PROCEDURE and CREATE FUNCTION statements. You will
+need to add privileged blocks to your declared procedures and functions if
+they perform sensitive operations such as file and network i/o, classloading,
+system property reading, etc.</p>  <p> If for some reason you do not want
+to run your client/server application under a security manager, you may override
+the Network Server's impulse to install a default policy. For details, see <xref
+href="tadminnetservopen.dita"></xref>. </p>  <p> Note that the Network Server
+attempts to install a security manager only if you boot the server as the
+entry point of your VM. The Network Server will not attempt to install a security
+manager if you start the server from your application using the programmatic
+API described in the following section: <xref href="tadminconfig814963.dita"></xref>. </p>  <p> You
+will find a template security policy in the Derby distribution at <i>demo/templates/server.policy</i>.
+Most likely, you will want to customize this policy. For example, probably
+you will want to restrict the server's liberal file i/o permissions which
+let the server backup/restore to/from any location in the local file system.
+For details on how to customize the Template policy, please see <xref href="tadminnetservcustom.dita"></xref>.
+The following example is a copy of the Basic policy: </p>  <codeblock>
+grant codeBase "${derby.install.url}derby.jar"
+{
+//
+// These permissions are needed for everyday, embedded Derby usage.
+//
+  permission java.lang.RuntimePermission "createClassLoader";
+  permission java.util.PropertyPermission "derby.*", "read";
+  // The next two properties are used to determine if the VM is 32 or 64 bit.
+  permission java.util.PropertyPermission "sun.arch.data.model", "read";
+  permission java.util.PropertyPermission "os.arch", "read";
+  permission java.util.PropertyPermission "user.dir", "read";
+  permission java.util.PropertyPermission "derby.storage.jvmInstanceId", 
+      "write"; 
+  permission java.io.FilePermission "${derby.system.home}","read";
+  permission java.io.FilePermission "${derby.system.home}${/}-", "read,write,delete";
+
+//
+// This permission lets you backup and restore databases
+// to and from arbitrary locations in your file system.
+//
+// This permission also lets you import/export data to and from
+// arbitrary locations in your file system.
+//
+// You may want to restrict this access to specific directories.
+//
+  permission java.io.FilePermission "&lt;&lt;ALL FILES&gt;&gt;", "read,write,delete";
+};
+
+grant codeBase "${derby.install.url}derbynet.jar"
+{
+//
+// This permission lets the Network Server manage connections from clients.
+//
+
+// Accept connections from any host. Derby is listening to the host
+// interface specified via the -h option to "NetworkServerControl
+// start" on the command line, via the address parameter to the
+// org.apache.derby.drda.NetworkServerControl constructor in the API
+// or via the property derby.drda.host; the default is localhost.
+// You may want to restrict allowed hosts, e.g. to hosts in a specific
+// subdomain, e.g. "*.acme.com".
+
+  permission java.net.SocketPermission "*", "accept"; 
+};
+</codeblock> </context>
+</taskbody>
+</task>

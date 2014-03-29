@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN"
+ "../dtd/reference.dtd">
+<reference id="rrefsqlj42324" xml:lang="en-us">
+<title>CURRENT_USER function</title>
+<prolog><metadata>
+<keywords><indexterm>CURRENT_USER function</indexterm></keywords>
+</metadata></prolog>
+<refbody>
+<section> <p>CURRENT_USER returns the authorization identifier of the current
+user (the name of the user passed in when the user connected to the database).
+If there is no current user, it returns <i>APP.</i></p>  <p><xref href="rrefsqlj42476.dita#rrefsqlj42476">USER</xref> and <xref href="rrefsqlj25228.dita#rrefsqlj25228">SESSION_USER</xref> are
+synonyms.</p>  <p>These functions return a string of up to 128 characters.</p></section>
+<refsyn><title>Syntax</title> <codeblock><b>CURRENT_USER</b></codeblock> </refsyn>
+<example> <codeblock><b>VALUES CURRENT_USER</b></codeblock> </example>
+</refbody>
+</reference>
+

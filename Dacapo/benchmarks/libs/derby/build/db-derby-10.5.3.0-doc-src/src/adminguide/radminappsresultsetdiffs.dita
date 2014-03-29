@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN"
+ "../dtd/concept.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+   http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<concept id="radminappsresultsetdiffs" xml:lang="en-us">
+<title>Updatable Result Sets</title>
+<conbody>
+<p>The functionality of updatable result sets in a server environment are similar
+to an embedded environment in <ph conref="../conrefs.dita#prod/productshortname"></ph>,
+with the exception of the following differences:<ul>
+<li>The Network Client requires that there be at least one column in the select
+list from the target table. For example, the following statement will fail
+in a server environment:<codeblock>select 1, 2 from t1 for update of c11</codeblock>The
+Network Client driver looks at both of the columns in the select list and
+cannot determine the target table for update/delete by looking at the column
+metadata. This requirement is not necessary in an embedded environment.</li>
+<li>The embedded driver allows for statement name changes when there is an
+open result set on the statement object. This is not supported in a server
+environment.</li>
+</ul>Other differences between updatable result sets in a server or embedded
+environment can be found in the following table.<table><title>Comparison of
+updatable result sets features in server and embedded environments</title>
+<tgroup cols="2"><colspec colname="col1"/><colspec colname="col2"/>
+<thead>
+<row valign="bottom">
+<entry colname="col1">Embedded environment</entry>
+<entry colname="col2">Server environment</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="col1">updateBytes on CHAR, VARCHAR, LONG VARCHAR datatypes
+supported.</entry>
+<entry colname="col2">Not supported</entry>
+</row>
+<row>
+<entry colname="col1">updateTime on TIMESTAMP datatypes supported.</entry>
+<entry colname="col2">Not supported</entry>
+</row>
+<row>
+<entry colname="col1">updateClob and updateBlob supported.</entry>
+<entry colname="col2">Not supported</entry>
+</row>
+</tbody>
+</tgroup>
+</table></p>
+</conbody>
+</concept>

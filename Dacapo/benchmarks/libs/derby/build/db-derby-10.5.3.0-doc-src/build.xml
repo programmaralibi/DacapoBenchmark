@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<project name="derby.docs" default="usage" basedir=".">
+  <property file="${basedir}/docs.properties"/>
+
+  <target name="usage">
+    <echo message="For pdf output, run &quot;ant pdf&quot;"/>
+    <echo message="For html output with frames, run &quot;ant html&quot;"/>
+    <echo message="For html output as a single page, run &quot;ant monohtml&quot;"/>
+    <echo message="For output in all formats in all idioms, run &quot;ant all&quot;"/>
+    <echo message="For Brazilian Portuguese output, run &quot;ant pt_BR.usage&quot;"/>
+  </target>
+
+  <!-- PDFs are built as a part of the monohtml target -->
+  <target name="all" depends="html,monohtml,pt_BR,ja_JP"/>
+
+  <!-- targets that build all formats of each manual. PDFs are built  -->
+  <!-- as a dependent of the monohtml target                          -->
+  <target name="adminguide" depends="init,html.adminguide,monohtml.adminguide"/>
+  <target name="devguide" depends="init,html.devguide,monohtml.devguide"/>
+  <target name="getstart" depends="init,html.getstart,monohtml.getstart"/>
+  <target name="ref" depends="init,html.ref,monohtml.ref"/>
+  <target name="tools" depends="init,html.tools,monohtml.tools"/>
+  <target name="tuning" depends="init,html.tuning,monohtml.tuning"/>
+
+  <target name="html" depends="init,html.getstart,html.tools,html.devguide,html.adminguide,html.ref,html.tuning"/>
+
+  <target name="init" depends="check.dita,unpack.dita,check.regex.done,dita.regex">
+    <available classname="org.apache.fop.tools.anttasks.Fop"
+               property="hasFOP"/>
+    <copy todir="${basedir}/src/dtd">
+      <fileset dir="${dita.dtd.dir}"/>
+    </copy>
+    <copy file="${dita.lib.dir}/dita2fo-shell.xsl" todir="${dita.dir}/xsl"/>
+    <copy file="${dita.lib.dir}/topicmerge.xsl" todir="${dita.dir}/xsl"/>
+    <copy file="${dita.lib.dir}/topic2fo-shell.xsl" todir="${dita.dir}/xsl"/>
+    <copy file="${dita.lib.dir}/dita2fo-titles.xsl" todir="${dita.dir}/xsl/xslfo"/>
+    <copy file="${dita.lib.dir}/topic2foImpl.xsl" todir="${dita.dir}/xsl/xslfo"/>
+    <copy file="${dita.lib.dir}/domains2fo.xsl" todir="${dita.dir}/xsl/xslfo"/>
+    <copy file="${dita.lib.dir}/dita2fo-links.xsl" todir="${dita.dir}/xsl/xslfo"/>
+    <copy file="${dita.lib.dir}/dita2fo-subroutines.xsl" todir="${dita.dir}/xsl/xslfo"/>
+    <mkdir dir="${dita.temp.dir}"/>
+    <copy todir="${dita.output.dir}/images">
+      <fileset dir="${dita.src.dir}/images"/>
+    </copy>
+  </target>
+
+  <target name="check.dita">
+    <available file="${dita.dir}" property="dita.available"/>
+  </target>
+
+  <target name="unpack.dita" unless="dita.available">
+    <unjar src="${dita.zip}" dest="${basedir}"/>
+  </target>
+ 
+ <target name="html.getstart" depends="init">
+    <antcall target="html.dita">
+      <param name="manual.name" value="getstart"/>
+      <param name="manual.ditamap" value="getstartderby.ditamap"/>
+      <param name="manual.title" value="Getting Started with Derby"/>
+    </antcall>
+  </target>
+
+  <target name="html.tools" depends="init">
+    <antcall target="html.dita">
+      <param name="manual.name" value="tools"/>
+      <param name="manual.ditamap" value="derbytools.ditamap"/>
+      <param name="manual.title" value="Derby Tools and Utilities Guide"/>
+    </antcall>
+  </target>
+
+  <target name="html.adminguide" depends="init">
+    <antcall target="html.dita">
+      <param name="manual.name" value="adminguide"/>
+      <param name="manual.ditamap" value="derbyadmin.ditamap"/>
+      <param name="manual.title" value="Derby Server and Administration Guide"/>
+    </antcall>
+  </target>
+
+  <target name="html.devguide" depends="init">
+    <antcall target="html.dita">
+      <param name="manual.name" value="devguide"/>
+      <param name="manual.ditamap" value="derbydev.ditamap"/>
+      <param name="manual.title" value="Derby Developer's Guide"/>
+    </antcall>
+  </target>
+
+  <target name="html.ref" depends="init">
+    <antcall target="html.dita">
+      <param name="manual.name" value="ref"/>
+      <param name="manual.ditamap" value="refderby.ditamap"/>
+      <param name="manual.title" value="Derby Reference Manual"/>
+    </antcall>
+  </target>
+
+  <target name="html.tuning" depends="init">
+    <antcall target="html.dita">
+      <param name="manual.name" value="tuning"/>
+      <param name="manual.ditamap" value="tuningderby.ditamap"/>
+      <param name="manual.title" value="Tuning Derby"/>
+    </antcall>
+  </target>
+
+  <target name="html.dita">
+    <!-- build to temp directory, then move the files over to the correct -->
+    <!-- directory name, prepending the Apache License as we go.          -->
+    <mkdir dir="${dita.dir}/temp"/>
+    <mkdir dir="${basedir}/out/${manual.name}temp"/>
+    <copy todir="${basedir}/out/${manual.name}temp">
+      <fileset dir="${dita.dir}/resource"
+               includes="index.html"/>
+      <filterchain>
+        <tokenfilter>
+          <replaceregex pattern="Web Sample" replace="${manual.title}"/>
+        </tokenfilter>
+      </filterchain>
+    </copy>
+			
+    <ant dir="${dita.dir}" antfile="conductor.xml" target="dita2xhtml" inheritAll="true">
+      <property name="args.input" value="${basedir}${file.separator}src${file.separator}${manual.name}${file.separator}${manual.ditamap}"/>
+      <property name="output.dir" value="${basedir}${file.separator}out${file.separator}${manual.name}temp"/>
+      <property name="args.xhtml.toc" value="toc"/>
+    </ant>
+    <move todir="${basedir}/out/${manual.name}">
+      <fileset dir="${basedir}/out/${manual.name}temp">
+        <include name="**/*.html"/>
+        <exclude name="**/*.gif"/>
+      </fileset>
+      <filterchain>
+        <concatfilter prepend="${basedir}/lib/apache-license-html.html"/>
+      </filterchain>
+    </move>
+    <!-- move any remaining files over -->
+    <move todir="${basedir}/out/${manual.name}">
+      <fileset dir="${basedir}/out/${manual.name}temp"/>
+    </move>
+  </target>
+
+  <target name="check.regex.done">
+    <available file="${dita.script.dir}/regex.done" property="regex.done"/>
+  </target>
+
+  <target name="dita.regex" unless="regex.done">
+    <replaceregexp match="select=&quot;'.xml'&quot;" replace="select=&quot;'.dita'&quot;">
+      <fileset dir="${dita.script.dir}" includes="**/*.xsl"/>
+    </replaceregexp>
+    <touch file="${dita.script.dir}/regex.done"/>
+  </target>
+
+  <target name="pdf" depends="init,pdf.getstart,pdf.tools,pdf.devguide,pdf.adminguide,pdf.ref,pdf.tuning"/>
+
+  <target name="pdf.getstart" depends="init">
+    <antcall target="pdf.dita">
+      <param name="manual.name" value="getstart"/>
+      <param name="manual.ditamap" value="getstartderby.ditamap"/>
+    </antcall>
+  </target>
+
+  <target name="pdf.tools" depends="init">
+    <antcall target="pdf.dita">
+      <param name="manual.name" value="tools"/>
+      <param name="manual.ditamap" value="derbytools.ditamap"/>
+    </antcall>
+  </target>
+
+  <target name="pdf.adminguide" depends="init">
+    <antcall target="pdf.dita">
+      <param name="manual.name" value="adminguide"/>
+      <param name="manual.ditamap" value="derbyadmin.ditamap"/>
+    </antcall>
+  </target>
+
+  <target name="pdf.devguide" depends="init">
+    <antcall target="pdf.dita">
+      <param name="manual.name" value="devguide"/>
+      <param name="manual.ditamap" value="derbydev.ditamap"/>
+    </antcall>
+  </target>
+
+  <target name="pdf.ref" depends="init">
+    <antcall target="pdf.dita">
+      <param name="manual.name" value="ref"/>
+      <param name="manual.ditamap" value="refderby.ditamap"/>
+    </antcall>
+  </target>
+
+  <target name="pdf.tuning" depends="init">
+    <antcall target="pdf.dita">
+      <param name="manual.name" value="tuning"/>
+      <param name="manual.ditamap" value="tuningderby.ditamap"/>
+    </antcall>
+  </target>
+    
+  <target name="pdf.dita">
+    <mkdir dir="${dita.dir}/temp"/>
+    <mkdir dir="${dita.output.dir}/${manual.name}"/>
+    <copy todir="${dita.output.dir}/${manual.name}">
+      <fileset dir="${dita.src.dir}/${manual.name}" includes="*.jpg"/>
+    </copy>
+    <ant dir="${dita.dir}" antfile="conductor.xml" target="dita2pdf" inheritAll="true">
+      <property name="args.input" value="${basedir}${file.separator}src${file.separator}${manual.name}${file.separator}${manual.ditamap}"/>
+      <property name="output.dir" value="${basedir}${file.separator}out${file.separator}${manual.name}"/>
+    </ant>
+  </target>
+
+  <target name="monohtml" depends="monohtml.adminguide,monohtml.devguide,monohtml.getstart,monohtml.ref,monohtml.tools,monohtml.tuning"/>
+
+  <target name="monohtml.adminguide" depends="init,pdf.adminguide">
+    <antcall target="monohtml.dita">
+      <param name="manual.name" value="adminguide"/>
+      <param name="manual.dir" value="adminguide"/>
+      <param name="manual.fo" value="derbyadmin.fo"/>
+    </antcall>
+  </target>
+  
+  <target name="monohtml.devguide" depends="init,pdf.devguide">
+    <antcall target="monohtml.dita">
+      <param name="manual.name" value="devguide"/>
+      <param name="manual.dir" value="devguide"/>
+      <param name="manual.fo" value="derbydev.fo"/>
+    </antcall>
+  </target>
+
+  <target name="monohtml.getstart" depends="init,pdf.getstart">
+    <antcall target="monohtml.dita">
+      <param name="manual.name" value="getstart"/>
+      <param name="manual.dir" value="getstart"/>
+      <param name="manual.fo" value="getstartderby.fo"/>
+    </antcall>
+  </target>
+
+  <target name="monohtml.ref" depends="init,pdf.ref">
+    <antcall target="monohtml.dita">
+      <param name="manual.name" value="ref"/>
+      <param name="manual.dir" value="ref"/>
+      <param name="manual.fo" value="refderby.fo"/>
+    </antcall>
+  </target>
+
+  <target name="monohtml.tools" depends="init,pdf.tools">
+    <antcall target="monohtml.dita">
+      <param name="manual.name" value="tools"/>
+      <param name="manual.dir" value="tools"/>
+      <param name="manual.fo" value="derbytools.fo"/>
+    </antcall>
+  </target>
+
+  <target name="monohtml.tuning" depends="init,pdf.tuning">
+    <antcall target="monohtml.dita">
+      <param name="manual.name" value="tuning"/>
+      <param name="manual.dir" value="tuning"/>
+      <param name="manual.fo" value="tuningderby.fo"/>
+    </antcall>
+  </target>
+
+  <target name="monohtml.dita">
+    <xslt processor="trax" 
+          in="${dita.output.dir}/${manual.dir}/${manual.fo}"
+          out="${dita.output.dir}/${manual.dir}/${manual.name}-single.html"
+          style="${basedir}/lib/fo2html.xsl"/>
+  </target>
+
+  <target name="clean">
+    <delete dir="${dita.output.dir}"/>
+    <delete dir="${dita.temp.dir}"/>
+  </target>
+
+  <target name="clobber" depends="clean">
+    <delete dir="${dita.dir}"/>
+  </target>
+
+  <!-- Brazilian Portuguese manuals -->
+
+  <target name="pt_BR" depends="init,pt_BR_image,pt_BR.html,pt_BR.monohtml"/>
+ 
+  <target name="pt_BR_image">
+    <copy todir="${dita.output.dir}/pt_BR/images">
+      <fileset dir="${dita.src.dir}/images"/>
+    </copy>
+  </target>
+
+  <target name="pt_BR.html" depends="init">
+    <ant dir="src/pt_BR" target="pt_BR.adminguide.html"/>
+    <ant dir="src/pt_BR" target="pt_BR.getstart.html"/>
+    <ant dir="src/pt_BR" target="pt_BR.ref.html"/>
+  </target>
+
+  <target name="pt_BR.pdf" depends="init">
+    <ant dir="src/pt_BR" target="pt_BR.adminguide.pdf"/>
+    <ant dir="src/pt_BR" target="pt_BR.getstart.pdf"/>
+    <ant dir="src/pt_BR" target="pt_BR.ref.pdf"/>
+  </target>
+
+  <target name="pt_BR.monohtml" depends="init">
+    <ant dir="src/pt_BR" target="pt_BR.adminguide.monohtml"/>
+    <ant dir="src/pt_BR" target="pt_BR.getstart.monohtml"/>
+    <ant dir="src/pt_BR" target="pt_BR.ref.monohtml"/>
+  </target>
+
+  <target name="pt_BR.adminguide" depends="init">
+    <ant dir="src/pt_BR" target="pt_BR.adminguide.html"/>
+    <ant dir="src/pt_BR" target="pt_BR.adminguide.monohtml"/>
+  </target>
+
+  <target name="pt_BR.getstart" depends="init">
+    <ant dir="src/pt_BR" target="pt_BR.getstart.html"/>
+    <ant dir="src/pt_BR" target="pt_BR.getstart.monohtml"/>
+  </target>
+
+  <target name="pt_BR.ref" depends="init">
+    <ant dir="src/pt_BR" target="pt_BR.ref.html"/>
+    <ant dir="src/pt_BR" target="pt_BR.ref.monohtml"/>
+  </target>
+
+  <target name="pt_BR.usage">
+    <ant dir="src/pt_BR" target="usage"/>
+  </target>
+    
+  <!-- Japanese Japanese manuals -->
+  <target name="ja_JP" depends="init,ja_JP_image,ja_JP.html,ja_JP.monohtml"/>
+
+  <target name="ja_JP_image">
+    <copy todir="${dita.output.dir}/ja_JP/images">
+      <fileset dir="${dita.src.dir}/images"/>
+    </copy>
+  </target>
+
+  <target name="ja_JP.html" depends="init">
+    <ant dir="src/ja_JP" target="ja_JP.getstart.html"/>
+    <ant dir="src/ja_JP" target="ja_JP.ref.html"/>
+  </target>
+  
+  <target name="ja_JP.pdf" depends="init">
+    <ant dir="src/ja_JP" target="ja_JP.getstart.pdf"/>
+    <ant dir="src/ja_JP" target="ja_JP.ref.pdf"/>
+  </target>
+
+  <target name="ja_JP.monohtml" depends="init">
+    <ant dir="src/ja_JP" target="ja_JP.getstart.monohtml"/>
+    <ant dir="src/ja_JP" target="ja_JP.ref.monohtml"/>
+  </target>
+  
+  <target name="ja_JP.getstart" depends="init">
+    <ant dir="src/ja_JP" target="ja_JP.getstart.html"/>
+    <ant dir="src/ja_JP" target="ja_JP.getstart.monohtml"/>
+  </target>
+
+  <target name="ja_JP.ref" depends="init">
+    <ant dir="src/ja_JP" target="ja_JP.ref.html"/>
+    <ant dir="src/ja_JP" target="ja_JP.ref.monohtml"/>
+  </target>
+
+  <target name="ja_JP.usage">
+    <ant dir="src/ja_JP" target="usage"/>
+  </target>
+
+</project>

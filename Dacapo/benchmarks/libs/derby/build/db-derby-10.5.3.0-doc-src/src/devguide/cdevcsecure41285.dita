@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN"
+ "../dtd/concept.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+   http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<concept id="cdevcsecure41285" xml:lang="en-us">
+<title>LDAP directory service</title>
+<shortdesc>You can allow <ph conref="../conrefs.dita#prod/productshortname"></ph> to
+authenticate users against an existing LDAP directory service within your
+enterprise. LDAP (lightweight directory access protocol) provides an open
+directory access protocol running over TCP/IP. An LDAP directory service can
+quickly authenticate a user's name and password.</shortdesc>
+<prolog><metadata>
+<keywords><indexterm>LDAP directory services<indexterm>used to provide user
+authentication</indexterm></indexterm></keywords>
+</metadata></prolog>
+<conbody>
+<p>To use an LDAP directory service, set <i>derby.authentication.provider</i> to <i>LDAP</i>.</p>
+<p>Examples of LDAP service providers are:</p>
+<ul>
+<li>Netscape Directory Server   <p>Netscape Directory Server is an LDAP directory
+server. In addition, the Netscape Directory Synchronization Service synchronizes
+entries in a Windows NT directory with the entries in Netscape's Directory
+Server. It allows you to use the Windows NT directory as a repository for <ph
+conref="../conrefs.dita#prod/productshortname"></ph> users.</p></li>
+<li>UMich slapd (freeware for the UNIX platform from the University of Michigan)</li>
+<li>AE SLAPD for Windows NT, from AEInc</li>
+</ul>
+</conbody>
+</concept>

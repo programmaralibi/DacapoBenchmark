@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN"
+ "../dtd/reference.dtd">
+<!--  
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+   http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<reference id="rgsderbyrunjarsyntax" xml:lang="en-us">
+<title>Syntax for the derbyrun.jar file</title>
+<shortdesc>The <codeph>derbyrun.jar</codeph> file is a special JAR file that
+simplifies how you invoke the <ph conref="../conrefs.dita#prod/productshortname"></ph> tools
+and the Network Server.</shortdesc>
+<prolog><metadata>
+<keywords><indexterm>derbyrun.jar file<indexterm>syntax</indexterm></indexterm>
+<indexterm>derbyrun.jar file<indexterm>classpath</indexterm></indexterm><indexterm>classpath<indexterm>setting
+up</indexterm></indexterm></keywords>
+</metadata></prolog>
+<refbody>
+<section>With the <codeph>derbyrun.jar</codeph> file, you can run the <ph
+conref="../conrefs.dita#prod/productshortname"></ph> tools and utilities using
+shortened names and you do not need to set the java CLASSAPATH environment
+variable. The <codeph>derbyrun.jar</codeph> file must be in the same folder
+as the other <ph conref="../conrefs.dita#prod/productshortname"></ph> JAR
+files.</section>
+<section><title>Syntax</title>The syntax for using <codeph>derbyrun.jar</codeph> for
+each of the <ph conref="../conrefs.dita#prod/productshortname"></ph> tools
+is as follows: <simpletable relcolwidth="1* 3*">
+<sthead>
+<stentry>Operating System</stentry>
+<stentry>Command</stentry>
+</sthead>
+<strow>
+<stentry>UNIX (Korn Shell)</stentry>
+<stentry><codeblock>java -jar $DERBY_HOME/lib/derbyrun.jar ij [-p <i>propertiesfile</i>] [<i>sql_script</i>] 
+java -jar $DERBY_HOME/lib/derbyrun.jar sysinfo [-cp ...] [-cp help]
+
+java -jar $DERBY_HOME/lib/derbyrun.jar dblook [<i>arg</i>]* (or no arguments for usage) 
+java -jar $DERBY_HOME/lib/derbyrun.jar server [<i>arg</i>]* (or no arguments for usage) </codeblock></stentry>
+</strow>
+<strow>
+<stentry>Windows</stentry>
+<stentry><codeblock>java -jar %DERBY_HOME%\lib\derbyrun.jar ij [-p <i>propertiesfile</i>] [<i>sql_script</i>] 
+java -jar %DERBY_HOME%\lib\derbyrun.jar sysinfo [-cp ...] [-cp help] 
+java -jar %DERBY_HOME%\lib\derbyrun.jar dblook [<i>arg</i>]* (or no arguments for usage) 
+java -jar %DERBY_HOME%\lib\derbyrun.jar server [<i>arg</i>]* (or no arguments for usage) </codeblock></stentry>
+</strow>
+</simpletable><p>To see this syntax reminder, run the command  <codeph>java
+-jar derbyrun.jar</codeph> with no arguments.</p></section>
+<section><title>Additional information</title><p>The <codeph>server</codeph> argument
+is a shortcut for running the  <codeph>NetworkServerControl</codeph> tool.
+For details on using this tool, see the <cite><ph conref="../conrefs.dita#pub/citadmin"></ph></cite>. </p><p>For
+more information on using <codeph>derbyrun.jar</codeph> to run the  <codeph>ij</codeph>, <codeph>sysinfo</codeph>,
+and <codeph>dblook</codeph>  tools, see the <cite><ph conref="../conrefs.dita#pub/citutilities"></ph></cite>.</p></section>
+</refbody>
+</reference>

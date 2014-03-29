@@ -1,0 +1,709 @@
+<?xml version="1.0" encoding="utf-8"?>
+ 
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN"
+ "../dtd/reference.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<reference id="rrefsqlj33562" xml:lang="en-us">
+<title>CAST function</title>
+<shortdesc>The CAST function converts a value from one data type to another
+and provides a data type to a dynamic parameter (?) or a NULL value.</shortdesc>
+<prolog><metadata>
+<keywords><indexterm>CAST function</indexterm><indexterm>conversions<indexterm>SQL-92
+data types using CAST</indexterm></indexterm><indexterm>conversions<indexterm>CAST
+function (explicit)</indexterm></indexterm></keywords>
+</metadata></prolog>
+<refbody>
+<section> <p>CAST expressions are permitted anywhere expressions are permitted.</p></section>
+<refsyn><title>Syntax</title> <codeblock><b>CAST ( [ <i>Expression</i> | NULL | ? ]
+    AS <i>Datatype</i>)</b></codeblock> <p>The data type to which you are
+casting an expression is the <i>target type</i>. The data type of the expression
+from which you are casting is the <i>source type</i>.</p> </refsyn>
+<section><title>CAST conversions among SQL-92 data types</title> <p>The following
+table shows valid explicit conversions between source types and target types
+for SQL data types. This table shows which explicit conversions between data
+types are valid. The first column on the table lists the source data types.
+The first row lists the target data types. A "Y" indicates that a conversion
+from the source to the target is valid. For example, the first cell in the
+second row lists the source data type SMALLINT. The remaining cells on the
+second row indicate the whether or not you can convert SMALLINT to the target
+data types that are listed in the first row of the table.<table><title>Explicit
+conversions between source types and target types for SQL data types</title>
+<tgroup cols="20"><colspec colname="colspec0" colwidth="330*"/><colspec colname="col2"
+colwidth="84*"/><colspec colname="col3" colwidth="84*"/><colspec colname="col4"
+colwidth="84*"/><colspec colname="col5" colwidth="84*"/><colspec colname="col6"
+colwidth="81*"/><colspec colname="colspec1" colwidth="84*"/><colspec colname="colspec9"
+colwidth="84*"/><colspec colname="colspec8" colwidth="84*"/><colspec colname="colspec7"
+colwidth="84*"/><colspec colname="colspec6" colwidth="81*"/><colspec colname="colspec5"
+colwidth="84*"/><colspec colname="colspec4" colwidth="87*"/><colspec colname="colspec3"
+colwidth="81*"/><colspec colname="colspec2" colwidth="84*"/><colspec colname="colspec10"
+colwidth="84*"/><colspec colname="colspec13" colwidth="84*"/><colspec colname="colspec12"
+colwidth="84*"/><colspec colname="colspec11" colwidth="84*"/><colspec colname="COLSPEC14"
+colwidth="84*"/>
+<thead>
+<row>
+<entry colname="colspec0" valign="top">Types</entry>
+<entry colname="col2" valign="top"> <lines>S
+M
+A
+L
+L
+I
+N
+T</lines></entry>
+<entry colname="col3" valign="top"> <lines>I
+N
+T
+E
+G
+E
+R</lines></entry>
+<entry colname="col4" valign="top"> <lines>B
+I
+G
+I
+N
+T</lines></entry>
+<entry colname="col5" valign="top"> <lines>D
+E
+C
+I
+M
+A
+L</lines></entry>
+<entry colname="col6" valign="top"> <lines>R
+E
+A
+L</lines></entry>
+<entry colname="colspec1" valign="top"> <lines>D
+O
+U
+B
+L
+E</lines></entry>
+<entry colname="colspec9" valign="top"> <lines>F
+L
+O
+A
+T</lines></entry>
+<entry colname="colspec8" valign="top"> <lines>C
+H
+A
+R</lines></entry>
+<entry colname="colspec7" valign="top"> <lines>V
+A
+R
+C
+H
+A
+R</lines></entry>
+<entry colname="colspec6" valign="top"> <lines>L
+O
+N
+G
+
+V
+A
+R
+C
+H
+A
+R</lines></entry>
+<entry colname="colspec5" valign="top"> <lines>C
+H
+A
+R
+ 
+F
+O
+R
+ 
+B
+I
+T
+
+D
+A
+T
+A</lines></entry>
+<entry colname="colspec4" valign="top"> <lines>V
+A
+R
+C
+H
+A
+R
+ 
+F
+O
+R
+ 
+B
+I
+T
+
+D
+A
+T
+A</lines></entry>
+<entry colname="colspec3" valign="top"> <lines>L
+O
+N
+G
+ 
+V
+A
+R
+C
+H
+A
+R
+ 
+F
+O
+R
+ 
+B
+I
+T
+
+D
+A
+T
+A</lines></entry>
+<entry colname="colspec2" valign="top"> <lines>C
+L
+O
+B</lines></entry>
+<entry colname="colspec10" valign="top"> <lines>B
+L
+O
+B</lines></entry>
+<entry colname="colspec13" valign="top"> <lines>D
+A
+T
+E</lines></entry>
+<entry colname="colspec12" valign="top"> <lines>T
+I
+M
+E</lines></entry>
+<entry colname="colspec11" valign="top"> <lines>T
+I
+M
+E
+S
+T
+A
+M
+P</lines></entry>
+<entry colname="COLSPEC14" valign="top"> <lines>X
+M
+L</lines></entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="colspec0">SMALLINT</entry>
+<entry colname="col2">Y</entry>
+<entry colname="col3">Y</entry>
+<entry colname="col4">Y</entry>
+<entry colname="col5">Y</entry>
+<entry colname="col6">Y</entry>
+<entry colname="colspec1">Y</entry>
+<entry colname="colspec9">Y</entry>
+<entry colname="colspec8">Y</entry>
+<entry colname="colspec7">-</entry>
+<entry colname="colspec6">-</entry>
+<entry colname="colspec5">-</entry>
+<entry colname="colspec4">-</entry>
+<entry colname="colspec3">-</entry>
+<entry colname="colspec2">-</entry>
+<entry colname="colspec10">-</entry>
+<entry colname="colspec13">-</entry>
+<entry colname="colspec12">-</entry>
+<entry colname="colspec11">-</entry>
+<entry colname="COLSPEC14">-</entry>
+</row>
+<row>
+<entry colname="colspec0">INTEGER</entry>
+<entry colname="col2">Y</entry>
+<entry colname="col3">Y</entry>
+<entry colname="col4">Y</entry>
+<entry colname="col5">Y</entry>
+<entry colname="col6">Y</entry>
+<entry colname="colspec1">Y</entry>
+<entry colname="colspec9">Y</entry>
+<entry colname="colspec8">Y</entry>
+<entry colname="colspec7">-</entry>
+<entry colname="colspec6">-</entry>
+<entry colname="colspec5">-</entry>
+<entry colname="colspec4">-</entry>
+<entry colname="colspec3">-</entry>
+<entry colname="colspec2">-</entry>
+<entry colname="colspec10">-</entry>
+<entry colname="colspec13">-</entry>
+<entry colname="colspec12">-</entry>
+<entry colname="colspec11">-</entry>
+<entry colname="COLSPEC14">-</entry>
+</row>
+<row>
+<entry colname="colspec0">BIGINT</entry>
+<entry colname="col2">Y</entry>
+<entry colname="col3">Y</entry>
+<entry colname="col4">Y</entry>
+<entry colname="col5">Y</entry>
+<entry colname="col6">Y</entry>
+<entry colname="colspec1">Y</entry>
+<entry colname="colspec9">Y</entry>
+<entry colname="colspec8">Y</entry>
+<entry colname="colspec7">-</entry>
+<entry colname="colspec6">-</entry>
+<entry colname="colspec5">-</entry>
+<entry colname="colspec4">-</entry>
+<entry colname="colspec3">-</entry>
+<entry colname="colspec2">-</entry>
+<entry colname="colspec10">-</entry>
+<entry colname="colspec13">-</entry>
+<entry colname="colspec12">-</entry>
+<entry colname="colspec11">-</entry>
+<entry colname="COLSPEC14">-</entry>
+</row>
+<row>
+<entry colname="colspec0">DECIMAL</entry>
+<entry colname="col2">Y</entry>
+<entry colname="col3">Y</entry>
+<entry colname="col4">Y</entry>
+<entry colname="col5">Y</entry>
+<entry colname="col6">Y</entry>
+<entry colname="colspec1">Y</entry>
+<entry colname="colspec9">Y</entry>
+<entry colname="colspec8">Y</entry>
+<entry colname="colspec7">-</entry>
+<entry colname="colspec6">-</entry>
+<entry colname="colspec5">-</entry>
+<entry colname="colspec4">-</entry>
+<entry colname="colspec3">-</entry>
+<entry colname="colspec2">-</entry>
+<entry colname="colspec10">-</entry>
+<entry colname="colspec13">-</entry>
+<entry colname="colspec12">-</entry>
+<entry colname="colspec11">-</entry>
+<entry colname="COLSPEC14">-</entry>
+</row>
+<row>
+<entry colname="colspec0">REAL</entry>
+<entry colname="col2">Y</entry>
+<entry colname="col3">Y</entry>
+<entry colname="col4">Y</entry>
+<entry colname="col5">Y</entry>
+<entry colname="col6">Y</entry>
+<entry colname="colspec1">Y</entry>
+<entry colname="colspec9">Y</entry>
+<entry colname="colspec8">-</entry>
+<entry colname="colspec7">-</entry>
+<entry colname="colspec6">-</entry>
+<entry colname="colspec5">-</entry>
+<entry colname="colspec4">-</entry>
+<entry colname="colspec3">-</entry>
+<entry colname="colspec2">-</entry>
+<entry colname="colspec10">-</entry>
+<entry colname="colspec13">-</entry>
+<entry colname="colspec12">-</entry>
+<entry colname="colspec11">-</entry>
+<entry colname="COLSPEC14">-</entry>
+</row>
+<row>
+<entry colname="colspec0">DOUBLE</entry>
+<entry colname="col2">Y</entry>
+<entry colname="col3">Y</entry>
+<entry colname="col4">Y</entry>
+<entry colname="col5">Y</entry>
+<entry colname="col6">Y</entry>
+<entry colname="colspec1">Y</entry>
+<entry colname="colspec9">Y</entry>
+<entry colname="colspec8">-</entry>
+<entry colname="colspec7">-</entry>
+<entry colname="colspec6">-</entry>
+<entry colname="colspec5">-</entry>
+<entry colname="colspec4">-</entry>
+<entry colname="colspec3">-</entry>
+<entry colname="colspec2">-</entry>
+<entry colname="colspec10">-</entry>
+<entry colname="colspec13">-</entry>
+<entry colname="colspec12">-</entry>
+<entry colname="colspec11">-</entry>
+<entry colname="COLSPEC14">-</entry>
+</row>
+<row>
+<entry colname="colspec0">FLOAT</entry>
+<entry colname="col2">Y</entry>
+<entry colname="col3">Y</entry>
+<entry colname="col4">Y</entry>
+<entry colname="col5">Y</entry>
+<entry colname="col6">Y</entry>
+<entry colname="colspec1">Y</entry>
+<entry colname="colspec9">Y</entry>
+<entry colname="colspec8">-</entry>
+<entry colname="colspec7">-</entry>
+<entry colname="colspec6">-</entry>
+<entry colname="colspec5">-</entry>
+<entry colname="colspec4">-</entry>
+<entry colname="colspec3">-</entry>
+<entry colname="colspec2">-</entry>
+<entry colname="colspec10">-</entry>
+<entry colname="colspec13">-</entry>
+<entry colname="colspec12">-</entry>
+<entry colname="colspec11">-</entry>
+<entry colname="COLSPEC14">-</entry>
+</row>
+<row>
+<entry colname="colspec0">CHAR</entry>
+<entry colname="col2">Y</entry>
+<entry colname="col3">Y</entry>
+<entry colname="col4">Y</entry>
+<entry colname="col5">Y</entry>
+<entry colname="col6">-</entry>
+<entry colname="colspec1">-</entry>
+<entry colname="colspec9">-</entry>
+<entry colname="colspec8">Y</entry>
+<entry colname="colspec7">Y</entry>
+<entry colname="colspec6">Y</entry>
+<entry colname="colspec5">-</entry>
+<entry colname="colspec4">-</entry>
+<entry colname="colspec3">-</entry>
+<entry colname="colspec2">Y</entry>
+<entry colname="colspec10">-</entry>
+<entry colname="colspec13">Y</entry>
+<entry colname="colspec12">Y</entry>
+<entry colname="colspec11">Y</entry>
+<entry colname="COLSPEC14">-</entry>
+</row>
+<row>
+<entry colname="colspec0">VARCHAR</entry>
+<entry colname="col2">Y</entry>
+<entry colname="col3">Y</entry>
+<entry colname="col4">Y</entry>
+<entry colname="col5">Y</entry>
+<entry colname="col6">-</entry>
+<entry colname="colspec1">-</entry>
+<entry colname="colspec9">-</entry>
+<entry colname="colspec8">Y</entry>
+<entry colname="colspec7">Y</entry>
+<entry colname="colspec6">Y</entry>
+<entry colname="colspec5">-</entry>
+<entry colname="colspec4">-</entry>
+<entry colname="colspec3">-</entry>
+<entry colname="colspec2">Y</entry>
+<entry colname="colspec10">-</entry>
+<entry colname="colspec13">Y</entry>
+<entry colname="colspec12">Y</entry>
+<entry colname="colspec11">Y</entry>
+<entry colname="COLSPEC14">-</entry>
+</row>
+<row>
+<entry colname="colspec0">LONG VARCHAR</entry>
+<entry colname="col2">-</entry>
+<entry colname="col3">-</entry>
+<entry colname="col4">-</entry>
+<entry colname="col5">-</entry>
+<entry colname="col6">-</entry>
+<entry colname="colspec1">-</entry>
+<entry colname="colspec9">-</entry>
+<entry colname="colspec8">Y</entry>
+<entry colname="colspec7">Y</entry>
+<entry colname="colspec6">Y</entry>
+<entry colname="colspec5">-</entry>
+<entry colname="colspec4">-</entry>
+<entry colname="colspec3">-</entry>
+<entry colname="colspec2">Y</entry>
+<entry colname="colspec10">-</entry>
+<entry colname="colspec13">-</entry>
+<entry colname="colspec12">-</entry>
+<entry colname="colspec11">-</entry>
+<entry colname="COLSPEC14">-</entry>
+</row>
+<row>
+<entry colname="colspec0">CHAR FOR BIT DATA</entry>
+<entry colname="col2">-</entry>
+<entry colname="col3">-</entry>
+<entry colname="col4">-</entry>
+<entry colname="col5">-</entry>
+<entry colname="col6">-</entry>
+<entry colname="colspec1">-</entry>
+<entry colname="colspec9">-</entry>
+<entry colname="colspec8">-</entry>
+<entry colname="colspec7">-</entry>
+<entry colname="colspec6">-</entry>
+<entry colname="colspec5">Y</entry>
+<entry colname="colspec4">Y</entry>
+<entry colname="colspec3">Y</entry>
+<entry colname="colspec2">Y</entry>
+<entry colname="colspec10">Y</entry>
+<entry colname="colspec13">-</entry>
+<entry colname="colspec12">-</entry>
+<entry colname="colspec11">-</entry>
+<entry colname="COLSPEC14">-</entry>
+</row>
+<row>
+<entry colname="colspec0">VARCHAR FOR BIT DATA</entry>
+<entry colname="col2">-</entry>
+<entry colname="col3">-</entry>
+<entry colname="col4">-</entry>
+<entry colname="col5">-</entry>
+<entry colname="col6">-</entry>
+<entry colname="colspec1">-</entry>
+<entry colname="colspec9">-</entry>
+<entry colname="colspec8">-</entry>
+<entry colname="colspec7">-</entry>
+<entry colname="colspec6">-</entry>
+<entry colname="colspec5">Y</entry>
+<entry colname="colspec4">Y</entry>
+<entry colname="colspec3">Y</entry>
+<entry colname="colspec2">Y</entry>
+<entry colname="colspec10">Y</entry>
+<entry colname="colspec13">-</entry>
+<entry colname="colspec12">-</entry>
+<entry colname="colspec11">-</entry>
+<entry colname="COLSPEC14">-</entry>
+</row>
+<row>
+<entry colname="colspec0">LONG VARCHAR FOR BIT DATA</entry>
+<entry colname="col2">-</entry>
+<entry colname="col3">-</entry>
+<entry colname="col4">-</entry>
+<entry colname="col5">-</entry>
+<entry colname="col6">-</entry>
+<entry colname="colspec1">-</entry>
+<entry colname="colspec9">-</entry>
+<entry colname="colspec8">-</entry>
+<entry colname="colspec7">-</entry>
+<entry colname="colspec6">-</entry>
+<entry colname="colspec5">Y</entry>
+<entry colname="colspec4">Y</entry>
+<entry colname="colspec3">Y</entry>
+<entry colname="colspec2">Y</entry>
+<entry colname="colspec10">Y</entry>
+<entry colname="colspec13">-</entry>
+<entry colname="colspec12">-</entry>
+<entry colname="colspec11">-</entry>
+<entry colname="COLSPEC14">-</entry>
+</row>
+<row>
+<entry colname="colspec0">CLOB</entry>
+<entry colname="col2">-</entry>
+<entry colname="col3">-</entry>
+<entry colname="col4">-</entry>
+<entry colname="col5">-</entry>
+<entry colname="col6">-</entry>
+<entry colname="colspec1">-</entry>
+<entry colname="colspec9">-</entry>
+<entry colname="colspec8">Y</entry>
+<entry colname="colspec7">Y</entry>
+<entry colname="colspec6">Y</entry>
+<entry colname="colspec5">-</entry>
+<entry colname="colspec4">-</entry>
+<entry colname="colspec3">-</entry>
+<entry colname="colspec2">Y</entry>
+<entry colname="colspec10">-</entry>
+<entry colname="colspec13">-</entry>
+<entry colname="colspec12">-</entry>
+<entry colname="colspec11">-</entry>
+<entry colname="COLSPEC14">-</entry>
+</row>
+<row>
+<entry colname="colspec0">BLOB</entry>
+<entry colname="col2">-</entry>
+<entry colname="col3">-</entry>
+<entry colname="col4">-</entry>
+<entry colname="col5">-</entry>
+<entry colname="col6">-</entry>
+<entry colname="colspec1">-</entry>
+<entry colname="colspec9">-</entry>
+<entry colname="colspec8">-</entry>
+<entry colname="colspec7">-</entry>
+<entry colname="colspec6">-</entry>
+<entry colname="colspec5">-</entry>
+<entry colname="colspec4">-</entry>
+<entry colname="colspec3">-</entry>
+<entry colname="colspec2">-</entry>
+<entry colname="colspec10">Y</entry>
+<entry colname="colspec13">-</entry>
+<entry colname="colspec12">-</entry>
+<entry colname="colspec11">-</entry>
+<entry colname="COLSPEC14">-</entry>
+</row>
+<row>
+<entry colname="colspec0">DATE</entry>
+<entry colname="col2">-</entry>
+<entry colname="col3">-</entry>
+<entry colname="col4">-</entry>
+<entry colname="col5">-</entry>
+<entry colname="col6">-</entry>
+<entry colname="colspec1">-</entry>
+<entry colname="colspec9">-</entry>
+<entry colname="colspec8">Y</entry>
+<entry colname="colspec7">Y</entry>
+<entry colname="colspec6">-</entry>
+<entry colname="colspec5">-</entry>
+<entry colname="colspec4">-</entry>
+<entry colname="colspec3">-</entry>
+<entry colname="colspec2">-</entry>
+<entry colname="colspec10">-</entry>
+<entry colname="colspec13">Y</entry>
+<entry colname="colspec12">-</entry>
+<entry colname="colspec11">-</entry>
+<entry colname="COLSPEC14">-</entry>
+</row>
+<row>
+<entry colname="colspec0">TIME</entry>
+<entry colname="col2">-</entry>
+<entry colname="col3">-</entry>
+<entry colname="col4">-</entry>
+<entry colname="col5">-</entry>
+<entry colname="col6">-</entry>
+<entry colname="colspec1">-</entry>
+<entry colname="colspec9">-</entry>
+<entry colname="colspec8">Y</entry>
+<entry colname="colspec7">Y</entry>
+<entry colname="colspec6">-</entry>
+<entry colname="colspec5">-</entry>
+<entry colname="colspec4">-</entry>
+<entry colname="colspec3">-</entry>
+<entry colname="colspec2">-</entry>
+<entry colname="colspec10">-</entry>
+<entry colname="colspec13">-</entry>
+<entry colname="colspec12">Y</entry>
+<entry colname="colspec11">-</entry>
+<entry colname="COLSPEC14">-</entry>
+</row>
+<row>
+<entry colname="colspec0">TIMESTAMP</entry>
+<entry colname="col2">-</entry>
+<entry colname="col3">-</entry>
+<entry colname="col4">-</entry>
+<entry colname="col5">-</entry>
+<entry colname="col6">-</entry>
+<entry colname="colspec1">-</entry>
+<entry colname="colspec9">-</entry>
+<entry colname="colspec8">Y</entry>
+<entry colname="colspec7">Y</entry>
+<entry colname="colspec6">-</entry>
+<entry colname="colspec5">-</entry>
+<entry colname="colspec4">-</entry>
+<entry colname="colspec3">-</entry>
+<entry colname="colspec2">-</entry>
+<entry colname="colspec10">-</entry>
+<entry colname="colspec13">Y</entry>
+<entry colname="colspec12">Y</entry>
+<entry colname="colspec11">Y</entry>
+<entry colname="COLSPEC14">-</entry>
+</row>
+<row>
+<entry colname="colspec0">XML</entry>
+<entry colname="col2">-</entry>
+<entry colname="col3">-</entry>
+<entry colname="col4">-</entry>
+<entry colname="col5">-</entry>
+<entry colname="col6">-</entry>
+<entry colname="colspec1">-</entry>
+<entry colname="colspec9">-</entry>
+<entry colname="colspec8">-</entry>
+<entry colname="colspec7">-</entry>
+<entry colname="colspec6">-</entry>
+<entry colname="colspec5">-</entry>
+<entry colname="colspec4">-</entry>
+<entry colname="colspec3">-</entry>
+<entry colname="colspec2">-</entry>
+<entry colname="colspec10">-</entry>
+<entry colname="colspec13">-</entry>
+<entry colname="colspec12">-</entry>
+<entry colname="colspec11">-</entry>
+<entry colname="COLSPEC14">Y</entry>
+</row>
+</tbody>
+</tgroup>
+</table></p><p>If a conversion is valid, CASTs are allowed. Size incompatibilities
+between the source and target types might cause runtime errors.</p> </section>
+<section><title>Notes</title> <p>In this discussion, the <ph conref="../conrefs.dita#prod/productshortname"></ph> SQL-92
+data types are categorized as follows:   <ul>
+<li><i>numeric</i>   <ul>
+<li>Exact numeric (<xref href="rrefsqlj16221.dita#rrefsqlj16221">SMALLINT</xref>, 
+<xref href="rrefsqlj10696.dita#rrefsqlj10696">INTEGER</xref>, 
+<xref href="rrefsqlj30435.dita#rrefsqlj30435">BIGINT</xref>, 
+<xref href="rrefsqlj15260.dita#rrefsqlj15260">DECIMAL</xref>, 
+<xref href="rrefsqlj12362.dita#rrefsqlj12362">NUMERIC</xref>)</li>
+<li>Approximate numeric (<xref href="rrefsqlj27281.dita#rrefsqlj27281">FLOAT</xref>, 
+<xref href="rrefsqlj14122.dita#rrefsqlj14122">REAL</xref>, 
+<xref href="rrefsqljdoubleprecision.dita#rrefsqljdoubleprecision">DOUBLE PRECISION</xref>)</li>
+</ul></li>
+<li><i>string</i>   <ul>
+<li>Character string (<xref href="rrefclob.dita#rrefclob">CLOB</xref>, 
+<xref href="rrefsqlj13733.dita#rrefsqlj13733">CHAR</xref>, 
+<xref href="rrefsqlj41207.dita#rrefsqlj41207">VARCHAR</xref>, 
+<xref href="rrefsqlj15147.dita#rrefsqlj15147">LONG VARCHAR</xref>)</li>
+<li>Bit string (<xref href="rrefblob.dita#rrefblob">BLOB</xref>, 
+<xref href="rrefsqlj57924.dita#rrefsqlj57924">CHAR FOR BIT DATA</xref>, 
+<xref href="rrefsqlj32714.dita#rrefsqlj32714">VARCHAR FOR BIT DATA</xref>, 
+<xref href="rrefsqlj30118.dita#rrefsqlj30118">LONG VARCHAR FOR BIT DATA</xref>)</li>
+</ul></li>
+<li><i>date/time</i>   <ul>
+<li><xref href="rrefsqlj18730.dita#rrefsqlj18730">DATE</xref></li>
+<li><xref href="rrefsqlj21908.dita#rrefsqlj21908">TIME</xref></li>
+<li><xref href="rrefsqlj27620.dita#rrefsqlj27620">TIMESTAMP</xref></li>
+</ul></li>
+</ul></p> </section>
+<section><title>Conversions from numeric types</title> <p>A numeric type can
+be converted to any other numeric type. If the target type cannot represent
+the non-fractional component without truncation, an exception is raised. If
+the target numeric cannot represent the fractional component (scale) of the
+source numeric, then the source is silently truncated to fit into the target.
+For example, casting 763.1234 as INTEGER yields 763.</p> </section>
+<section><title>Conversions from and to bit strings</title> <p>Bit strings
+can be converted to other bit strings, but not character strings. Strings
+that are converted to bit strings are padded with trailing zeros to fit the
+size of the target bit string. The BLOB type is more limited and requires
+explicit casting. In most cases the BLOB type cannot be casted to and from
+other types.</p> </section>
+<section id="sqlj75614"><title>Conversions of date/time values</title> <p>A
+date/time value can always be converted to and from a TIMESTAMP. If a DATE
+is converted to a TIMESTAMP, the TIME component of the resulting TIMESTAMP
+is always 00:00:00. If a TIME data value is converted to a TIMESTAMP, the
+DATE component is set to the value of CURRENT_DATE at the time the CAST is
+executed. If a TIMESTAMP is converted to a DATE, the TIME component is silently
+truncated. If a TIMESTAMP is converted to a TIME, the DATE component is silently
+truncated.</p> </section>
+<example> <codeblock><b>SELECT CAST (miles AS INT)
+FROM Flights
+-- convert timestamps to text
+INSERT INTO mytable (text_column)
+VALUES (CAST (CURRENT_TIMESTAMP AS VARCHAR(100)))
+-- you must cast NULL as a data type to use it
+SELECT airline
+FROM Airlines
+UNION ALL
+VALUES (CAST (NULL AS CHAR(2)))
+-- cast a double as a decimal
+SELECT CAST (FLYING_TIME AS DECIMAL(5,2))
+FROM FLIGHTS
+-- cast a SMALLINT to a BIGINT
+VALUES CAST (CAST (12 as SMALLINT) as BIGINT)</b></codeblock> </example>
+<section><title>Conversions of XML values</title><p>An XML value cannot be
+converted to any non-XML type using an explicit or implicit CAST. Use the <xref
+href="rreffuncxmlserialize.dita#rreffuncxmlserialize"></xref> to convert an
+XML type to a character type.</p> </section>
+</refbody>
+</reference>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN"
+ "../dtd/reference.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<reference id="rrefsistabs22441" xml:lang="en-us">
+<title>SYSCOLUMNS system table</title>
+<refbody>
+<section><p>Describes the columns within all tables in the current database:
+<table pgwide="1" frame="all">
+<tgroup cols="5" colsep="1" rowsep="1"><colspec colname="1" colnum="1" colwidth="29*"/>
+<colspec colname="2" colnum="2" colwidth="23*"/><colspec colname="3" colnum="3"
+colwidth="10*"/><colspec colname="4" colnum="4" colwidth="11*"/><colspec colname="5"
+colnum="5" colwidth="26*"/>
+<thead>
+<row>
+<entry align="left" colname="1" valign="bottom">Column Name</entry>
+<entry align="left" colname="2" valign="bottom">Type</entry>
+<entry align="left" colname="3" valign="bottom">Length</entry>
+<entry align="left" colname="4" valign="bottom">Nullable</entry>
+<entry align="left" colname="5" valign="bottom">Contents</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="1">REFERENCEID</entry>
+<entry colname="2">CHAR</entry>
+<entry colname="3">36</entry>
+<entry colname="4">false</entry>
+<entry colname="5">Identifier for table (join with <i>SYSTABLES.TABLEID</i>)</entry>
+</row>
+<row>
+<entry colname="1">COLUMNNAME</entry>
+<entry colname="2">CHAR</entry>
+<entry colname="3">128</entry>
+<entry colname="4">false</entry>
+<entry colname="5">column or parameter name</entry>
+</row>
+<row>
+<entry colname="1">COLUMNNUMBER</entry>
+<entry colname="2">INT</entry>
+<entry colname="3">4</entry>
+<entry colname="4">false</entry>
+<entry colname="5">the position of the column within the table</entry>
+</row>
+<row>
+<entry colname="1">COLUMNDATATYPE</entry>
+<entry colname="2">org.apache.derby.catalog. TypeDescriptor   <p>This class
+is not part of the public API.</p></entry>
+<entry colname="3"></entry>
+<entry colname="4">false</entry>
+<entry colname="5">system type that describes precision, length, scale, nullability,
+type name, and storage type of data</entry>
+</row>
+<row>
+<entry colname="1">COLUMNDEFAULT</entry>
+<entry colname="2"><i>java.io.Serializable</i></entry>
+<entry colname="3"></entry>
+<entry colname="4">true</entry>
+<entry colname="5">for tables, describes default value of the column. The <i>toString()</i> method
+on the object stored in the table returns the text of the default value as
+specified in the CREATE TABLE or ALTER TABLE statement.</entry>
+</row>
+<row>
+<entry colname="1">COLUMNDEFAULTID</entry>
+<entry colname="2">CHAR</entry>
+<entry colname="3">36</entry>
+<entry colname="4">true</entry>
+<entry colname="5">unique identifier for the default value </entry>
+</row>
+<row>
+<entry colname="1">AUTOINCREMENT COLUMNVALUE</entry>
+<entry colname="2">BIGINT</entry>
+<entry colname="3"></entry>
+<entry colname="4">true</entry>
+<entry colname="5">what the next value for column will be, if the column is
+an identity column</entry>
+</row>
+<row>
+<entry colname="1">AUTOINCREMENT COLUMNSTART</entry>
+<entry colname="2">BIGINT</entry>
+<entry colname="3"></entry>
+<entry colname="4">true</entry>
+<entry colname="5">initial value of column (if specified), if it is an identity
+column</entry>
+</row>
+<row>
+<entry colname="1">AUTOINCREMENT COLUMNINC</entry>
+<entry colname="2">BIGINT</entry>
+<entry colname="3"></entry>
+<entry colname="4">true</entry>
+<entry colname="5">amount column value is automatically incremented (if specified),
+if the column is an identity column</entry>
+</row>
+</tbody>
+</tgroup>
+</table></p></section>
+</refbody>
+</reference>

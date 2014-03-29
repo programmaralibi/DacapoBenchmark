@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+ 
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN"
+ "reference.dtd">
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.    
+-->
+<reference id="rrefsistabssystableperms" xml:lang="en-us">
+<title>SYSTABLEPERMS system table</title>
+<shortdesc>The SYSTABLEPERMS table stores the table permissions that have
+been granted but not revoked.</shortdesc>
+<prolog><metadata>
+<keywords><indexterm>system tables<indexterm>SYSTABLEPERMS</indexterm></indexterm>
+<indexterm>permissions<indexterm>SYSTABLEPERMS system table</indexterm></indexterm>
+<indexterm>SYSTABLEPERMS system table</indexterm></keywords>
+</metadata></prolog>
+<refbody>
+<section><p>All of the permissions for one (GRANTEE, TABLEID, GRANTOR) combination
+are specified in a single row in the SYSTABLEPERMS table. The keys for the
+SYSTABLEPERMS table are: <ul>
+<li>Primary key (GRANTEE, TABLEID, GRANTOR)</li>
+<li>Unique key (TABLEPERMSID)</li>
+<li>Foreign key (TABLEID references SYS.SYSTABLES)</li>
+</ul> </p><p>The column information for the SYSTABLEPERMS table is listed
+in the following table:</p><table frame="all" pgwide="1">
+<tgroup cols="5" colsep="1" rowsep="1"><colspec colname="1" colnum="1" colwidth="27*"/>
+<colspec colname="2" colnum="2" colwidth="10*"/><colspec colname="3" colnum="3"
+colwidth="11*"/><colspec colname="4" colnum="4" colwidth="14*"/><colspec colname="5"
+colnum="5" colwidth="38*"/>
+<thead>
+<row>
+<entry align="left" colname="1" valign="bottom">Column Name</entry>
+<entry align="left" colname="2" valign="bottom">Type</entry>
+<entry align="left" colname="3" valign="bottom">Length</entry>
+<entry align="left" colname="4" valign="bottom">Nullability</entry>
+<entry align="left" colname="5" valign="bottom">Contents</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="1">TABLEPERMSID</entry>
+<entry colname="2">CHAR</entry>
+<entry colname="3">36</entry>
+<entry colname="4">False</entry>
+<entry colname="5">Used by the dependency manager to track the dependency
+of a view, trigger, or constraint on the table level permissions.</entry>
+</row>
+<row>
+<entry colname="1">GRANTEE</entry>
+<entry colname="2">VARCHAR</entry>
+<entry colname="3">128</entry>
+<entry colname="4">False</entry>
+<entry colname="5">The authorization ID of the user or role to which the privilege
+is granted.</entry>
+</row>
+<row>
+<entry colname="1">GRANTOR</entry>
+<entry colname="2">VARCHAR</entry>
+<entry colname="3">128</entry>
+<entry colname="4">False</entry>
+<entry colname="5">The authorization ID of the user who granted the privilege.
+Privileges can be granted only by the object owner.</entry>
+</row>
+<row>
+<entry colname="1">TABLEID</entry>
+<entry colname="2">CHAR</entry>
+<entry colname="3">36</entry>
+<entry colname="4">False</entry>
+<entry colname="5">The unique identifier for the table on which the permissions
+have been granted.</entry>
+</row>
+<row>
+<entry colname="1">SELECTPRIV</entry>
+<entry colname="2">CHAR</entry>
+<entry colname="3">1</entry>
+<entry colname="4">False</entry>
+<entry colname="5">Specifies if the SELECT permission is granted. The valid
+values are: <lines>'y' (non-grantable privilege)
+'Y' (grantable privilege)
+'N' (no privilege)</lines></entry>
+</row>
+<row>
+<entry colname="1">DELETEPRIV</entry>
+<entry colname="2">CHAR</entry>
+<entry colname="3">1</entry>
+<entry colname="4">False</entry>
+<entry colname="5">Specifies if the DELETE permission is granted. The valid
+values are: <lines>'y' (non-grantable privilege)
+'Y' (grantable privilege)
+'N' (no privilege)</lines></entry>
+</row>
+<row>
+<entry colname="1">INSERTPRIV</entry>
+<entry colname="2">CHAR</entry>
+<entry colname="3">1</entry>
+<entry colname="4">False</entry>
+<entry colname="5">Specifies if the INSERT permission is granted. <lines>'y' (non-grantable privilege)
+'Y' (grantable privilege)
+'N' (no privilege)</lines></entry>
+</row>
+<row>
+<entry colname="1">UPDATEPRIV</entry>
+<entry colname="2">CHAR</entry>
+<entry colname="3">1</entry>
+<entry colname="4">False</entry>
+<entry colname="5">Specifies if the UPDATE permission is granted. The valid
+values are: <lines>'y' (non-grantable privilege)
+'Y' (grantable privilege)
+'N' (no privilege)</lines></entry>
+</row>
+<row>
+<entry colname="1">REFERENCEPRIV</entry>
+<entry colname="2">CHAR</entry>
+<entry colname="3">1</entry>
+<entry colname="4">False</entry>
+<entry colname="5">Specifies if the REFERENCE permission is granted. The valid
+values are: <lines>'y' (non-grantable privilege)
+'Y' (grantable privilege)
+'N' (no privilege)</lines></entry>
+</row>
+<row>
+<entry colname="1">TRIGGERPRIV</entry>
+<entry colname="2">CHAR</entry>
+<entry colname="3">1</entry>
+<entry colname="4">False</entry>
+<entry colname="5">Specifies if the TRIGGER permission is granted. The valid
+values are: <lines>'y' (non-grantable privilege)
+'Y' (grantable privilege)
+'N' (no privilege)</lines></entry>
+</row>
+</tbody>
+</tgroup>
+</table></section>
+</refbody>
+</reference>

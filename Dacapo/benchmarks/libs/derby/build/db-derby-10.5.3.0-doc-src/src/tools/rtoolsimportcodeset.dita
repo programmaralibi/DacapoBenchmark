@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN"
+ "../dtd/reference.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<reference id="rtoolsimportcodeset" xml:lang="en-us">
+<title>CODESET values for import and export procedures</title>
+<shortdesc>Import and export procedures accept arguments to specify codeset
+values. You can specify the codeset (character encoding) for import and export
+procedures to override the system default.</shortdesc>
+<prolog><metadata>
+<keywords><indexterm>import and export procedures<indexterm>codesets</indexterm></indexterm>
+<indexterm>codeset values<indexterm>import and export procedures</indexterm></indexterm>
+</keywords>
+</metadata></prolog>
+<refbody>
+<section><p>The following table contains a sample of the character encoding
+that is supported by JDK 1.x. To review the complete list of character encodings,
+refer to your Java documentation. </p><table frame="all"><title>Sample character
+encodings</title><desc>This table contains sample character encodings supported
+by JDK1.x.</desc>
+<tgroup cols="2" colsep="1" rowsep="1"><colspec colname="colspec0" colwidth="228*"/>
+<colspec colname="colspec1" colwidth="228*"/>
+<thead>
+<row>
+<entry align="left" valign="top">Character Encoding</entry>
+<entry align="left" valign="top">Explanation</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="colspec0">8859_1</entry>
+<entry colname="colspec1">ISO Latin-1</entry>
+</row>
+<row>
+<entry colname="colspec0">8859_2</entry>
+<entry colname="colspec1">ISO Latin-2</entry>
+</row>
+<row>
+<entry colname="colspec0">8859_7</entry>
+<entry colname="colspec1">ISO Latin/Greek</entry>
+</row>
+<row>
+<entry colname="colspec0">Cp1257</entry>
+<entry colname="colspec1">Windows Baltic</entry>
+</row>
+<row>
+<entry colname="colspec0">Cp1258</entry>
+<entry colname="colspec1">Windows Vietnamese</entry>
+</row>
+<row>
+<entry colname="colspec0">Cp437</entry>
+<entry colname="colspec1">PC Original</entry>
+</row>
+<row>
+<entry colname="colspec0">EUCJIS</entry>
+<entry colname="colspec1">Japanese EUC</entry>
+</row>
+<row>
+<entry colname="colspec0">GB2312</entry>
+<entry colname="colspec1">GB2312-80 Simplified Chinese</entry>
+</row>
+<row>
+<entry colname="colspec0">JIS</entry>
+<entry colname="colspec1">JIS</entry>
+</row>
+<row>
+<entry colname="colspec0">KSC5601</entry>
+<entry colname="colspec1">KSC5601 Korean</entry>
+</row>
+<row>
+<entry colname="colspec0">MacCroatian</entry>
+<entry colname="colspec1">Macintosh Croatian</entry>
+</row>
+<row>
+<entry colname="colspec0">MacCyrillic</entry>
+<entry colname="colspec1">Macintosh Cyrillic</entry>
+</row>
+<row>
+<entry colname="colspec0">SJIS</entry>
+<entry colname="colspec1">PC and Windows Japanese</entry>
+</row>
+<row>
+<entry colname="colspec0">UTF-8</entry>
+<entry colname="colspec1">Standard UTF-8</entry>
+</row>
+</tbody>
+</tgroup>
+</table></section>
+<section><title>Examples of specifying the codeset in import and export procedures</title><p> 
+The following example shows how to specify UTF-8 encoding to export to the <codeph>staff.dat</codeph> table: <codeblock>CALL SYSCS_UTIL.SYSCS_EXPORT_TABLE
+    (NULL,'STAFF','staff.dat',NULL,NULL,'UTF-8')
+</codeblock></p><p>The following example shows how to specify UTF-8 encoding
+to import from the <codeph>staff.dat</codeph> table: <codeblock>CALL SYSCS_UTIL.SYSCS_IMPORT_TABLE
+    (NULL,'STAFF','staff.dat',NULL,NULL,'UTF-8',0)</codeblock></p></section>
+</refbody>
+</reference>

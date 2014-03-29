@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN"
+ "../dtd/concept.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<!--##### DO NOT CHANGE ANYTHING ABOVE THIS LINE #####-->
+<concept id="cadminappsclientsecurity" xml:lang="en-us">
+<title>Network client security</title>
+<shortdesc>The <ph conref="../conrefs.dita#prod/productshortname"></ph> Network
+Client allows you to select a security mechanism by specifying a value for
+the <codeph>securityMechanism</codeph> property.</shortdesc>
+<prolog><metadata>
+<keywords><indexterm>Network Client security</indexterm></keywords>
+</metadata></prolog>
+<conbody>
+<p>You can set the <codeph>securityMechanism</codeph> property in one of the
+following ways:<ul>
+<li>When you are using the <codeph>DriverManager</codeph> interface, set <codeph>securityMechanism</codeph> in
+a <codeph>java.util.Properties</codeph> object before you invoke the form
+of the <codeph>getConnection</codeph> method, which includes the <codeph>java.util.Properties</codeph> parameter.</li>
+<li>When you are using the <codeph>DataSource</codeph> interface to create
+and deploy your own DataSource objects, invoke the <codeph>DataSource.setSecurityMechanism</codeph> method
+after you create a DataSource object.</li>
+</ul><xref href="cadminappsclientsecurity.dita#cadminappsclientsecurity/radminappsclientsecuritytable"></xref> lists
+the security mechanisms that the <ph conref="../conrefs.dita#prod/productshortname"></ph> Network
+Client supports, and the corresponding property value to specify to obtain
+this securityMechanism. The default security mechanism is the user id only
+if no password is set. If the password is set, the default security mechanism
+is both the user id and password. The default user is APP if no other user
+is specified.<table id="radminappsclientsecuritytable"><title>Security mechanisms
+supported by the Derby Network Client</title>
+<tgroup cols="3"><colspec colname="col1" colwidth="45*"/><colspec colname="col2"
+colwidth="170*"/><colspec colname="col3" colwidth="85*"/>
+<thead>
+<row valign="bottom">
+<entry colname="col1">Security mechanism</entry>
+<entry colname="col2">securityMechanism property value</entry>
+<entry colname="col3">Comments</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="col1">User id and password</entry>
+<entry colname="col2">ClientDataSource.CLEAR_TEXT_PASSWORD_SECURITY (0x03)</entry>
+<entry colname="col3">Default if password is set</entry>
+</row>
+<row>
+<entry colname="col1">User id only</entry>
+<entry colname="col2">ClientDataSource.USER_ONLY_SECURITY (0x04)</entry>
+<entry colname="col3">Default if password is not set</entry>
+</row>
+<row>
+<entry colname="col1">Strong password substitution</entry>
+<entry colname="col2">ClientDataSource.STRONG_PASSWORD_SUBSTITUTE_SECURITY
+(0x08)</entry>
+<entry colname="col3">Strong password substitution cannot be used with external
+ Derby authentication schemes (for example, LDAP). Also, this security mechanism
+uses the SHA1PRNG algorithm to generate a random number that gets exchanged
+between client and server. If you need to use this security mechanism, make
+sure that support for the SHA1PRNG algorithm is available in the JCE provider
+available with your JVM. For example, it is available with JVM version 1.4.1
+and higher from Sun and with JVM version 1.4.2 and higher from IBM.</entry>
+</row>
+<row>
+<entry colname="col1">Encrypted user id and encrypted password</entry>
+<entry colname="col2">ClientDataSource.ENCRYPTED_USER_AND_PASSWORD_SECURITY
+(0x09)</entry>
+<entry colname="col3">Encryption requires a JCE implementation that supports
+the Diffie-Hellman algorithm with a public prime of 256 bits.</entry>
+</row>
+</tbody>
+</tgroup>
+</table> </p>
+</conbody>
+</concept>

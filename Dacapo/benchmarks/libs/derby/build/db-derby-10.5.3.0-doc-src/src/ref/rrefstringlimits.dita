@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN"
+ "../dtd/reference.dtd">
+<reference id="rrefstringlimits" xml:lang="en-us">
+<title>String limitations</title>
+<refbody>
+<table frame="all"><title>String limitations</title><desc>The following table
+contains limitations on string values in <ph conref="../conrefs.dita#prod/productshortname"></ph>.</desc>
+<tgroup cols="2" colsep="1" rowsep="1"><colspec colname="colspec0" colwidth="228*"/>
+<colspec colname="colspec1" colwidth="228*"/>
+<thead>
+<row>
+<entry align="left" valign="top">Value</entry>
+<entry align="left" colname="colspec1" valign="top">Maximum Limit</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="colspec0">Length of CHAR       </entry>
+<entry colname="colspec1">254 characters</entry>
+</row>
+<row>
+<entry colname="colspec0">Length of VARCHAR</entry>
+<entry colname="colspec1">32,672 characters</entry>
+</row>
+<row>
+<entry colname="colspec0">Length of LONG VARCHAR</entry>
+<entry colname="colspec1">32,700 characters</entry>
+</row>
+<row>
+<entry colname="colspec0">Length of CLOB</entry>
+<entry colname="colspec1">2,147,483,647 characters</entry>
+</row>
+<row>
+<entry colname="colspec0">Length of BLOB</entry>
+<entry colname="colspec1">2,147,483,647 characters</entry>
+</row>
+<row>
+<entry colname="colspec0">Length of character constant</entry>
+<entry colname="colspec1">32,672</entry>
+</row>
+<row>
+<entry colname="colspec0">Length of concatenated character string</entry>
+<entry colname="colspec1">2,147,483,647</entry>
+</row>
+<row>
+<entry colname="colspec0">Length of concatenated binary string</entry>
+<entry colname="colspec1">2,147,483,647</entry>
+</row>
+<row>
+<entry colname="colspec0">Number of hex constant digits</entry>
+<entry colname="colspec1">16,336</entry>
+</row>
+<row>
+<entry colname="colspec0">Length of DOUBLE value constant</entry>
+<entry colname="colspec1">30 characters</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</refbody>
+</reference>
+

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN"
+ "../dtd/reference.dtd">
+<reference id="rrefjdbc75719" xml:lang="en-us">
+<title>CallableStatements and INOUT Parameters </title>
+<prolog><metadata>
+<keywords><indexterm>java.sql.CallableStatement<indexterm>and INOUT parameters</indexterm></indexterm>
+</keywords>
+</metadata></prolog>
+<refbody>
+<section><p>INOUT parameters map to an <i>array</i> of the parameter type
+in Java. (The method must take an array as its parameter.) This conforms to
+the recommendations of the SQL standard.</p></section>
+<section><p>Given the following example:   <codeblock expanse="column"><b>CallableStatement call = conn.prepareCall(
+    "{CALL doubleMyInt(?)}");
+<ph>// for inout parameters, it is good practice to
+// register the outparameter before setting the input value</ph>
+call.registerOutParameter(1, Types.INTEGER);
+call.setInt(1,10);
+call.execute();
+int retval = call.getInt(1);</b></codeblock></p></section>
+<section><p>The method <i>doubleIt</i> should take a one-dimensional array
+of <codeph>ints</codeph>. Here is sample source code for that method:   <codeblock
+expanse="column"><b>public static void doubleMyInt(int[] i) {
+    i[0] *=2;
+    <ph>/* <ph conref="../conrefs.dita#prod/productshortname"></ph>  returns the first element of the array.*/</ph>
+}</b></codeblock> <note>The return value is <i>not</i> wrapped in an array
+even though the parameter to the method is.</note> <table frame="all"><title>INOUT
+Parameter Type Correspondence</title>
+<tgroup cols="3" colsep="1" rowsep="1"><colspec colname="1" colnum="1" colwidth="39*"/>
+<colspec colname="2" colnum="2" colwidth="27*"/><colspec colname="3" colnum="3"
+colwidth="33*"/>
+<thead>
+<row>
+<entry align="left" colname="1" valign="bottom">JDBC Type</entry>
+<entry align="left" colname="2" valign="bottom">Array Type for Method Parameter</entry>
+<entry align="left" colname="3" valign="bottom">Value and Return Type</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="1">BIGINT</entry>
+<entry colname="2">long[]</entry>
+<entry colname="3">long</entry>
+</row>
+<row>
+<entry colname="1">BINARY</entry>
+<entry colname="2">byte[][]</entry>
+<entry colname="3">byte[]</entry>
+</row>
+<row>
+<entry colname="1">BIT</entry>
+<entry colname="2">boolean[]</entry>
+<entry colname="3">boolean</entry>
+</row>
+<row>
+<entry colname="1">DATE</entry>
+<entry colname="2"><i>java.sql.Date[]</i></entry>
+<entry colname="3"><i>java.sql.Date</i></entry>
+</row>
+<row>
+<entry colname="1">DOUBLE</entry>
+<entry colname="2">double[]</entry>
+<entry colname="3">double</entry>
+</row>
+<row>
+<entry colname="1">FLOAT</entry>
+<entry colname="2">double[]</entry>
+<entry colname="3">double</entry>
+</row>
+<row>
+<entry colname="1">INTEGER</entry>
+<entry colname="2">int[]</entry>
+<entry colname="3">int</entry>
+</row>
+<row>
+<entry colname="1">LONGVARBINARY</entry>
+<entry colname="2">byte[][]</entry>
+<entry colname="3">byte[]</entry>
+</row>
+<row>
+<entry colname="1">REAL</entry>
+<entry colname="2">float[]</entry>
+<entry colname="3">float</entry>
+</row>
+<row>
+<entry colname="1">SMALLINT</entry>
+<entry colname="2">short[]</entry>
+<entry colname="3">short</entry>
+</row>
+<row>
+<entry colname="1">TIME</entry>
+<entry colname="2"><i>java.sql.Time[]</i></entry>
+<entry colname="3"><i>java.sql.Time</i></entry>
+</row>
+<row>
+<entry colname="1">TIMESTAMP</entry>
+<entry colname="2"><i>java.sql.Timestamp[]</i></entry>
+<entry colname="3"><i>java.sql.Timestamp</i></entry>
+</row>
+<row>
+<entry colname="1">VARBINARY</entry>
+<entry colname="2">byte[][]</entry>
+<entry colname="3">byte[]</entry>
+</row>
+<row>
+<entry colname="1">OTHER</entry>
+<entry colname="2"><i>yourType[]</i></entry>
+<entry colname="3"><i>yourType</i></entry>
+</row>
+<row>
+<entry colname="1">JAVA_OBJECT (only valid in Java2/JDBC 2.0 environments)</entry>
+<entry colname="2"><i>yourType[]</i></entry>
+<entry colname="3"><i>yourType</i></entry>
+</row>
+</tbody>
+</tgroup>
+</table></p></section>
+<section><p>Register the output type of the parameter before executing the
+call. For INOUT parameters, it is good practice to register the output parameter
+before setting its input value.</p></section>
+</refbody>
+</reference>
+

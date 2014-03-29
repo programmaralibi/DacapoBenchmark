@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN"
+ "../dtd/concept.dtd">
+<!--  
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+   http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<concept id="cgsintro" xml:lang="en-us">
+<title>Introduction to Derby</title>
+<shortdesc>Welcome to <ph conref="../conrefs.dita#prod/productshortname"></ph>! <ph
+conref="../conrefs.dita#prod/productshortname"></ph> is a full-featured, open
+source relational database management system (RDBMS) that is based on <tm
+tmclass="special" tmowner="Sun Microsystems, Inc." tmtype="tm" trademark="Java">Java</tm> and
+SQL.</shortdesc>
+<conbody>
+<p><ph conref="../conrefs.dita#prod/productshortname"></ph> is written and
+implemented completely in the Java programming language. <ph conref="../conrefs.dita#prod/productshortname"></ph> provides
+users with a small-footprint standards-based database engine that can be tightly
+embedded into any Java based solution. <ph conref="../conrefs.dita#prod/productshortname"></ph> ensures
+data integrity and provides sophisticated transaction support. In the default
+configuration there is no separate database server to be installed or maintained
+by the end user. For more information on <ph conref="../conrefs.dita#prod/productshortname"></ph>,
+visit the <ph conref="../conrefs.dita#prod/productshortname"></ph> Web site
+at <xref format="html" href="http://db.apache.org/derby/" scope="external">http://db.apache.org/derby</xref>.</p>
+<p>Before you install <ph conref="../conrefs.dita#prod/productshortname"></ph>,
+you should understand the deployment options and system requirements.</p>
+</conbody>
+</concept>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN"
+ "../dtd/task.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<!--##### DO NOT CHANGE ANYTHING ABOVE THIS LINE #####-->
+<task id="ttoolsexporting" xml:lang="en-us">
+<title>Exporting data using the built-in procedures</title>
+<shortdesc>You can use the <ph conref="../conrefs.dita#prod/productshortname"></ph> export
+procedures to export all of the data from table or query, or to export LOB
+data separately from the other data.</shortdesc>
+<prolog><metadata>
+<keywords><indexterm>import and export procedures<indexterm>bulk export</indexterm></indexterm>
+<indexterm>exporting data</indexterm><indexterm>system procedures<indexterm>export
+using</indexterm></indexterm></keywords>
+</metadata></prolog>
+<taskbody>
+<context></context>
+<steps>
+<step><cmd>Choose the correct procedure for the type of export that you want
+to perform. For examples of these procedures, see <xref href="rtoolsimport91458.dita#rtoolsimport91458"></xref>.</cmd>
+<choicetable relcolwidth="1* 2*">
+<chhead><choptionhd>Type of export</choptionhd><chdeschd>Procedure to use</chdeschd>
+</chhead>
+<chrow><choption>To export all the data from a table to a single export file,
+including the LOB data </choption><chdesc> <codeblock>SYSCS_UTIL.SYSCS_EXPORT_TABLE (IN <xref
+href="rtoolsexportarguements.dita#rtoolsexportarguements/rtoolsexportschemaname">SCHEMANAME</xref> VARCHAR(128),  IN <xref
+href="rtoolsexportarguements.dita#rtoolsexportarguements/rtoolsexporttablename">TABLENAME</xref> VARCHAR(128), IN <xref
+href="rtoolsexportarguements.dita#rtoolsexportarguements/rtoolsexportfilename">FILENAME</xref> VARCHAR(32672),  IN <xref
+href="rtoolsexportarguements.dita#rtoolsexportarguements/rtoolsexportcolumndelimiter">COLUMNDELIMITER</xref> CHAR(1), IN <xref
+href="rtoolsexportarguements.dita#rtoolsexportarguements/rtoolsexportcharacterdelimiter">CHARACTERDELIMITER</xref> CHAR(1),  IN <xref
+href="rtoolsexportarguements.dita#rtoolsexportarguements/rtoolsexportcodeset">CODESET</xref> VARCHAR(128))</codeblock></chdesc>
+</chrow>
+<chrow><choption>To export all the data from a table, and place the LOB data
+into a separate export file</choption><chdesc><codeblock>SYSCS_UTIL.SYSCS_EXPORT_TABLE_LOBS_TO_EXTFILE (IN<xref
+href="rtoolsexportarguements.dita#rtoolsexportarguements/rtoolsexportschemaname">SCHEMANAME</xref> VARCHAR(128),  IN <xref
+href="rtoolsexportarguements.dita#rtoolsexportarguements/rtoolsexporttablename">TABLENAME</xref> VARCHAR(128), IN <xref
+href="rtoolsexportarguements.dita#rtoolsexportarguements/rtoolsexportfilename">FILENAME</xref> VARCHAR(32672),  IN <xref
+href="rtoolsexportarguements.dita#rtoolsexportarguements/rtoolsexportcolumndelimiter">COLUMNDELIMITER</xref> CHAR(1), IN <xref
+href="rtoolsexportarguements.dita#rtoolsexportarguements/rtoolsexportcharacterdelimiter">CHARACTERDELIMITER</xref> CHAR(1),  IN <xref
+href="rtoolsexportarguements.dita#rtoolsexportarguements/rtoolsexportcodeset">CODESET</xref> VARCHAR(128), IN <xref
+href="rtoolsexportarguements.dita#rtoolsexportarguements/rtoolsexportlobsfilename">LOBSFILNAME</xref> VARCHAR(32672))</codeblock><p>A
+reference to the location of the LOB data is placed in the LOB column in the
+main export file.</p> </chdesc></chrow>
+<chrow><choption>To export the result of a SELECT statement to a single file,
+including the LOB data</choption><chdesc><codeblock>SYSCS_UTIL.SYSCS_EXPORT_QUERY (IN <xref
+href="rtoolsexportarguements.dita#rtoolsexportarguements/rtoolsexportselectstatement">SELECTSTATEMENT</xref> VARCHAR(32672),  IN <xref
+href="rtoolsexportarguements.dita#rtoolsexportarguements/rtoolsexporttablename">TABLENAME</xref> VARCHAR(128), IN <xref
+href="rtoolsexportarguements.dita#rtoolsexportarguements/rtoolsexportfilename">FILENAME</xref> VARCHAR(32672),  IN <xref
+href="rtoolsexportarguements.dita#rtoolsexportarguements/rtoolsexportcolumndelimiter">COLUMNDELIMITER</xref> CHAR(1), IN <xref
+href="rtoolsexportarguements.dita#rtoolsexportarguements/rtoolsexportcharacterdelimiter">CHARACTERDELIMITER</xref> CHAR(1),  IN <xref
+href="rtoolsexportarguements.dita#rtoolsexportarguements/rtoolsexportcodeset">CODESET</xref> VARCHAR(128))</codeblock></chdesc>
+</chrow>
+<chrow><choption>To export the result of a SELECT statement to a main export
+file, and place the LOB data into a separate export file</choption><chdesc><codeblock>SYSCS_UTIL.SYSCS_EXPORT_QUERY_LOBS_TO_EXTFILE (IN <xref
+href="rtoolsexportarguements.dita#rtoolsexportarguements/rtoolsexportselectstatement">SELECTSTATEMENT</xref> VARCHAR(32672),  IN <xref
+href="rtoolsexportarguements.dita#rtoolsexportarguements/rtoolsexporttablename">TABLENAME</xref> VARCHAR(128), IN <xref
+href="rtoolsexportarguements.dita#rtoolsexportarguements/rtoolsexportfilename">FILENAME</xref> VARCHAR(32672),  IN <xref
+href="rtoolsexportarguements.dita#rtoolsexportarguements/rtoolsexportcolumndelimiter">COLUMNDELIMITER</xref> CHAR(1), IN <xref
+href="rtoolsexportarguements.dita#rtoolsexportarguements/rtoolsexportcharacterdelimiter">CHARACTERDELIMITER</xref> CHAR(1),  IN <xref
+href="rtoolsexportarguements.dita#rtoolsexportarguements/rtoolsexportcodeset">CODESET</xref> VARCHAR(128), IN <xref
+href="rtoolsexportarguements.dita#rtoolsexportarguements/rtoolsexportlobsfilename">LOBSFILENAME</xref> VARCHAR(32672))</codeblock><p>A
+reference to the LOB data is written to the main export file.</p></chdesc>
+</chrow>
+</choicetable>
+</step>
+</steps>
+</taskbody>
+</task>

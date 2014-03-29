@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN"
+ "../dtd/reference.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<reference id="rrefattribcollation" xml:lang="en-us">
+<title>collation=collation attribute</title>
+<prolog><metadata>
+<keywords><indexterm>collation<indexterm>database attribute</indexterm></indexterm>
+<indexterm>database attribute<indexterm>collation</indexterm></indexterm>
+<indexterm>TERRITORY_BASED <indexterm>collation attribute</indexterm></indexterm>
+</keywords>
+</metadata></prolog>
+<refbody>
+<section><title>Function</title><p>The <codeph>collation</codeph> attribute
+is an optional attribute that specifies whether collation is based on the
+territory specified for the database or Unicode codepoint collation. The valid
+values for the <codeph>collation</codeph> attribute are: TERRITORY_BASED and
+UCS_BASIC. The default collation is Unicode codepoint collation (UCS_BASIC).</p><note
+type="restriction">The <codeph>collation</codeph> attribute can be specified
+only when you create a database. You cannot specify this attribute on an existing
+database or when you upgrade a database.</note><p>If you include the <codeph>collation</codeph> attribute
+with the value TERRITORY_BASED when you create the <ph conref="../conrefs.dita#prod/productshortname"></ph> database,
+the collation is based on the language and country codes that you specify
+with the <codeph>territory</codeph> attribute.</p><p>If you do not specify
+the <codeph>territory</codeph> attribute when you create the database, <ph
+conref="../conrefs.dita#prod/productshortname"></ph> uses the <codeph>java.util.Locale.getDefault</codeph> method
+to determine the current value of the default locale for this instance of
+the Java Virtual Machine (JVM).</p><note>The <codeph>collation</codeph> attribute
+applies only to user-defined tables. The system tables use the Unicode codepoint
+collation.</note></section>
+<example><title>Example</title><p>The following example shows the URL to create
+the <codeph>MexicanDB</codeph> database. The territory attribute specifies
+Spanish for the language code and Mexico for the country code. The <codeph>collation</codeph> attribute
+specifies that the collation for the database is territory based.</p><codeblock>jdbc:derby:MexicanDB;create=true;territory=es_MX;collation=TERRITORY_BASED </codeblock
+> </example>
+<section><title></title>For information on how <ph conref="../conrefs.dita#prod/productshortname"></ph> handles
+collation, see "Character-based collation in <ph conref="../conrefs.dita#prod/productshortname"></ph>"
+in the <cite><ph conref="../conrefs.dita#pub/citdevelop"></ph></cite></section>
+</refbody>
+</reference>

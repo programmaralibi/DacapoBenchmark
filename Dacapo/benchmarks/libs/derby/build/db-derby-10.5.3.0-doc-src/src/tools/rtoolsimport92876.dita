@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN"
+ "../dtd/reference.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<reference id="rtoolsimport92876" xml:lang="en-us">
+<title>Exporting bulk data</title>
+<shortdesc>You can use the <ph conref="../conrefs.dita#prod/productshortname"></ph> export
+procedures to export all of the data in a table, or to export LOB data separately
+from other data.</shortdesc>
+<prolog><metadata>
+<keywords><indexterm>import and export procedures<indexterm>bulk export</indexterm></indexterm>
+<indexterm>bulk export</indexterm></keywords>
+</metadata></prolog>
+<refbody>
+<section><p><ph conref="../conrefs.dita#prod/productshortname"></ph> provides
+several procedures that you can use to perform bulk-export operations. <ol>
+<li>To export all the data from a table to a file, use the SYSCS_UTIL.SYSCS_EXPORT_TABLE
+procedure. The procedure definition is:  <codeblock><b>SYSCS_UTIL.SYSCS_EXPORT_TABLE (IN <xref
+href="rtoolsexportarguements.dita#rtoolsexportarguements/rtoolsexportschemaname">schemaName</xref> VARCHAR(128), 
+IN <xref href="rtoolsexportarguements.dita#rtoolsexportarguements/rtoolsexporttablename">tableName</xref> VARCHAR(128), IN <xref
+href="rtoolsexportarguements.dita#rtoolsexportarguements/rtoolsexportfilename">fileName</xref> VARCHAR(32672), 
+IN <xref href="rtoolsexportarguements.dita#rtoolsexportarguements/rtoolsexportcolumndelimiter">columnDelimiter</xref> CHAR(1), IN <xref
+href="rtoolsexportarguements.dita#rtoolsexportarguements/rtoolsexportcharacterdelimiter">characterDelimiter</xref> CHAR(1), 
+IN <xref href="rtoolsexportarguements.dita#rtoolsexportarguements/rtoolsexportcodeset">codeset</xref> VARCHAR(128))</b></codeblock>No
+Result is returned from the procedure.</li>
+<li>To export the result of a SELECT statement to a file, use the SYSCS_UTIL.SYSCS_EXPORT_QUERY
+procedure. The procedure definition is: <codeblock><b>SYSCS_UTIL.SYSCS_EXPORT_QUERY(IN <xref
+href="rtoolsexportarguements.dita#rtoolsexportarguements/rtoolsexportselectstatement">selectStatement</xref> VARCHAR(32672), 
+IN <xref href="rtoolsexportarguements.dita#rtoolsexportarguements/rtoolsexporttablename">tableName</xref> VARCHAR(128), IN <xref
+href="rtoolsexportarguements.dita#rtoolsexportarguements/rtoolsexportfilename">fileName</xref> VARCHAR(32672), 
+IN <xref href="rtoolsexportarguements.dita#rtoolsexportarguements/rtoolsexportcolumndelimiter">columnDelimiter</xref> CHAR(1), IN <xref
+href="rtoolsexportarguements.dita#rtoolsexportarguements/rtoolsexportcharacterdelimiter">characterDelimiter</xref> CHAR(1), 
+IN <xref href="rtoolsexportarguements.dita#rtoolsexportarguements/rtoolsexportcodeset">codeset</xref> VARCHAR(128))</b></codeblock>No
+result is returned from the procedure. </li>
+</ol></p></section>
+</refbody>
+</reference>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN"
+ "../dtd/reference.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<reference id="rrefjavsqlprst" xml:lang="en-us">
+<title>Prepared statements and streaming columns </title>
+<prolog><metadata>
+<keywords><indexterm>setXXXStream requests</indexterm><indexterm>Streaming
+columns<indexterm>as IN parameters to prepared statement</indexterm></indexterm>
+<indexterm>setBinaryStream</indexterm><indexterm>setAsciiStream</indexterm>
+<indexterm>setUnicodeStream</indexterm><indexterm>Unicode<indexterm>setUnicodeStream</indexterm></indexterm>
+<indexterm>setCharacterStream</indexterm>
+</keywords>
+</metadata></prolog>
+<refbody>
+<section><p><i>setXXXStream</i> requests stream data between the application
+and the database.</p></section>
+<section><p>JDBC allows an IN parameter to be set to a Java input stream for
+passing in large amounts of data in smaller chunks. When the statement is
+run, the JDBC driver makes repeated calls to this input stream.
+<ph conref="../conrefs.dita#prod/productshortname"></ph> supports
+the following JDBC stream methods for <i>PreparedStatement</i> objects:
+  <ul>
+<li><i>setBinaryStream</i> <p>Use for streams that contain uninterpreted bytes</p></li>
+<li><i>setAsciiStream</i>   <p>Use for streams that contain ASCII characters</p></li>
+<li><i>setCharacterStream</i>   <p>Use for streams that contain characters</p></li>
+</ul></p>
+<note><ph conref="../conrefs.dita#prod/productshortname"></ph> does not support
+the <i>setNCharacterStream</i> method or the deprecated <i>setUnicodeStream</i>
+method.</note>
+<p>JDBC 3.0 requires that you specify the length of the
+stream, and <ph conref="../conrefs.dita#prod/productshortname"></ph> enforces
+this requirement if your application runs on JDK 5 or earlier. If your application
+runs on JDK 6, <ph conref="../conrefs.dita#prod/productshortname"></ph> exposes
+a JDBC 4.0 implementation, which lets you use the streaming interfaces without
+having to specify the stream length. The stream object passed to
+<i>setBinaryStream</i> and <i>setAsciiStream</i> can be either a standard Java
+stream object or the user's own subclass that implements the standard
+<i>java.io.InputStream</i> interface. The object passed to
+<i>setCharacterStream</i> must be a subclass of the abstract
+<i>java.io.Reader</i> class.</p>
+<p>According
+to the JDBC standard, streams can be stored only in columns with the data
+types shown in the following table.<table frame="all" id="jdbc25312"><title>Streamable
+JDBC Data Types</title>
+<tgroup cols="5" colsep="1" rowsep="1"><colspec colname="1" colnum="1" colwidth="22*"/>
+<colspec colname="colspec0" colnum="2" colwidth="22*"/><colspec colname="2"
+colnum="3" colwidth="15*"/><colspec colname="3" colnum="4" colwidth="18*"/>
+<colspec colname="4" colnum="5" colwidth="20*"/>
+<thead>
+<row>
+<entry colname="1">Column Data Type </entry>
+<entry colname="colspec0">Corresponding Java Type</entry>
+<entry colname="2">AsciiStream</entry>
+<entry colname="3">CharacterStream</entry>
+<entry colname="4">BinaryStream</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="1">CLOB</entry>
+<entry colname="colspec0">java.sql.Clob</entry>
+<entry colname="2">x</entry>
+<entry colname="3">x</entry>
+<entry colname="4">&nbsp;</entry>
+</row>
+<row>
+<entry colname="1">CHAR</entry>
+<entry colname="colspec0">&nbsp;</entry>
+<entry colname="2">x</entry>
+<entry colname="3">x</entry>
+<entry colname="4">&nbsp;</entry>
+</row>
+<row>
+<entry colname="1">VARCHAR</entry>
+<entry colname="colspec0">&nbsp;</entry>
+<entry colname="2">x</entry>
+<entry colname="3">x</entry>
+<entry colname="4">&nbsp;</entry>
+</row>
+<row>
+<entry colname="1">LONGVARCHAR</entry>
+<entry colname="colspec0">&nbsp;</entry>
+<entry colname="2">X</entry>
+<entry colname="3">X</entry>
+<entry colname="4">&nbsp;</entry>
+</row>
+<row>
+<entry colname="1">BINARY</entry>
+<entry colname="colspec0">&nbsp;</entry>
+<entry colname="2">x</entry>
+<entry colname="3">x</entry>
+<entry colname="4">x</entry>
+</row>
+<row>
+<entry colname="1">BLOB</entry>
+<entry colname="colspec0">java.sql.Blob</entry>
+<entry colname="2">x</entry>
+<entry colname="3">x</entry>
+<entry colname="4">x</entry>
+</row>
+<row>
+<entry colname="1">VARBINARY</entry>
+<entry colname="colspec0">&nbsp;</entry>
+<entry colname="2">x</entry>
+<entry colname="3">x</entry>
+<entry colname="4">x</entry>
+</row>
+<row>
+<entry colname="1">LONGVARBINARY</entry>
+<entry colname="colspec0">&nbsp;</entry>
+<entry colname="2">x</entry>
+<entry colname="3">x</entry>
+<entry colname="4">X</entry>
+</row>
+</tbody>
+</tgroup>
+</table></p><note><ul>
+<li>A large X indicates the preferred target data type for the type of stream.
+See <xref href="rrefjdbc20377.dita#rrefjdbc20377/jdbc31241"></xref>.</li>
+<li>For applications using the client driver, if the stream is stored in a column of a type other than LONG VARCHAR
+or LONG VARCHAR FOR BIT DATA, the entire stream must be able to fit into memory
+at one time. Streams stored in LONG VARCHAR and LONG VARCHAR FOR BIT DATA
+columns do not have this limitation.</li>
+<li>Streams cannot be stored in columns of the other built-in data types or
+columns of user-defined data types.   </li>
+</ul></note></section>
+<example><title>Example</title><p>The following code fragment shows how a user can
+store a streamed, ASCII-encoded <i>java.io.File</i> in a LONG VARCHAR column:</p>
+<codeblock>    Statement s = conn.createStatement();
+    s.executeUpdate("CREATE TABLE atable (a INT, b LONG VARCHAR)");
+    conn.commit();
+
+    java.io.File file = new java.io.File("derby.txt");
+    int fileLength = (int) file.length();
+
+    <b>// create an input stream</b>
+    java.io.InputStream fin = new java.io.FileInputStream(file);
+    PreparedStatement ps = conn.prepareStatement(
+        "INSERT INTO atable VALUES (?, ?)");
+    ps.setInt(1, 1);
+
+    <b>// set the value of the input parameter to the input stream</b>
+    ps.setAsciiStream(2, fin, fileLength);
+    ps.execute();
+    conn.commit();</codeblock></example>
+</refbody>
+</reference>

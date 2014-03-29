@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+ 
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN"
+ "../dtd/concept.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+   http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<concept id="cdevcsecure21547" xml:lang="en-us">
+<title>Built-in Derby users</title>
+<shortdesc><ph conref="../conrefs.dita#prod/productshortname"></ph> provides
+a simple, built-in repository of user names and passwords.</shortdesc>
+<prolog><metadata>
+<keywords><indexterm>users<indexterm>built-in repository</indexterm></indexterm>
+<indexterm>passwords<indexterm>built-in repository</indexterm></indexterm>
+</keywords>
+</metadata></prolog>
+<conbody>
+<p>To use the built-in repository, set <i>derby.authentication.provider</i> to <i>BUILTIN</i>.
+Using built-in users is an alternative to using an external directory service
+such as LDAP.</p>
+<codeblock>derby.authentication.provider=BUILTIN</codeblock>
+<p>You can create user names and passwords for <ph conref="../conrefs.dita#prod/productshortname"></ph> users
+by specifying them with the <i>derby.user.UserName</i> property.</p>
+<note>These user names are case-sensitive for user authentication. User names
+are <i>SQL92Identifiers</i>. Delimited identifiers are allowed:   <codeblock>derby.user."FRed"=java</codeblock></note>
+<note>For passwords, it is a good idea not to use words that would be easily
+guessed, such as a login name or simple words or numbers. A password should
+be a mix of numbers and upper- and lowercase letters.</note>
+</conbody>
+</concept>

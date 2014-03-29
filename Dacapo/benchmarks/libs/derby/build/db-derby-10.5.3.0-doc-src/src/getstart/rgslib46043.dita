@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN"
+ "../dtd/reference.dtd">
+<!--  
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+   http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<reference id="rgslib46043" xml:lang="en-us">
+<title>Libraries provided by Derby</title>
+<shortdesc>This section shows the different libraries used by <ph conref="../conrefs.dita#prod/productshortname"></ph> and
+their purposes.</shortdesc>
+<prolog><metadata>
+<keywords><indexterm>derbyclient.jar</indexterm><indexterm>derby.jar</indexterm>
+<indexterm>derbytools.jar</indexterm><indexterm>Sample application libraries</indexterm>
+<indexterm>Sample database libraries</indexterm><indexterm>derbyrun.jar</indexterm>
+</keywords>
+</metadata></prolog>
+<refbody>
+<section><dl><dlentry>
+<dt>Engine library</dt>
+<dd><simpletable relcolwidth="1* 3*">
+<sthead>
+<stentry>Library Name</stentry>
+<stentry>Use</stentry>
+</sthead>
+<strow>
+<stentry>derby.jar</stentry>
+<stentry>For embedded databases. <p>You always need this library for embedded
+environments. For client/server environments, you only need this library on
+the server.</p></stentry>
+</strow>
+</simpletable></dd>
+</dlentry><dlentry>
+<dt>Tools libraries</dt>
+<dd>For embedded environments, you need a library in the classpath to use
+a tool. For a client/server environment, you need a library on the client
+only.<simpletable relcolwidth="1* 3*">
+<sthead>
+<stentry>Library Names</stentry>
+<stentry>Use</stentry>
+</sthead>
+<strow>
+<stentry>derbytools.jar</stentry>
+<stentry>Required for running all the <ph conref="../conrefs.dita#prod/productshortname"></ph> tools
+(such as <codeph>ij</codeph>, <codeph>dblook</codeph>, and import/export). </stentry>
+</strow>
+<strow>
+<stentry>derbyrun.jar</stentry>
+<stentry>Executable jar file that can be used to start the <ph conref="../conrefs.dita#prod/productshortname"></ph> tools. </stentry>
+</strow>
+</simpletable></dd>
+</dlentry><dlentry>
+<dt>The Network Server library</dt>
+<dd><simpletable relcolwidth="1* 3*">
+<sthead>
+<stentry>Library Name</stentry>
+<stentry>Use</stentry>
+</sthead>
+<strow>
+<stentry>derbynet.jar</stentry>
+<stentry>Required to start the <ph conref="../conrefs.dita#prod/productshortname"></ph> Network
+Server.</stentry>
+</strow>
+</simpletable></dd>
+</dlentry><dlentry>
+<dt>The network client library</dt>
+<dd><simpletable relcolwidth="1* 3*">
+<sthead>
+<stentry>Library Name</stentry>
+<stentry>Use</stentry>
+</sthead>
+<strow>
+<stentry>derbyclient.jar</stentry>
+<stentry>Required to use the <ph conref="../conrefs.dita#prod/productshortname"></ph> network
+client driver.</stentry>
+</strow>
+</simpletable></dd>
+</dlentry><dlentry>
+<dt>The locale libraries</dt>
+<dd><simpletable relcolwidth="1* 3*">
+<sthead>
+<stentry>Library Names</stentry>
+<stentry>Use</stentry>
+</sthead>
+<strow>
+<stentry><ul>
+<li>derbyLocale_cs.jar</li>
+<li>derbyLocale_de_DE.jar</li>
+<li>derbyLocale_es.jar</li>
+<li>derbyLocale_fr.jar</li>
+<li>derbyLocale_it.jar</li>
+<li>derbyLocale_hu.jar</li>
+<li>derbyLocale_ja_JP.jar</li>
+<li>derbyLocale_ko_KR.jar</li>
+<li>derbyLocale_pl.jar</li>
+<li>derbyLocale_pt_BR.jar</li>
+<li>derbyLocale_ru.jar</li>
+<li>derbyLocale_zh_CN.jar</li>
+<li>derbyLocale_zh_TW.jar</li>
+</ul></stentry>
+<stentry>Required to provide translated messages for the indicated locales.</stentry>
+</strow>
+</simpletable></dd>
+</dlentry></dl></section>
+</refbody>
+</reference>

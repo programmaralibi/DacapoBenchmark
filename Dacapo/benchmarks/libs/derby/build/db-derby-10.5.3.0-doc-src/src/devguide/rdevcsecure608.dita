@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN"
+ "../dtd/reference.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+   http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<reference id="rdevcsecure608" xml:lang="en-us">
+<title>Libraries for LDAP user authentication</title>
+<shortdesc>To use an LDAP directory service with <ph conref="../conrefs.dita#prod/productshortname"></ph>,
+you need these libraries in your classpath.</shortdesc>
+<prolog><metadata>
+<keywords><indexterm>jndid<indexterm>required for LDAP user authorization</indexterm></indexterm>
+<indexterm>ldap.jar<indexterm>required for LDAP user authorization</indexterm></indexterm>
+<indexterm>providerutil.jar<indexterm>required for LDAP user authentication</indexterm></indexterm>
+</keywords>
+</metadata></prolog>
+<refbody>
+<section> <ul>
+<li><i>jndi.jar</i>   <p>JNDI classes</p></li>
+<li><i>ldap.jar</i>   <p>LDAP provider from Sun</p></li>
+<li><i>providerutil.jar</i>   <p>JNDI classes for a provider</p></li>
+</ul></section>
+<section><p><ph conref="../conrefs.dita#prod/productshortname"></ph> does
+not provide these libraries; they are available from Sun on the JNDI page.
+Use the 1.1.x versions of these libraries, not the 1.2.x versions. You might
+need to do two separate downloads to obtain all the required libraries.</p></section>
+</refbody>
+</reference>

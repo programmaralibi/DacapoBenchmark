@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+ 
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN"
+ "reference.dtd">
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.    
+-->
+<reference id="rrefsistabssysroutineperms" xml:lang="en-us">
+<title>SYSROUTINEPERMS system table</title>
+<shortdesc>The SYSROUTINEPERMS table stores the permissions that have been
+granted to routines.</shortdesc>
+<refbody>
+<section><p>Each routine EXECUTE permission is specified in a row in the SYSROUTINEPERMS
+table. The keys for the SYSROUTINEPERMS table are: <ul>
+<li>Primary key (GRANTEE, ALIASID, GRANTOR)</li>
+<li>Unique key (ROUTINEPERMSID)</li>
+<li>Foreign key (ALIASID references SYS.SYSALIASES)</li>
+</ul> </p><p>The column information for the SYSTABLEPERMS table is listed
+in the following table:</p><table frame="all" pgwide="1">
+<tgroup cols="5" colsep="1" rowsep="1"><colspec colname="1" colnum="1" colwidth="27*"/>
+<colspec colname="2" colnum="2" colwidth="10*"/><colspec colname="3" colnum="3"
+colwidth="11*"/><colspec colname="4" colnum="4" colwidth="14*"/><colspec colname="5"
+colnum="5" colwidth="38*"/>
+<thead>
+<row>
+<entry align="left" colname="1" valign="bottom">Column Name</entry>
+<entry align="left" colname="2" valign="bottom">Type</entry>
+<entry align="left" colname="3" valign="bottom">Length</entry>
+<entry align="left" colname="4" valign="bottom">Nullability</entry>
+<entry align="left" colname="5" valign="bottom">Contents</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="1">ROUTINEPERMSID</entry>
+<entry colname="2">CHAR</entry>
+<entry colname="3">36</entry>
+<entry colname="4">false</entry>
+<entry colname="5">Used by the dependency manager to track the dependency
+of a view, trigger, or constraint on the routine level permissions.</entry>
+</row>
+<row>
+<entry colname="1">GRANTEE</entry>
+<entry colname="2">VARCHAR</entry>
+<entry colname="3">128</entry>
+<entry colname="4">false</entry>
+<entry colname="5">The authorization ID of the user or role to which the privilege
+is granted.</entry>
+</row>
+<row>
+<entry colname="1">GRANTOR</entry>
+<entry colname="2">VARCHAR</entry>
+<entry colname="3">128</entry>
+<entry colname="4">false</entry>
+<entry colname="5">The authorization ID of the user who granted the privilege.
+Privileges can be granted only by the object owner.</entry>
+</row>
+<row>
+<entry colname="1">ALIASID</entry>
+<entry colname="2">CHAR</entry>
+<entry colname="3">36</entry>
+<entry colname="4">false</entry>
+<entry colname="5">The ID of the object of the required permission. If PERMTYPE='E'
+the ALIASID is a reference to the SYS.SYSALIASES table. Otherwise the ALIASID
+is a reference to the SYS.SYSTABLES table.</entry>
+</row>
+<row>
+<entry colname="1">GRANTOPTION</entry>
+<entry colname="2">CHAR</entry>
+<entry colname="3">1</entry>
+<entry colname="4">false</entry>
+<entry colname="5">Specifies if the GRANTEE is the owner of the routine. Valid
+values are Y and N.</entry>
+</row>
+</tbody>
+</tgroup>
+</table></section>
+</refbody>
+</reference>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN"
+ "../dtd/reference.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+   http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<reference id="rdevcsecure13713" xml:lang="en-us">
+<title>User authentication example in a single-user, embedded environment</title>
+<shortdesc>In this example, <ph conref="../conrefs.dita#prod/productshortname"></ph> is
+embedded in a single-user application that is deployed in a number of different
+and potentially insecure ways.</shortdesc>
+<prolog></prolog>
+<refbody>
+<section><p>For that reason, the application developer has decided to encrypt
+the database and to turn on user authentication using <ph conref="../conrefs.dita#prod/productshortname"></ph>'s
+built-in user authentication, which will not require connections to an LDAP
+server. The end-user must know the <i>bootPassword</i> to boot the database
+and the user name and password to connect to the database. Even if the database
+ended up in an e-mail, only the intended recipient would be able to access
+data in the database. The application developer has decided not to use any
+user authorization features, since each database will accept only a single
+user. In that situation, the default full-access connection mode is acceptable.</p></section>
+<section><p>When creating the database, the application developer encrypts
+the database by using the following connection URL:</p></section>
+<example> <codeblock><b>jdbc:derby:wombat;create=true;dataEncryption=true;
+    bootPassword=sxy90W348HHn;user=redbaron</b></codeblock></example>
+<section><p>Before deploying the database, the application developer turns
+on user authentication, sets the authentication provider to BUILTIN, creates
+a single user and password, and disallows system-wide properties to protect
+the database-wide security property settings:</p></section>
+<example> <codeblock><b>CALL SYSCS_UTIL.SYSCS_SET_DATABASE_PROPERTY(
+    'derby.connection.requireAuthentication', 'true')
+
+CALL SYSCS_UTIL.SYSCS_SET_DATABASE_PROPERTY(
+    'derby.authentication.provider', 'BUILTIN')
+
+CALL SYSCS_UTIL.SYSCS_SET_DATABASE_PROPERTY(
+    'derby.user.redbaron', 'red29PlaNe')
+
+CALL SYSCS_UTIL.SYSCS_SET_DATABASE_PROPERTY(
+    'derby.database.propertiesOnly', true')</b></codeblock></example>
+<section><p>When the user connects (and boots) the database, the user has
+to provide the <i>bootPassword</i>, the user name, and the password. 
+</p>
+<p>
+  <note>
+    The user name (the value specified by
+    the <codeph>derby.user.<i>enduser</i></codeph> property) must be
+    supplied when the database is created, even if authentication is
+    not yet enabled. Otherwise the database owner will have the
+    default name "APP"
+    (see <xref
+    href="cdevcsecureDbOwner.dita#cdevcsecureDbOwner"></xref> for
+    details).
+  </note>
+</p>
+<p>
+  The following example shows how to provide these properties in a
+  connection URL, although the application programmer would probably
+  provide GUI windows to allow the end user to type those in:
+</p>
+</section>
+<example> <codeblock><b>jdbc:derby:wombat;bootPassword=sxy90W348HHn;
+    user=redbaron;password=red29PlaNe</b></codeblock></example>
+</refbody>
+</reference>

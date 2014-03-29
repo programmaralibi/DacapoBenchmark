@@ -1,0 +1,13 @@
+avrora: FAIL
+batik: PASS
+h2: FAIL
+eclipse: FAIL
+fop: PASS
+jython: FAIL
+luindex: PASS
+lusearch: PASS
+pmd: FAIL
+sunflow: PASS
+tradebeans: FAIL
+tradesoap: FAIL
+tomcat: PASS

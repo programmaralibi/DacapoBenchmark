@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+ 
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN"
+ "../dtd/reference.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+   http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<reference id="rdevcsecure557" xml:lang="en-us">
+<title>List of user authentication properties</title>
+<shortdesc>This table summarizes the various properties related to user authentication.</shortdesc>
+<prolog><metadata>
+<keywords><indexterm><indexterm>user authentication</indexterm>properties,
+list of</indexterm></keywords>
+</metadata></prolog>
+<refbody>
+<table frame="all" id="cdevcsecure27690"><title>User authentication properties</title>
+<tgroup cols="2" colsep="1" rowsep="1"><colspec colname="1" colnum="1" colwidth="53*"/>
+<colspec colname="2" colnum="2" colwidth="45*"/>
+<thead>
+<row>
+<entry align="left" colname="1" valign="bottom">Property Name</entry>
+<entry align="left" colname="2" valign="bottom">Use</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="1"><i>derby.connection.requireAuthentication</i></entry>
+<entry colname="2">Turns on user authentication.</entry>
+</row>
+<row>
+<entry colname="1"><i>derby.authentication.provider</i></entry>
+<entry colname="2">Specifies the kind of user authentication to use.</entry>
+</row>
+<row>
+<entry colname="1"><i>derby.authentication.server</i></entry>
+<entry colname="2">For LDAP user authentication, specifies the location of
+the server.</entry>
+</row>
+<row>
+<entry colname="1"><i>derby.authentication.ldap.searchAuthDN, derby.authentication.ldap.searchAuthPW,
+derby.authentication.ldap.searchFilter,</i> and <i>derby.authentication.ldap.searchBase</i></entry>
+<entry colname="2">Configures the way that DN searches are performed.</entry>
+</row>
+<row>
+<entry colname="1"><i>derby.user.UserName</i></entry>
+<entry colname="2">Creates a user name and password for the built-in user
+repository in<ph conref="../conrefs.dita#prod/productshortname"></ph>.</entry>
+</row>
+<row>
+<entry colname="1"><i>java.naming.*</i></entry>
+<entry colname="2">JNDI properties. See Appendix A in the JNDI API reference
+for more information about these properties.</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</refbody>
+</reference>
