@@ -40,16 +40,16 @@ import org.apache.derby.iapi.util.Matchable;
 import org.apache.derby.iapi.util.Operator;
 import org.apache.derby.iapi.reference.SQLState;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import javolution.util.FastTable;
+import javolution.util.FastMap;
 import java.util.Iterator;
 import java.util.Collection;
 import java.util.Properties;
 
 
 /**
-	A cache manager that uses a HashMap and an ArrayList. The ArrayList holds
-	CachedItem objects, each with a holder object. The HashMap is keyed
+	A cache manager that uses a FastMap and an FastTable. The FastTable holds
+	CachedItem objects, each with a holder object. The FastMap is keyed
 	by the identity of the holder object (Cacheable.getIdentity()) and
 	the data portion is a pointer to the CachedItem. CachedItems that have
 	holder objects with no identity do not have entries in the hash map.
@@ -105,10 +105,10 @@ final class Clock implements CacheManager, Serviceable {
 	** Fields
 	*/
 	private final CacheStat stat;
-	private final HashMap cache_;
+	private final FastMap cache_;
 	private DaemonService		cleaner;	// the background worker thread who is going to
 									// do pre-flush for this cache. 
-	private final ArrayList		holders;
+	private final FastTable		holders;
     private int validItemCount = 0;
 	private long			maximumSize;
     private boolean useByteCount; // regulate the total byte count or the entry count
@@ -119,7 +119,7 @@ final class Clock implements CacheManager, Serviceable {
      */
 
     private static final int ITEM_OVERHEAD = ClassSize.estimateBaseFromCatalog( CachedItem.class)
-        + ClassSize.getRefSize() // one ref per item in the holder ArrayList
+        + ClassSize.getRefSize() // one ref per item in the holder FastTable
         + ClassSize.estimateHashEntrySize();
 
 	private final CacheableFactory holderFactory;
@@ -151,7 +151,7 @@ final class Clock implements CacheManager, Serviceable {
 	*/
 	Clock(CacheableFactory holderFactory, String name,
 		  int initialSize, long maximumSize, boolean useByteCount) {
-		cache_ = new HashMap(initialSize, (float) 0.95);
+		cache_ = new FastMap(initialSize, (float) 0.95);
 		this.maximumSize = maximumSize;
 		this.holderFactory = holderFactory;
 		this.useByteCount = useByteCount;
@@ -166,7 +166,7 @@ final class Clock implements CacheManager, Serviceable {
 		//if (delta < 5)
 		//	delta = 5;
 
-		holders = new ArrayList(initialSize);
+		holders = new FastTable(initialSize);
 		this.name = name;
 		active = true;
 
@@ -1873,7 +1873,7 @@ innerscan:
 	 * @return a Collection of the cache elements.
 	 */
 	public synchronized Collection values() {
-		ArrayList al = new ArrayList();
+		FastTable al = new FastTable();
 		for (Iterator i = cache_.values().iterator(); i.hasNext();){
 			al.add(((CachedItem)i.next()).getEntry());
 		}

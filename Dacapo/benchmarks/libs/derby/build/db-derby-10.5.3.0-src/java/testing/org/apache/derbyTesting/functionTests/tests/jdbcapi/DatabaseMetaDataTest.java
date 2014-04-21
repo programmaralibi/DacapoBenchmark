@@ -37,9 +37,9 @@ import java.sql.Statement;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.sql.Types;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.Arrays;
-//import java.util.HashMap;
+//import javolution.util.FastMap;
 //import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -2580,7 +2580,7 @@ public class DatabaseMetaDataTest extends BaseJDBCTestCase {
      */
     public static List getSQLTypes(Connection conn) throws SQLException
     {
-        List list = new ArrayList();
+        List list = new FastTable();
         
         Random rand = new Random();
         

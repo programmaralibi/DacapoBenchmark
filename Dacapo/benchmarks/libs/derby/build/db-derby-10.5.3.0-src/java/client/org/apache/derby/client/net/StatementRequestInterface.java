@@ -88,5 +88,5 @@ public interface StatementRequestInterface {
                                  Object[] inputs) throws SqlException;
 
 
-    public void writeSetSpecialRegister(Section section, java.util.ArrayList sqlsttList) throws SqlException;
+    public void writeSetSpecialRegister(Section section, javolution.util.FastTable sqlsttList) throws SqlException;
 }

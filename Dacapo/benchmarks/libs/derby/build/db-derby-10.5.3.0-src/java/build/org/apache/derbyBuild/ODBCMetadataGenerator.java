@@ -28,8 +28,8 @@ import java.io.LineNumberReader;
 import java.io.FileWriter;
 
 import java.util.Properties;
-import java.util.HashMap;
-import java.util.ArrayList;
+import javolution.util.FastMap;
+import javolution.util.FastTable;
 
 import org.apache.derby.iapi.services.sanity.SanityManager;
 
@@ -114,7 +114,7 @@ public class ODBCMetadataGenerator {
 
 	// List of what types of changes are required for a given
 	// metadata procedure.
-	private HashMap changeMap;
+	private FastMap changeMap;
 
 	// SQL fragments and keywords that are used in composing
 	// ODBC metadata queries.  These are loaded from a file
@@ -182,7 +182,7 @@ public class ODBCMetadataGenerator {
 	 */
 	private void initChanges() {
 
-		changeMap = new HashMap();
+		changeMap = new FastMap();
 
 		changeMap.put("getProcedures",
 			new Byte(COL_RENAME_CHANGE));
@@ -366,7 +366,7 @@ public class ODBCMetadataGenerator {
 
 		// Get a list of the column definitions in the subquery, for
 		// use by subsequent operations.
-		ArrayList colDefs = new ArrayList();
+		FastTable colDefs = new FastTable();
 		pos = getSelectColDefinitions(queryText, colDefs);
 
 		// In some cases, we need to add "helper" columns to the
@@ -559,7 +559,7 @@ public class ODBCMetadataGenerator {
 	 *  added here.
 	 */
 	private void generateSELECTClause(String queryName,
-		ArrayList selectColDefs, StringBuffer newQueryText)
+		FastTable selectColDefs, StringBuffer newQueryText)
 	{
 
 		if (!stmtNeedsChange(queryName, TYPE_VALUE_CHANGE) &&
@@ -732,20 +732,20 @@ public class ODBCMetadataGenerator {
 	 * and returns a list of the columns being selected.  For
 	 * example, if the received statement was "SELECT A,
 	 * B AS C, D * 2 FROM T1", this method will return an
-	 * ArrayList with three string elements: 1) "A", 2) "B
+	 * FastTable with three string elements: 1) "A", 2) "B
 	 * AS C", and 3) "D * 2".
 	 * @param query The query from which we are extracting
 	 *	the SELECT columns.
-	 * @param colDefList ArrayList in which we want to
+	 * @param colDefList FastTable in which we want to
 	 * 	store the column definitions that we find.
-	 * @return Received ArrayList has one string value for
+	 * @return Received FastTable has one string value for
 	 *	each of the columns found in the received query.
 	 *	Also, an integer is returned indicating the index
 	 *	in the received query of the start of the FROM
 	 *	clause, for later use by the calling method.
 	 */
 	private int getSelectColDefinitions(StringBuffer queryText,
-		ArrayList colDefList)
+		FastTable colDefList)
 	{
 
 		// Create a string for purposes of using "indexOf"
@@ -999,7 +999,7 @@ public class ODBCMetadataGenerator {
 	 *	leaves the received column list unchanged.
 	 */
 	private void markNewColPosition(String queryName,
-		ArrayList selectColDefs)
+		FastTable selectColDefs)
 	{
 
 		if (!stmtNeedsChange(queryName, ADD_COLUMN_CHANGE))

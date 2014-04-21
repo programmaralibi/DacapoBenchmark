@@ -22,7 +22,7 @@ package org.apache.derby.client.am;
 
 import java.io.InputStream;
 import java.io.IOException;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 
 /**
  * A stream whose source is a list of byte arrays.
@@ -47,7 +47,7 @@ public class ByteArrayCombinerStream
     extends InputStream {
 
     /** A list of the arrays to combine. */
-    private final ArrayList arrays;
+    private final FastTable arrays;
     /** Length of the stream. */
     private final long specifiedLength;
     /** Global offset into the whole stream. */
@@ -62,9 +62,9 @@ public class ByteArrayCombinerStream
     /**
      * Create a stream whose source is a list of byte arrays.
      *
-     * @param arraysIn an <code>ArrayList</code> with references to the source
+     * @param arraysIn an <code>FastTable</code> with references to the source
      *      byte arrays. The references are copied to a new
-     *      <code>ArrayList</code> instance.
+     *      <code>FastTable</code> instance.
      * @param length the length of the stream. Never published outside
      *      this object. Note that the length specified can be shorter
      *      than the actual number of bytes in the byte arrays.
@@ -72,7 +72,7 @@ public class ByteArrayCombinerStream
      *      specified by <code>length</code>, or <code>length</code> is
      *      negative.
      */
-    public ByteArrayCombinerStream(ArrayList arraysIn, long length) {
+    public ByteArrayCombinerStream(FastTable arraysIn, long length) {
         // Don't allow negative length.
         if (length < 0) {
             throw new IllegalArgumentException("Length cannot be negative: " +
@@ -81,10 +81,10 @@ public class ByteArrayCombinerStream
         this.specifiedLength = length;
         long tmpRemaining = length;
         if (arraysIn != null && arraysIn.size() > 0) {
-            // Copy references to the byte arrays to a new ArrayList.
+            // Copy references to the byte arrays to a new FastTable.
             int arrayCount = arraysIn.size();
             byte[] tmpArray;
-            arrays = new ArrayList(arrayCount);
+            arrays = new FastTable(arrayCount);
             // Truncate data if there are more bytes then specified.
             // Done to simplify boundary checking in the read-methods.
             for (int i=0; i < arrayCount && tmpRemaining > 0; i++) {
@@ -192,7 +192,7 @@ public class ByteArrayCombinerStream
 
     /**
      * Fetch the next array to read data from.
-     * The reference in the <code>ArrayList</code> is cleared when the array
+     * The reference in the <code>FastTable</code> is cleared when the array
      * is "taken out".
      *
      * @return a <code>byte[]</code>-object, or <code>null</code> if there are

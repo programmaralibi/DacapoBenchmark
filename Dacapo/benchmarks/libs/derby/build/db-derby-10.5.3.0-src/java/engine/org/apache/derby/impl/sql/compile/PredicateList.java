@@ -69,7 +69,7 @@ import java.lang.reflect.Modifier;
 
 import java.sql.Types;
 
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.Enumeration;
 import java.util.Properties;
 import java.util.Vector;
@@ -3198,11 +3198,11 @@ public class PredicateList extends QueryTreeNodeVector implements OptimizablePre
                     SanityManager.ASSERT(pred.isOrList());
                 }
 
-                // create an ArrayList of the OR nodes.  We need the count
+                // create an FastTable of the OR nodes.  We need the count
                 // of Or's in order to first generate the allocateQualArray()
                 // call, then we walk the list assigning each of the OR's to
                 // entries in the array in generateSingleQualifierCode().
-                ArrayList a_list = new ArrayList();
+                FastTable a_list = new FastTable();
 
                 QueryTreeNode node = pred.getAndNode().getLeftOperand();
 

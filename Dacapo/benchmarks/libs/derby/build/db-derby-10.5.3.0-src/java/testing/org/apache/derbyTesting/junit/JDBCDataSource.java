@@ -22,7 +22,7 @@ package org.apache.derbyTesting.junit;
 import java.lang.reflect.Method;
 import java.security.AccessController;
 import java.sql.SQLException;
-import java.util.HashMap;
+import javolution.util.FastMap;
 import java.util.Iterator;
 
 import junit.framework.Assert;
@@ -42,7 +42,7 @@ public class JDBCDataSource {
      */
     public static javax.sql.DataSource getDataSource()
     {
-        return getDataSource(TestConfiguration.getCurrent(), (HashMap) null);
+        return getDataSource(TestConfiguration.getCurrent(), (FastMap) null);
     }
     
     /**
@@ -86,7 +86,7 @@ public class JDBCDataSource {
      * TestConfiguration.openDefaultConnection().
      */
     static javax.sql.DataSource getDataSource(TestConfiguration config,
-            HashMap beanProperties)
+            FastMap beanProperties)
     {
         return (javax.sql.DataSource) getDataSource(config,
             beanProperties, config.getJDBCClient().getDataSourceClassName());
@@ -98,7 +98,7 @@ public class JDBCDataSource {
      * source class name.
      */
     static Object getDataSource(TestConfiguration config,
-        HashMap beanProperties, String dsClassName)
+        FastMap beanProperties, String dsClassName)
     {
         if (beanProperties == null)
              beanProperties = getDataSourceProperties(config);
@@ -108,12 +108,12 @@ public class JDBCDataSource {
     }
     
     /**
-     * Create a HashMap with the set of Derby DataSource
+     * Create a FastMap with the set of Derby DataSource
      * Java bean properties corresponding to the configuration.
      */
-    static HashMap getDataSourceProperties(TestConfiguration config) 
+    static FastMap getDataSourceProperties(TestConfiguration config) 
     {
-        HashMap beanProperties = new HashMap();
+        FastMap beanProperties = new FastMap();
         
         if (!config.getJDBCClient().isEmbedded()) {
             beanProperties.put("serverName", config.getHostName());
@@ -137,7 +137,7 @@ public class JDBCDataSource {
      * If a thread context class loader exists then it is used
      * to try and load the class.
      */
-    static Object getDataSourceObject(String classname, HashMap beanProperties)
+    static Object getDataSourceObject(String classname, FastMap beanProperties)
     {
         ClassLoader contextLoader =
             (ClassLoader) AccessController.doPrivileged

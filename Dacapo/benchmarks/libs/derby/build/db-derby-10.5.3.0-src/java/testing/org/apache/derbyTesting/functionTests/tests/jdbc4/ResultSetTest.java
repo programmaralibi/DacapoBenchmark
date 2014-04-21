@@ -39,7 +39,7 @@ import java.io.Reader;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
+import javolution.util.FastMap;
 import org.apache.derbyTesting.functionTests.util.SQLStateConstants;
 
 import junit.framework.Test;
@@ -1642,9 +1642,9 @@ public class ResultSetTest
             rs.close();
 
             // maps method name to parameter list
-            HashMap<String, Class[]> params = new HashMap<String, Class[]>();
+            FastMap<String, Class[]> params = new FastMap<String, Class[]>();
             // maps method name to argument list
-            HashMap<String, Object[]> args = new HashMap<String, Object[]>();
+            FastMap<String, Object[]> args = new FastMap<String, Object[]>();
 
             // methods with no parameters
             String[] zeroArgMethods = {

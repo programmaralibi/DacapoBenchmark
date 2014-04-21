@@ -23,7 +23,7 @@ package org.apache.derby.client.am.stmtcache;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.LinkedHashMap;
+import java.util.FastMap;
 import java.util.Map;
 import org.apache.derby.shared.common.sanity.SanityManager;
 
@@ -53,7 +53,7 @@ public final class JDBCStatementCache {
 
     /** Structure holding the cached prepared statement objects. */
     //@GuardedBy("this");
-    private final LinkedHashMap statements;
+    private final FastMap statements;
 
     /**
      * Creates a new, empty JDBC statement cache.
@@ -67,7 +67,7 @@ public final class JDBCStatementCache {
             throw new IllegalArgumentException("maxSize must be positive: " +
                     maxSize);
         }
-        this.statements = new BoundedLinkedHashMap(maxSize);
+        this.statements = new BoundedFastMap(maxSize);
     }
 
     /**
@@ -111,26 +111,26 @@ public final class JDBCStatementCache {
     }
 
     /**
-     * A {@link LinkedHashMap} with an upper bound on the number of entries.
+     * A {@link FastMap} with an upper bound on the number of entries.
      * <p>
      * If the maximum size is exceeded, the oldest entry is automatically
      * removed after the new entry has been inserted.
      */
     //@NotThreadSafe
-    private static class BoundedLinkedHashMap extends LinkedHashMap {
+    private static class BoundedFastMap extends FastMap {
 
         /** Maximum number of entries. */
         private final int maxSize;
 
         /**
-         * Creates a bounded {@link LinkedHashMap} with the specified maximum
+         * Creates a bounded {@link FastMap} with the specified maximum
          * size.
          * <p>
          * Iteration is by insertion-order.
          *
          * @param maxCapacity maximum size of the map
          */
-        public BoundedLinkedHashMap(int maxCapacity) {
+        public BoundedFastMap(int maxCapacity) {
             super();
             this.maxSize = maxCapacity;
         }
@@ -162,5 +162,5 @@ public final class JDBCStatementCache {
             }
             return remove;
         }
-    } // End inner class BoundedLinkedHashMap
+    } // End inner class BoundedFastMap
 } // End JDBCStatementCache

@@ -26,7 +26,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.MessageFormat;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import javax.xml.parsers.*;
 import org.w3c.dom.*;
 
@@ -138,7 +138,7 @@ public class MessageBuilder extends Task
         
         private         FileWriter   _fw;
         private         PrintWriter _pw;
-        private         ArrayList    _tagStack;
+        private         FastTable    _tagStack;
 
         /**
          * <p>
@@ -163,7 +163,7 @@ public class MessageBuilder extends Task
             _vacuous = false;
             _fw = new FileWriter( file );
             _pw = new PrintWriter( _fw );
-            _tagStack = new ArrayList();
+            _tagStack = new FastTable();
         }
 
         public  void    flush() throws IOException

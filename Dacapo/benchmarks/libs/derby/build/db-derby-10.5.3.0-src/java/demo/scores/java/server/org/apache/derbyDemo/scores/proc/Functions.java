@@ -153,7 +153,7 @@ public class Functions
         Logger              log = Logger.getLogger();
         boolean             loggingEnabled = log.isLoggingEnabled();
         Median              median = new Median();
-        ArrayList           arraylist = new ArrayList();
+        FastTable           FastTable = new FastTable();
         Connection          conn = getDefaultConnection();
 
         try {
@@ -174,7 +174,7 @@ public class Functions
             
             while( rs.next() )
             {
-                arraylist.add(new Double(rs.getDouble(1)));
+                FastTable.add(new Double(rs.getDouble(1)));
             }
             
             Utils.close(rs);
@@ -185,11 +185,11 @@ public class Functions
             log.enableLogging( loggingEnabled );
         }
 
-        int                 count = arraylist.size();
+        int                 count = FastTable.size();
         double              values[] = new double[ count ];
 
         for ( int i = 0; i < count; i++)
-        { values[ i ] = ((Double)arraylist.get(i)).doubleValue(); }
+        { values[ i ] = ((Double)FastTable.get(i)).doubleValue(); }
 
         return median.evaluate( values );
     }

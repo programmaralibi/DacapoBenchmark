@@ -30,7 +30,7 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.Properties;
 
 import junit.extensions.TestSetup;
@@ -275,7 +275,7 @@ public class SecureServerTest extends BaseJDBCTestCase
      */
     private static  String[]    getStartupArgs( boolean setUnsecureOption, String wildCardHost )
     {
-        ArrayList       list = new ArrayList();
+        FastTable       list = new FastTable();
 
         if ( setUnsecureOption )
         {
@@ -302,7 +302,7 @@ public class SecureServerTest extends BaseJDBCTestCase
      */
     private static  String[]  getStartupProperties( boolean authenticationRequired, String customDerbyProperties )
     {
-        ArrayList       list = new ArrayList();
+        FastTable       list = new FastTable();
 
         if ( authenticationRequired )
         {

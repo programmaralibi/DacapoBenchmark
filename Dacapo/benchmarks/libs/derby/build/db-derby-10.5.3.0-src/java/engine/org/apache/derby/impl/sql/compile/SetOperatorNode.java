@@ -41,7 +41,7 @@ import org.apache.derby.iapi.types.StringDataValue;
 
 import org.apache.derby.iapi.util.JBitSet;
 
-import java.util.HashMap;
+import javolution.util.FastMap;
 
 /**
  * A SetOperatorNode represents a UNION, INTERSECT, or EXCEPT in a DML statement. Binding and optimization
@@ -72,8 +72,8 @@ abstract class SetOperatorNode extends TableOperatorNode
 
 	// Mapping of original predicates to scoped predicates, used to
 	// avoid re-scoping predicates unnecessarily.
-	private HashMap leftScopedPreds;
-	private HashMap rightScopedPreds;
+	private FastMap leftScopedPreds;
+	private FastMap rightScopedPreds;
 
 	/**
 	 * Initializer for a SetOperatorNode.
@@ -389,7 +389,7 @@ abstract class SetOperatorNode extends TableOperatorNode
 		// and if so just use that.
 		Predicate scopedPred = null;
 		if (leftScopedPreds == null)
-			leftScopedPreds = new HashMap();
+			leftScopedPreds = new FastMap();
 		else
 			scopedPred = (Predicate)leftScopedPreds.get(pred);
 		if (scopedPred == null)
@@ -404,7 +404,7 @@ abstract class SetOperatorNode extends TableOperatorNode
 
 		scopedPred = null;
 		if (rightScopedPreds == null)
-			rightScopedPreds = new HashMap();
+			rightScopedPreds = new FastMap();
 		else
 			scopedPred = (Predicate)rightScopedPreds.get(pred);
 		if (scopedPred == null)

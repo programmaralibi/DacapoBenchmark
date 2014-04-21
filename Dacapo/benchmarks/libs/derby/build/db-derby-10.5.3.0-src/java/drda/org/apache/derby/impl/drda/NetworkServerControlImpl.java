@@ -52,7 +52,7 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.SQLWarning;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Properties;
@@ -297,7 +297,7 @@ public final class NetworkServerControlImpl {
 	private NetworkServerControlImpl serverInstance;
 	private LocalizedResource langUtil;
 	public String clientLocale;
-	ArrayList  localAddresses; // list of local addresses for checking admin
+	FastTable  localAddresses; // list of local addresses for checking admin
 	                              // commands. 
 
 	// open sessions
@@ -2546,7 +2546,7 @@ public final class NetworkServerControlImpl {
 	 **/
 	private void buildLocalAddressList(InetAddress bindAddr) 
 	{
-			localAddresses = new ArrayList(3);
+			localAddresses = new FastTable(3);
 			localAddresses.add(bindAddr);
 			try {
 				localAddresses.add(InetAddress.getLocalHost());

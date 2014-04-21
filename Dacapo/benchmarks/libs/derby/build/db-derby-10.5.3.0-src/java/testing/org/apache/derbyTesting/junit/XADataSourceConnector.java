@@ -21,7 +21,7 @@ package org.apache.derbyTesting.junit;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.HashMap;
+import javolution.util.FastMap;
 
 import javax.sql.XADataSource;
 
@@ -47,7 +47,7 @@ public class XADataSourceConnector implements Connector {
     public void setConfiguration(TestConfiguration config) {
         
         this.config = config;
-        ds = J2EEDataSource.getXADataSource(config, (HashMap) null);
+        ds = J2EEDataSource.getXADataSource(config, (FastMap) null);
     }
 
     public Connection openConnection() throws SQLException {
@@ -138,7 +138,7 @@ public class XADataSourceConnector implements Connector {
      */
     private XADataSource singleUseDS(String property, String value)
        throws SQLException {
-        HashMap hm = JDBCDataSource.getDataSourceProperties(config);
+        FastMap hm = JDBCDataSource.getDataSourceProperties(config);
         hm.put(property, value);
         XADataSource sds = J2EEDataSource.getXADataSource(config, hm);
         return sds;

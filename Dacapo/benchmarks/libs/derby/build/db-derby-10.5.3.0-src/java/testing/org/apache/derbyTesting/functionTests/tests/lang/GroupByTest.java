@@ -26,7 +26,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
 
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
@@ -2106,7 +2106,7 @@ public class GroupByTest extends BaseJDBCTestCase {
                                         Collection rows2,
                                         boolean all) {
         Collection bagOrSet = newBagOrSet(all);
-        List copyOfRows2 = new ArrayList(rows2);
+        List copyOfRows2 = new FastTable(rows2);
         // could use retainAll() for sets, but need other behaviour for bags
         for (Iterator it = rows1.iterator(); it.hasNext(); ) {
             Object x = it.next();
@@ -2126,7 +2126,7 @@ public class GroupByTest extends BaseJDBCTestCase {
      */
     private static Collection newBagOrSet(boolean bag) {
         if (bag) {
-            return new ArrayList();
+            return new FastTable();
         } else {
             return new HashSet();
         }
@@ -2160,7 +2160,7 @@ public class GroupByTest extends BaseJDBCTestCase {
      * @return the values of {@code results} in a list of lists
      */
     private static List resultArrayToList(String[][] results) {
-        ArrayList rows = new ArrayList(results.length);
+        FastTable rows = new FastTable(results.length);
         for (int i = 0; i < results.length; i++) {
             rows.add(Arrays.asList(results[i]));
         }

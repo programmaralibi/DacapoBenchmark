@@ -366,12 +366,12 @@ public class NetStatementReply extends NetPackageReply implements StatementReply
         // Result Set Reply Message, SQLCARD or SQLDTARD, and an SQL Result Set
         // Reply data object.  Also check for possible TYPDEF overrides before the
         // OBJDSSs.
-        // This method returns an ArrayList of generated sections which contain the
+        // This method returns an FastTable of generated sections which contain the
         // package and section information for the result sets which were opened on the
         // server.
 
         // the result set summary component consists of a result set reply message.
-        java.util.ArrayList sectionAL = parseRSLSETRM();
+        javolution.util.FastTable sectionAL = parseRSLSETRM();
 
         // following the RSLSETRM is an SQLCARD or an SQLDTARD.  check for a
         // TYPDEFNAM or TYPDEFOVR before looking for these objects.
@@ -1136,11 +1136,11 @@ public class NetStatementReply extends NetPackageReply implements StatementReply
     //   SVRCOD - required  (0 INFO)
     //   PKGSNLST - required
     //   SRVDGN - optional
-    protected java.util.ArrayList parseRSLSETRM() throws DisconnectException {
+    protected javolution.util.FastTable parseRSLSETRM() throws DisconnectException {
         boolean svrcodReceived = false;
         int svrcod = CodePoint.SVRCOD_INFO;
         boolean pkgsnlstReceived = false;
-        java.util.ArrayList pkgsnlst = null;
+        javolution.util.FastTable pkgsnlst = null;
 
         parseLengthAndMatchCodePoint(CodePoint.RSLSETRM);
         pushLengthOnCollectionStack();
@@ -1802,9 +1802,9 @@ public class NetStatementReply extends NetPackageReply implements StatementReply
     // RDB Package Namce, Consistency Token, and Section Number List
     // specifies a list of fully qualified names of specific sections
     // within one or more packages.
-    protected java.util.ArrayList parsePKGSNLST() throws DisconnectException {
+    protected javolution.util.FastTable parsePKGSNLST() throws DisconnectException {
         Object pkgnamcsn = null;
-        java.util.ArrayList pkgsnlst = new java.util.ArrayList(); // what default size should we use
+        javolution.util.FastTable pkgsnlst = new javolution.util.FastTable(); // what default size should we use
 
         parseLengthAndMatchCodePoint(CodePoint.PKGSNLST);
         pushLengthOnCollectionStack();
@@ -1822,7 +1822,7 @@ public class NetStatementReply extends NetPackageReply implements StatementReply
         return parseSQLDARDarray(columnMetaData, skipBytes);
     }
 
-    protected int parseSQLRSLRD(java.util.ArrayList sectionAL) throws DisconnectException {
+    protected int parseSQLRSLRD(javolution.util.FastTable sectionAL) throws DisconnectException {
         parseLengthAndMatchCodePoint(CodePoint.SQLRSLRD);
         return parseSQLRSLRDarray(sectionAL);
     }
@@ -1922,7 +1922,7 @@ public class NetStatementReply extends NetPackageReply implements StatementReply
     // SQL Result Set Reply Data (SQLRSLRD) is a byte string that specifies
     // information about result sets returned as reply data in the response to
     // an EXCSQLSTT command that invokes a stored procedure
-    int parseSQLRSLRDarray(java.util.ArrayList sectionAL) throws DisconnectException {
+    int parseSQLRSLRDarray(javolution.util.FastTable sectionAL) throws DisconnectException {
         int numOfResultSets = parseSQLNUMROW();
         for (int i = 0; i < numOfResultSets; i++) {
             parseSQLRSROW((Section) sectionAL.get(i));

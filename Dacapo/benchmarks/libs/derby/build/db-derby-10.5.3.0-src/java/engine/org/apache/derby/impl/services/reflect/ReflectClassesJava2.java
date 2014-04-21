@@ -30,7 +30,7 @@ public final class ReflectClassesJava2 extends DatabaseClasses
 	implements java.security.PrivilegedAction
 {
 
-	private java.util.HashMap preCompiled;
+	private javolution.util.FastMap preCompiled;
 
 	private int action = -1;
 
@@ -39,7 +39,7 @@ public final class ReflectClassesJava2 extends DatabaseClasses
 		if (classDump == null || classDump.getArray() == null) {
 
 			if (preCompiled == null)
-				preCompiled = new java.util.HashMap();
+				preCompiled = new javolution.util.FastMap();
 			else
 			{
 				ReflectGeneratedClass gc = (ReflectGeneratedClass) preCompiled.get(fullyQualifiedName);

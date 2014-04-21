@@ -20,7 +20,7 @@
 package org.apache.derbyTesting.junit;
 
 import java.sql.*;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.Iterator;
 import java.util.List;
 
@@ -207,7 +207,7 @@ public class CleanDatabaseTestSetup extends BaseJDBCTestSetup {
         // different schemas.
         for (int count = 0; count < 5; count++) {
             // Fetch all the user schemas into a list
-            List schemas = new ArrayList();
+            List schemas = new FastTable();
             ResultSet rs = dmd.getSchemas();
             while (rs.next()) {
     

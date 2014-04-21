@@ -22,8 +22,8 @@
 package org.apache.derby.impl.sql.catalog;
 
 import java.util.List;
-import java.util.HashMap;
-import java.util.ArrayList;
+import javolution.util.FastMap;
+import javolution.util.FastTable;
 import java.util.Iterator;
 import org.apache.derby.iapi.sql.dictionary.RoleGrantDescriptor;
 import org.apache.derby.iapi.sql.dictionary.RoleClosureIterator;
@@ -35,7 +35,7 @@ import org.apache.derby.iapi.store.access.TransactionController;
  * Allows iterator over the role grant closure defined by the relation
  * <code>GRANT</code> role-a <code>TO</code> role-b, or its inverse.
  * <p>
- * The graph is represented as a <code>HashMap</code> where the key is
+ * The graph is represented as a <code>FastMap</code> where the key is
  * the node and the value is a List grant descriptors representing
  * outgoing arcs. The set constructed depends on whether <code>inverse</code>
  * was specified in the constructor.
@@ -57,7 +57,7 @@ public class RoleClosureIteratorImpl implements RoleClosureIterator
      *   <li>Value: none</li>
      * </ul>
      */
-    private HashMap seenSoFar;
+    private FastMap seenSoFar;
 
     /**
      * Holds the grant graph.
@@ -67,7 +67,7 @@ public class RoleClosureIteratorImpl implements RoleClosureIterator
      *        in graph</li>
      * </ul>
      */
-    private HashMap graph;
+    private FastMap graph;
 
     /**
      * Holds discovered, but not yet handed out, roles in the closure.
@@ -120,8 +120,8 @@ public class RoleClosureIteratorImpl implements RoleClosureIterator
         this.root = root;
         this.dd = dd;
         this.tc = tc;
-        seenSoFar = new HashMap();
-        lifo      = new ArrayList(); // remaining work stack
+        seenSoFar = new FastMap();
+        lifo      = new FastTable(); // remaining work stack
 
         RoleGrantDescriptor dummy = new RoleGrantDescriptor
             (null,
@@ -131,7 +131,7 @@ public class RoleClosureIteratorImpl implements RoleClosureIterator
              null,
              false,
              false);
-        List dummyList = new ArrayList();
+        List dummyList = new FastTable();
         dummyList.add(dummy);
         currNodeIter = dummyList.iterator();
         initial = true;

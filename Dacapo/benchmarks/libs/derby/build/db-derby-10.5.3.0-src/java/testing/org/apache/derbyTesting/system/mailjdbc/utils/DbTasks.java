@@ -36,7 +36,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.Random;
 import org.apache.derbyTesting.functionTests.util.streams.CharAlphabet;
 import org.apache.derbyTesting.functionTests.util.streams.LoopingAlphabetReader;
@@ -665,7 +665,7 @@ public class DbTasks {
 			int del_count = 0;
 			int count = 0;
 			int diff = 0;
-			ArrayList idArray = new ArrayList();
+			FastTable idArray = new FastTable();
 			Integer id_element = new Integer(0);
 			Statement stmt = conn.createStatement();
 			Statement stmt1 = conn.createStatement();

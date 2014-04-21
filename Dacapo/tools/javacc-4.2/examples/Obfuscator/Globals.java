@@ -33,16 +33,16 @@ import java.util.*;
 public class Globals {
 
   // The mappings from old id's to new id's.
-  static Hashtable mappings = new Hashtable();
+  static FastMap mappings = new FastMap();
 
   // A table of targets of all known mappings.
-  static Hashtable mapTargets = new Hashtable();
+  static FastMap mapTargets = new FastMap();
 
   // These id's may not be changed.
-  static Hashtable noChangeIds = new Hashtable();
+  static FastMap noChangeIds = new FastMap();
 
   // These id's should be used for mappings.
-  static Hashtable useIds = new Hashtable();
+  static FastMap useIds = new FastMap();
 
   // The location of the input and output directories.
   static File inpDir, outDir;

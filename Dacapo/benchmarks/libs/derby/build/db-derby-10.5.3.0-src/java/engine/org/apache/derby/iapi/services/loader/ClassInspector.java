@@ -30,7 +30,7 @@ import org.apache.derby.iapi.reference.SQLState;
 import java.lang.reflect.*;
 import java.util.StringTokenizer;
 import java.util.List;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.NoSuchElementException;
 import java.util.Collections;
 

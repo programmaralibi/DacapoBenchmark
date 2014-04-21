@@ -22,7 +22,7 @@
 package org.apache.derby.impl.sql.execute;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
@@ -1460,7 +1460,7 @@ class AlterTableConstantAction extends DDLSingleTableConstantAction
         // drop any generated columns which reference this column
         ColumnDescriptorList    generatedColumnList = td.getGeneratedColumns();
         int                                 generatedColumnCount = generatedColumnList.size();
-        ArrayList                   cascadedDroppedColumns = new ArrayList();
+        FastTable                   cascadedDroppedColumns = new FastTable();
         for ( int i = 0; i < generatedColumnCount; i++ )
         {
             ColumnDescriptor    generatedColumn = generatedColumnList.elementAt( i );
@@ -1620,7 +1620,7 @@ class AlterTableConstantAction extends DDLSingleTableConstantAction
 		ConstraintDescriptorList csdl = dd.getConstraintDescriptors(td);
 		int csdl_size = csdl.size();
 
-		ArrayList newCongloms = new ArrayList();
+		FastTable newCongloms = new FastTable();
 
 		// we want to remove referenced primary/unique keys in the second
 		// round.  This will ensure that self-referential constraints will
@@ -2592,7 +2592,7 @@ class AlterTableConstantAction extends DDLSingleTableConstantAction
 		numIndexes = compressIRGs.length;
 		indexConglomerateNumbers = indexLister.getIndexConglomerateNumbers();
 
-		ArrayList newCongloms = new ArrayList();
+		FastTable newCongloms = new FastTable();
 		if (! (compressTable || truncateTable))		// then it's drop column
 		{
 			for (int i = 0; i < compressIRGs.length; i++)
@@ -2737,7 +2737,7 @@ class AlterTableConstantAction extends DDLSingleTableConstantAction
 	 *   be updated to have the conglomerate number of the newly-created
 	 *   physical conglomerate.
 	 */
-	private void createNewBackingCongloms(ArrayList newConglomActions,
+	private void createNewBackingCongloms(FastTable newConglomActions,
 		long [] ixCongNums, Activation activation, DataDictionary dd)
 		throws StandardException
 	{

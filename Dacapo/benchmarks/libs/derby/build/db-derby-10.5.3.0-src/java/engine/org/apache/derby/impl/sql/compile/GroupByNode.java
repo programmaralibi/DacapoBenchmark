@@ -23,7 +23,7 @@ package	org.apache.derby.impl.sql.compile;
 
 import java.util.Iterator;
 import java.util.Vector;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.Comparator;
 import java.util.Collections;
 
@@ -346,15 +346,15 @@ public class GroupByNode extends SingleChildResultSetNode
 	 *
 	 * @see #addNewColumnsForAggregation
 	 */
-	private ArrayList addUnAggColumns() throws StandardException
+	private FastTable addUnAggColumns() throws StandardException
 	{
 		ResultColumnList bottomRCL  = childResult.getResultColumns();
 		ResultColumnList groupByRCL = resultColumns;
 
-		ArrayList referencesToSubstitute = new ArrayList();
-		ArrayList havingRefsToSubstitute = null;
+		FastTable referencesToSubstitute = new FastTable();
+		FastTable havingRefsToSubstitute = null;
 		if (havingClause != null)
-			havingRefsToSubstitute = new ArrayList();
+			havingRefsToSubstitute = new FastTable();
 		int sz = groupingList.size();
 		for (int i = 0; i < sz; i++) 
 		{
@@ -543,7 +543,7 @@ public class GroupByNode extends SingleChildResultSetNode
 		throws StandardException
 	{
 		aggInfo = new AggregatorInfoList();
-		ArrayList havingRefsToSubstitute = null;
+		FastTable havingRefsToSubstitute = null;
 
 		if (groupingList != null)
 		{

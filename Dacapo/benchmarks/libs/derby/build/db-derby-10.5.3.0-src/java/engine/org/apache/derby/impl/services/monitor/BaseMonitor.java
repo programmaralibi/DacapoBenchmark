@@ -80,7 +80,7 @@ import java.io.PrintStream;
 
 import java.util.Collections;
 import java.util.Hashtable;
-import java.util.HashMap;
+import javolution.util.FastMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
@@ -116,7 +116,7 @@ abstract class BaseMonitor
 	/**
 		Hash table of objects that implement PersistentService keyed by their getType() method.
 	*/
-	private HashMap serviceProviders = new HashMap();
+	private FastMap serviceProviders = new FastMap();
 
 	// Vector of class objects of implementations, found in the System, application
 	// and default (modules.properties) properties
@@ -1687,7 +1687,7 @@ nextModule:
         return (String) storageFactories.get( subSubProtocol);
     } // end of getStorageFactoryClassName
 
-    private static final HashMap storageFactories = new HashMap();
+    private static final FastMap storageFactories = new FastMap();
     static {
 		String dirStorageFactoryClass;
 		if( !JVMInfo.J2ME && (JVMInfo.JDK_ID >= JVMInfo.J2SE_14) )

@@ -24,7 +24,7 @@ package org.apache.derbyTesting.functionTests.tests.management;
 import java.io.IOException;
 import java.security.AccessController;
 import java.security.PrivilegedExceptionAction;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.Hashtable;
 import java.util.Set;
 
@@ -138,7 +138,7 @@ abstract class MBeanTest extends BaseJDBCTestCase {
      */
     protected static String[] getCommandLineProperties(boolean authentication)
     {
-        ArrayList<String> list = new ArrayList<String>();
+        FastTable<String> list = new FastTable<String>();
         list.add("com.sun.management.jmxremote.port=" 
                 + TestConfiguration.getCurrent().getJmxPort());
         list.add("com.sun.management.jmxremote.authenticate=" +

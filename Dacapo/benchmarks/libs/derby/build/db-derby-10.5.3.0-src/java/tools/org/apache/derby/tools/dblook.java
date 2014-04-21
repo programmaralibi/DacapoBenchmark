@@ -33,9 +33,9 @@ import java.sql.SQLException;
 import java.sql.SQLWarning;
 import java.sql.Timestamp;
 
-import java.util.HashMap;
+import javolution.util.FastMap;
 import java.util.StringTokenizer;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 
 import org.apache.derby.iapi.tools.i18n.LocalizedResource;
 
@@ -63,15 +63,15 @@ public final class dblook {
 
 	// Mappings from id to name for schemas and tables (for ease
 	// of reference).
-	private static HashMap schemaMap;
-	private static HashMap tableIdToNameMap;
+	private static FastMap schemaMap;
+	private static FastMap tableIdToNameMap;
 
 	// Command-line Parameters.
 	private static String sourceDBUrl;
 	private static String ddlFileName;
 	private static String stmtDelimiter;
 	private static boolean appendLogs;
-	private static ArrayList tableList;
+	private static FastTable tableList;
 	private static String schemaParam;
 	private static String targetSchema;
 	private static boolean skipViews;
@@ -134,8 +134,8 @@ public final class dblook {
 			return;
 		}
 
-		schemaMap = new HashMap();
-		tableIdToNameMap = new HashMap();
+		schemaMap = new FastMap();
+		tableIdToNameMap = new FastMap();
 
 		// Now run the utility.
 		go();
@@ -431,7 +431,7 @@ public final class dblook {
 
 		int argIndex = start;
 		int count = 0;
-		tableList = new ArrayList();
+		tableList = new FastTable();
 		while (argIndex < args.length) {
 
 			if (((args[argIndex].length() > 0) && (args[argIndex].charAt(0) == '-')) ||

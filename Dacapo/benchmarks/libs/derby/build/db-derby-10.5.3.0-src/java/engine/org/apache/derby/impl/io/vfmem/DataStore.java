@@ -23,8 +23,8 @@ package org.apache.derby.impl.io.vfmem;
 
 import java.io.File;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import javolution.util.FastTable;
+import javolution.util.FastMap;
 import java.util.Map;
 import java.util.Iterator;
 
@@ -54,7 +54,7 @@ public final class DataStore {
      * The initial size is set to the number of initial files of a Derby
      * database, pluss a few more.
      */
-    private final Map files = new HashMap(80);
+    private final Map files = new FastMap(80);
 
     /** The name of the database this store serves. */
     private final String databaseName;
@@ -224,7 +224,7 @@ public final class DataStore {
         if (nPath.charAt(nPath.length() -1) != SEP) {
             nPath += SEP;
         }
-        ArrayList children = new ArrayList();
+        FastTable children = new FastTable();
         synchronized (LOCK) {
             Iterator paths = files.keySet().iterator();
             String candidate;
@@ -292,7 +292,7 @@ public final class DataStore {
         if (prefixPath.charAt(prefixPath.length() -1) != SEP) {
             prefixPath += SEP;
         }
-        ArrayList toDelete = new ArrayList();
+        FastTable toDelete = new FastTable();
         Iterator paths = files.keySet().iterator();
         // Find all the entries to delete.
         while (paths.hasNext()) {
@@ -334,7 +334,7 @@ public final class DataStore {
      * @return A list of parents.
      */
     private String[] getParentList(String path) {
-        ArrayList parents = new ArrayList();
+        FastTable parents = new FastTable();
         String parent = path;
         // Build the list of parents.
         while ((parent = new File(parent).getParent()) != null) {

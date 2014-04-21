@@ -19,7 +19,7 @@
  */
 package org.apache.derbyTesting.system.oe.test;
 
-import java.util.HashMap;
+import javolution.util.FastMap;
 
 import org.apache.derbyTesting.junit.BaseJDBCTestCase;
 import org.apache.derbyTesting.system.oe.client.Display;
@@ -73,7 +73,7 @@ public class OperationsTester extends BaseJDBCTestCase implements Display {
             short d = rand.district();
             int threshold = rand.threshold();
             
-            HashMap inputData = new HashMap();
+            FastMap inputData = new FastMap();
             inputData.put("d", new Short(d));
             inputData.put("threshold", new Integer(threshold));
             
@@ -101,7 +101,7 @@ public class OperationsTester extends BaseJDBCTestCase implements Display {
             short d = rand.district();
             int c = rand.NURand1023();
             
-            HashMap inputData = new HashMap();
+            FastMap inputData = new FastMap();
             inputData.put("d", new Short(d));
             inputData.put("c", new Integer(c));
 
@@ -118,7 +118,7 @@ public class OperationsTester extends BaseJDBCTestCase implements Display {
             short d = rand.district();
             String customerLast = rand.randomCLast();
             
-            HashMap inputData = new HashMap();
+            FastMap inputData = new FastMap();
             inputData.put("d", new Short(d));
             inputData.put("customerLast", customerLast);
 
@@ -195,7 +195,7 @@ public class OperationsTester extends BaseJDBCTestCase implements Display {
         if (displayData == null)
             return;
         
-        HashMap inputData = (HashMap) displayData;
+        FastMap inputData = (FastMap) displayData;
         assertEquals("sl:w", this.w, w);
         assertEquals("sl:d", ((Short) inputData.get("d")).shortValue(), d);
         assertEquals("sl:threshold", ((Integer) inputData.get("threshold")).intValue(), threshold);
@@ -211,7 +211,7 @@ public class OperationsTester extends BaseJDBCTestCase implements Display {
         if (displayData == null)
             return;
         
-        HashMap inputData = (HashMap) displayData;
+        FastMap inputData = (FastMap) displayData;
         assertEquals("os:w", this.w, customer.getWarehouse());
         assertEquals("os:d", ((Short) inputData.get("d")).shortValue(), customer.getDistrict());
         

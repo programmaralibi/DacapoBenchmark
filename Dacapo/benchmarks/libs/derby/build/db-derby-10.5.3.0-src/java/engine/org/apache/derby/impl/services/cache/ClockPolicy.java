@@ -21,7 +21,7 @@
 
 package org.apache.derby.impl.services.cache;
 
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.derby.iapi.error.StandardException;
@@ -51,7 +51,7 @@ import org.apache.derby.iapi.services.sanity.SanityManager;
  * used</li>
  *
  * <li>accesses to the clock structure (circular buffer + clock hand) should be
- * synchronized on the <code>ArrayList</code> representing the circular
+ * synchronized on the <code>FastTable</code> representing the circular
  * buffer</li>
  *
  * <li>accesses to individual <code>Holder</code> objects in the clock
@@ -102,7 +102,7 @@ final class ClockPolicy implements ReplacementPolicy {
      * cache. Accesses to <code>clock</code> and <code>hand</code> must be
      * synchronized on <code>clock</code>.
      */
-    private final ArrayList<Holder> clock;
+    private final FastTable<Holder> clock;
 
     /** The current position of the clock hand. */
     private int hand;
@@ -131,7 +131,7 @@ final class ClockPolicy implements ReplacementPolicy {
     ClockPolicy(ConcurrentCache cacheManager, int initialSize, int maxSize) {
         this.cacheManager = cacheManager;
         this.maxSize = maxSize;
-        clock = new ArrayList<Holder>(initialSize);
+        clock = new FastTable<Holder>(initialSize);
     }
 
     /**

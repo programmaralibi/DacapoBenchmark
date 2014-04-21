@@ -41,7 +41,7 @@ import org.apache.derby.iapi.sql.dictionary.SchemaDescriptor;
 import org.apache.derby.iapi.sql.dictionary.TupleDescriptor;
 import org.apache.derby.iapi.sql.dictionary.ViewDescriptor;
 
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.List;
 
 /**
@@ -145,7 +145,7 @@ public class TablePrivilegesNode extends QueryTreeNode
 		ViewDescriptor vd = dd.getViewDescriptor(td);
 		DependencyManager dm = dd.getDependencyManager();
 		ProviderInfo[] pis = dm.getPersistentProviderInfos(vd);
-		this.descriptorList = new ArrayList();
+		this.descriptorList = new FastTable();
 					
 		int siz = pis.length;
 		for (int i=0; i < siz; i++) 

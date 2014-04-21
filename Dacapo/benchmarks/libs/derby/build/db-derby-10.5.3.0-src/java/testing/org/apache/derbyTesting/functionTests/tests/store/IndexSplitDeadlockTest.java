@@ -24,7 +24,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.Iterator;
 import java.util.List;
 import junit.framework.Test;
@@ -47,7 +47,7 @@ public class IndexSplitDeadlockTest extends BaseJDBCTestCase {
     /**
      * List of threads (AsyncThread objects) to wait for after running the test.
      */
-    private List threads = new ArrayList();
+    private List threads = new FastTable();
 
     public IndexSplitDeadlockTest(String name) {
         super(name);

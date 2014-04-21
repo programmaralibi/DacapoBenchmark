@@ -28,7 +28,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.DatabaseMetaData;
 
-import java.util.HashMap;
+import javolution.util.FastMap;
 import org.apache.derby.tools.dblook;
 
 public class DB_Alias {

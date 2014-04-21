@@ -22,7 +22,7 @@ limitations under the License.
 package org.apache.derbyTesting.functionTests.tests.jdbcapi;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.Hashtable;
 
 import javax.naming.Context;
@@ -146,7 +146,7 @@ public class XAJNDITest extends BaseJDBCTestCase {
      */
     private static String[] getPropertyBeanList(Object ds) {
         Method[] allMethods = ds.getClass().getMethods();
-        ArrayList properties = new ArrayList();
+        FastTable properties = new FastTable();
 
         for (int i = 0; i < allMethods.length; i++) {
             Method method = allMethods[i];

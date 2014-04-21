@@ -21,7 +21,7 @@
 
 package org.apache.derby.ui.popup.actions;
 
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.List;
 
 import org.apache.derby.ui.common.CommonNames;
@@ -116,7 +116,7 @@ public class AddDerbyNature implements IObjectActionDelegate
             IClasspathEntry[] rawClasspath = currentJavaProject
                     .getRawClasspath();
 
-            List<IClasspathEntry> newEntries = new ArrayList<IClasspathEntry>(rawClasspath.length+1);            
+            List<IClasspathEntry> newEntries = new FastTable<IClasspathEntry>(rawClasspath.length+1);            
             for(IClasspathEntry e: rawClasspath) {
             	newEntries.add(e);
             }            

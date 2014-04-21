@@ -38,7 +38,7 @@ import java.io.ObjectInput;
 import java.io.IOException;
 import java.sql.ResultSetMetaData;
 import java.util.Collections;
-import java.util.HashMap;
+import javolution.util.FastMap;
 import java.util.Map;
 
 /**
@@ -252,7 +252,7 @@ public final class GenericResultDescription
                 // updateXXX and getXXX methods are case insensitive and the 
                 // first column should be returned. The loop goes backward to 
                 // create a map which preserves this property.
-                Map map = new HashMap();
+                Map map = new FastMap();
                 for (int i = getColumnCount(); i>=1; i--) {
                     
                     final String key = StringUtil.

@@ -25,7 +25,7 @@ import java.util.Vector;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.List;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 
 public class ijTokenManager implements ijConstants
 {

@@ -28,7 +28,7 @@ import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.DriverManager;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import org.apache.derby.iapi.util.StringUtil;
@@ -67,7 +67,7 @@ public class GeneratedColumnsTest extends GeneratedColumnsHelper
 
     private static  int _minusCounter;
 
-    private static  ArrayList   _triggerReports = new ArrayList();
+    private static  FastTable   _triggerReports = new FastTable();
 
     private String  _clearingProcName;
     private String  _triggerReportVTIName;

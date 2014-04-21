@@ -23,7 +23,7 @@ package org.apache.derby.ui.container;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -45,7 +45,7 @@ public class DerbyClasspathContainer implements IClasspathContainer {
     private IClasspathEntry[] _entries;
    
     public DerbyClasspathContainer() {
-        List<IClasspathEntry> entries = new ArrayList<IClasspathEntry>();
+        List<IClasspathEntry> entries = new FastTable<IClasspathEntry>();
         Bundle bundle = Platform.getBundle(CommonNames.CORE_PATH);
         Enumeration en = bundle.findEntries("/", "*.jar", true);
         String rootPath = null;

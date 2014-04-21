@@ -35,7 +35,7 @@ import java.sql.Statement;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.sql.Types;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -124,7 +124,7 @@ public class TriggerTest extends BaseJDBCTestCase {
         
         int triggerCount = createRandomTriggers()[0];
         
-        List info = new ArrayList();
+        List info = new FastTable();
         TRIGGER_INFO.set(info);
         
         // Check ordering with a single row.
@@ -277,7 +277,7 @@ public class TriggerTest extends BaseJDBCTestCase {
         
         int beforeCount = createRandomTriggers()[1];
         
-        List info = new ArrayList();
+        List info = new FastTable();
         TRIGGER_INFO.set(info);
         
         // constraint violation on primary key

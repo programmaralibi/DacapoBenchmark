@@ -84,7 +84,7 @@ public class ColumnMetaData implements java.sql.ResultSetMetaData {
     // For performance only, not part of logical model.
     public transient int[][] protocolTypesCache_ = null;
     public transient java.util.Hashtable protocolTypeToOverrideLidMapping_ = null;
-    public transient java.util.ArrayList mddOverrideArray_ = null;
+    public transient javolution.util.FastTable mddOverrideArray_ = null;
 
     public transient int[] types_;
     public transient int[] clientParamtertype_;

@@ -37,7 +37,7 @@ import java.io.Writer;
 public class MyNode
 {
   /** Symbol table */
-  protected static java.util.Hashtable symtab = new java.util.Hashtable();
+  protected static javolution.util.FastMap symtab = new javolution.util.FastMap();
 
   /** Stack for calculations. */
   protected static Object[] stack = new Object[1024];

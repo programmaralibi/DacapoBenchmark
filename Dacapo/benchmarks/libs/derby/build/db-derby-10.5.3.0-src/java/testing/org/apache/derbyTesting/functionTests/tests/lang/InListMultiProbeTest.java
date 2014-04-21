@@ -27,7 +27,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.SQLException;
 
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.BitSet;
 import java.util.Collections;
 import java.util.Comparator;
@@ -239,7 +239,7 @@ public class InListMultiProbeTest extends BaseJDBCTestCase {
          */
         readAllRows(createStatement());
 
-        List strategies = new ArrayList();
+        List strategies = new FastTable();
         Random ran = new Random(2);
         Connection c = getConnection();
 
@@ -1039,7 +1039,7 @@ public class InListMultiProbeTest extends BaseJDBCTestCase {
             List list = (List) foreignIdToRowsMap.get(c.foreign_key_uuid);
             if (list == null)
             {
-                list = new ArrayList();
+                list = new FastTable();
                 foreignIdToRowsMap.put(c.foreign_key_uuid, list);
             }
             list.add(c);
@@ -1356,7 +1356,7 @@ public class InListMultiProbeTest extends BaseJDBCTestCase {
             throws SQLException
         {
             // This will be a list of String arrays.
-            List expected = new ArrayList(foreignIdToRowsMap.size());
+            List expected = new FastTable(foreignIdToRowsMap.size());
 
             // Search the in-memory map to find all expected rows.
             for (int i = 0; i < foreignIds.length; i++)

@@ -20,10 +20,10 @@
  */
 package org.apache.derbyTesting.system.mailjdbc.utils;
 /**
- * This class is used to keep the threads in an ArrayList and starts them 
+ * This class is used to keep the threads in an FastTable and starts them 
  * also checks whether the thread is alive or sleeping
  */
-import java.util.ArrayList;
+import javolution.util.FastTable;
 
 import org.apache.derbyTesting.system.mailjdbc.MailJdbc;
 import org.apache.derbyTesting.system.mailjdbc.tasks.Backup;
@@ -32,7 +32,7 @@ import org.apache.derbyTesting.system.mailjdbc.tasks.Purge;
 import org.apache.derbyTesting.system.mailjdbc.tasks.Refresh;
 
 public class ThreadUtils {
-	private static ArrayList userThreads = new ArrayList();
+	private static FastTable userThreads = new FastTable();
 
 	public static ThreadUtils util = new ThreadUtils();
 

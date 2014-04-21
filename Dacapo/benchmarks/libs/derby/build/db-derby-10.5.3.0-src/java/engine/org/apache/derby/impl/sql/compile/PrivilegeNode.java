@@ -34,7 +34,7 @@ import org.apache.derby.iapi.reference.SQLState;
 import org.apache.derby.impl.sql.execute.PrivilegeInfo;
 import org.apache.derby.catalog.TypeDescriptor;
 
-import java.util.HashMap;
+import javolution.util.FastMap;
 import java.util.List;
 
 /**
@@ -103,7 +103,7 @@ public class PrivilegeNode extends QueryTreeNode
      *
      * @exception StandardException	Standard error policy.
      */
-	public QueryTreeNode bind( HashMap dependencies, List grantees, boolean isGrant ) throws StandardException
+	public QueryTreeNode bind( FastMap dependencies, List grantees, boolean isGrant ) throws StandardException
 	{
         Provider dependencyProvider = null;
         SchemaDescriptor sd = null;

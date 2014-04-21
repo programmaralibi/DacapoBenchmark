@@ -28,7 +28,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashMap;
+import javolution.util.FastMap;
 import java.util.Hashtable;
 import javax.sql.DataSource;
 

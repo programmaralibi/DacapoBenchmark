@@ -28,7 +28,7 @@ import java.sql.Statement;
 
 import java.util.BitSet;
 import java.util.Enumeration;
-import java.util.HashMap;
+import javolution.util.FastMap;
 import java.util.Vector;
 
 import org.apache.derby.iapi.error.PublicAPI;
@@ -181,7 +181,7 @@ public class TestDiskHashtable
 
         boolean[] isDuplicate = new boolean[ rows.length];
         boolean[] found = new boolean[ rows.length];
-        HashMap simpleHash = new HashMap( rows.length);
+        FastMap simpleHash = new FastMap( rows.length);
 
         testElements( removeDups, dht, keyCols, 0, rows, simpleHash, isDuplicate, found);
 
@@ -317,7 +317,7 @@ public class TestDiskHashtable
                                int[] keyCols,
                                int rowCount,
                                DataValueDescriptor[][] rows,
-                               HashMap simpleHash,
+                               FastMap simpleHash,
                                boolean[] isDuplicate,
                                boolean[] found)
         throws StandardException

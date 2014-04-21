@@ -26,7 +26,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.Enumeration;
 import java.util.Properties;
 
@@ -44,9 +44,9 @@ import org.apache.derbyTesting.system.optimizer.utils.TestUtils;
 public  class GenericQuery {
 	protected String description="Custom Test Query";
 	protected Connection conn=null;
-	protected ArrayList queries=new ArrayList(); 
-	protected ArrayList prepStmtRunResults=new ArrayList(); //times using PreparedStatement
-	protected ArrayList stmtRunResults=new ArrayList(); //times using Statement
+	protected FastTable queries=new FastTable(); 
+	protected FastTable prepStmtRunResults=new FastTable(); //times using PreparedStatement
+	protected FastTable stmtRunResults=new FastTable(); //times using Statement
 	protected int[] rowsExpected=null; //add rows expected
 	
 	public void setConnection(Connection con){
@@ -139,16 +139,16 @@ public  class GenericQuery {
 			throw new SQLException("Failed query:\n "+query+"\n SQLState= "+sqe.getSQLState()+"\n ErrorCode= "+sqe.getErrorCode()+"\n Message= "+sqe.getMessage());
 		}
 	}
-	public ArrayList getPrepStmtRunResults() {
+	public FastTable getPrepStmtRunResults() {
 		return prepStmtRunResults;
 	}
-	public ArrayList getStmtRunResults() {
+	public FastTable getStmtRunResults() {
 		return stmtRunResults;
 	}
 	public int getRowsExpected(int index) {
 		return rowsExpected[index];
 	}
-	public ArrayList getQueries() {
+	public FastTable getQueries() {
 		return queries;
 	}
 	

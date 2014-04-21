@@ -55,8 +55,8 @@ public class NetCursor extends org.apache.derby.client.am.Cursor {
     boolean[] isGraphic_;
 
     // key = column position, value = index into extdtaData_
-    java.util.HashMap extdtaPositions_;
-    java.util.ArrayList extdtaData_; // queue to hold EXTDTA data that hasn't been correlated to its column #
+    javolution.util.FastMap extdtaPositions_;
+    javolution.util.FastTable extdtaData_; // queue to hold EXTDTA data that hasn't been correlated to its column #
 
 
     boolean rtnextrow_ = true;
@@ -74,8 +74,8 @@ public class NetCursor extends org.apache.derby.client.am.Cursor {
         netAgent_ = netAgent;
         numMddOverrides_ = 0;
         maximumRowSize_ = 0;
-        extdtaPositions_ = new java.util.HashMap();
-        extdtaData_ = new java.util.ArrayList();
+        extdtaPositions_ = new javolution.util.FastMap();
+        extdtaData_ = new javolution.util.FastTable();
     }
 
     NetCursor(NetAgent netAgent,
@@ -218,8 +218,8 @@ public class NetCursor extends org.apache.derby.client.am.Cursor {
             incrementRowsReadEvent();
 
             // netResultSet_ is null if this method is invoked from Lob.position()
-            // If row has exceeded the size of the ArrayList, new up a new int[] and add it to the
-            // ArrayList, otherwise just reuse the int[].
+            // If row has exceeded the size of the FastTable, new up a new int[] and add it to the
+            // FastTable, otherwise just reuse the int[].
             if (netResultSet_ != null && netResultSet_.scrollable_) {
                 columnDataPosition = allocateColumnDataPositionArray(rowIndex);
                 columnDataComputedLength = allocateColumnDataComputedLengthArray(rowIndex);

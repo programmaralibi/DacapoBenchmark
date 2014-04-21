@@ -35,10 +35,10 @@ import org.apache.derby.iapi.services.sanity.SanityManager;
 
 import org.apache.derby.catalog.UUID;
 
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.Iterator;
 
-public class GenericDescriptorList extends ArrayList
+public class GenericDescriptorList extends FastTable
 {
 	private boolean scanned;
 

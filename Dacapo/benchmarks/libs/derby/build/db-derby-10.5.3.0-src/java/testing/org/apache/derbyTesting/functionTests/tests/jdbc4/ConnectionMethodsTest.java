@@ -21,7 +21,7 @@
 
 package org.apache.derbyTesting.functionTests.tests.jdbc4;
 
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ParameterMetaData;
@@ -125,7 +125,7 @@ public class ConnectionMethodsTest extends BaseJDBCTestCase {
             throw (FileNotFoundException) e.getException();
         }
         OutputStream os = clob.setAsciiStream(1);
-        ArrayList beforeUpdateList = new ArrayList();
+        FastTable beforeUpdateList = new FastTable();
 
         c = is.read();
         while(c>0) {
@@ -146,7 +146,7 @@ public class ConnectionMethodsTest extends BaseJDBCTestCase {
 
         //Get the InputStream from this Clob.
         InputStream in = clob.getAsciiStream();
-        ArrayList afterUpdateList = new ArrayList();
+        FastTable afterUpdateList = new FastTable();
 
         b = in.read();
 
@@ -202,7 +202,7 @@ public class ConnectionMethodsTest extends BaseJDBCTestCase {
         }
 
         OutputStream os = blob.setBinaryStream(1);
-        ArrayList beforeUpdateList = new ArrayList();
+        FastTable beforeUpdateList = new FastTable();
 
         int actualLength = 0;
         c = is.read();
@@ -225,7 +225,7 @@ public class ConnectionMethodsTest extends BaseJDBCTestCase {
 
         //Get the InputStream from this Blob.
         InputStream in = blob.getBinaryStream();
-        ArrayList afterUpdateList = new ArrayList();
+        FastTable afterUpdateList = new FastTable();
 
         b = in.read();
 

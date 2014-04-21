@@ -28,7 +28,7 @@ import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.DriverManager;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import org.apache.derby.iapi.util.StringUtil;
@@ -351,12 +351,12 @@ public class GeneratedColumnsHelper extends BaseJDBCTestCase
 
     /**
      * <p>
-     * Fill an ArrayList from an array.
+     * Fill an FastTable from an array.
      * </p>
      */
-    protected ArrayList   fill( Object[] raw )
+    protected FastTable   fill( Object[] raw )
     {
-        ArrayList   result = new ArrayList();
+        FastTable   result = new FastTable();
         int             count = raw.length;
 
         for ( int i = 0; i < count; i++ ) { result.add( raw[ i ] ); }

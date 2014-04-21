@@ -27,7 +27,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.sql.Blob;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.List;
 import org.apache.derby.iapi.error.StandardException;
 import org.apache.derby.iapi.types.Resetable;
@@ -93,7 +93,7 @@ public abstract class InternalClobTest
             throws Exception {
         TestSuite suite = new TestSuite("Modifying InternalClob test suite");
         Method[] methods = theClass.getMethods();
-        List<String> testMethods = new ArrayList<String>();
+        List<String> testMethods = new FastTable<String>();
         for (int i=0; i < methods.length; i++) {
             Method m = methods[i];
             if (m.getReturnType().equals(Void.TYPE) &&

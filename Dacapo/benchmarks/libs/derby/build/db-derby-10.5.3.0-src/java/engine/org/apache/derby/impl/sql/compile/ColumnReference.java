@@ -87,7 +87,7 @@ public class ColumnReference extends ValueNode
 	/* List of saved remap data if this ColumnReference is scoped
 	   and has been remapped multiple times.
 	 */
-	private java.util.ArrayList remaps;
+	private javolution.util.FastTable remaps;
 
 	/**
 	 * Initializer.
@@ -655,7 +655,7 @@ public class ColumnReference extends ValueNode
 		if (scoped && (origSource != null))
 		{
 			if (remaps == null)
-				remaps = new java.util.ArrayList();
+				remaps = new javolution.util.FastTable();
 			remaps.add(new RemapInfo(
 				columnNumber, tableNumber, columnName, source));
 		}

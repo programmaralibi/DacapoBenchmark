@@ -28,7 +28,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.ResultSetMetaData;
 
-import java.util.HashMap;
+import javolution.util.FastMap;
 import java.util.Set;
 import java.util.Iterator;
 
@@ -52,7 +52,7 @@ public class DB_Table {
 	 *  to output via Logs.java.
 	 ****/
 
-	public static void doTables(Connection conn, HashMap tableIdToNameMap)
+	public static void doTables(Connection conn, FastMap tableIdToNameMap)
 		throws SQLException
 	{
 

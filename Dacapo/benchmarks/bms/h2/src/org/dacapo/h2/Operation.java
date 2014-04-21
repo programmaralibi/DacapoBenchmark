@@ -28,7 +28,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.List;
 
 import org.apache.derbyTesting.system.oe.client.Display;
@@ -146,7 +146,7 @@ public final class Operation extends Standard {
    */
   private final Warehouse warehouse = new Warehouse();
   private final District district = new District();
-  private final List nameList = new ArrayList();
+  private final List nameList = new FastTable();
 
   private void paymentById(Display display, Object displayData, short w, short d, short cw, short cd, int c, final String s_amount) throws Exception {
 

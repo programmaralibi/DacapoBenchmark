@@ -40,7 +40,7 @@ import java.nio.charset.Charset;
 import java.security.AccessController;
 import java.security.PrivilegedActionException;
 
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -625,8 +625,8 @@ public class ProtocolTest
         int synerrcd = 0;
         int codepoint;
         int reqVal;
-        ArrayList<Integer> manager = new ArrayList<Integer>();
-        ArrayList<Integer> managerLevel = new ArrayList<Integer>() ;
+        FastTable<Integer> manager = new FastTable<Integer>();
+        FastTable<Integer> managerLevel = new FastTable<Integer>() ;
         reader.readReplyDss();
         int error = reader.readLengthAndCodePoint( false );
         int reqCP = getCP(tkn);
@@ -873,7 +873,7 @@ public class ProtocolTest
         final String END_TEST = ProtocolTestGrammar.END_TEST.toCmdString();
         int currentLine = 1;
         int startLine = 1; // First line is line number one.
-        ArrayList<String> cmdLines = new ArrayList<String>();
+        FastTable<String> cmdLines = new FastTable<String>();
         StringBuilder str = new StringBuilder();
         String line;
         // Iterate until the end of test token is reached.

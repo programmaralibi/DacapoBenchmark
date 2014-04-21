@@ -23,7 +23,7 @@ package org.apache.derbyTesting.functionTests.tests.memory;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.Properties;
 
 /**
@@ -45,7 +45,7 @@ public class ConnectionHandling {
         conn.close();
         conn = null;
         
-        ArrayList list = new ArrayList();
+        FastTable list = new FastTable();
         list.ensureCapacity(30000);
         
         Properties p = new Properties();

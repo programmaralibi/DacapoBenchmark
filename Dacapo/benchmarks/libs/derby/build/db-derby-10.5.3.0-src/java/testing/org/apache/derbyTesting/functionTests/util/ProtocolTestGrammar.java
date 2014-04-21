@@ -20,7 +20,7 @@
  */
 package org.apache.derbyTesting.functionTests.util;
 
-import java.util.HashMap;
+import javolution.util.FastMap;
 import java.util.Locale;
 
 /**
@@ -113,8 +113,8 @@ public enum ProtocolTestGrammar {
     }
 
     /** Mapping from strings to commands. */
-    private static final HashMap<String,ProtocolTestGrammar> CMD_STRINGS =
-            new HashMap<String,ProtocolTestGrammar>();
+    private static final FastMap<String,ProtocolTestGrammar> CMD_STRINGS =
+            new FastMap<String,ProtocolTestGrammar>();
 
     static {
         // Create a mapping from strings to commands.

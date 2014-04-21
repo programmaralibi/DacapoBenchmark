@@ -32,10 +32,10 @@ import org.apache.derby.iapi.types.DataValueDescriptor;
 
 import org.apache.derby.iapi.services.cache.ClassSize;
 
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.Collections;
 import java.util.Enumeration;
-import java.util.HashMap;
+import javolution.util.FastMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties; 
@@ -112,7 +112,7 @@ public class BackingStoreHashtable
      **************************************************************************
      */
     private TransactionController tc;
-    private HashMap     hash_table;
+    private FastMap     hash_table;
     private int[]       key_column_numbers;
     private boolean     remove_duplicates;
 	private boolean		skipNullKeyColumns;
@@ -128,10 +128,10 @@ public class BackingStoreHashtable
     private boolean keepAfterCommit;
 
     /**
-     * The estimated number of bytes used by ArrayList(0)
+     * The estimated number of bytes used by FastTable(0)
      */  
     private final static int ARRAY_LIST_SIZE =
-        ClassSize.estimateBaseFromCatalog(ArrayList.class);
+        ClassSize.estimateBaseFromCatalog(FastTable.class);
     
     private DiskHashtable diskHashtable;
 
@@ -149,7 +149,7 @@ public class BackingStoreHashtable
      * constructor.  
      * <p>
      * If the number of rows is <= "max_inmemory_rowcnt", then the rows are
-     * inserted into a java.util.HashMap. In this case no
+     * inserted into a javolution.util.FastMap. In this case no
      * TransactionController is necessary, a "null" tc is valid.
      * <p>
      * If the number of rows is > "max_inmemory_rowcnt", then the rows will
@@ -162,12 +162,12 @@ public class BackingStoreHashtable
      * @param row_source        RowSource to read rows from.
      *
      * @param key_column_numbers The column numbers of the columns in the
-     *                          scan result row to be the key to the HashMap.
+     *                          scan result row to be the key to the FastMap.
      *                          "0" is the first column in the scan result
      *                          row (which may be different than the first
      *                          row in the table of the scan).
      *
-     * @param remove_duplicates Should the HashMap automatically remove
+     * @param remove_duplicates Should the FastMap automatically remove
      *                          duplicates, or should it create the list of
      *                          duplicates?
      *
@@ -179,9 +179,9 @@ public class BackingStoreHashtable
      *                          inmemory Hash table before overflowing to disk.
      *                          Pass in -1 if there is no maximum.
      *
-     * @param initialCapacity   If not "-1" used to initialize the java HashMap
+     * @param initialCapacity   If not "-1" used to initialize the java FastMap
      *
-     * @param loadFactor        If not "-1" used to initialize the java HashMap
+     * @param loadFactor        If not "-1" used to initialize the java FastMap
 	 *
 	 * @param skipNullKeyColumns	Skip rows with a null key column, if true.
      *
@@ -222,8 +222,8 @@ public class BackingStoreHashtable
         {
             hash_table = 
                 ((loadFactor == -1) ? 
-                     new HashMap(initialCapacity) :
-                     new HashMap(initialCapacity, loadFactor));
+                     new FastMap(initialCapacity) :
+                     new FastMap(initialCapacity, loadFactor));
         }
         else
         {
@@ -254,9 +254,9 @@ public class BackingStoreHashtable
              */
             hash_table = 
                 (((estimated_rowcnt <= 0) || (row_source == null)) ?
-                     new HashMap() :
+                     new FastMap() :
                      (estimated_rowcnt < max_inmemory_size) ?
-                         new HashMap((int) estimated_rowcnt) :
+                         new FastMap((int) estimated_rowcnt) :
                          null);
         }
 
@@ -282,7 +282,7 @@ public class BackingStoreHashtable
                     // capacity of the hash table.
                     double rowUsage = getEstimatedMemUsage(row);
                     hash_table =
-                        new HashMap((int)(max_inmemory_size / rowUsage));
+                        new FastMap((int)(max_inmemory_size / rowUsage));
                 }
                
                 add_row_to_hash_table(row, needsToClone);
@@ -297,7 +297,7 @@ public class BackingStoreHashtable
         // BackingStoreHashtable (ex. "size()") will have a working hash_table
         // on which to operate.
         if (hash_table == null)
-            hash_table = new HashMap();
+            hash_table = new FastMap();
     }
 
     /**************************************************************************
@@ -427,7 +427,7 @@ public class BackingStoreHashtable
                 else
                 {
                     // allocate list to hold duplicates
-                    row_vec = new ArrayList(2);
+                    row_vec = new FastTable(2);
 
                     // insert original row into vector
                     row_vec.add(duplicate_value);

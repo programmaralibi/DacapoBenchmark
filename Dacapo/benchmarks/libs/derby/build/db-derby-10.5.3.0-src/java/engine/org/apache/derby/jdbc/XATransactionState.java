@@ -35,7 +35,7 @@ import org.apache.derby.iapi.error.ExceptionSeverity;
 import org.apache.derby.iapi.error.StandardException;
 import org.apache.derby.iapi.store.access.xa.XAXactId;
 import org.apache.derby.iapi.reference.SQLState;
-import java.util.HashMap;
+import javolution.util.FastMap;
 import javax.transaction.xa.XAException;
 import org.apache.derby.shared.common.reference.MessageId;
 
@@ -66,7 +66,7 @@ final class XATransactionState extends ContextImpl {
 		the JTA spec. Note that while the transaction is suspended by this XAResource,
 		another XAResource may join the transaction and suspend it after the join.
 	*/
-	HashMap suspendedList;
+	FastMap suspendedList;
 
 
 	/**
@@ -279,7 +279,7 @@ final class XATransactionState extends ContextImpl {
 					throw new XAException(XAException.XAER_PROTO);
 
 				if (suspendedList == null)
-					suspendedList = new HashMap();
+					suspendedList = new FastMap();
 				suspendedList.put(resource, this);
 
 				associationState = XATransactionState.T0_NOT_ASSOCIATED;

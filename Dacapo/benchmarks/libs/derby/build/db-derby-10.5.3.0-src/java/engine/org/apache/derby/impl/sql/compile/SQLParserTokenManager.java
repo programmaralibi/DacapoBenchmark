@@ -125,7 +125,7 @@ import org.apache.derby.iapi.util.StringUtil;
 import org.apache.derby.iapi.util.IdUtil;
 import java.sql.Types;
 import java.util.List;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.Hashtable;
 import java.util.Properties;
 import java.util.StringTokenizer;

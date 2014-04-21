@@ -26,7 +26,7 @@ import java.io.*;
 import java.sql.*;
 import java.text.NumberFormat;
 import java.util.Arrays;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 
 import org.apache.derby.shared.common.reference.JDBC40Translation;
 import org.apache.derbyTesting.junit.BaseJDBCTestCase;

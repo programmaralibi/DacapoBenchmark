@@ -53,7 +53,7 @@ import org.apache.derby.catalog.UUID;
 import java.util.Enumeration;
 import java.util.Properties;
 import java.util.Vector;
-import java.util.HashMap;
+import javolution.util.FastMap;
 
 /**
  * A FromTable represents a table in the FROM clause of a DML statement.
@@ -110,7 +110,7 @@ abstract class FromTable extends ResultSetNode implements Optimizable
 	 idea of what this Optimizable's "best access path" is, so we have to
 	 keep track of them all.
 	*/
-	private HashMap bestPlanMap;
+	private FastMap bestPlanMap;
 
 	/** Operations that can be performed on bestPlanMap. */
 	protected static final short REMOVE_PLAN = 0;
@@ -544,7 +544,7 @@ abstract class FromTable extends ResultSetNode implements Optimizable
 			// If the bestPlanMap already exists, search for an
 			// AccessPath for the received key and use that if we can.
 			if (bestPlanMap == null)
-				bestPlanMap = new HashMap();
+				bestPlanMap = new FastMap();
 			else
 				ap = (AccessPathImpl)bestPlanMap.get(planKey);
 

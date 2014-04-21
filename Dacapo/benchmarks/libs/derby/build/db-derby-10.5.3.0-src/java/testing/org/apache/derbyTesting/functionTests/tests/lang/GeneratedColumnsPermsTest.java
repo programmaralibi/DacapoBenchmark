@@ -28,7 +28,7 @@ import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.DriverManager;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import org.apache.derby.iapi.util.StringUtil;

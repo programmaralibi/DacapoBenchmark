@@ -13,7 +13,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.net.URLStreamHandlerFactory;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.List;
 
 import org.dacapo.parser.Config;
@@ -93,7 +93,7 @@ public class DacapoClassLoader extends URLClassLoader {
    * @throws MalformedURLException
    */
   private static URL[] getJars(Config config, File scratch) throws MalformedURLException {
-    List<URL> jars = new ArrayList<URL>();
+    List<URL> jars = new FastTable<URL>();
     File jardir = new File(scratch, "jar");
     if (config.jar != null) {
       File jar = new File(jardir, config.jar);

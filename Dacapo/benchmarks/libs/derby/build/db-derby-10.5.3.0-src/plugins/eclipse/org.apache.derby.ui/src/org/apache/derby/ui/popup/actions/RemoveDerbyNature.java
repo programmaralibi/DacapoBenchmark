@@ -20,7 +20,7 @@
 */
 package org.apache.derby.ui.popup.actions;
 
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.List;
 
 import org.apache.derby.ui.common.CommonNames;
@@ -58,7 +58,7 @@ public class RemoveDerbyNature implements IObjectActionDelegate {
 
 
 	private static String[] removeDerbyNature(String [] natures){
-		ArrayList arrL=new ArrayList();
+		FastTable arrL=new FastTable();
 		
 		for (int i=0;i<natures.length;i++){
 			if(!(natures[i].equalsIgnoreCase(CommonNames.DERBY_NATURE))){
@@ -88,7 +88,7 @@ public class RemoveDerbyNature implements IObjectActionDelegate {
 			}
 			IClasspathEntry[] rawClasspath = currentJavaProject.getRawClasspath();
 			
-			List<IClasspathEntry> newEntries = new ArrayList<IClasspathEntry>();
+			List<IClasspathEntry> newEntries = new FastTable<IClasspathEntry>();
 			for(IClasspathEntry e: rawClasspath) {
 				if(e.getEntryKind()!=IClasspathEntry.CPE_CONTAINER) {
 					newEntries.add(e);

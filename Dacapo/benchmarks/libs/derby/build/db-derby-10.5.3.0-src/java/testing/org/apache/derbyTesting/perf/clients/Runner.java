@@ -27,7 +27,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.Arrays;
-import java.util.HashMap;
+import javolution.util.FastMap;
 
 /**
  * Class used for running a performance test from the command line. To learn
@@ -59,7 +59,7 @@ public class Runner {
     /** The name of the type of load to use in the test. */
     private static String load; // required argument
     /** Map containing load-specific options. */
-    private final static HashMap loadOpts = new HashMap();
+    private final static FastMap loadOpts = new FastMap();
     /** The name of the load generator to use in the test. */
     private static String generator = "b2b";
     /** The number of client threads to use in the test. */

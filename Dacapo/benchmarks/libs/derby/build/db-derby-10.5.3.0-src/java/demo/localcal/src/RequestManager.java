@@ -27,7 +27,7 @@ import javax.sql.*;
  */
 public class RequestManager {
     
-    private static ArrayList<String> conflicts;
+    private static FastTable<String> conflicts;
     
     // Request types
     public static final int ADD_EVENT = 1;
@@ -201,7 +201,7 @@ public class RequestManager {
         System.out.println("");
         System.out.println("==== SUBMITTING PENDING REQUESTS TO GOOGLE CALENDAR ====");
         
-        conflicts = new ArrayList<String>();
+        conflicts = new FastTable<String>();
         
         for ( GCalendarRequest request : requests ) {
             try {
@@ -252,8 +252,8 @@ public class RequestManager {
         Connection conn = DatabaseManager.getConnection();
         
         try {
-            ArrayList<GCalendarRequest> requests = 
-                    new ArrayList<GCalendarRequest>();
+            FastTable<GCalendarRequest> requests = 
+                    new FastTable<GCalendarRequest>();
             ResultSet rs = DatabaseManager.executeQueryNoParams(conn,
                 "SELECT sequence_id, request_type, event_id, date, title, " +
                     "edit_url FROM " + DatabaseManager.REQUESTS_TABLE +

@@ -33,7 +33,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.Hashtable;
 import java.util.StringTokenizer;
 import java.util.Vector;
@@ -99,13 +99,13 @@ class DRDAStatement
 
 	private DRDAResultSet currentDrdaRs;  // Current ResultSet
 	private Hashtable resultSetTable;     // Hashtable with resultsets            
-	private ArrayList resultSetKeyList;  // ordered list of hash keys
+	private FastTable resultSetKeyList;  // ordered list of hash keys
 	private int numResultSets = 0;  
 
 	/** This class is used to keep track of the statement's parameters
 	 * as they are received from the client. It uses arrays to track
 	 * the DRDA type, the length in bytes and the externalness of each
-	 * parameter. Arrays of int/byte are used rather than ArrayLists
+	 * parameter. Arrays of int/byte are used rather than FastTables
 	 * of Integer/Byte in order to re-use the same storage each time
 	 * the statement is executed. */
 	private static class DrdaParamState {
@@ -365,9 +365,9 @@ class DRDAStatement
 	/**
 	 * Get the extData Objects
 	 *
-	 *  @return ArrayList with extdta
+	 *  @return FastTable with extdta
 	 */
-	protected ArrayList getExtDtaObjects()
+	protected FastTable getExtDtaObjects()
 	{
 		return currentDrdaRs.getExtDtaObjects();
 	}
@@ -375,7 +375,7 @@ class DRDAStatement
 	/**
 	 * Set the extData Objects
 	 */
-	protected void  setExtDtaObjects(ArrayList a)
+	protected void  setExtDtaObjects(FastTable a)
 	{
 		currentDrdaRs.setExtDtaObjects(a);
 	}
@@ -933,7 +933,7 @@ class DRDAStatement
 				// For just a single resultSet we don't ever create the Hashtable.
 				resultSetTable = new Hashtable();
 				resultSetTable.put(pkgcnstkn, currentDrdaRs);
-				resultSetKeyList = new ArrayList();
+				resultSetKeyList = new FastTable();
 				resultSetKeyList.add(0, pkgcnstkn);
 			}
 

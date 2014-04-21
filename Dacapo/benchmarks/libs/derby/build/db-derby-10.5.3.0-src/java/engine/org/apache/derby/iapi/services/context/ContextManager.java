@@ -37,8 +37,8 @@ import org.apache.derby.iapi.services.property.PropertyUtil;
 import org.apache.derby.iapi.error.ExceptionSeverity;
 import org.apache.derby.iapi.services.i18n.LocaleFinder;
 
-import java.util.HashMap;
-import java.util.ArrayList;
+import javolution.util.FastMap;
+import javolution.util.FastTable;
 import java.util.List;
 import java.util.Collections;
 import java.util.Locale;
@@ -61,14 +61,14 @@ import java.util.Locale;
 public class ContextManager
 {
 	/**
-	 * The CtxStack implement a stack on top of an ArrayList (to avoid
+	 * The CtxStack implement a stack on top of an FastTable (to avoid
 	 * the inherent overhead associated with java.util.Stack which is
 	 * built on top of java.util.Vector, which is fully
 	 * synchronized).
 	 */
 	private static final class CtxStack {
 		/** Internal list with all the elements of the stack. */
-		private final ArrayList stack_ = new ArrayList();
+		private final FastTable stack_ = new FastTable();
 		/** Read-only view of the internal list. */
 		private final List view_ = Collections.unmodifiableList(stack_);
 
@@ -104,21 +104,21 @@ public class ContextManager
 	}
 
 	/**
-	 * Empty ArrayList to use as void value
+	 * Empty FastTable to use as void value
 	 */
-	//private final ArrayList voidArrayList_ = new ArrayList(0);
+	//private final FastTable voidFastTable_ = new FastTable(0);
 
 	/**
-	 * HashMap that holds the Context objects. The Contexts are stored
+	 * FastMap that holds the Context objects. The Contexts are stored
 	 * with a String key.
 	 * @see ContextManager#pushContext(Context)
 	 */
-	private final HashMap ctxTable = new HashMap();
+	private final FastMap ctxTable = new FastMap();
 
 	/**
 	 * List of all Contexts
 	 */
-	private final ArrayList holder = new ArrayList();
+	private final FastTable holder = new FastTable();
 
 	/**
 	 * Add a Context object to the ContextManager. The object is added
@@ -219,14 +219,14 @@ public class ContextManager
     }
 	
 	/**
-	 * Return an unmodifiable list reference to the ArrayList backing
+	 * Return an unmodifiable list reference to the FastTable backing
 	 * CtxStack object for this type of Contexts. This method allows
 	 * fast traversal of all Contexts on that stack. The first element
 	 * in the List corresponds to the bottom of the stack. The
 	 * assumption is that the Stack will not be modified while it is
 	 * being traversed.
 	 * @param contextId the type of Context stack to return.
-	 * @return an unmodifiable "view" of the ArrayList backing the stack
+	 * @return an unmodifiable "view" of the FastTable backing the stack
 	 * @see org.apache.derby.impl.sql.conn.GenericLanguageConnectionContext#resetSavepoints()
 	 * @see org.apache.derby.iapi.sql.conn.StatementContext#resetSavePoint()
 	 */
@@ -507,7 +507,7 @@ cleanup:	for (int index = holder.size() - 1; index >= 0; index--) {
 
 	/**
 	 * Constructs a new instance. No CtxStacks are inserted into the
-	 * hashMap as they will be allocated on demand.
+	 * FastMap as they will be allocated on demand.
 	 * @param csf the ContextService owning this ContextManager
 	 * @param stream error stream for reporting errors
 	 */

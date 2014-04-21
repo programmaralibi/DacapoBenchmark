@@ -22,7 +22,7 @@
 package org.apache.derby.ui.util;
 
 import java.net.URL;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.List;
 
 import org.apache.derby.ui.DerbyPlugin;
@@ -153,7 +153,7 @@ public class DerbyUtils {
 		systemLibsEntry.setClasspathProperty(IRuntimeClasspathEntry.BOOTSTRAP_CLASSES);
 		//include org.apache.derby.core plugin
 		IRuntimeClasspathEntry derbyCPEntry = null;
-		List classpath = new ArrayList();
+		List classpath = new FastTable();
 		classpath.add(systemLibsEntry.getMemento());
 		
 		try {

@@ -58,7 +58,7 @@ import org.apache.derby.iapi.sql.dictionary.ColumnDescriptor;
 
 import org.apache.derby.catalog.UUID;
 
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.Hashtable;
 import java.util.HashSet;
 import java.util.Vector;
@@ -913,7 +913,7 @@ public class TableElementList extends QueryTreeNodeVector
 	void findIllegalGenerationReferences( FromList fromList, TableDescriptor baseTable )
 		throws StandardException
 	{
-        ArrayList   generatedColumns = new ArrayList();
+        FastTable   generatedColumns = new FastTable();
         HashSet     names = new HashSet();
 		int         size = size();
 

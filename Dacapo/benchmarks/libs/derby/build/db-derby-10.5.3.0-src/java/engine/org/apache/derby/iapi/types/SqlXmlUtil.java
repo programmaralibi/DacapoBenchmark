@@ -28,7 +28,7 @@ import org.apache.derby.iapi.services.io.StoredFormatIds;
 import org.apache.derby.iapi.services.sanity.SanityManager;
 
 import java.util.Properties;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 
 import java.io.IOException;
 import java.io.ObjectOutput;
@@ -310,7 +310,7 @@ public class SqlXmlUtil implements Formatable
     protected String serializeToString(String xmlAsText)
         throws Exception
     {
-        ArrayList aList = new ArrayList();
+        FastTable aList = new FastTable();
 
         /* The call to dBuilder.parse() is a call to an external
          * (w.r.t. to Derby) JAXP parser.  If the received XML
@@ -381,7 +381,7 @@ public class SqlXmlUtil implements Formatable
      *  normalized sequence created from the items in the received
      *  list.
      */
-    protected String serializeToString(ArrayList items,
+    protected String serializeToString(FastTable items,
         XMLDataValue xmlVal) throws java.io.IOException
     {
         if ((items == null) || (items.size() == 0))
@@ -525,11 +525,11 @@ public class SqlXmlUtil implements Formatable
     /**
      * Evaluate this object's compiled XML query expression against
      * the received xmlContext.  Then if returnResults is false,
-     * return an empty sequence (ArrayList) if evaluation yields
+     * return an empty sequence (FastTable) if evaluation yields
      * at least one item and return null if evaluation yields zero
      * items (the caller can then just check for null to see if the
      * query returned any items).  If returnResults is true, then return
-     * return a sequence (ArrayList) containing all items returned
+     * return a sequence (FastTable) containing all items returned
      * from evaluation of the expression.  This array list can contain
      * any combination of atomic values and XML nodes; it may also
      * be empty.
@@ -548,14 +548,14 @@ public class SqlXmlUtil implements Formatable
      *  XML(SEQUENCE).  If returnResults is false, this value
      *  is ignored.
      * @return If returnResults is false then return an empty
-     *  ArrayList if evaluation returned at least one item and return
+     *  FastTable if evaluation returned at least one item and return
      *  null otherwise.  If returnResults is true then return an
      *  array list containing all of the result items and return
      *  the qualified XML type via the resultXType parameter.
      * @exception Exception thrown on error (and turned into a
      *  StandardException by the caller).
      */
-    protected ArrayList evalXQExpression(XMLDataValue xmlContext,
+    protected FastTable evalXQExpression(XMLDataValue xmlContext,
         boolean returnResults, int [] resultXType) throws Exception
     {
         // if this object is in an SPS, we need to recompile the query
@@ -606,12 +606,12 @@ public class SqlXmlUtil implements Formatable
             { // If we have a sequence (XNodeSet) of length greater
               // than zero, then we know that at least one item
               // "exists" in the result so return a non-null list.
-                return new ArrayList(0);
+                return new FastTable(0);
             }
             else if (!(xOb instanceof XNodeSet))
             // we have a single atomic value, which means the result is
             // non-empty.  So return a non-null list.
-                return new ArrayList(0);
+                return new FastTable(0);
             else {
             // return null; caller will take this to mean we have an
             // an empty sequence.
@@ -631,7 +631,7 @@ public class SqlXmlUtil implements Formatable
         }
 
         // Return a list of the items contained in the query results.
-        ArrayList itemRefs = new ArrayList();
+        FastTable itemRefs = new FastTable();
         if (nodeList == null)
         // result is a single, non-node value (ex. it's an atomic number);
         // in this case, just take the string value.

@@ -206,10 +206,10 @@ public	class	JDBCDriverTest	extends	CompatibilitySuite
 	/////////////////////////////////////////////////////////////
 
 	// map derby type name to type descriptor
-	private	static	HashMap		_types = new HashMap();	// maps Derby type names to TypeDescriptors
+	private	static	FastMap		_types = new FastMap();	// maps Derby type names to TypeDescriptors
 
 	// map jdbc type to index into COERCIONS
-	private	static	HashMap		_coercionIndex = new HashMap();	// maps jdbc types to legal coercions
+	private	static	FastMap		_coercionIndex = new FastMap();	// maps jdbc types to legal coercions
 
 	/////////////////////////////////////////////////////////////
 	//

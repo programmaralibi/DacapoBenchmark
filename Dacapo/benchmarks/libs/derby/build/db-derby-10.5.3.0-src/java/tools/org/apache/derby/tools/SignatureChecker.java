@@ -27,7 +27,7 @@ import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 
 import org.apache.derby.iapi.services.info.JVMInfo;
 import org.apache.derby.jdbc.EmbeddedSimpleDataSource;
@@ -84,8 +84,8 @@ public class SignatureChecker
 
     private ParsedArgs _parsedArgs;
 
-    private ArrayList   _procedures = new ArrayList();
-    private ArrayList   _functions = new ArrayList();
+    private FastTable   _procedures = new FastTable();
+    private FastTable   _functions = new FastTable();
 
     private boolean     _debugging = false;
     
@@ -639,7 +639,7 @@ public class SignatureChecker
         private String _schema;
         private String _name;
         private boolean _isTableFunction;
-        private ArrayList   _argList = new ArrayList();
+        private FastTable   _argList = new FastTable();
 
         public SQLRoutine( String schema, String name, boolean isTableFunction )
         {

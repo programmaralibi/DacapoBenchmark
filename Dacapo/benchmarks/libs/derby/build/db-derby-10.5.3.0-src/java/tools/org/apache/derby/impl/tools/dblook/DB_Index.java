@@ -27,7 +27,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import java.util.HashMap;
+import javolution.util.FastMap;
 import java.util.StringTokenizer;
 
 import org.apache.derby.tools.dblook;

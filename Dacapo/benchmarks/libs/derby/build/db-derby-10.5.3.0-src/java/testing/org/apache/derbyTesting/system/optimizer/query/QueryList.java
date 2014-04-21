@@ -28,13 +28,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.Properties;
 
 import org.apache.derbyTesting.system.optimizer.StaticValues;
 
 public class QueryList {
-	private static ArrayList qList=new ArrayList();
+	private static FastTable qList=new FastTable();
 	public static boolean queryListOnly=false;
 	public static void init(Connection conn){
 		GenericQuery q=new GenericQuery();
@@ -69,7 +69,7 @@ public class QueryList {
 		getQList().add(q);
 		
 	}
-	public static ArrayList getQList() {
+	public static FastTable getQList() {
 		return qList;
 	}
 }

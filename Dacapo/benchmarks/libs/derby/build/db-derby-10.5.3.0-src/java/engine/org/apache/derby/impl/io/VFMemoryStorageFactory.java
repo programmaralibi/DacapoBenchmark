@@ -24,7 +24,7 @@ package org.apache.derby.impl.io;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.HashMap;
+import javolution.util.FastMap;
 import java.util.Map;
 
 import org.apache.derby.impl.io.vfmem.PathUtil;
@@ -44,7 +44,7 @@ public class VFMemoryStorageFactory
 
     /** References to the databases created / existing. */
     //@GuardedBy("DATABASES")
-    private static final Map DATABASES = new HashMap();
+    private static final Map DATABASES = new FastMap();
 
     /**
      * Deletes the database if it exists.

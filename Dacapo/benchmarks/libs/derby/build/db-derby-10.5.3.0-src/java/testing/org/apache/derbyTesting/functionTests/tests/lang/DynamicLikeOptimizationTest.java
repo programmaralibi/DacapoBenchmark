@@ -25,7 +25,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
-import java.util.HashMap;
+import javolution.util.FastMap;
 import java.util.Iterator;
 import java.util.Map;
 import junit.framework.Test;
@@ -406,7 +406,7 @@ public class DynamicLikeOptimizationTest extends BaseJDBCTestCase {
             "(name LIKE ? escape '\\') and (source like ? escape '\\') " +
             "order by source asc, name asc");
 
-        HashMap inputOutput = new HashMap();
+        FastMap inputOutput = new FastMap();
         inputOutput.put(
             new String[] {"%", "%"},
             new Object[][] {

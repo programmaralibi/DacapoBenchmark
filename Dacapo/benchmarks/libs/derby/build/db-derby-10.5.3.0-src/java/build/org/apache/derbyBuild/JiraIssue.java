@@ -94,7 +94,7 @@ class JiraIssue {
         Element reportRoot = report.getDocumentElement();
         NodeList itemList = reportRoot.getElementsByTagName(JIRA_ITEM);
         int count = itemList.getLength();
-        ArrayList jiraIssues = new ArrayList();
+        FastTable jiraIssues = new FastTable();
 
         boolean skip;
         for (int i = 0; i < count; i++) {

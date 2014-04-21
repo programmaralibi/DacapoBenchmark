@@ -3686,7 +3686,7 @@ public class J2EEDataSourceTest extends BaseJDBCTestCase {
         }
         try {
             // a populated map, not implemented
-            java.util.Map map = new java.util.HashMap();
+            java.util.Map map = new javolution.util.FastMap();
             map.put("name", "class");
             conn.setTypeMap(map);
             if (!((String)expectedValues[7]).equals("OK"))

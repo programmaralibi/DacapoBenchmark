@@ -23,7 +23,7 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
-import java.util.HashMap;
+import javolution.util.FastMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Properties;
@@ -106,7 +106,7 @@ public final class JMXManagementService implements ManagementService, ModuleCont
     public synchronized void boot(boolean create, Properties properties)
             throws StandardException {
         
-        registeredMbeans = new HashMap<ObjectName,StandardMBean>();
+        registeredMbeans = new FastMap<ObjectName,StandardMBean>();
         
         systemIdentifier =
             Monitor.getMonitor().getUUIDFactory().createUUID().toString();

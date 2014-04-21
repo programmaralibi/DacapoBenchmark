@@ -844,7 +844,7 @@ public static void getMainInfo (java.io.PrintWriter aw, boolean pause) {
      */
     private static ZipInfoProperties [] loadZipFromResource()
     {
-		java.util.ArrayList al = new java.util.ArrayList();
+		javolution.util.FastTable al = new javolution.util.FastTable();
 
         for (int i = 0; i < infoNames.length; i++)
         {

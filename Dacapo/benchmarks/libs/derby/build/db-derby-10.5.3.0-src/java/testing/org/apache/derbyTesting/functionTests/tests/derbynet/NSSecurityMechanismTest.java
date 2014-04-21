@@ -24,7 +24,7 @@ package org.apache.derbyTesting.functionTests.tests.derbynet;
 
 import java.lang.reflect.*;
 import java.net.InetAddress;
-import java.util.HashMap;
+import javolution.util.FastMap;
 import java.util.Iterator;
 
 import java.security.AccessController;
@@ -1219,10 +1219,10 @@ public class NSSecurityMechanismTest extends BaseJDBCTestCase
     }
 
     private javax.sql.DataSource getDS(
-        String user, String password, HashMap attrs)
+        String user, String password, FastMap attrs)
     {
         if (attrs == null)
-            attrs = new HashMap();
+            attrs = new FastMap();
         if (user != null)
             attrs.put("user", user);
         if (password != null)
@@ -1239,7 +1239,7 @@ public class NSSecurityMechanismTest extends BaseJDBCTestCase
         return ds;
     }
 
-    private HashMap addRequiredAttributes(HashMap attrs)
+    private FastMap addRequiredAttributes(FastMap attrs)
     {
         String hostName = TestConfiguration.DEFAULT_HOSTNAME;
         int port = TestConfiguration.DEFAULT_PORT;
@@ -1271,7 +1271,7 @@ public class NSSecurityMechanismTest extends BaseJDBCTestCase
     private javax.sql.ConnectionPoolDataSource getCPDS(
         String user, String password)
     {
-        HashMap attrs = new HashMap();
+        FastMap attrs = new FastMap();
         if (user != null)
             attrs.put("user", user);
         if (password != null)

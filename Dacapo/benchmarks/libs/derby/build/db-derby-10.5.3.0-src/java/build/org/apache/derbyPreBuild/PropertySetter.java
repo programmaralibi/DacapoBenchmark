@@ -25,7 +25,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.List;
@@ -372,7 +372,7 @@ public class PropertySetter extends Task
      * @return a list of potential JDK parent directories
      */
     private List<File> getJdkSearchPath() throws Exception {
-        ArrayList<File> searchPath = new ArrayList<File>();
+        FastTable<File> searchPath = new FastTable<File>();
 
         // Add parent of JAVA_HOME
         searchPath.add(getJdkParentDirectory());

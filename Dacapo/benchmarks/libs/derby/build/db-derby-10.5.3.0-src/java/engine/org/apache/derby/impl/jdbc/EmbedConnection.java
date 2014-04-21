@@ -77,8 +77,8 @@ import java.sql.Statement;
 
 import java.util.HashSet;
 import java.util.Map;
-import java.util.WeakHashMap;
-import java.util.HashMap;
+import java.util.WeakFastMap;
+import javolution.util.FastMap;
 import java.util.Properties;
 import java.util.Iterator;
 
@@ -141,7 +141,7 @@ public abstract class EmbedConnection implements EngineConnection
 
 	TransactionResourceImpl tr; // always access tr thru getTR()
 
-	private HashMap lobHashMap = null;
+	private FastMap lobFastMap = null;
 	private int lobHMKey = 0;
 
     /**
@@ -149,11 +149,11 @@ public abstract class EmbedConnection implements EngineConnection
      * connection. These lobs will be cleared after the transaction
      * is no longer valid or when connection is closed
      */
-    private WeakHashMap lobReferences = null;
+    private WeakFastMap lobReferences = null;
 
     // Set to keep track of the open LOBFiles, so they can be closed at the end of 
     // the transaction. This would normally happen as lobReferences are freed as they
-    // get garbage collected after being removed from the WeakHashMap, but it is 
+    // get garbage collected after being removed from the WeakFastMap, but it is 
     // possible that finalization will not have occurred before the user tries to 
     // remove the database (DERBY-3655).  Therefore we keep this set so that we can
     // explicitly close the files.
@@ -3039,10 +3039,10 @@ public abstract class EmbedConnection implements EngineConnection
 
 	/**
 	* Add the locator and the corresponding LOB object into the
-	* HashMap
+	* FastMap
 	*
 	* @param LOBReference The object which contains the LOB object that
-	*                     that is added to the HashMap.
+	*                     that is added to the FastMap.
 	* @return an integer that represents the locator that has been
 	*         allocated to this LOB.
 	*/
@@ -3071,13 +3071,13 @@ public abstract class EmbedConnection implements EngineConnection
 	}
 
 	/**
-	* Clear the HashMap of all entries.
+	* Clear the FastMap of all entries.
 	* Called when a commit or rollback of the transaction
 	* happens.
 	*/
 	public void clearLOBMapping() throws SQLException {
 
-		//free all the lob resources in the HashMap
+		//free all the lob resources in the FastMap
 		//initialize the locator value to 0 and
 		//the hash table object to null.
 		Map map = rootConnection.lobReferences;
@@ -3088,8 +3088,8 @@ public abstract class EmbedConnection implements EngineConnection
 			}
 			map.clear();
 		}
-        if (rootConnection.lobHashMap != null) {
-            rootConnection.lobHashMap.clear ();
+        if (rootConnection.lobFastMap != null) {
+            rootConnection.lobFastMap.clear ();
         }
 		
 		synchronized (this) {   
@@ -3138,26 +3138,26 @@ public abstract class EmbedConnection implements EngineConnection
 	}
 
     /**
-     * Adds an entry of the lob in WeakHashMap. These entries are used
+     * Adds an entry of the lob in WeakFastMap. These entries are used
      * for cleanup during commit/rollback or close.
      * @param lobReference LOB Object
      */
     void addLOBReference (Object lobReference) {
         if (rootConnection.lobReferences == null) {
-            rootConnection.lobReferences = new WeakHashMap ();
+            rootConnection.lobReferences = new WeakFastMap ();
         }
         rootConnection.lobReferences.put (lobReference, null);
     }
 
 	/**
 	* Return the Hash Map in the root connection
-	* @return the HashMap that contains the locator to LOB object mapping
+	* @return the FastMap that contains the locator to LOB object mapping
 	*/
-	public HashMap getlobHMObj() {
-		if (rootConnection.lobHashMap == null) {
-			rootConnection.lobHashMap = new HashMap();
+	public FastMap getlobHMObj() {
+		if (rootConnection.lobFastMap == null) {
+			rootConnection.lobFastMap = new FastMap();
 		}
-		return rootConnection.lobHashMap;
+		return rootConnection.lobFastMap;
 	}
 
     /** Cancels the current running statement. */
@@ -3193,7 +3193,7 @@ public abstract class EmbedConnection implements EngineConnection
 	/**
 	 * Remove LOBFile from the lobFiles set. This will occur when the lob 
 	 * is freed or at transaction end if the lobFile was removed from the 
-	 * WeakHashMap but not finalized.
+	 * WeakFastMap but not finalized.
 	 * @param lobFile  LOBFile to remove.
 	 */
 	void removeLobFile(LOBFile lobFile) {

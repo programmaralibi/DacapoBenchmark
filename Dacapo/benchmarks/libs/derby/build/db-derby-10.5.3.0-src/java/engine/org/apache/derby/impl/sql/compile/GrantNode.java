@@ -26,7 +26,7 @@ import org.apache.derby.impl.sql.execute.PrivilegeInfo;
 import org.apache.derby.iapi.services.sanity.SanityManager;
 import org.apache.derby.iapi.error.StandardException;
 
-import java.util.HashMap;
+import javolution.util.FastMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -93,7 +93,7 @@ public class GrantNode extends DDLStatementNode
 	 */
 	public void bindStatement() throws StandardException
 	{
-		privileges = (PrivilegeNode) privileges.bind( new HashMap(), grantees, true);
+		privileges = (PrivilegeNode) privileges.bind( new FastMap(), grantees, true);
 	} // end of bind
 
 

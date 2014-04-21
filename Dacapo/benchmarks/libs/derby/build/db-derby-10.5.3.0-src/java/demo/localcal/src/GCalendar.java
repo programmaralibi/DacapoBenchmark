@@ -254,7 +254,7 @@ public class GCalendar {
      * use this, for example, if you are trying to get the calendar when
      * the application first starts up.
      *
-     * @return a HashMap of events for the calendar, where the hash id
+     * @return a FastMap of events for the calendar, where the hash id
      *      is the id of the event
      */
     public Collection<CalEvent> getEvents() throws Exception {
@@ -284,7 +284,7 @@ public class GCalendar {
         }
         
         // Build a list of DerbyCal events based on these entries
-        ArrayList<CalEvent> calentries = new ArrayList<CalEvent>();
+        FastTable<CalEvent> calentries = new FastTable<CalEvent>();
 
         // debugging
         // System.out.println("Entries from Google Calendar:");

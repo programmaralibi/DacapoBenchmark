@@ -24,7 +24,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.sql.ConnectionEvent;
 import javax.sql.ConnectionEventListener;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.Iterator;
 import org.apache.derby.client.net.NetXAConnection;
 import org.apache.derby.iapi.error.ExceptionSeverity;
@@ -47,7 +47,7 @@ public class ClientPooledConnection implements javax.sql.PooledConnection {
 
     //@GuardedBy("this")
     /** List of {@code ConnectionEventListener}s. Never {@code null}. */
-    private ArrayList listeners_ = new ArrayList();
+    private FastTable listeners_ = new FastTable();
 
     /**
      * The number of iterators going through the list of connection event
@@ -319,11 +319,11 @@ public class ClientPooledConnection implements javax.sql.PooledConnection {
         }
 
         if (eventIterators > 0) {
-            // DERBY-3401: Someone is iterating over the ArrayList, and since
+            // DERBY-3401: Someone is iterating over the FastTable, and since
             // we were able to synchronize on this, that someone is us. Clone
             // the list of listeners in order to prevent invalidation of the
             // iterator.
-            listeners_ = (ArrayList) listeners_.clone();
+            listeners_ = (FastTable) listeners_.clone();
         }
         listeners_.add(listener);
     }
@@ -334,11 +334,11 @@ public class ClientPooledConnection implements javax.sql.PooledConnection {
             logWriter_.traceEntry(this, "removeConnectionEventListener", listener);
         }
         if (eventIterators > 0) {
-            // DERBY-3401: Someone is iterating over the ArrayList, and since
+            // DERBY-3401: Someone is iterating over the FastTable, and since
             // we were able to synchronize on this, that someone is us. Clone
             // the list of listeners in order to prevent invalidation of the
             // iterator.
-            listeners_ = (ArrayList) listeners_.clone();
+            listeners_ = (FastTable) listeners_.clone();
         }
         listeners_.remove(listener);
     }

@@ -2,7 +2,7 @@
 package org.dacapo.parser;
 import java.io.*;
 import java.util.Vector;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 
 /** Token Manager. */
 public class ConfigFileTokenManager implements ConfigFileConstants

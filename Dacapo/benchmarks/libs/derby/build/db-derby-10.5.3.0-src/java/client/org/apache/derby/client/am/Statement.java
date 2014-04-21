@@ -136,7 +136,7 @@ public class Statement implements java.sql.Statement, StatementCallbackInterface
     ResultSet[] resultSetList_ = null;   // array of ResultSet objects
 
     protected final static String TIMEOUT_STATEMENT = "SET STATEMENT_TIMEOUT ";
-    protected java.util.ArrayList timeoutArrayList = new java.util.ArrayList(1);
+    protected javolution.util.FastTable timeoutFastTable = new javolution.util.FastTable(1);
     protected boolean doWriteTimeout = false;
     int timeout_ = 0; // for query timeout in seconds
     int maxRows_ = 0;
@@ -156,7 +156,7 @@ public class Statement implements java.sql.Statement, StatementCallbackInterface
     // This collection is used for two different purposes:
     //   For statement batching it contains the batched SQL strings.
     //   For prepared statement batching it contains the batched input rows.
-    final java.util.ArrayList batch_ = new java.util.ArrayList();
+    final javolution.util.FastTable batch_ = new javolution.util.FastTable();
 
 
     // Scrollable cursor attributes
@@ -216,8 +216,8 @@ public class Statement implements java.sql.Statement, StatementCallbackInterface
         resultSetConcurrency_ = java.sql.ResultSet.CONCUR_READ_ONLY;
         resultSetHoldability_ = 0;
         cursorAttributesToSendOnPrepare_ = null;
-        if (timeoutArrayList.size() == 0) {
-            timeoutArrayList.add(null); // Make sure the list's length is 1
+        if (timeoutFastTable.size() == 0) {
+            timeoutFastTable.add(null); // Make sure the list's length is 1
         }
 
         initResetStatement();
@@ -1390,7 +1390,7 @@ public class Statement implements java.sql.Statement, StatementCallbackInterface
      * Section is needed, and freed when the Statement is closed.
      */
     private Section setSpecialRegisterSection_ = null;
-    public void writeSetSpecialRegister(java.util.ArrayList sqlsttList) 
+    public void writeSetSpecialRegister(javolution.util.FastTable sqlsttList) 
         throws SqlException {
         if (setSpecialRegisterSection_ == null) {
             setSpecialRegisterSection_ = 
@@ -1994,8 +1994,8 @@ public class Statement implements java.sql.Statement, StatementCallbackInterface
             // doWriteTimeout should not be reset, and it is OK not to send the
             // timeout value when it is zero.
             if (doWriteTimeout && (timeout_ > 0)) {
-                timeoutArrayList.set(0, TIMEOUT_STATEMENT + timeout_);
-                writeSetSpecialRegister(timeoutArrayList);
+                timeoutFastTable.set(0, TIMEOUT_STATEMENT + timeout_);
+                writeSetSpecialRegister(timeoutFastTable);
                 timeoutSent = true;
             }
             switch (sqlMode_) {

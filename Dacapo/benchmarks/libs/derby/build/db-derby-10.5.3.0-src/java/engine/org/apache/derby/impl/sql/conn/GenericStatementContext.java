@@ -50,7 +50,7 @@ import org.apache.derby.iapi.services.context.ContextImpl;
 
 import org.apache.derby.iapi.error.ExceptionSeverity;
 import org.apache.derby.iapi.reference.SQLState;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -68,7 +68,7 @@ final class GenericStatementContext
 	private boolean		setSavePoint;
 	private String		internalSavePointName;
 	private ResultSet	topResultSet;
-	private ArrayList		dependencies;
+	private FastTable		dependencies;
 	private NoPutResultSet[] subqueryTrackingArray;
 	private NoPutResultSet[] materializedSubqueries;
 	private	final LanguageConnectionContext lcc;
@@ -463,7 +463,7 @@ final class GenericStatementContext
 		
 		if (dependencies == null)
 		{
-			dependencies = new ArrayList();
+			dependencies = new FastTable();
 		}
 		dependencies.add(dy);
 	}

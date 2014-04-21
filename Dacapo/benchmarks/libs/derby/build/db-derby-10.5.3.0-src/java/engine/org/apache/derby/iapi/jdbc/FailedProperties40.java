@@ -24,7 +24,7 @@ package org.apache.derby.iapi.jdbc;
 import java.util.Properties;
 import java.util.Enumeration;
 import java.util.Map;
-import java.util.HashMap;
+import javolution.util.FastMap;
 import java.sql.SQLClientInfoException;
 import java.sql.ClientInfoStatus;
 
@@ -38,8 +38,8 @@ import java.sql.ClientInfoStatus;
      * @see org.apache.derby.client.am.FailedProperties40
      */
 public class FailedProperties40 {
-    private final HashMap<String,ClientInfoStatus> failedProps_ = 
-	new HashMap<String,ClientInfoStatus>();
+    private final FastMap<String,ClientInfoStatus> failedProps_ = 
+	new FastMap<String,ClientInfoStatus>();
     private final String firstKey_;
     private final String firstValue_;
 

@@ -34,7 +34,7 @@ import org.apache.derby.iapi.services.diag.DiagnosticUtil;
 import org.apache.derby.iapi.reference.Property;
 import org.apache.derby.iapi.reference.SQLState;
 
-import java.util.HashMap;
+import javolution.util.FastMap;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Map;
@@ -76,7 +76,7 @@ final class LockSet implements LockTable {
 
     /** Hash table which maps <code>Lockable</code> objects to
      * <code>Lock</code>s. */
-    private final HashMap locks;
+    private final FastMap locks;
 
 	/**
 		Timeout for deadlocks, in ms.
@@ -103,7 +103,7 @@ final class LockSet implements LockTable {
 
 	protected LockSet(SinglePool factory) {
 		this.factory = factory;
-		locks = new HashMap();
+		locks = new FastMap();
 	}
 
 
@@ -716,7 +716,7 @@ forever:	for (;;) {
 	 */
 	public synchronized Map shallowClone()
 	{
-		HashMap clone = new HashMap();
+		FastMap clone = new FastMap();
 
 		for (Iterator it = locks.keySet().iterator(); it.hasNext(); )
 		{

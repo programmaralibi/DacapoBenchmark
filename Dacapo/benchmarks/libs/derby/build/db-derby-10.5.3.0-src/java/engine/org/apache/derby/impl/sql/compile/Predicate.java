@@ -44,7 +44,7 @@ import org.apache.derby.iapi.types.DataValueDescriptor;
 
 import org.apache.derby.iapi.util.JBitSet;
 
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.Hashtable;
 
 /**

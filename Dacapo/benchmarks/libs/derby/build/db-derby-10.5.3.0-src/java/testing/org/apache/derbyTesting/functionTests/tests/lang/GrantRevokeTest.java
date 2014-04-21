@@ -30,7 +30,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 
 import org.apache.derbyTesting.junit.BaseJDBCTestCase;
 import org.apache.derbyTesting.junit.CleanDatabaseTestSetup;
@@ -1501,7 +1501,7 @@ public class GrantRevokeTest extends BaseJDBCTestCase {
     String[] getAllColumns(String schema, String table) throws SQLException
     {
     	DatabaseMetaData dbmd = getConnection().getMetaData();
-        ArrayList columnList = new ArrayList();
+        FastTable columnList = new FastTable();
         ResultSet rs = dbmd.getColumns( (String) null, schema, table, (String) null);
         while(rs.next())
         {

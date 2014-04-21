@@ -49,7 +49,7 @@ import org.apache.derby.iapi.util.JBitSet;
 import org.apache.derby.iapi.util.StringUtil;
 
 import java.util.Properties;
-import java.util.HashMap;
+import javolution.util.FastMap;
 
 /**
  * This will be the Level 1 Optimizer.
@@ -154,7 +154,7 @@ public class OptimizerImpl implements Optimizer
 	// of Optimizer.  Each outer query could potentially have a different
 	// idea of what this OptimizerImpl's "best join order" is, so we have
 	// to keep track of them all.
-	private HashMap savedJoinOrders;
+	private FastMap savedJoinOrders;
 
 	// Value used to figure out when/if we've timed out for this
 	// Optimizable.
@@ -2693,7 +2693,7 @@ public class OptimizerImpl implements Optimizer
 				// If the savedJoinOrder map already exists, search for the
 				// join order for the target optimizer and reuse that.
 				if (savedJoinOrders == null)
-					savedJoinOrders = new HashMap();
+					savedJoinOrders = new FastMap();
 				else
 					joinOrder = (int[])savedJoinOrders.get(planKey);
 

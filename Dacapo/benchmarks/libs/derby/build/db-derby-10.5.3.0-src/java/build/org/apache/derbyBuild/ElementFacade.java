@@ -86,7 +86,7 @@ public class ElementFacade {
     public List getTextListByTagName(String tag) throws Exception {
         NodeList matchingTags = root.getElementsByTagName(tag);
         final int length = matchingTags.getLength();
-        ArrayList tagValues = new ArrayList();
+        FastTable tagValues = new FastTable();
         for (int i = 0; i < length; ++i) {
             tagValues.add(matchingTags.item(i).getFirstChild().getNodeValue());
         }

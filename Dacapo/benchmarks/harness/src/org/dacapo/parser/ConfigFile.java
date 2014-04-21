@@ -3,7 +3,7 @@ package org.dacapo.parser;
 
 import java.io.*;
 import java.util.Vector;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 
 class ConfigFile implements ConfigFileConstants {
   public static void main(String[] args) {
@@ -116,7 +116,7 @@ class ConfigFile implements ConfigFileConstants {
   }
 
   final public void libraries(Config config) throws ParseException {
-  ArrayList libs = new ArrayList(); String lib;
+  FastTable libs = new FastTable(); String lib;
     lib = string();
                  libs.add(lib);
     label_3:
@@ -597,7 +597,7 @@ class ConfigFile implements ConfigFileConstants {
       return (jj_ntk = jj_nt.kind);
   }
 
-  private java.util.List jj_expentries = new java.util.ArrayList();
+  private java.util.List jj_expentries = new javolution.util.FastTable();
   private int[] jj_expentry;
   private int jj_kind = -1;
 

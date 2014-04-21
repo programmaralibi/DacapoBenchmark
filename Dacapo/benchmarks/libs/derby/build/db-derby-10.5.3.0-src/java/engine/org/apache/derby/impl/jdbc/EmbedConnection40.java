@@ -30,7 +30,7 @@ import java.sql.NClob;
 import java.sql.SQLException;
 import java.sql.SQLXML;
 import java.sql.Struct;
-import java.util.HashMap;
+import javolution.util.FastMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Enumeration;
@@ -218,7 +218,7 @@ public class EmbedConnection40 extends EmbedConnection30 {
         // warning.
         Map typeMap = super.getTypeMap();
         if (typeMap == null) return null;
-        Map<String, Class<?>> genericTypeMap = new HashMap<String, Class<?>>();
+        Map<String, Class<?>> genericTypeMap = new FastMap<String, Class<?>>();
         for (Object key : typeMap.keySet()) {
             genericTypeMap.put((String) key, (Class) typeMap.get(key));
         }

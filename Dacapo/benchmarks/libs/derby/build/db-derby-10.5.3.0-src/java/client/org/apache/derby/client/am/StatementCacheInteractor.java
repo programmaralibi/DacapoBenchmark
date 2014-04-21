@@ -25,7 +25,7 @@ import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.Iterator;
 
 import org.apache.derby.client.am.stmtcache.JDBCStatementCache;
@@ -62,7 +62,7 @@ public final class StatementCacheInteractor {
     private final Connection physicalConnection;
     /** List of open logical statements created by this cache interactor. */
     //@GuardedBy("this")
-    private final ArrayList openLogicalStatements = new ArrayList();
+    private final FastTable openLogicalStatements = new FastTable();
     /**
      * Tells if this interactor is in the process of shutting down.
      * <p>

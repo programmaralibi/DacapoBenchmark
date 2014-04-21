@@ -30,7 +30,7 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import junit.framework.Test;
 import org.apache.derby.drda.NetworkServerControl;
 
@@ -245,7 +245,7 @@ final public class NetworkServerTestSetup extends BaseTestSetup {
 
     private SpawnedProcess startSeparateProcess() throws Exception
     {
-        ArrayList       al = new ArrayList();
+        FastTable       al = new FastTable();
         String              classpath = BaseTestCase.getSystemProperty( "java.class.path" );
         boolean         skipHostName = false;
 
@@ -408,7 +408,7 @@ final public class NetworkServerTestSetup extends BaseTestSetup {
     public  static String[] getDefaultStartupArgs( boolean skipHostName )
     {
         TestConfiguration config = TestConfiguration.getCurrent();
-        ArrayList               argsList = new ArrayList();
+        FastTable               argsList = new FastTable();
 
         argsList.add( "start" );
 

@@ -36,15 +36,15 @@ public abstract class Connection implements java.sql.Connection,
     public Agent agent_;
 
     public DatabaseMetaData databaseMetaData_;
-    // DERBY-210 -  WeakHashMap is used to store references to objects to avoid
+    // DERBY-210 -  WeakFastMap is used to store references to objects to avoid
     // memory leaks. When there are no other references to the keys in a 
-    // WeakHashMap, they will get removed from the map and can thus get 
+    // WeakFastMap, they will get removed from the map and can thus get 
     // garbage-collected. They do not have to wait till the Connection object 
     // is collected.
         
     // In Connection.markStatementsClosed() method, this list is traversed to get a
     // list of open statements, which are marked closed and removed from the list.
-    final java.util.WeakHashMap openStatements_ = new java.util.WeakHashMap();
+    final java.util.WeakFastMap openStatements_ = new java.util.WeakFastMap();
 
     // Some statuses of DERBY objects may be invalid on server
     // after both commit and rollback. For example,
@@ -52,7 +52,7 @@ public abstract class Connection implements java.sql.Connection,
     //     after both commit and rollback
     // (2) result set will be unpositioned on server after both commit and rollback.
     // If they depend on both commit and rollback, they need to get on CommitAndRollbackListeners_.
-    final java.util.WeakHashMap CommitAndRollbackListeners_ = new java.util.WeakHashMap();
+    final java.util.WeakFastMap CommitAndRollbackListeners_ = new java.util.WeakFastMap();
     private SqlWarning warnings_ = null;
     
     //Constant representing an invalid locator value
@@ -1368,7 +1368,7 @@ public abstract class Connection implements java.sql.Connection,
                 agent_.logWriter_.traceEntry(this, "getTypeMap");
             }
             checkForClosedConnection();
-            java.util.Map map = new java.util.HashMap();
+            java.util.Map map = new javolution.util.FastMap();
             if (agent_.loggingEnabled()) {
                 agent_.logWriter_.traceExit(this, "getTypeMap", map);
             }

@@ -16,7 +16,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.JarURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
@@ -127,7 +127,7 @@ public class CommandLineArgs {
 
   private CommandLine line;
   private Callback callback = null;
-  private List<String> benchmarks = new ArrayList<String>();
+  private List<String> benchmarks = new FastTable<String>();
 
   CommandLineArgs(String[] args) throws Exception {
     try {
@@ -241,7 +241,7 @@ public class CommandLineArgs {
   }
 
   static List<String> extractBenchmarkSet() throws IOException {
-    List<String> benchmarks = new ArrayList<String>();
+    List<String> benchmarks = new FastTable<String>();
     URL url = CommandLineArgs.class.getClassLoader().getResource("cnf");
     String protocol = url.getProtocol();
     if (protocol.equals("jar")) {

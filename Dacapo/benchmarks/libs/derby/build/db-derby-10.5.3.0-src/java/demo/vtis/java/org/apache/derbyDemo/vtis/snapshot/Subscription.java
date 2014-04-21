@@ -61,10 +61,10 @@ public    abstract  class Subscription    extends QueryVTIHelper
     public  static  final   class   SubscriptionContext
     {
         private SubscriptionSignature   _signature;
-        private HashMap<String, String> _parameterValues;
+        private FastMap<String, String> _parameterValues;
         private String                  _connectionURL;
 
-        public  SubscriptionContext( SubscriptionSignature signature, HashMap<String, String> parameterValues, String connectionURL )
+        public  SubscriptionContext( SubscriptionSignature signature, FastMap<String, String> parameterValues, String connectionURL )
         {
             _signature = signature;
             _parameterValues = parameterValues;
@@ -72,7 +72,7 @@ public    abstract  class Subscription    extends QueryVTIHelper
         }
 
         public  SubscriptionSignature   getSubscriptionSignature() { return _signature; }
-        public  HashMap<String, String> getParameterValues() { return _parameterValues; }
+        public  FastMap<String, String> getParameterValues() { return _parameterValues; }
         public  String                  getConnectionURL() { return _connectionURL; }
 
         public  String    toString()
@@ -95,7 +95,7 @@ public    abstract  class Subscription    extends QueryVTIHelper
     //
     ///////////////////////////////////////////////////////////////////////////////////
 
-    private static  HashMap<String, SubscriptionContext> _contexts = new HashMap<String, SubscriptionContext>();
+    private static  FastMap<String, SubscriptionContext> _contexts = new FastMap<String, SubscriptionContext>();
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
@@ -210,7 +210,7 @@ public    abstract  class Subscription    extends QueryVTIHelper
         Method[]                methods = subscriptionClass.getMethods();
         int                     methodCount = methods.length;
         Method                  candidate = null;
-        ArrayList<Method>       snapshotQueries = new ArrayList<Method>();
+        FastTable<Method>       snapshotQueries = new FastTable<Method>();
         Connection              foreignConnection = getConnection( jdbcDriverName, connectionURL );
         Connection              localConnection = VTIHelper.getLocalConnection();
         boolean                 oldLocalAutoCommitState = localConnection.getAutoCommit();
@@ -289,7 +289,7 @@ public    abstract  class Subscription    extends QueryVTIHelper
         String[]                queryParameterNames = annotation.parameters();
         int                     count = queryParameterNames.length;
         String[]                params = new String[ count ];
-        HashMap<String, String> parameterValues = context.getParameterValues();
+        FastMap<String, String> parameterValues = context.getParameterValues();
 
         if ( parameterValues != null )
         {
@@ -451,7 +451,7 @@ public    abstract  class Subscription    extends QueryVTIHelper
      * </p>
      *
      */
-    private  static  void  truncateTables( ArrayList<Method> snapshotQueries )
+    private  static  void  truncateTables( FastTable<Method> snapshotQueries )
         throws Exception
     {
         Connection          conn = VTIHelper.getLocalConnection();
@@ -478,7 +478,7 @@ public    abstract  class Subscription    extends QueryVTIHelper
      * </p>
      *
      */
-    private  static  void  fillTables( ArrayList<Method> snapshotQueries )
+    private  static  void  fillTables( FastTable<Method> snapshotQueries )
         throws Exception
     {
         Connection          conn = VTIHelper.getLocalConnection();
@@ -542,12 +542,12 @@ public    abstract  class Subscription    extends QueryVTIHelper
     {
         Class<?>                       subscriptionClass = Class.forName( subscriptionClassName );
         SubscriptionSignature       subscriptionSignature = (SubscriptionSignature) subscriptionClass.getAnnotation( SubscriptionSignature.class );
-        HashMap<String, String>     parameterMap = null;
+        FastMap<String, String>     parameterMap = null;
         String[]                    parameterNames = subscriptionSignature.parameters();
 
         if ( parameterValues != null )
         {        
-            parameterMap = new HashMap<String, String>();
+            parameterMap = new FastMap<String, String>();
             int                         count = parameterNames.length;
             int                         actual = parameterValues.length;
 

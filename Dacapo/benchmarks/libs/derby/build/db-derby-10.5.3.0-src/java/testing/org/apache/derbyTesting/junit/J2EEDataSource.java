@@ -19,7 +19,7 @@
  */
 package org.apache.derbyTesting.junit;
 
-import java.util.HashMap;
+import javolution.util.FastMap;
 
 import javax.sql.ConnectionPoolDataSource;
 import javax.sql.XADataSource;
@@ -39,7 +39,7 @@ public class J2EEDataSource {
      */
     public static javax.sql.ConnectionPoolDataSource getConnectionPoolDataSource()
     {
-        return getConnectionPoolDataSource(TestConfiguration.getCurrent(), (HashMap) null);
+        return getConnectionPoolDataSource(TestConfiguration.getCurrent(), (FastMap) null);
     }
     /**
      * Create a new DataSource object setup from the passed in TestConfiguration.
@@ -48,7 +48,7 @@ public class J2EEDataSource {
      */
     static ConnectionPoolDataSource getConnectionPoolDataSource(
             TestConfiguration config,
-            HashMap beanProperties)
+            FastMap beanProperties)
     {
         if (beanProperties == null)
              beanProperties = JDBCDataSource.getDataSourceProperties(config);
@@ -66,7 +66,7 @@ public class J2EEDataSource {
      */
     public static XADataSource getXADataSource()
     {
-        return getXADataSource(TestConfiguration.getCurrent(), (HashMap) null);
+        return getXADataSource(TestConfiguration.getCurrent(), (FastMap) null);
     }
     
     
@@ -88,7 +88,7 @@ public class J2EEDataSource {
      * to use the user name and password from the configuration.
      */
     static XADataSource getXADataSource(TestConfiguration config,
-            HashMap beanProperties)
+            FastMap beanProperties)
     {
         if (beanProperties == null)
              beanProperties = JDBCDataSource.getDataSourceProperties(config);

@@ -23,7 +23,7 @@ package org.apache.derby.jdbc;
 
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.CopyOnWriteFastTable;
 import javax.sql.StatementEvent;
 import javax.sql.StatementEventListener;
 
@@ -45,9 +45,9 @@ class EmbedPooledConnection40 extends EmbedPooledConnection {
      * ensuring that it can be safely iterated over even if other threads or
      * the listeners fired in the same thread add or remove listeners.
      */
-    private final CopyOnWriteArrayList<StatementEventListener>
+    private final CopyOnWriteFastTable<StatementEventListener>
             statementEventListeners =
-                    new CopyOnWriteArrayList<StatementEventListener>();
+                    new CopyOnWriteFastTable<StatementEventListener>();
 
     EmbedPooledConnection40 (ReferenceableDataSource ds, String user, 
                  String password, boolean requestPassword) throws SQLException {

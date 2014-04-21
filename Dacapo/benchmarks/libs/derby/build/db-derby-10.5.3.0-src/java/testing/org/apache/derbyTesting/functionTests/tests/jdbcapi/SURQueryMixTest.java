@@ -25,8 +25,8 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.Types;
-import java.util.ArrayList;
-import java.util.HashMap;
+import javolution.util.FastTable;
+import javolution.util.FastMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -152,7 +152,7 @@ public class SURQueryMixTest extends SURBaseTest
     private Map createRowMap(final ResultSet rs) 
         throws SQLException
     {
-        final Map rows = new HashMap();        
+        final Map rows = new FastMap();        
         rs.beforeFirst();
         assertTrue("Unexpected return from isBeforeFirst()",
                    rs.isBeforeFirst());
@@ -193,7 +193,7 @@ public class SURQueryMixTest extends SURBaseTest
      **/
     private List createRandomSample(final Map rows, int k) {
         Random r = new Random();
-        ArrayList sampledKeys = new ArrayList();
+        FastTable sampledKeys = new FastTable();
         int n = 0;        
         for (Iterator i = rows.keySet().iterator(); i.hasNext();) {
             Object key = i.next();

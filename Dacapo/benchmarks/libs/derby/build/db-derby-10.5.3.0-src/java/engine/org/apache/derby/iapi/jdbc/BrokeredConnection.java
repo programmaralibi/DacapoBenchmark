@@ -622,7 +622,7 @@ public abstract class BrokeredConnection implements EngineConnection
     }
     
 	/**
-	* Clear the HashMap of all entries.
+	* Clear the FastMap of all entries.
 	* Called when a commit or rollback of the transaction
 	* happens.
 	*/

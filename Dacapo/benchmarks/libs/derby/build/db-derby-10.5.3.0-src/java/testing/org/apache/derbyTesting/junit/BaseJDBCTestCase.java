@@ -31,7 +31,7 @@ import java.lang.reflect.Method;
 import java.security.PrivilegedActionException;
 import java.net.URL;
 import java.sql.*;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.Iterator;
 import java.util.List;
 
@@ -144,7 +144,7 @@ public abstract class BaseJDBCTestCase
     private void addStatement(Statement s)
     {
         if (statements == null)
-            statements = new ArrayList();
+            statements = new FastTable();
         statements.add(s);
     }
 

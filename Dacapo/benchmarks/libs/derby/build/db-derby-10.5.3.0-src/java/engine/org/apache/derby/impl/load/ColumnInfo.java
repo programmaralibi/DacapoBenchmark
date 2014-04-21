@@ -48,12 +48,12 @@ import org.apache.derby.iapi.jdbc.EngineConnection;
  */
 class ColumnInfo {
 
-	private ArrayList vtiColumnNames ;
-    private ArrayList insertColumnNames;
-    private ArrayList columnTypes ;
-    private ArrayList jdbcColumnTypes;
+	private FastTable vtiColumnNames ;
+    private FastTable insertColumnNames;
+    private FastTable columnTypes ;
+    private FastTable jdbcColumnTypes;
 	private int noOfColumns;
-	private ArrayList columnPositions;
+	private FastTable columnPositions;
 	private boolean createolumnNames = true;
 	private int expectedNumberOfCols ; //number of Columns that are suppose
                                        // to be in the file to imported  
@@ -80,10 +80,10 @@ class ColumnInfo {
 		throws SQLException 
 	{
 
-		vtiColumnNames = new ArrayList(1);
-		insertColumnNames = new ArrayList(1);
-		columnTypes = new ArrayList(1);
-        jdbcColumnTypes = new ArrayList(1);
+		vtiColumnNames = new FastTable(1);
+		insertColumnNames = new FastTable(1);
+		columnTypes = new FastTable(1);
+        jdbcColumnTypes = new FastTable(1);
 		noOfColumns = 0;
 		this.conn = conn;
 

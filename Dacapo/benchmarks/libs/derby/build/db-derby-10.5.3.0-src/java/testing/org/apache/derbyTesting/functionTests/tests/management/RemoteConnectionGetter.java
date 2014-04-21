@@ -20,7 +20,7 @@
  */
 package org.apache.derbyTesting.functionTests.tests.management;
 
-import java.util.HashMap;
+import javolution.util.FastMap;
 import java.util.Map;
 
 import javax.management.MBeanServerConnection;
@@ -47,7 +47,7 @@ class RemoteConnectionGetter implements JMXConnectionGetter {
     public MBeanServerConnection getMBeanServerConnection(String user,
             String password) throws Exception {
         
-        HashMap<String,String[]> env = new HashMap<String,String[]>();
+        FastMap<String,String[]> env = new FastMap<String,String[]>();
         if (user != null) {
            String[] credentials = new String[] {
                    user, password };
@@ -59,7 +59,7 @@ class RemoteConnectionGetter implements JMXConnectionGetter {
         
         Map<MBeanServerConnection,JMXConnector> conns = connections.get();
         if (conns == null) {
-            conns = new HashMap<MBeanServerConnection,JMXConnector>();
+            conns = new FastMap<MBeanServerConnection,JMXConnector>();
             connections.set(conns);
         }
         

@@ -27,7 +27,7 @@ class ClassSizeCatalog extends java.util.Hashtable
         put( "org.apache.derby.iapi.types.SQLLongvarchar", new int[]{4,9});
         put( "org.apache.derby.iapi.types.SQLLongVarbit", new int[]{4,5});
         put( "org.apache.derby.impl.store.access.heap.HeapRowLocation", new int[]{12,3});
-        put( "java.util.ArrayList", new int[]{8,3});
+        put( "javolution.util.FastTable", new int[]{8,3});
         put( "org.apache.derby.iapi.types.SQLTimestamp", new int[]{12,3});
         put( "org.apache.derby.impl.store.raw.data.RecordId", new int[]{8,3});
         put( "org.apache.derby.iapi.types.UserType", new int[]{0,3});

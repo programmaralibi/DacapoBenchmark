@@ -98,7 +98,7 @@ public class GeneratorBase extends Task {
     protected String previousReleaseID;
     protected List excludeReleaseIDList;
     protected final String branch;
-    protected ArrayList errors = new ArrayList();
+    protected FastTable errors = new FastTable();
 
     // misc
     protected boolean _invokedByAnt = true;

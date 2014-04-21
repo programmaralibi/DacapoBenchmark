@@ -17,11 +17,11 @@ import java.io.PrintStream;
 import java.net.URL;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.Set;
 import java.util.Vector;
+
+import javolution.util.FastMap;
 
 /**
  * Container class for all options specified in a benchmark's configuration
@@ -119,7 +119,7 @@ public class Config {
     private int nThreads = 1;
     private String description;
 
-    HashMap<String, OutputFile> outputFiles = new LinkedHashMap<String, OutputFile>(20);
+    FastMap<String, OutputFile> outputFiles = new FastMap<String, OutputFile>();
 
     Size(String name, Vector<String> args) {
       this.args = (String[]) args.toArray(new String[0]);
@@ -249,8 +249,8 @@ public class Config {
    */
   private ThreadModel threadModel = null;
 
-  HashMap<String, Size> sizes = new HashMap<String, Size>(3);
-  HashMap<String, String> desc = new HashMap<String, String>(6);
+  FastMap<String, Size> sizes = new FastMap<String, Size>();
+  FastMap<String, String> desc = new FastMap<String, String>();
 
   /**
    * The name of the jar containing this bm

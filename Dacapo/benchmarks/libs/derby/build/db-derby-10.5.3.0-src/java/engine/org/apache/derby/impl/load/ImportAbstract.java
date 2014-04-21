@@ -26,7 +26,7 @@ import java.sql.SQLException;
 import java.sql.SQLWarning;
 import java.sql.ResultSetMetaData;
 import org.apache.derby.vti.VTITemplate;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import org.apache.derby.iapi.util.StringUtil;
 import org.apache.derby.iapi.error.PublicAPI;
 import org.apache.derby.iapi.reference.SQLState;

@@ -37,9 +37,9 @@ import org.apache.derby.iapi.services.sanity.SanityManager;
 
 import org.apache.derby.catalog.UUID;
 
-import java.util.ArrayList;
+import javolution.util.FastTable;
 
-public class ConstraintDescriptorList extends ArrayList
+public class ConstraintDescriptorList extends FastTable
 {
 
 	private boolean scanned;

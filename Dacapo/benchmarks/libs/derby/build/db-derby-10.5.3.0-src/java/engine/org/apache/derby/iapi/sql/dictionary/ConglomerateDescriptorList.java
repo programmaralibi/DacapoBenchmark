@@ -30,9 +30,9 @@ import org.apache.derby.iapi.services.monitor.Monitor;
 import org.apache.derby.catalog.UUID;
 
 import java.util.Iterator;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 
-public class ConglomerateDescriptorList extends ArrayList
+public class ConglomerateDescriptorList extends FastTable
 {
 
 	/**

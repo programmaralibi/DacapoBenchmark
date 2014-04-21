@@ -21,7 +21,7 @@ package org.apache.derbyTesting.functionTests.tests.engine;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import org.apache.derbyTesting.junit.BaseJDBCTestCase;
@@ -67,7 +67,7 @@ public class ModuleLoadingTest extends BaseJDBCTestCase {
         // Active threads count.
         final int[] activeThreads = new int[1];
         // List of exceptions/throwables thrown by the forked threads.
-        final ArrayList exceptions = new ArrayList();
+        final FastTable exceptions = new FastTable();
 
         Thread[] threads = new Thread[numThreads];
 

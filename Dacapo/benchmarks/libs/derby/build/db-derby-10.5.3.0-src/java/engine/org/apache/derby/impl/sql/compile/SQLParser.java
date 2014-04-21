@@ -141,7 +141,7 @@ import org.apache.derby.iapi.util.IdUtil;
 
 import java.sql.Types;
 import java.util.List;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.Hashtable;
 import java.util.Properties;
 import java.util.StringTokenizer;
@@ -10269,8 +10269,8 @@ columnReference() throws StandardException :
  * <A NAME="functionTableType">functionTableType</A>
  */
   final public TypeDescriptor functionTableType() throws ParseException, StandardException {
-        ArrayList                       names = new ArrayList();
-        ArrayList                         types = new ArrayList();
+        FastTable                       names = new FastTable();
+        FastTable                         types = new FastTable();
         String[]                          nameArray;
         TypeDescriptor[]        typeArray;
         int                                     columnCount;
@@ -10317,8 +10317,8 @@ columnReference() throws StandardException :
 /*
  * <A NAME="functionTableReturnColumn">functionTableReturnColumn</A>
  */
-  final public void functionTableReturnColumn(ArrayList names,
-    ArrayList types) throws ParseException, StandardException {
+  final public void functionTableReturnColumn(FastTable names,
+    FastTable types) throws ParseException, StandardException {
         String                          name;
         DataTypeDescriptor      typeDescriptor;
     name = identifier(Limits.MAX_IDENTIFIER_LENGTH, true);
@@ -13414,7 +13414,7 @@ ReuseFactory.getInteger(StatementType.RENAME_COLUMN),
  * <A NAME="parameterTypeList">parameterTypeList</A>
  */
   final public List parameterTypeList() throws ParseException, StandardException {
-    ArrayList list = new ArrayList();
+    FastTable list = new FastTable();
     TypeDescriptor type;
     if (jj_2_73(1)) {
       type = catalogType();
@@ -13525,7 +13525,7 @@ ReuseFactory.getInteger(StatementType.RENAME_COLUMN),
  * <A NAME="granteeList">granteeList</A>
  */
   final public List granteeList() throws ParseException, StandardException {
-    ArrayList list = new ArrayList();
+    FastTable list = new FastTable();
     grantee(list);
     label_43:
     while (true) {
@@ -13593,7 +13593,7 @@ ReuseFactory.getInteger(StatementType.RENAME_COLUMN),
  * <A NAME="roleList">roleList</A>
  */
   final public List roleList() throws ParseException, StandardException {
-    ArrayList list = new ArrayList();
+    FastTable list = new FastTable();
     roleElement(list);
     label_44:
     while (true) {

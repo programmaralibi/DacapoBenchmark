@@ -26,7 +26,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.Properties;
 
 
@@ -132,10 +132,10 @@ public class SimpleApp
          * in an array list for convenience.
          */
         Connection conn = null;
-	/* This ArrayList usage may cause a warning when compiling this class
+	/* This FastTable usage may cause a warning when compiling this class
 	 * with a compiler for J2SE 5.0 or newer. We are not using generics
 	 * because we want the source to support J2SE 1.4.2 environments. */
-        ArrayList statements = new ArrayList(); // list of Statements, PreparedStatements
+        FastTable statements = new FastTable(); // list of Statements, PreparedStatements
         PreparedStatement psInsert = null;
         PreparedStatement psUpdate = null;
         Statement s = null;

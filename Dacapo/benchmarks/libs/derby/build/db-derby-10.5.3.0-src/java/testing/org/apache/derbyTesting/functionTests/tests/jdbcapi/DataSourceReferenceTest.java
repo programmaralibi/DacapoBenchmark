@@ -26,7 +26,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.Iterator;
 import java.util.Properties;
 
@@ -446,7 +446,7 @@ public class DataSourceReferenceTest
      */
     private static String[] getPropertyBeanList(Object ds) {
         Method[] allMethods = ds.getClass().getMethods();
-        ArrayList properties = new ArrayList();
+        FastTable properties = new FastTable();
 
         for (int i = 0; i < allMethods.length; i++) {
             Method method = allMethods[i];

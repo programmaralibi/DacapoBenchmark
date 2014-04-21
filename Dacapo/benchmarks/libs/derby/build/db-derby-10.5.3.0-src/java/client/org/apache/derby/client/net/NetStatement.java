@@ -111,7 +111,7 @@ public class NetStatement implements org.apache.derby.client.am.MaterialStatemen
 
     // ------------------------abstract box car methods-----------------------------------------------
 
-    public void writeSetSpecialRegister_(Section section, java.util.ArrayList sqlsttList) throws SqlException {
+    public void writeSetSpecialRegister_(Section section, javolution.util.FastTable sqlsttList) throws SqlException {
         netAgent_.statementRequest_.writeSetSpecialRegister(section,sqlsttList);
     }
 

@@ -23,7 +23,7 @@ package org.apache.derby.client.am;
 
 import java.io.InputStream;
 import java.io.IOException;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 
 import java.sql.SQLException;
 
@@ -216,7 +216,7 @@ public abstract class Lob implements UnitOfWorkListener {
     protected InputStream materializeStream(InputStream is, String typeDesc)
             throws SqlException {
         final int GROWBY = 32 * 1024; // 32 KB
-        ArrayList byteArrays = new ArrayList();
+        FastTable byteArrays = new FastTable();
         byte[] curBytes = new byte[GROWBY];
         int totalLength = 0;
         int partLength = 0;

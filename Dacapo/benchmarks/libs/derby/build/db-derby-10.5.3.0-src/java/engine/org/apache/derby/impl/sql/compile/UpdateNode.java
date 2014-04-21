@@ -78,7 +78,7 @@ import org.apache.derby.iapi.services.classfile.VMOpcode;
 
 import java.lang.reflect.Modifier;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Properties;

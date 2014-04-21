@@ -79,13 +79,13 @@ import org.apache.derby.iapi.util.ReuseFactory;
 import java.sql.SQLWarning;
 import java.util.Vector;
 import java.util.Properties;
-import java.util.HashMap;
+import javolution.util.FastMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.BitSet;
 import java.util.List;
 import java.util.Stack;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 
 /**
  *
@@ -561,7 +561,7 @@ public class CompilerContextImpl extends ContextImpl
 	public void pushCompilationSchema(SchemaDescriptor sd)
 	{
 		if (defaultSchemaStack == null) {
-			defaultSchemaStack = new ArrayList(2);
+			defaultSchemaStack = new FastTable(2);
 		}
 
 		defaultSchemaStack.add(defaultSchemaStack.size(),
@@ -710,11 +710,11 @@ public class CompilerContextImpl extends ContextImpl
 		getContextManager().getContext(LanguageConnectionContext.CONTEXT_ID);
 		if( lcc.usesSqlAuthorization())
 		{
-			requiredColumnPrivileges = new HashMap();
-			requiredTablePrivileges = new HashMap();
-			requiredSchemaPrivileges = new HashMap();
-			requiredRoutinePrivileges = new HashMap();
-			requiredRolePrivileges = new HashMap();
+			requiredColumnPrivileges = new FastMap();
+			requiredTablePrivileges = new FastMap();
+			requiredSchemaPrivileges = new FastMap();
+			requiredRoutinePrivileges = new FastMap();
+			requiredRolePrivileges = new FastMap();
 		}
 	} // end of initRequiredPriv
 
@@ -878,7 +878,7 @@ public class CompilerContextImpl extends ContextImpl
 		if( requiredRolePrivileges != null)
 			size += requiredRolePrivileges.size();
 		
-		ArrayList list = new ArrayList( size);
+		FastTable list = new FastTable( size);
 		if( requiredRoutinePrivileges != null)
 		{
 			for( Iterator itr = requiredRoutinePrivileges.keySet().iterator(); itr.hasNext();)
@@ -948,7 +948,7 @@ public class CompilerContextImpl extends ContextImpl
 	 * Saved execution time default schema, if we need to change it
 	 * temporarily.
 	 */
-	private ArrayList        	defaultSchemaStack;
+	private FastTable        	defaultSchemaStack;
 
 	private ProviderList		currentAPL;
 	private boolean returnParameterFlag;
@@ -969,9 +969,9 @@ public class CompilerContextImpl extends ContextImpl
 
 	private Stack privTypeStack = new Stack();
 	private int currPrivType = Authorizer.NULL_PRIV;
-	private HashMap requiredColumnPrivileges;
-	private HashMap requiredTablePrivileges;
-	private HashMap requiredSchemaPrivileges;
-	private HashMap requiredRoutinePrivileges;
-	private HashMap requiredRolePrivileges;
+	private FastMap requiredColumnPrivileges;
+	private FastMap requiredTablePrivileges;
+	private FastMap requiredSchemaPrivileges;
+	private FastMap requiredRoutinePrivileges;
+	private FastMap requiredRolePrivileges;
 } // end of class CompilerContextImpl

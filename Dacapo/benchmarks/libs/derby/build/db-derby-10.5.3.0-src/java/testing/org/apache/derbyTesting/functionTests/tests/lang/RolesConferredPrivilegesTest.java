@@ -29,7 +29,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import org.apache.derbyTesting.junit.BaseJDBCTestCase;
@@ -2444,7 +2444,7 @@ public class RolesConferredPrivilegesTest extends BaseJDBCTestCase
     {
         Connection c = getConnection();
         DatabaseMetaData dbmd = c.getMetaData();
-        ArrayList columnList = new ArrayList();
+        FastTable columnList = new FastTable();
         ResultSet rs =
             dbmd.getColumns( (String) null, schema, table, (String) null);
 

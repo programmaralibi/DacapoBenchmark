@@ -21,7 +21,7 @@
 
 package	org.apache.derby.impl.sql.compile;
 
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.Vector;
 
 import org.apache.derby.iapi.error.StandardException;
@@ -352,7 +352,7 @@ public class CursorNode extends DMLStatementNode
 		{
 			//If this cursor has references to session schema tables, save the names of those tables into compiler context
 			//so they can be passed to execution phase.
-			ArrayList sessionSchemaTableNames = getSessionSchemaTableNamesForCursor();
+			FastTable sessionSchemaTableNames = getSessionSchemaTableNamesForCursor();
 			if (sessionSchemaTableNames != null)
 				indexOfSessionTableNamesInSavedObjects = getCompilerContext().addSavedObject(sessionSchemaTableNames);
 		}
@@ -404,13 +404,13 @@ public class CursorNode extends DMLStatementNode
 	//Check if this cursor references any session schema tables. If so, pass those names to execution phase through savedObjects
 	//This list will be used to check if there are any holdable cursors referencing temporary tables at commit time.
 	//If yes, then the data in those temporary tables should be preserved even if they are declared with ON COMMIT DELETE ROWS option
-	protected ArrayList getSessionSchemaTableNamesForCursor()
+	protected FastTable getSessionSchemaTableNamesForCursor()
 		throws StandardException
 	{
 		FromList fromList = resultSet.getFromList();
 		int fromListSize = fromList.size();
 		FromTable fromTable;
-		ArrayList sessionSchemaTableNames = null;
+		FastTable sessionSchemaTableNames = null;
 
 		for( int i = 0; i < fromListSize; i++)
 		{
@@ -418,7 +418,7 @@ public class CursorNode extends DMLStatementNode
 			if (fromTable instanceof FromBaseTable && isSessionSchema(fromTable.getTableDescriptor().getSchemaDescriptor()))
 			{
 				if (sessionSchemaTableNames == null)
-					sessionSchemaTableNames = new ArrayList();
+					sessionSchemaTableNames = new FastTable();
 				sessionSchemaTableNames.add(fromTable.getTableName().getTableName());
 			}
 		}

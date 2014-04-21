@@ -24,7 +24,7 @@ package org.apache.derby.ui.util;
 //import org.apache.ui.decorator.DerbyRunningDecorator;
 
 import java.sql.SQLException;
-import java.util.HashMap;
+import javolution.util.FastMap;
 import java.util.Iterator;
 
 import org.apache.derby.ui.common.CommonNames;
@@ -55,7 +55,7 @@ public class DerbyServerUtils {
 	
 	//Singleton Class
 	private static DerbyServerUtils dsUtils = new DerbyServerUtils();
-	private HashMap servers = new HashMap();
+	private FastMap servers = new FastMap();
  
     private DerbyServerUtils() {
         super();
@@ -81,7 +81,7 @@ public class DerbyServerUtils {
 						Object proj = servers.get(source);
 						if (proj != null) {
 							try {
-								//remove it from the hashmap, update the ui
+								//remove it from the FastMap, update the ui
 								servers.remove(source);
 								if(proj instanceof IJavaProject){
 									setRunning(((IJavaProject)proj).getProject(), null);

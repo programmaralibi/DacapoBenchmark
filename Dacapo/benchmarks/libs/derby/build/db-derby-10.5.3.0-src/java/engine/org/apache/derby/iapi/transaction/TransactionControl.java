@@ -20,7 +20,7 @@
  */
 package org.apache.derby.iapi.transaction;
 
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.Iterator;
 
 import org.apache.derby.iapi.error.ExceptionSeverity;
@@ -36,11 +36,11 @@ import org.apache.derby.iapi.reference.SQLState;
  */
 public final class TransactionControl {
     
-    private final ArrayList listeners;
+    private final FastTable listeners;
     
     public TransactionControl()
     {
-        listeners = new ArrayList();
+        listeners = new FastTable();
     }
     
     /**

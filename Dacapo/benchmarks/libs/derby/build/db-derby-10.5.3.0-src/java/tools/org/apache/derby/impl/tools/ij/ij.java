@@ -31,7 +31,7 @@ import java.util.Vector;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.List;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 
 
 /**
@@ -709,7 +709,7 @@ class ij implements ijConstants {
                 DatabaseMetaData dbmd = theConnection.getMetaData();
                 ResultSet tablers = dbmd.getTables(null,schema,null,null);
 
-                List resultSets = new ArrayList();
+                List resultSets = new FastTable();
                 boolean firstIteration = true;
                 ResultSet current_rs = null;
                 while (tablers.next()){

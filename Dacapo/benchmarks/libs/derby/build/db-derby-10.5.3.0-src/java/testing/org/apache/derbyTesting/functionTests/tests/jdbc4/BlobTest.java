@@ -139,12 +139,12 @@ public class BlobTest
         new ExemptBlobMD( "free",null,true,true)
     };
     
-    // An HashMap that is indexed by the Method which facilitated easy
+    // An FastMap that is indexed by the Method which facilitated easy
     //search for whether the given method has been exempted from the
     //LOB interface.
     
-    private HashMap<Method,ExemptBlobMD> excludedMethodSet = 
-                            new HashMap<Method,ExemptBlobMD>();
+    private FastMap<Method,ExemptBlobMD> excludedMethodSet = 
+                            new FastMap<Method,ExemptBlobMD>();
        
     /**
      * Create the test with the given name.

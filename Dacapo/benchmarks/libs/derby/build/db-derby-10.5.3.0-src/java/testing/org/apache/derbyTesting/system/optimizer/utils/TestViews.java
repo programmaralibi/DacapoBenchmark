@@ -20,7 +20,7 @@
  */
 package org.apache.derbyTesting.system.optimizer.utils;
 
-import java.util.ArrayList;
+import javolution.util.FastTable;
 
 /**
  * 
@@ -28,9 +28,9 @@ import java.util.ArrayList;
  * 
  */
 public class TestViews {
-	static ArrayList dropViews = new ArrayList();
+	static FastTable dropViews = new FastTable();
 
-	static ArrayList createViews = new ArrayList();
+	static FastTable createViews = new FastTable();
 
 	public static void init() {
 		setDropViews();

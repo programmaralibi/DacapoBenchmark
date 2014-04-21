@@ -25,7 +25,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Types;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 
 import org.apache.derby.iapi.jdbc.EngineResultSet;
 
@@ -79,11 +79,11 @@ class DRDAResultSet
 	protected int nbrrow;			   // number of fetch or insert rows
 	protected byte [] rslsetflg;		// Result Set Flags
 
-	private ArrayList  extDtaObjects;  // Arraylist of Blobs and Clobs 
+	private FastTable  extDtaObjects;  // FastTable of Blobs and Clobs 
 	                                   // Return Values to 
 		                               // send with extdta objects.
 	
-	private ArrayList rsExtPositions;
+	private FastTable rsExtPositions;
 
 	protected ConsistencyToken pkgcnstkn; // Unique consistency token for ResultSet 0
 
@@ -258,11 +258,11 @@ class DRDAResultSet
 	protected void  addExtDtaObject (Object o, int jdbcIndex )
 	{
 		if (extDtaObjects == null)
-			extDtaObjects = new java.util.ArrayList();
+			extDtaObjects = new javolution.util.FastTable();
 		extDtaObjects.add (o);
 
 		if (rsExtPositions == null)
-			rsExtPositions = new java.util.ArrayList();
+			rsExtPositions = new javolution.util.FastTable();
 		
 		// need to record the 0 based position so subtract 1
 		rsExtPositions.add (new Integer(jdbcIndex -1 ));
@@ -307,9 +307,9 @@ class DRDAResultSet
 	/**
 	 * Get the extData Objects
 	 *
-	 *  @return ArrayList with extdta
+	 *  @return FastTable with extdta
 	 */
-	protected ArrayList getExtDtaObjects()
+	protected FastTable getExtDtaObjects()
 	{
 		return extDtaObjects;
 	}
@@ -317,7 +317,7 @@ class DRDAResultSet
 	/**
 	 * Set the extData Objects
 	 */
-	protected void  setExtDtaObjects(ArrayList a)
+	protected void  setExtDtaObjects(FastTable a)
 	{
 		extDtaObjects =a;
 	}

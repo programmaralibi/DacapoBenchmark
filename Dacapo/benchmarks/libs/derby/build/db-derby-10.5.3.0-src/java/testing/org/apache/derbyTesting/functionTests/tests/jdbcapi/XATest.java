@@ -27,7 +27,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.Iterator;
 
 import javax.sql.XAConnection;
@@ -915,7 +915,7 @@ public class XATest extends BaseJDBCTestCase {
         shh.executeUpdate("DELETE FROM APP.foo966 where A < -99");
         sch.executeUpdate("DELETE FROM APP.foo966 where A < -99");
 
-        ArrayList openRS = new ArrayList();
+        FastTable openRS = new FastTable();
 
         // Statements obtained while default was hold.
         // All should work, holability will be downgraded

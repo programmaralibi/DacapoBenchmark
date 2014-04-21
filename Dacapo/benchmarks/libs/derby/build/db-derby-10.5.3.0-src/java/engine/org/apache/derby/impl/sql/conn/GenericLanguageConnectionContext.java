@@ -80,8 +80,8 @@ import org.apache.derby.iapi.db.TriggerExecutionContext;
 import org.apache.derby.iapi.reference.Property;
 
 import java.util.List;
-import java.util.ArrayList;
-import java.util.HashMap;
+import javolution.util.FastTable;
+import javolution.util.FastMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -107,7 +107,7 @@ public class GenericLanguageConnectionContext
 		fields
 	 */
 
-	private final ArrayList acts;
+	private final FastTable acts;
 	private volatile boolean unusedActs=false;
 	/** The maximum size of acts since the last time it was trimmed. Used to
 	 * determine whether acts should be trimmed to reclaim space. */
@@ -118,7 +118,7 @@ public class GenericLanguageConnectionContext
 	private boolean statisticsTiming;
 
 	//all the temporary tables declared for this connection
-	private ArrayList allDeclaredGlobalTempTables;
+	private FastTable allDeclaredGlobalTempTables;
 	//The currentSavepointLevel is used to provide the rollback behavior of temporary tables.
 	//At any point, this variable has the total number of savepoints defined for the transaction.
 	private int currentSavepointLevel = 0;
@@ -241,9 +241,9 @@ public class GenericLanguageConnectionContext
 	// database is booted.
 	private int lockEscalationThreshold; 
 
-	private ArrayList stmtValidators;
-	private ArrayList triggerExecutionContexts;
-	private ArrayList triggerTables;
+	private FastTable stmtValidators;
+	private FastTable triggerExecutionContexts;
+	private FastTable triggerTables;
 
 	// OptimizerTrace
 	private boolean optimizerTrace;
@@ -257,7 +257,7 @@ public class GenericLanguageConnectionContext
 	 * To support lastAutoincrementValue: This is a hashtable which maps
 	 * schemaName,tableName,columnName to a Long value.
 	 */
-	private HashMap autoincrementHT;
+	private FastMap autoincrementHT;
 	/**
 	 * whether to allow updates or not. 
 	 */
@@ -266,7 +266,7 @@ public class GenericLanguageConnectionContext
 	private boolean identityNotNull;	//frugal programmer
 
 	// cache of ai being handled in memory (bulk insert + alter table).
-	private HashMap autoincrementCacheHashtable;
+	private FastMap autoincrementCacheHashtable;
 
 	/*
 	   constructor
@@ -286,7 +286,7 @@ public class GenericLanguageConnectionContext
 		 throws StandardException
 	{
 		super(cm, org.apache.derby.iapi.reference.ContextId.LANG_CONNECTION);
-		acts = new ArrayList();
+		acts = new FastTable();
 		tran = tranCtrl;
 
 		dataFactory = lcf.getDataValueFactory();
@@ -318,9 +318,9 @@ public class GenericLanguageConnectionContext
 									   Property.MIN_LOCKS_ESCALATION_THRESHOLD,
 									   Integer.MAX_VALUE,
 									   Property.DEFAULT_LOCKS_ESCALATION_THRESHOLD);															 
-		stmtValidators = new ArrayList();
-		triggerExecutionContexts = new ArrayList();
-		triggerTables = new ArrayList();
+		stmtValidators = new FastTable();
+		triggerExecutionContexts = new FastTable();
+		triggerTables = new FastTable();
 	}
 
 	public void initialize() throws StandardException
@@ -517,7 +517,7 @@ public class GenericLanguageConnectionContext
 		TempTableInfo tempTableInfo = new TempTableInfo(td, currentSavepointLevel);
 
 		if (allDeclaredGlobalTempTables == null)
-			allDeclaredGlobalTempTables = new ArrayList();
+			allDeclaredGlobalTempTables = new FastTable();
 
 		allDeclaredGlobalTempTables.add(tempTableInfo);
 	}
@@ -3090,7 +3090,7 @@ public class GenericLanguageConnectionContext
 		
 		if (autoincrementCacheHashtable == null)
 		{
-			autoincrementCacheHashtable = new HashMap();
+			autoincrementCacheHashtable = new FastMap();
 		}
 
 		AutoincrementCounter aic = 
@@ -3162,7 +3162,7 @@ public class GenericLanguageConnectionContext
 			return;
 
 		if (autoincrementHT == null)
-			autoincrementHT = new HashMap();
+			autoincrementHT = new FastMap();
 
 		DataDictionary dd = getDataDictionary();
 		for (Iterator it = autoincrementCacheHashtable.keySet().iterator();
@@ -3191,7 +3191,7 @@ public class GenericLanguageConnectionContext
 		if (from.isEmpty())
 			return;
 		if (autoincrementHT == null)
-			autoincrementHT = new HashMap();
+			autoincrementHT = new FastMap();
 		
 		autoincrementHT.putAll(from);
 	}

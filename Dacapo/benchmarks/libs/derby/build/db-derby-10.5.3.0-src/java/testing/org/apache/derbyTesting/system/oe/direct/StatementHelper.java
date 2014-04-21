@@ -23,7 +23,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.IdentityHashMap;
+import java.util.IdentityFastMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -60,7 +60,7 @@ class StatementHelper {
      * such as a Java procedure which could have a different
      * prepareStatement method.
      */
-    private Map statements = new IdentityHashMap();
+    private Map statements = new IdentityFastMap();
 
     /**
      * Prepare a statement, looking in the map first.

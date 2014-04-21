@@ -140,7 +140,7 @@ import org.apache.derby.iapi.util.IdUtil;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Hashtable;
-import java.util.HashMap;
+import javolution.util.FastMap;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Vector;
@@ -2984,10 +2984,10 @@ public final class	DataDictionaryImpl
 	 * FIXME: Need to cache graph and invalidate when role graph is modified.
 	 * Currently, we always read from SYSROLES.
 	 */
-	HashMap getRoleGrantGraph(TransactionController tc, boolean inverse)
+	FastMap getRoleGrantGraph(TransactionController tc, boolean inverse)
 			throws StandardException {
 
-		HashMap hm = new HashMap();
+		FastMap hm = new FastMap();
 
 		TabInfoImpl ti = getNonCoreTI(SYSROLES_CATALOG_NUM);
 		SYSROLESRowFactory rf = (SYSROLESRowFactory) ti.getCatalogRowFactory();
@@ -6781,7 +6781,7 @@ public final class	DataDictionaryImpl
 	public java.util.List getRoutineList(String schemaID, String routineName, char nameSpace)
 		throws StandardException {
 
-		java.util.List list = new  java.util.ArrayList();
+		java.util.List list = new  javolution.util.FastTable();
 		
 		// Special in-memory table lookup for SYSFUN
 		if (schemaID.equals(SchemaDescriptor.SYSFUN_SCHEMA_UUID)

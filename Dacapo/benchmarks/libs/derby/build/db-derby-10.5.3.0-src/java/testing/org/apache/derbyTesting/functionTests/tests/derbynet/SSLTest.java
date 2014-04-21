@@ -21,7 +21,7 @@
 
 package org.apache.derbyTesting.functionTests.tests.derbynet;
 
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.sql.Connection;
 import java.sql.SQLException;
 import javax.sql.DataSource;
@@ -123,7 +123,7 @@ public class SSLTest extends BaseJDBCTestCase
      */
     private static  String[]  getStartupProperties()
     {
-        ArrayList list = new ArrayList();
+        FastTable list = new FastTable();
         list.add("javax.net.ssl.keyStore=extinout/SSLTestServerKey.key");
         list.add("javax.net.ssl.keyStorePassword=qwerty");
         String[] result = new String[ list.size()];

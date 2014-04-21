@@ -130,7 +130,7 @@ public class EventManager {
         
     public static Collection<CalEvent> getEvents() throws Exception {
         Connection conn = DatabaseManager.getConnection();
-        ArrayList<CalEvent> events = new ArrayList<CalEvent>();
+        FastTable<CalEvent> events = new FastTable<CalEvent>();
         
         try {
             ResultSet rs = DatabaseManager.executeQueryNoParams(conn, 

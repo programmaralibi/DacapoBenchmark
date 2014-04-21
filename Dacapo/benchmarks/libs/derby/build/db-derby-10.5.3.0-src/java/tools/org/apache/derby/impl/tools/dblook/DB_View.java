@@ -26,7 +26,7 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import java.util.HashMap;
+import javolution.util.FastMap;
 
 import org.apache.derby.tools.dblook;
 

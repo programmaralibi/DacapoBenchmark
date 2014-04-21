@@ -21,7 +21,7 @@ package org.apache.derbyTesting.junit;
 
 import java.io.IOException;
 import java.sql.*;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.Arrays;
 import java.util.BitSet;
 import java.util.Iterator;
@@ -349,7 +349,7 @@ public class JDBC {
 		String dropLeadIn = "DROP " + dropType + " ";
 		
         // First collect the set of DROP SQL statements.
-        ArrayList ddl = new ArrayList();
+        FastTable ddl = new FastTable();
 		while (rs.next())
 		{
             String objectName = rs.getString(mdColumn);
@@ -1194,12 +1194,12 @@ public class JDBC {
         Assert.assertEquals("Unexpected column count",
                             expectedRows[0].length, rsmd.getColumnCount());
 
-        ArrayList expected = new ArrayList(expectedRows.length);
+        FastTable expected = new FastTable(expectedRows.length);
         for (int i = 0; i < expectedRows.length; i++) {
             Assert.assertEquals("Different column count in expectedRows",
                                 expectedRows[0].length, expectedRows[i].length);
             if (asTrimmedStrings) {
-                ArrayList row = new ArrayList(expectedRows[i].length);
+                FastTable row = new FastTable(expectedRows[i].length);
                 for (int j = 0; j < expectedRows[i].length; j++) {
                     String val = (String) expectedRows[i][j];
                     row.add(val == null ? null : val.trim());
@@ -1210,9 +1210,9 @@ public class JDBC {
             }
         }
 
-        ArrayList actual = new ArrayList(expectedRows.length);
+        FastTable actual = new FastTable(expectedRows.length);
         while (rs.next()) {
-            ArrayList row = new ArrayList(expectedRows[0].length);
+            FastTable row = new FastTable(expectedRows[0].length);
             for (int i = 1; i <= expectedRows[0].length; i++) {
                 if (asTrimmedStrings) {
                     String s = rs.getString(i);

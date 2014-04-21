@@ -29,7 +29,7 @@ import java.sql.SQLException;
 import java.sql.SQLWarning;
 
 import java.util.List;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 
 /**
  * This impl is intended to be used with multiple resultsets, where
@@ -46,7 +46,7 @@ public class ijMultipleResultSetResult extends ijResultImpl {
      * Create a ijResultImpl that represents multiple result set.
      */
     public ijMultipleResultSetResult(List resultSets) throws SQLException {
-        resultSets = new ArrayList();
+        resultSets = new FastTable();
         resultSets.addAll(resultSets);
     }
 
@@ -62,7 +62,7 @@ public class ijMultipleResultSetResult extends ijResultImpl {
      */
     public ijMultipleResultSetResult(List resultSets, int[] display,
                                      int[] widths) throws SQLException {
-        this.resultSets = new ArrayList();
+        this.resultSets = new FastTable();
         this.resultSets.addAll(resultSets);
 
         displayColumns = display;

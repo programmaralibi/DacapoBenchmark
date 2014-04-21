@@ -38,7 +38,7 @@ import java.sql.SQLException;
 import java.sql.SQLWarning;
 import java.sql.Statement;
 import java.sql.Types;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.Date;
 import java.util.Properties;
 import java.util.Vector;
@@ -8217,7 +8217,7 @@ class DRDAConnThread extends Thread {
   void writeEXTDTA (DRDAStatement stmt) throws SQLException, DRDAProtocolException
   {
 
-	  ArrayList extdtaValues = stmt.getExtDtaObjects();
+	  FastTable extdtaValues = stmt.getExtDtaObjects();
     // build the EXTDTA data, if necessary
     if (extdtaValues == null) 
 		return;

@@ -43,7 +43,7 @@ import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.CallableStatement;
 
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.Iterator;
 
 /* -- New jdbc 20 extension types --- */
@@ -78,7 +78,7 @@ class EmbedPooledConnection implements javax.sql.PooledConnection, BrokeredConne
      * The list of {@code ConnectionEventListener}s. It is initially {@code
      * null} and will be initialized lazily when the first listener is added.
      */
-    private ArrayList eventListener;
+    private FastTable eventListener;
 
     /**
      * The number of iterators going through the list of connection event
@@ -203,7 +203,7 @@ class EmbedPooledConnection implements javax.sql.PooledConnection, BrokeredConne
 	private void closeCurrentConnectionHandle() throws SQLException {
 		if (currentConnectionHandle != null)
 		{
-			ArrayList tmpEventListener = eventListener;
+			FastTable tmpEventListener = eventListener;
 			eventListener = null;
 
 			try {
@@ -284,13 +284,13 @@ class EmbedPooledConnection implements javax.sql.PooledConnection, BrokeredConne
 		if (listener == null)
 			return;
         if (eventListener == null) {
-            eventListener = new ArrayList();
+            eventListener = new FastTable();
         } else if (eventIterators > 0) {
-            // DERBY-3401: Someone is iterating over the ArrayList, and since
+            // DERBY-3401: Someone is iterating over the FastTable, and since
             // we were able to synchronize on this, that someone is us. Clone
             // the list of listeners in order to prevent invalidation of the
             // iterator.
-            eventListener = (ArrayList) eventListener.clone();
+            eventListener = (FastTable) eventListener.clone();
         }
         eventListener.add(listener);
 	}
@@ -304,11 +304,11 @@ class EmbedPooledConnection implements javax.sql.PooledConnection, BrokeredConne
 			return;
         }
         if (eventIterators > 0) {
-            // DERBY-3401: Someone is iterating over the ArrayList, and since
+            // DERBY-3401: Someone is iterating over the FastTable, and since
             // we were able to synchronize on this, that someone is us. Clone
             // the list of listeners in order to prevent invalidation of the
             // iterator.
-            eventListener = (ArrayList) eventListener.clone();
+            eventListener = (FastTable) eventListener.clone();
         }
         eventListener.remove(listener);
 	}

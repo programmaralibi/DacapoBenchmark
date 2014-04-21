@@ -61,7 +61,7 @@ public class LOBStoredProcedure {
     public static final int MAX_CLOB_RETURN_LEN = MAX_BLOB_RETURN_LEN / 3;
 
     /**
-     * Creates a new empty Clob and registers it in the HashMap in the
+     * Creates a new empty Clob and registers it in the FastMap in the
      * Connection and returns the locator value corresponding to this Clob.
      * @return an integer that maps to the Clob value created.
      * @throws SQLException
@@ -228,7 +228,7 @@ public class LOBStoredProcedure {
     }
 
     /**
-     * Creates a new empty Blob and registers it in the HashMap in the
+     * Creates a new empty Blob and registers it in the FastMap in the
      * Connection and returns the locator value corresponding to this Blob.
      * @return an integer that maps to the Blob value created.
      * @throws SQLException

@@ -23,7 +23,7 @@ package org.apache.derby.client;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.CopyOnWriteFastTable;
 import javax.sql.StatementEvent;
 import javax.sql.StatementEventListener;
 import org.apache.derby.jdbc.ClientXADataSource;
@@ -38,9 +38,9 @@ public class ClientXAConnection40 extends ClientXAConnection {
      * ensuring that it can be safely iterated over even if other threads or
      * the listeners fired in the same thread add or remove listeners.
      */
-    private final CopyOnWriteArrayList<StatementEventListener>
+    private final CopyOnWriteFastTable<StatementEventListener>
             statementEventListeners =
-                     new CopyOnWriteArrayList<StatementEventListener>();
+                     new CopyOnWriteFastTable<StatementEventListener>();
     
     /**
      * Constructor for ClientXAConnection40.

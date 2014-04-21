@@ -28,7 +28,7 @@ import java.security.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.Hashtable;
 
 import junit.extensions.TestSetup;
@@ -1569,7 +1569,7 @@ public class TestConfiguration {
     private final String defaultDbName;
     /** Holds the names of all other databases used in a test to perform a proper cleanup.
      * The <code>defaultDbName</code> is also contained here.  */
-    private final ArrayList usedDbNames = new ArrayList();
+    private final FastTable usedDbNames = new FastTable();
     /** Contains the mapping of logical database names to physical database names. */
     private final Hashtable logicalDbMapping = new Hashtable();
     private final String url;

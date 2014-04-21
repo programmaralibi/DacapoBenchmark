@@ -21,7 +21,7 @@
 
 package org.apache.derby.impl.sql.execute;
 
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.List;
 import java.util.Properties;
 
@@ -280,7 +280,7 @@ abstract class DDLSingleTableConstantAction extends DDLConstantAction
         //get index property
         Properties prop = new Properties ();
         loadIndexProperties(lcc, cd, prop);
-        ArrayList list = new ArrayList();
+        FastTable list = new FastTable();
 
         // drop the existing index.
         dropConglomerate(cd, td, false, list, activation, lcc);

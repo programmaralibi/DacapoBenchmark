@@ -172,8 +172,7 @@ ij> CREATE TRIGGER TRIG2 AFTER DELETE ON FLIGHTS FOR EACH STATEMENT
 INSERT INTO FLIGHTS_HISTORY (STATUS) VALUES ('INSERTED FROM TRIG2');
 0 rows inserted/updated/deleted
 ij> COMMIT;
-ij> 
-ij version 10.5
+ij> ij version 10.5
 WARNING 01J01: Database 'toursdb' not created, connection made to existing database instead.
 CONNECTION0* - 	jdbc:derby:toursdb
 * = current connection
@@ -2830,13 +2829,10 @@ ij> insert into FLIGHTAVAILABILITY values ('US1435',1,'2004-04-18',0,0,3);
 1 row inserted/updated/deleted
 ij> insert into FLIGHTAVAILABILITY values ('US1357',2,'2004-04-18',0,0,3);
 1 row inserted/updated/deleted
-ij> 
-Loading the Derby jdbc driver...
-Getting Derby database connection...
+ij> Loading the Derby jdbc driver...
 java.sql.SQLException: Database 'toursDB' not found.
 	at org.apache.derby.impl.jdbc.SQLExceptionFactory40.getSQLException(Unknown Source)
 	at org.apache.derby.impl.jdbc.Util.newEmbedSQLException(Unknown Source)
-FAIL -- unexpected exception: java.sql.SQLException: Database 'toursDB' not found.
 	at org.apache.derby.impl.jdbc.Util.newEmbedSQLException(Unknown Source)
 	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
 	at org.apache.derby.impl.jdbc.EmbedConnection.newSQLException(Unknown Source)
@@ -2854,6 +2850,8 @@ Caused by: java.sql.SQLException: Database 'toursDB' not found.
 	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
 	at org.apache.derby.impl.jdbc.SQLExceptionFactory40.wrapArgsForTransportAcrossDRDA(Unknown Source)
 	... 15 more
+Getting Derby database connection...
+FAIL -- unexpected exception: java.sql.SQLException: Database 'toursDB' not found.
 ij version 10.5
 ij> -- Licensed to the Apache Software Foundation (ASF) under one or more
 -- contributor license agreements.  See the NOTICE file distributed with

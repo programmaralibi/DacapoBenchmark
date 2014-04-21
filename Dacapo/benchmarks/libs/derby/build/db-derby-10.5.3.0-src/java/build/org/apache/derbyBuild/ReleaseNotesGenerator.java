@@ -133,7 +133,7 @@ public class ReleaseNotesGenerator extends GeneratorBase {
     // set on the command line or by ant
     private String releaseNotesListFileName;
     private Document releaseNotesDoc;
-    private ArrayList missingReleaseNotes = new ArrayList();
+    private FastTable missingReleaseNotes = new FastTable();
 
 
     public ReleaseNotesGenerator() throws Exception {

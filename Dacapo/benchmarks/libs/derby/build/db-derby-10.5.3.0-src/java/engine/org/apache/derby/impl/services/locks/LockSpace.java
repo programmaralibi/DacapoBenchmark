@@ -30,7 +30,7 @@ import org.apache.derby.iapi.services.sanity.SanityManager;
 import org.apache.derby.iapi.error.StandardException;
 
 import java.util.Enumeration;
-import java.util.HashMap;
+import javolution.util.FastMap;
 import java.util.Iterator;
 import org.apache.derby.iapi.services.locks.LockOwner;
 
@@ -39,8 +39,8 @@ import org.apache.derby.iapi.services.locks.LockOwner;
 	A LockSpace represents the complete set of locks held within
 	a single compatibility space, broken into groups of locks.
 
-    A LockSpace contains a HashMap keyed by the group reference,
-    the data for each key is a HashMap of Lock's.
+    A LockSpace contains a FastMap keyed by the group reference,
+    the data for each key is a FastMap of Lock's.
 
     <p> A <code>LockSpace</code> can have an owner (for instance a
     transaction). Currently, the owner is used by the virtual lock table to
@@ -52,11 +52,11 @@ import org.apache.derby.iapi.services.locks.LockOwner;
 final class LockSpace implements CompatibilitySpace {
 
 	/** Map from group references to groups of locks. */
-	private final HashMap groups;
+	private final FastMap groups;
 	/** Reference to the owner of this compatibility space. */
 	private final LockOwner owner;
 
-	private HashMap spareGroups[] = new HashMap[3];
+	private FastMap spareGroups[] = new FastMap[3];
 
 	// the Limit info.
 	private Object callbackGroup;
@@ -70,7 +70,7 @@ final class LockSpace implements CompatibilitySpace {
 	 * @param owner an object representing the owner of the compatibility space
 	 */
 	LockSpace(LockOwner owner) {
-		groups = new HashMap();
+		groups = new FastMap();
 		this.owner = owner;
 	}
 
@@ -91,7 +91,7 @@ final class LockSpace implements CompatibilitySpace {
 
 		Lock lockInGroup = null;
 
-		HashMap dl = (HashMap) groups.get(group);
+		FastMap dl = (FastMap) groups.get(group);
 		if (dl == null)	{
 			dl = getGroupMap(group);
 		} else if (lock.getCount() != 1) {
@@ -139,7 +139,7 @@ final class LockSpace implements CompatibilitySpace {
 	*/
 
 	synchronized void unlockGroup(LockTable lset, Object group) {
-		HashMap dl = (HashMap) groups.remove(group);
+		FastMap dl = (FastMap) groups.remove(group);
 		if (dl == null)
 			return;
 
@@ -154,9 +154,9 @@ final class LockSpace implements CompatibilitySpace {
 		saveGroup(dl);
 	}
 
-	private HashMap getGroupMap(Object group) {
-		HashMap[] sg = spareGroups;
-		HashMap dl = null;
+	private FastMap getGroupMap(Object group) {
+		FastMap[] sg = spareGroups;
+		FastMap dl = null;
 		for (int i = 0; i < 3; i++) {
 			dl = sg[i];
 			if (dl != null) {
@@ -166,13 +166,13 @@ final class LockSpace implements CompatibilitySpace {
 		}
 
 		if (dl == null)
-			dl = new HashMap(5, 0.8f);
+			dl = new FastMap(5, 0.8f);
 
 		groups.put(group, dl);
 		return dl;
 	}
-	private void saveGroup(HashMap dl) {
-		HashMap[] sg = spareGroups;
+	private void saveGroup(FastMap dl) {
+		FastMap[] sg = spareGroups;
 		for (int i = 0; i < 3; i++) {
 			if (sg[i] == null) {
 				sg[i] = dl;
@@ -186,7 +186,7 @@ final class LockSpace implements CompatibilitySpace {
 		Unlock all locks in the group that match the key
 	*/
 	synchronized void unlockGroup(LockTable lset, Object group, Matchable key) {
-		HashMap dl = (HashMap) groups.get(group);
+		FastMap dl = (FastMap) groups.get(group);
 		if (dl == null)
 			return; //  no group at all
 
@@ -212,11 +212,11 @@ final class LockSpace implements CompatibilitySpace {
 	}
 
 	synchronized void transfer(Object oldGroup, Object newGroup) {
-		HashMap from = (HashMap) groups.get(oldGroup);
+		FastMap from = (FastMap) groups.get(oldGroup);
 		if (from == null)
 			return;
 
-		HashMap to = (HashMap) groups.get(newGroup);
+		FastMap to = (FastMap) groups.get(newGroup);
 		if (to == null) {
 			// simple case 
 			groups.put(newGroup, from);
@@ -243,7 +243,7 @@ final class LockSpace implements CompatibilitySpace {
 		groups.remove(oldGroup);
 	}
 
-	private void mergeGroups(HashMap from, HashMap into) {
+	private void mergeGroups(FastMap from, FastMap into) {
 
 		for (Iterator e = from.keySet().iterator(); e.hasNext(); ) {
 
@@ -269,7 +269,7 @@ final class LockSpace implements CompatibilitySpace {
 									 Object qualifier, Object group) {
 
 		// look for locks matching our reference and qualifier.
-		HashMap dl = (HashMap) groups.get(group);
+		FastMap dl = (FastMap) groups.get(group);
 		if (dl == null)
 			return 0;
 
@@ -315,7 +315,7 @@ final class LockSpace implements CompatibilitySpace {
 	synchronized boolean isLockHeld(Object group, Lockable ref, Object qualifier) {
 
 		// look for locks matching our reference and qualifier.
-		HashMap dl = (HashMap) groups.get(group);
+		FastMap dl = (FastMap) groups.get(group);
 		if (dl == null)
 			return false;
 
@@ -356,7 +356,7 @@ final class LockSpace implements CompatibilitySpace {
 		int count = 0;
 
 		for (Iterator it = groups.values().iterator(); it.hasNext(); ) {
-			HashMap group = (HashMap) it.next();
+			FastMap group = (FastMap) it.next();
 			for (Iterator locks = group.keySet().iterator(); locks.hasNext(); ) {
 					Lock lock = (Lock) locks.next();
 					count += lock.getCount();

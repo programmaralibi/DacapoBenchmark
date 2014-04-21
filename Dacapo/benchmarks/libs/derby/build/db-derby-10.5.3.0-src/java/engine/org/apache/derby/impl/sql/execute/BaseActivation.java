@@ -24,7 +24,7 @@ package org.apache.derby.impl.sql.execute;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.SQLWarning;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Vector;
@@ -544,7 +544,7 @@ public abstract class BaseActivation implements CursorActivation, GeneratedByteC
 		{
 			//If we came here, it means this activation is held over commit and it reference session table names
 			//Now let's check if it referneces the passed temporary table name which has ON COMMIT DELETE ROWS defined on it.
-			return ((ArrayList)getPreparedStatement().getSavedObject(indexOfSessionTableNamesInSavedObjects)).contains(tableName);
+			return ((FastTable)getPreparedStatement().getSavedObject(indexOfSessionTableNamesInSavedObjects)).contains(tableName);
 		}
 
 		return false;

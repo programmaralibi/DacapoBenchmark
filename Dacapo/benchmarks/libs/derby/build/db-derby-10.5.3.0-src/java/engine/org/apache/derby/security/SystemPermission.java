@@ -23,7 +23,7 @@ package org.apache.derby.security;
 
 import java.security.BasicPermission;
 import java.security.Permission;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -103,7 +103,7 @@ final public class SystemPermission extends BasicPermission {
     /**
      * Set of legal actions in their canonical form.
      */
-    static private final List LEGAL_ACTIONS = new ArrayList();
+    static private final List LEGAL_ACTIONS = new FastTable();
     static {
         LEGAL_ACTIONS.add(CONTROL);
         LEGAL_ACTIONS.add(MONITOR);

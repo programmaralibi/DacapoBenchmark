@@ -26,7 +26,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.List;
 
 import org.apache.derbyTesting.system.oe.client.Display;
@@ -70,7 +70,7 @@ public class Standard extends StatementHelper implements Operations {
     
     private final Order order = new Order();
     
-    private final List nameList = new ArrayList();
+    private final List nameList = new FastTable();
 
 
     /**

@@ -50,7 +50,7 @@ import java.io.ObjectOutput;
 import java.io.ObjectInput;
 import java.io.StringReader;
 
-import java.util.ArrayList;
+import javolution.util.FastTable;
 
 /**
  * This type implements the XMLDataValue interface and thus is
@@ -864,7 +864,7 @@ public class XML
             // Return an XML data value whose contents are the
             // serialized version of the query results.
             int [] xType = new int[1];
-            ArrayList itemRefs = sqlxUtil.evalXQExpression(
+            FastTable itemRefs = sqlxUtil.evalXQExpression(
                 this, true, xType);
 
             if (result == null)

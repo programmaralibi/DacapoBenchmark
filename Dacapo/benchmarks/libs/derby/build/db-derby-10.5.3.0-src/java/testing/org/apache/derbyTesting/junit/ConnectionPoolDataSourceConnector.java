@@ -21,7 +21,7 @@ package org.apache.derbyTesting.junit;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.HashMap;
+import javolution.util.FastMap;
 
 import javax.sql.ConnectionPoolDataSource;
 
@@ -49,7 +49,7 @@ public class ConnectionPoolDataSourceConnector implements Connector {
     public void setConfiguration(TestConfiguration config) {
         
         this.config = config;
-        ds = J2EEDataSource.getConnectionPoolDataSource(config, (HashMap) null);
+        ds = J2EEDataSource.getConnectionPoolDataSource(config, (FastMap) null);
         // Enable statement pooling by default.
         // Note that this does not automatically test the pooling itself, but it
         // should test basic JDBC operations on the logical wrapper classes.
@@ -159,7 +159,7 @@ public class ConnectionPoolDataSourceConnector implements Connector {
      */
     private ConnectionPoolDataSource singleUseDS(String property, String value)
        throws SQLException {
-        HashMap hm = JDBCDataSource.getDataSourceProperties(config);
+        FastMap hm = JDBCDataSource.getDataSourceProperties(config);
         hm.put(property, value);
         ConnectionPoolDataSource sds =
                 J2EEDataSource.getConnectionPoolDataSource(config, hm);

@@ -23,7 +23,7 @@ package org.apache.derby.jdbc;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.CopyOnWriteFastTable;
 import javax.sql.StatementEvent;
 import javax.sql.StatementEventListener;
 import javax.sql.XAConnection;
@@ -40,9 +40,9 @@ final class EmbedXAConnection40 extends EmbedXAConnection
      * ensuring that it can be safely iterated over even if other threads or
      * the listeners fired in the same thread add or remove listeners.
      */
-    private final CopyOnWriteArrayList<StatementEventListener>
+    private final CopyOnWriteFastTable<StatementEventListener>
             statementEventListeners =
-                    new CopyOnWriteArrayList<StatementEventListener>();
+                    new CopyOnWriteFastTable<StatementEventListener>();
     
     /**
      * Creates EmbedXAConnection40.

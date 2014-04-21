@@ -622,7 +622,7 @@ public class BasicDependencyManager implements DependencyManager {
 			return EMPTY_PROVIDER_INFO;
 		}
 
-		java.util.ArrayList pih = new java.util.ArrayList();
+		javolution.util.FastTable pih = new javolution.util.FastTable();
 
 		for (ListIterator depsIterator = list.listIterator();
 					depsIterator.hasNext(); ) 

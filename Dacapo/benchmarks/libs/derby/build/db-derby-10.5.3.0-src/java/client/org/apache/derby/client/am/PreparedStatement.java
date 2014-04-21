@@ -28,7 +28,7 @@ import org.apache.derby.iapi.services.sanity.SanityManager;
 import java.io.InputStream;
 import java.io.Reader;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.Arrays;
 import org.apache.derby.client.ClientPooledConnection;
 import org.apache.derby.jdbc.ClientDriver;
@@ -66,7 +66,7 @@ public class PreparedStatement extends Statement
 
     public ColumnMetaData parameterMetaData_; // type information for input sqlda
     
-    private ArrayList parameterTypeList;
+    private FastTable parameterTypeList;
 
 
     // The problem with storing the scrollable ResultSet associated with cursorName in scrollableRS_ is
@@ -1609,7 +1609,7 @@ public class PreparedStatement extends Statement
                 checkThatAllParametersAreSet();
                 
                 if (parameterTypeList == null) {
-                    parameterTypeList = new ArrayList();
+                    parameterTypeList = new FastTable();
                 }
 
                 // ASSERT: since OUT/INOUT parameters are not allowed, there should
@@ -2007,8 +2007,8 @@ public class PreparedStatement extends Statement
             ResultSet scrollableRS = null;
 
             if (doWriteTimeout) {
-                timeoutArrayList.set(0, TIMEOUT_STATEMENT + timeout_);
-                writeSetSpecialRegister(timeoutArrayList);
+                timeoutFastTable.set(0, TIMEOUT_STATEMENT + timeout_);
+                writeSetSpecialRegister(timeoutFastTable);
                 doWriteTimeout = false;
                 timeoutSent = true;
             }
@@ -2254,8 +2254,8 @@ public class PreparedStatement extends Statement
         boolean chainAutoCommit = connection_.willAutoCommitGenerateFlow() && isAutoCommittableStatement_;
 
         if (doWriteTimeout) {
-            timeoutArrayList.set(0, TIMEOUT_STATEMENT + timeout_);
-            writeSetSpecialRegister(timeoutArrayList);
+            timeoutFastTable.set(0, TIMEOUT_STATEMENT + timeout_);
+            writeSetSpecialRegister(timeoutFastTable);
             doWriteTimeout = false;
             timeoutSent = true;
         }

@@ -39,7 +39,7 @@ import java.sql.Types;
 
 import java.util.Properties;
 import java.util.Enumeration;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.List;
 import java.util.Vector;
 
@@ -333,7 +333,7 @@ public class JDBCDisplayUtil {
         (PrintWriter out, ResultSet rs, Connection conn, int indentLevel,
          int[] displayColumns, int[] displayColumnWidths)
         throws SQLException {
-        List resultSets = new ArrayList();
+        List resultSets = new FastTable();
         resultSets.add(rs);
         indent_DisplayResults( out, resultSets, conn, 0, displayColumns, 
                                displayColumnWidths);

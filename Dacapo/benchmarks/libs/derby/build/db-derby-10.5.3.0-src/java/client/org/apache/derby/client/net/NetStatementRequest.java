@@ -36,7 +36,7 @@ import org.apache.derby.shared.common.reference.SQLState;
 // For performance, should we worry about the ordering of our DDM command parameters
 
 public class NetStatementRequest extends NetPackageRequest implements StatementRequestInterface {
-    java.util.ArrayList extdtaPositions_ = null; // Integers: build EXTDTA for column i
+    javolution.util.FastTable extdtaPositions_ = null; // Integers: build EXTDTA for column i
     int overrideLid_ = FdocaConstants.FIRST_OVERRIDE_LID;
 
     // promototed parameters hold parameters that are promotoed to a different
@@ -45,7 +45,7 @@ public class NetStatementRequest extends NetPackageRequest implements StatementR
     // The key for this structure is the parameter index.  Note that having this
     // collection does not eliminate the need for extdtaPositions_ because that
     // is still needed for non-promototed LOBs
-    java.util.HashMap promototedParameters_ = new java.util.HashMap();
+    javolution.util.FastMap promototedParameters_ = new javolution.util.FastMap();
 
     NetStatementRequest(NetAgent netAgent, CcsidManager ccsidManager, int bufferSize) {
         super(netAgent, ccsidManager, bufferSize);
@@ -519,7 +519,7 @@ public class NetStatementRequest extends NetPackageRequest implements StatementR
         int[][] protocolTypesAndLengths = allocateLidAndLengthsArray(parameterMetaData);
 
         java.util.Hashtable protocolTypeToOverrideLidMapping = null;
-        java.util.ArrayList mddOverrideArray = null;
+        javolution.util.FastTable mddOverrideArray = null;
         protocolTypeToOverrideLidMapping =
                 computeProtocolTypesAndLengths(inputRow, parameterMetaData, protocolTypesAndLengths,
                         protocolTypeToOverrideLidMapping);
@@ -555,7 +555,7 @@ public class NetStatementRequest extends NetPackageRequest implements StatementR
                              int[][] protocolTypesAndLengths,
                              boolean overrideExists,
                              java.util.Hashtable overrideMap,
-                             java.util.ArrayList overrideArray) throws SqlException {
+                             javolution.util.FastTable overrideArray) throws SqlException {
         markLengthBytes(CodePoint.FDODSC);
         buildSQLDTA(numColumns, protocolTypesAndLengths, overrideExists, overrideMap, overrideArray);
         updateLengthBytes();
@@ -568,7 +568,7 @@ public class NetStatementRequest extends NetPackageRequest implements StatementR
                                int[][] lidAndLengthOverrides,
                                boolean overrideExists,
                                java.util.Hashtable overrideMap,
-                               java.util.ArrayList overrideArray) throws SqlException {
+                               javolution.util.FastTable overrideArray) throws SqlException {
         // mdd overrides need to be built first if any before the descriptors are built.
         if (overrideExists) {
             buildMddOverrides(overrideArray);
@@ -1722,7 +1722,7 @@ public class NetStatementRequest extends NetPackageRequest implements StatementR
 
         if (dataLength != 0) {
             if (extdtaPositions_ == null) {
-                extdtaPositions_ = new java.util.ArrayList();
+                extdtaPositions_ = new javolution.util.FastTable();
             }
             extdtaPositions_.add(new Integer(i));
         }
@@ -1732,7 +1732,7 @@ public class NetStatementRequest extends NetPackageRequest implements StatementR
         short v = 1;
         writeShort( v <<= 15 );
         if (extdtaPositions_ == null) {
-            extdtaPositions_ = new java.util.ArrayList();
+            extdtaPositions_ = new javolution.util.FastTable();
         }
         
         extdtaPositions_.add(new Integer(i));
@@ -1762,7 +1762,7 @@ public class NetStatementRequest extends NetPackageRequest implements StatementR
         return CodePoint.RSLSETFLG_EXTENDED_SQLDA;
     }
 
-    public void writeSetSpecialRegister(Section section, java.util.ArrayList sqlsttList) throws SqlException {
+    public void writeSetSpecialRegister(Section section, javolution.util.FastTable sqlsttList) throws SqlException {
         buildEXCSQLSET(section);
 
         // SQLSTT:
@@ -1781,7 +1781,7 @@ public class NetStatementRequest extends NetPackageRequest implements StatementR
         return lidAndLengths;
     }
 
-    private void buildMddOverrides(java.util.ArrayList sdaOverrides) throws SqlException {
+    private void buildMddOverrides(javolution.util.FastTable sdaOverrides) throws SqlException {
         byte[] mddBytes;
         for (int i = 0; i < sdaOverrides.size(); i++) {
             mddBytes = (byte[]) (sdaOverrides.get(i));

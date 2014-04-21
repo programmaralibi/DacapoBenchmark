@@ -45,11 +45,11 @@ import org.apache.derbyTesting.functionTests.util.TestUtil;
 
 
 
-import java.util.HashMap;
+import javolution.util.FastMap;
 import java.util.TreeMap;
 import java.util.Set;
 import java.util.Iterator;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.StringTokenizer;
 
 public class dblook_test {
@@ -750,7 +750,7 @@ public class dblook_test {
 
 		// Load any id-to-name mappings that will be useful
 		// when dumping the catalogs.
-		HashMap idToNameMap = loadIdMappings(stmt, conn);
+		FastMap idToNameMap = loadIdMappings(stmt, conn);
 
 		// Go through and dump all system catalog information,
 		// filtering out database-dependent id's so that they
@@ -902,7 +902,7 @@ public class dblook_test {
 	 ****/
 
 	private void dumpResultSet (ResultSet rs,
-		HashMap idToNameMap, Connection conn)
+		FastMap idToNameMap, Connection conn)
 		throws Exception
 	{
 
@@ -922,8 +922,8 @@ public class dblook_test {
 		StringBuffer uniqueName = new StringBuffer();
 
 		TreeMap orderedRows = new TreeMap();
-		ArrayList rowValues = new ArrayList();
-		ArrayList duplicateRowIds = new ArrayList();
+		FastTable rowValues = new FastTable();
+		FastTable duplicateRowIds = new FastTable();
 		ResultSetMetaData rsmd = rs.getMetaData();
 		int cols = rsmd.getColumnCount();
 		while (rs.next()) {
@@ -1022,7 +1022,7 @@ public class dblook_test {
 				// id.
 					handleDuplicateRow(rowValues, null, orderedRows);
 				else {
-					ArrayList oldRow = (ArrayList)(orderedRows.put(
+					FastTable oldRow = (FastTable)(orderedRows.put(
 						uniqueName.toString(), rowValues));
 					if (oldRow != null) {
 					// Duplicate row id.
@@ -1035,7 +1035,7 @@ public class dblook_test {
 			}
 
 			uniqueName = new StringBuffer();
-			rowValues = new ArrayList();
+			rowValues = new FastTable();
 
 		}
 
@@ -1046,7 +1046,7 @@ public class dblook_test {
 			itr.hasNext(); ) {
 
 			String row = (String)itr.next();
-			ArrayList colData = (ArrayList)orderedRows.get(row);
+			FastTable colData = (FastTable)orderedRows.get(row);
 			for (int i = 0; i < colData.size(); i++)
 				writeOut((String)colData.get(i));
 			writeOut("----");
@@ -1082,7 +1082,7 @@ public class dblook_test {
 	 ****/
 
 	private String dumpColumnData(String colName,
-		String value, String mappedName, ArrayList rowVals)
+		String value, String mappedName, FastTable rowVals)
 	{
 
 		if (mappedName == null) {
@@ -1174,7 +1174,7 @@ public class dblook_test {
 	 ****/
 
 	private void handleDuplicateRow(
-		ArrayList newRow, ArrayList oldRow,
+		FastTable newRow, FastTable oldRow,
 		TreeMap orderedRows)
 	{
 
@@ -1185,7 +1185,7 @@ public class dblook_test {
 		for (int i = 0; i < newRow.size(); i++)
 			newRowId.append((String)newRow.get(i));
 
-		Object obj = (ArrayList)(orderedRows.put(
+		Object obj = (FastTable)(orderedRows.put(
 						newRowId.toString(), newRow));
 		if (obj != null)
 		// entire row is a duplicate.
@@ -1198,7 +1198,7 @@ public class dblook_test {
 			for (int i = 0; i < oldRow.size(); i++)
 				oldRowId.append((String)oldRow.get(i));
 
-			obj = (ArrayList)(orderedRows.put(
+			obj = (FastTable)(orderedRows.put(
 				oldRowId.toString(), oldRow));
 			if (obj != null)
 			// entire row is a duplicate.
@@ -1295,14 +1295,14 @@ public class dblook_test {
 	 *  database being examined.
 	 * @param conn Connection to the database being
 	 *   examined.
-	 * @return A HashMap with all relevant id-to-
+	 * @return A FastMap with all relevant id-to-
 	 *  name mappings has been returned.
 	 ****/
 
-	private HashMap loadIdMappings(Statement stmt,
+	private FastMap loadIdMappings(Statement stmt,
 		Connection conn) throws Exception {
 
-		HashMap idToNameMap = new HashMap();
+		FastMap idToNameMap = new FastMap();
 
 		// Table ids.
 		ResultSet rs = stmt.executeQuery(
@@ -1345,7 +1345,7 @@ public class dblook_test {
 	 ****/
 
 	private String getDependsData(ResultSet rs,
-		Connection conn, HashMap idToNameMap)
+		Connection conn, FastMap idToNameMap)
 		throws Exception
 	{
 
@@ -1390,7 +1390,7 @@ public class dblook_test {
 	 ****/
 
 	private String getHiddenDependsData(String type,
-		String id, Statement pStmt, HashMap idToNameMap)
+		String id, Statement pStmt, FastMap idToNameMap)
 		throws Exception
 	{
 

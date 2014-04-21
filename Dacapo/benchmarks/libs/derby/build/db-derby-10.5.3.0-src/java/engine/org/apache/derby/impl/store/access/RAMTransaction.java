@@ -21,8 +21,8 @@
 
 package org.apache.derby.impl.store.access;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import javolution.util.FastTable;
+import javolution.util.FastMap;
 import java.util.Iterator;
 import java.util.Properties;
 
@@ -111,20 +111,20 @@ public class RAMTransaction
 
 	// XXX (nat) management of the controllers is still embryonic.
 	// XXX (nat) would be nice if sort controllers were like conglom controllers
-	private ArrayList scanControllers;
-	private ArrayList conglomerateControllers;
-	private ArrayList sorts;
-	private ArrayList sortControllers;
+	private FastTable scanControllers;
+	private FastTable conglomerateControllers;
+	private FastTable sorts;
+	private FastTable sortControllers;
 
     /** List of sort identifiers (represented as <code>Integer</code> objects)
      * which can be reused. Since sort identifiers are used as array indexes,
      * we need to reuse them to avoid leaking memory (DERBY-912). */
-    private ArrayList freeSortIds;
+    private FastTable freeSortIds;
 
 	/**
 	Where to look for temporary conglomerates.
 	**/
-	protected HashMap tempCongloms;
+	protected FastMap tempCongloms;
 
 	/**
 	Next id to use for a temporary conglomerate.
@@ -160,8 +160,8 @@ public class RAMTransaction
 		this.rawtran            = theRawTran;
         this.parent_tran        = parent_tran;
 		accessmanager           = myaccessmanager;
-		scanControllers         = new ArrayList();
-		conglomerateControllers = new ArrayList();
+		scanControllers         = new FastTable();
+		conglomerateControllers = new FastTable();
 
 		sorts                   = null; // allocated on demand.
 		freeSortIds             = null; // allocated on demand.
@@ -831,7 +831,7 @@ public class RAMTransaction
 		{
 			conglomId = nextTempConglomId--;
 			if (tempCongloms == null)
-				tempCongloms = new HashMap();
+				tempCongloms = new FastMap();
 			tempCongloms.put(new Long(conglomId), conglom);
 		}
 		else
@@ -1712,8 +1712,8 @@ public class RAMTransaction
 
 		// Add the sort to the sorts vector
 		if (sorts == null) {
-			sorts = new ArrayList();
-            freeSortIds = new ArrayList();
+			sorts = new FastTable();
+            freeSortIds = new FastTable();
         }
 
         int sortid;
@@ -1851,7 +1851,7 @@ public class RAMTransaction
 
 		// Keep track of it so we can release on close.
 		if (sortControllers == null)
-			sortControllers = new ArrayList();
+			sortControllers = new FastTable();
 		sortControllers.add(sc);
 
 		return sc;

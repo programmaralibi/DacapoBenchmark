@@ -61,7 +61,7 @@ import org.apache.derby.iapi.services.property.PersistentSet;
 import java.util.Stack;
 import java.util.Enumeration;
 import java.util.Properties;
-import java.util.ArrayList;
+import javolution.util.FastTable;
 import java.util.List;
 import java.util.Dictionary;
 
@@ -1253,7 +1253,7 @@ public class Xact extends RawTransaction implements Limit, LockOwner {
 			return;
 
 		if (postCommitWorks == null)
-			postCommitWorks = new ArrayList(1);
+			postCommitWorks = new FastTable(1);
 		postCommitWorks.add(work);
 	}
 
@@ -1263,7 +1263,7 @@ public class Xact extends RawTransaction implements Limit, LockOwner {
 			return;
 
 		if (postTerminationWorks == null)
-			postTerminationWorks = new ArrayList(2);
+			postTerminationWorks = new FastTable(2);
 		postTerminationWorks.add(work);
 	}
 

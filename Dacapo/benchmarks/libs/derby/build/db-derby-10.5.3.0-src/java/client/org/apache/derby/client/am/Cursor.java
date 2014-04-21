@@ -83,10 +83,10 @@ public abstract class Cursor {
 
     // Row positioning for all cached rows
     // For scrollable result sets, these lists hold the offsets into the cached rowset buffer for each row of data.
-    protected java.util.ArrayList columnDataPositionCache_ = new java.util.ArrayList();
-    protected java.util.ArrayList columnDataLengthCache_ = new java.util.ArrayList();
-    protected java.util.ArrayList columnDataIsNullCache_ = new java.util.ArrayList();
-    public java.util.ArrayList isUpdateDeleteHoleCache_ = new java.util.ArrayList();
+    protected javolution.util.FastTable columnDataPositionCache_ = new javolution.util.FastTable();
+    protected javolution.util.FastTable columnDataLengthCache_ = new javolution.util.FastTable();
+    protected javolution.util.FastTable columnDataIsNullCache_ = new javolution.util.FastTable();
+    public javolution.util.FastTable isUpdateDeleteHoleCache_ = new javolution.util.FastTable();
     public boolean isUpdateDeleteHole_;
 
     // State to keep track of when a row has been updated,
