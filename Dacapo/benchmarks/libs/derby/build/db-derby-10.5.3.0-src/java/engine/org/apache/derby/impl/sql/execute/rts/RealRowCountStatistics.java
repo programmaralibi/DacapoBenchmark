@@ -128,7 +128,7 @@ public class RealRowCountStatistics
      */
     public FastTable getChildren() {
         FastTable children = new FastTable();
-        children.addElement(childResultSetStatistics);
+        children.add(childResultSetStatistics);
 
         return children;
     }

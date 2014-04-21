@@ -376,7 +376,7 @@ public final class RunTimeStatisticsImpl implements RunTimeStatistics
 	 */
   public FastTable getChildren(){
     FastTable children = new FastTable();
-    children.addElement(topResultSetStatistics);
+    children.add(topResultSetStatistics);
     return children;
   }
 

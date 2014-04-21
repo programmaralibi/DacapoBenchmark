@@ -22,15 +22,11 @@
 package	org.apache.derby.impl.sql.compile;
 
 import org.apache.derby.iapi.services.loader.GeneratedMethod;
-
 import org.apache.derby.iapi.services.compiler.MethodBuilder;
 import org.apache.derby.iapi.services.compiler.LocalField;
 import org.apache.derby.iapi.reference.ClassName;
 import org.apache.derby.iapi.services.classfile.VMOpcode;
-
-
 import org.apache.derby.iapi.error.StandardException;
-
 import org.apache.derby.iapi.sql.compile.CompilerContext;
 import org.apache.derby.iapi.sql.compile.ExpressionClassBuilderInterface;
 import org.apache.derby.iapi.sql.compile.OptimizablePredicate;
@@ -40,38 +36,32 @@ import org.apache.derby.iapi.sql.compile.RequiredRowOrdering;
 import org.apache.derby.iapi.sql.compile.RowOrdering;
 import org.apache.derby.iapi.sql.compile.AccessPath;
 import org.apache.derby.iapi.sql.compile.C_NodeTypes;
-
 import org.apache.derby.iapi.sql.conn.LanguageConnectionContext;
-
 import org.apache.derby.iapi.sql.execute.ExecIndexRow;
 import org.apache.derby.iapi.sql.execute.ExecutionFactory;
-
 import org.apache.derby.iapi.sql.Activation;
 import org.apache.derby.iapi.sql.Row;
-
 import org.apache.derby.iapi.sql.dictionary.ConglomerateDescriptor;
 import org.apache.derby.iapi.sql.dictionary.TableDescriptor;
 import org.apache.derby.iapi.sql.dictionary.StatisticsDescriptor;
 import org.apache.derby.iapi.types.DataValueDescriptor;
 import org.apache.derby.iapi.types.DataValueDescriptor;
-
 import org.apache.derby.iapi.store.access.Qualifier;
 import org.apache.derby.iapi.store.access.ScanController;
-
 import org.apache.derby.impl.sql.compile.ExpressionClassBuilder;
 import org.apache.derby.impl.sql.compile.ActivationClassBuilder;
-
 import org.apache.derby.iapi.services.sanity.SanityManager;
-
 import org.apache.derby.iapi.util.JBitSet;
 
 import java.lang.reflect.Modifier;
-
 import java.sql.Types;
 
 import javolution.util.FastTable;
+
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.Properties;
+
 import javolution.util.FastTable;
 
 /**
@@ -1501,9 +1491,9 @@ public class PredicateList extends QueryTreeNodeFastTable implements Optimizable
 			boolean state = colRefs.size() > 0;
 			if (state)
 			{
-				for (Enumeration e = colRefs.elements(); e.hasMoreElements(); )
+				for (Iterator e = colRefs.iterator(); e.hasNext(); )
 				{
-					ColumnReference ref = (ColumnReference)e.nextElement();
+					ColumnReference ref = (ColumnReference)e.next();
 					if (!ref.pointsToColumnReference())
 					{
 						state = false;
@@ -1658,9 +1648,9 @@ public class PredicateList extends QueryTreeNodeFastTable implements Optimizable
 		}
 
 		FastTable colRefs = collectCRs.getList();
-		for (Enumeration e = colRefs.elements(); e.hasMoreElements(); )
+		for (Iterator e = colRefs.iterator(); e.hasNext(); )
 		{
-			ColumnReference ref = (ColumnReference)e.nextElement();
+			ColumnReference ref = (ColumnReference)e.next();
 			ref.getSource().markAllRCsInChainReferenced();
 		}
 	}
@@ -1971,13 +1961,13 @@ public class PredicateList extends QueryTreeNodeFastTable implements Optimizable
 				if (predicate.getEquivalenceClass() != -1)
 				{
 					outerJCL.removeElementAt(jcIndex);
-					movePreds.addElement(predicate);
+					movePreds.add(predicate);
 				}
 			}
 			for (int mpIndex = 0; mpIndex < movePreds.size(); mpIndex++)
 			{
 				outerJCL.insertElementAt(
-                    (Predicate) movePreds.elementAt(mpIndex), 0);
+                    (Predicate) movePreds.get(mpIndex), 0);
 			}
 
 			// Walk this list as the outer
@@ -3883,7 +3873,7 @@ public class PredicateList extends QueryTreeNodeFastTable implements Optimizable
 		 * loop until we can't find any more statistics or we have exhausted all
 		 * the predicates for which we are trying to find statistics.
 		 *--------------------------------------------------------------------*/
-		FastTable statistics = new FastTable(numWorkingPredicates);
+		FastTable statistics = new FastTable();
 
 		double selectivity = 1.0;
 
@@ -3891,7 +3881,7 @@ public class PredicateList extends QueryTreeNodeFastTable implements Optimizable
 
 		while (true)
 		{
-			maxPreds.removeAllElements();
+			maxPreds.clear();
 			int conglomIndex = chooseLongestMatch(predsForConglomerates,
 												  maxPreds, numWorkingPredicates);
 			
@@ -3906,7 +3896,7 @@ public class PredicateList extends QueryTreeNodeFastTable implements Optimizable
 				/* remove the predicates that we've calculated the selectivity
 				 * of, from workingPredicates.
 				 */
-				Predicate p =(Predicate) maxPreds.elementAt(i);
+				Predicate p =(Predicate) maxPreds.get(i);
 				workingPredicates.removeOptPredicate(p);
 			}	
 			
@@ -4016,8 +4006,8 @@ public class PredicateList extends QueryTreeNodeFastTable implements Optimizable
 		for (int i = 0; i < uniquepreds.size(); i++)
 		{
 			Predicate p = 
-				((PredicateWrapper)uniquepreds.elementAt(i)).getPredicate();
-			ret.addElement(p);
+				((PredicateWrapper)uniquepreds.get(i)).getPredicate();
+			ret.add(p);
 			for (int j = 0; j < predArray.length; j++)
 			{
 				if (predArray[j] == null)
@@ -4121,7 +4111,7 @@ public class PredicateList extends QueryTreeNodeFastTable implements Optimizable
 
 		PredicateWrapperList(int maxValue)
 		{
-			pwList = new FastTable(maxValue);
+			pwList = new FastTable();
 		}
 		
 		void removeElement(PredicateWrapper pw)
@@ -4149,13 +4139,13 @@ public class PredicateList extends QueryTreeNodeFastTable implements Optimizable
 				if (nextPW.getIndexPosition() == index)
 					numDuplicates--;
 			}
-			pwList.removeElementAt(index);
+			pwList.remove(index);
 			numPreds--;
 		}
 
 		PredicateWrapper elementAt(int i)
 		{
-			return (PredicateWrapper)pwList.elementAt(i);
+			return (PredicateWrapper)pwList.get(i);
 		}
 
 		void insert(PredicateWrapper pw)
@@ -4170,7 +4160,7 @@ public class PredicateList extends QueryTreeNodeFastTable implements Optimizable
 					break;
 			}
 			numPreds++;
-			pwList.insertElementAt(pw, i);
+			pwList.add(i, pw);
 		} 
 		
 		int size()
@@ -4201,7 +4191,7 @@ public class PredicateList extends QueryTreeNodeFastTable implements Optimizable
 
 			if (elementAt(0).getIndexPosition() != 0)
 			{
-				pwList.removeAllElements();
+				pwList.clear();
 				numPreds = numDuplicates = 0;
 				return;
 			}
@@ -4226,7 +4216,7 @@ public class PredicateList extends QueryTreeNodeFastTable implements Optimizable
 				if (elementAt(k).getIndexPosition() == 
 							elementAt(k-1).getIndexPosition())
 					numDuplicates--;
-				pwList.removeElementAt(k);
+				pwList.remove(k);
 			}
 			numPreds = j + 1;
 		}
@@ -4249,14 +4239,14 @@ public class PredicateList extends QueryTreeNodeFastTable implements Optimizable
 			if (lastIndexPosition != 0)
 				return null;
 
-			scratch.addElement(elementAt(0));	// always add 0.
+			scratch.add(elementAt(0));	// always add 0.
 
 			for (int i = 1; i < numPreds; i++)
 			{
 				if (elementAt(i).getIndexPosition() == lastIndexPosition)
 					continue;
 				lastIndexPosition = elementAt(i).getIndexPosition();
-				scratch.addElement(elementAt(i));
+				scratch.add(elementAt(i));
 			}
 			return scratch;
 		}

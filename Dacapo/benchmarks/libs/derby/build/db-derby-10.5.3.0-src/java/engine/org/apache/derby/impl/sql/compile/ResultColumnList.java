@@ -831,7 +831,7 @@ public class ResultColumnList extends QueryTreeNodeFastTable
 					throws StandardException
 	{
 		int			size = size();
-		FastMap	ht = new FastMap(size + 2, (float) .999);
+		FastMap	ht = new FastMap();
 
 		for (int index = 0; index < size; index++)
 		{
@@ -2019,7 +2019,7 @@ public class ResultColumnList extends QueryTreeNodeFastTable
 					throws StandardException
 	{
 		int size = size();
-		FastMap	ht = new FastMap(size + 2, (float) .999);
+		FastMap	ht = new FastMap();
 		ResultColumn rc;
 
 		for (int index = 0; index < size; index++)
@@ -2813,7 +2813,7 @@ public class ResultColumnList extends QueryTreeNodeFastTable
 
 			for (int index = 0; index < ucSize; index++)
 			{
-				columnName = (String) updateColumns.elementAt(index);
+				columnName = (String) updateColumns.get(index);
 
 				resultColumn = getResultColumn(columnName);
 				if (SanityManager.DEBUG)

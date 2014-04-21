@@ -524,7 +524,7 @@ class DependentResultSet extends ScanResultSet implements CursorResultSet
 		sourceResultSets = new TemporaryRowHolderResultSet[size];
 		for(int i = 0 ; i < size ; i++)
 		{
-			sourceRowHolders[i] = (TemporaryRowHolder)sFastTable.elementAt(i);
+			sourceRowHolders[i] = (TemporaryRowHolder)sFastTable.get(i);
 			sourceOpened[i] = 0;
 		}
 
@@ -550,7 +550,7 @@ class DependentResultSet extends ScanResultSet implements CursorResultSet
 		//copy the new sources
 		for(int i = sourceRowHolders.length; i < size ; i++)
 		{
-			tsourceRowHolders[i] = (TemporaryRowHolder)sFastTable.elementAt(i);
+			tsourceRowHolders[i] = (TemporaryRowHolder)sFastTable.get(i);
 			tsourceOpened[i] = 0;
 		}
 

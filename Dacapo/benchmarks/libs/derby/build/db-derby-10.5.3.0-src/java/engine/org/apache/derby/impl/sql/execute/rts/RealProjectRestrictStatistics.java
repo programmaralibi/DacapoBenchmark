@@ -223,7 +223,7 @@ public class RealProjectRestrictStatistics
 	}
   public javolution.util.FastTable getChildren(){
     javolution.util.FastTable children = new javolution.util.FastTable();
-    children.addElement(childResultSetStatistics);
+    children.add(childResultSetStatistics);
 
 	// get all of our subqueries
 	if (subqueryTrackingArray != null)
@@ -232,7 +232,7 @@ public class RealProjectRestrictStatistics
 		{
 			if (subqueryTrackingArray[index] != null)
 			{
-				children.addElement(subqueryTrackingArray[index]);
+				children.add(subqueryTrackingArray[index]);
 			}
 		}
 	}

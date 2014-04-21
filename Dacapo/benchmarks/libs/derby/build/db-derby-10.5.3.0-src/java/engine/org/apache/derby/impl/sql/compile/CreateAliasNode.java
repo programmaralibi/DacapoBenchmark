@@ -23,26 +23,21 @@ package	org.apache.derby.impl.sql.compile;
 
 import org.apache.derby.iapi.reference.SQLState;
 import org.apache.derby.iapi.reference.Limits;
-
 import org.apache.derby.iapi.sql.execute.ConstantAction;
-
 import org.apache.derby.iapi.types.TypeId;
 import org.apache.derby.iapi.types.DataTypeDescriptor;
 import org.apache.derby.iapi.types.StringDataValue;
-
 import org.apache.derby.iapi.sql.dictionary.DataDictionary;
 import org.apache.derby.iapi.sql.dictionary.SchemaDescriptor;
-
 import org.apache.derby.iapi.error.StandardException;
-
 import org.apache.derby.iapi.services.sanity.SanityManager;
-
 import org.apache.derby.catalog.AliasInfo;
 import org.apache.derby.catalog.TypeDescriptor;
 import org.apache.derby.catalog.types.RoutineAliasInfo;
 import org.apache.derby.catalog.types.SynonymAliasInfo;
 import org.apache.derby.catalog.types.TypeDescriptorImpl;
 
+import javolution.util.FastCollection;
 import javolution.util.FastTable;
 
 /**
@@ -151,14 +146,20 @@ public class CreateAliasNode extends DDLStatementNode
 				if (paramCount != 0) {
 
 					names = new String[paramCount];
-					((FastTable) parameters[0]).copyInto(names);
+					FastTable namesFastTable= (FastTable) parameters[0];
+					for(int index = 0; index < paramCount; index ++) {
+						names[index] = (String)namesFastTable.get(index); 
+					}
 
 					types = new TypeDescriptor[paramCount];
-					((FastTable) parameters[1]).copyInto(types);
+					FastTable typesFastTable= (FastTable) parameters[1];
+					for(int index = 0; index < paramCount; index ++) {
+						types[index] = (TypeDescriptor)typesFastTable.get(index); 
+					}
 
 					modes = new int[paramCount];
 					for (int i = 0; i < paramCount; i++) {
-						modes[i] = ((Integer) (((FastTable) parameters[2]).elementAt(i))).intValue();
+						modes[i] = ((Integer) (((FastTable) parameters[2]).get(i))).intValue();
 
 						if (TypeId.getBuiltInTypeId(types[i].getJDBCTypeId()).isLongConcatableTypeId())
 							throw StandardException.newException(SQLState.LANG_LONG_DATA_TYPE_NOT_ALLOWED, names[i]);

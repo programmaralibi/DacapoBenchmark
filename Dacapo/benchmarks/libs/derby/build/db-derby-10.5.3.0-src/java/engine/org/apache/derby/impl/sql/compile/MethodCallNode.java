@@ -22,44 +22,33 @@
 package	org.apache.derby.impl.sql.compile;
 
 import org.apache.derby.iapi.services.loader.ClassInspector;
-
 import org.apache.derby.iapi.services.compiler.MethodBuilder;
-
 import org.apache.derby.iapi.services.sanity.SanityManager;
-
 import org.apache.derby.iapi.error.StandardException;
-
 import org.apache.derby.iapi.types.StringDataValue;
 import org.apache.derby.iapi.types.TypeId;
 import org.apache.derby.iapi.types.JSQLType;
-
 import org.apache.derby.iapi.sql.conn.LanguageConnectionContext;
-
 import org.apache.derby.iapi.sql.compile.Visitable;
 import org.apache.derby.iapi.sql.compile.Visitor;
 import org.apache.derby.iapi.sql.compile.C_NodeTypes;
 import org.apache.derby.iapi.sql.compile.CompilerContext;
-
 import org.apache.derby.iapi.types.DataTypeDescriptor;
-
 import org.apache.derby.iapi.sql.compile.TypeCompiler;
 import org.apache.derby.catalog.TypeDescriptor;
-
 import org.apache.derby.iapi.reference.SQLState;
 import org.apache.derby.iapi.reference.JDBC30Translation;
-
 import org.apache.derby.iapi.store.access.Qualifier;
-
 import org.apache.derby.iapi.util.JBitSet;
-
 import org.apache.derby.impl.sql.compile.ExpressionClassBuilder;
 import org.apache.derby.catalog.types.RoutineAliasInfo;
 
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Member;
-
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.StringTokenizer;
+
 import javolution.util.FastTable;
 
 /**
@@ -164,7 +153,7 @@ abstract class MethodCallNode extends JavaValueNode
 		{
 			QueryTreeNode	qt;
 
-			qt = (QueryTreeNode) parameterList.elementAt(index);
+			qt = (QueryTreeNode) parameterList.get(index);
 
 			/*
 			** Since we need the parameter to be in Java domain format, put a
@@ -229,9 +218,9 @@ abstract class MethodCallNode extends JavaValueNode
 		CollectNodesVisitor getCRs = new CollectNodesVisitor(ColumnReference.class);
 		accept(getCRs);
 		FastTable colRefs = getCRs.getList();
-		for (Enumeration e = colRefs.elements(); e.hasMoreElements(); )
+		for (Iterator e = colRefs.iterator(); e.hasNext(); )
 		{
-			ColumnReference ref = (ColumnReference)e.nextElement();
+			ColumnReference ref = (ColumnReference)e.next();
 			if (ref.getCorrelated())
 			{
 				correlationMap.set(ref.getTableNumber());

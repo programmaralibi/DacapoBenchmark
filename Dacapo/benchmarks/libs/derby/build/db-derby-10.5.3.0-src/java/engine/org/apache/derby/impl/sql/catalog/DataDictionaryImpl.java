@@ -3931,9 +3931,11 @@ public final class	DataDictionaryImpl
 		{
 			FastTable v = new FastTable();
 			spsd.setParams(getSPSParams(spsd, v));
-			Object[] defaults = new Object[v.size()];
-			v.copyInto(defaults);
-			spsd.setParameterDefaults(defaults);
+			//Object[] defaults = new Object[v.size()];
+			FastTable defaultsFastTable = new FastTable();
+			defaultsFastTable.addAll(v);
+			//v.copyInto(defaults);
+			spsd.setParameterDefaults(defaultsFastTable.toArray());
 		}
 
 		return spsd;
@@ -4055,7 +4057,7 @@ public final class	DataDictionaryImpl
 			params[index] = cd.getType();
 			if (defaults != null)
 			{
-				defaults.addElement(cd.getDefaultValue());
+				defaults.add(cd.getDefaultValue());
 			}
 		}
 

@@ -692,7 +692,7 @@ class UpdateResultSet extends DMLWriteResultSet
 				if (maxCapacity < initCapacity)
 					initCapacity = maxCapacity;
 
-				tableScan.past2FutureTbl = new FastMap(initCapacity);
+				tableScan.past2FutureTbl = new FastMap();
 			}
 
 			FastMap past2FutureTbl = tableScan.past2FutureTbl;

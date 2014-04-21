@@ -48,22 +48,22 @@ abstract class QueryTreeNodeFastTable extends QueryTreeNode
 
 	QueryTreeNode elementAt(int index)
 	{
-		return (QueryTreeNode) v.elementAt(index);
+		return (QueryTreeNode) v.get(index);
 	}
 
 	final void addElement(QueryTreeNode qt)
 	{
-		v.addElement(qt);
+		v.add(qt);
 	}
 
 	final void removeElementAt(int index)
 	{
-		v.removeElementAt(index);
+		v.remove(index);
 	}
 
 	final void removeElement(QueryTreeNode qt)
 	{
-		v.removeElement(qt);
+		v.remove(qt);
 	}
 
 	final Object remove(int index)
@@ -78,7 +78,7 @@ abstract class QueryTreeNodeFastTable extends QueryTreeNode
 
 	final void setElementAt(QueryTreeNode qt, int index)
 	{
-		v.setElementAt(qt, index);
+		v.add(index, qt);
 	}
 
 	void destructiveAppend(QueryTreeNodeFastTable qtnv)
@@ -92,18 +92,18 @@ abstract class QueryTreeNodeFastTable extends QueryTreeNode
 		int qtnvSize = qtnv.size();
 		for (int index = 0; index < qtnvSize; index++)
 		{
-			v.addElement(qtnv.elementAt(index));
+			v.add(qtnv.elementAt(index));
 		}
 	}
 
 	final void removeAllElements()
 	{
-		v.removeAllElements();
+		v.clear();
 	}
 
 	final void insertElementAt(QueryTreeNode qt, int index)
 	{
-		v.insertElementAt(qt, index);
+		v.add(index, qt);
 	}
 
 	/**

@@ -937,7 +937,7 @@ abstract class DMLModStatementNode extends DMLStatementNode
     )
 		throws StandardException
 	{
-		FastTable								fkFastTable = new FastTable(10);
+		FastTable								fkFastTable = new FastTable();
 		int 								type;
 		UUID[] 								uuids = null;
 		long[] 								conglomNumbers = null;
@@ -948,11 +948,11 @@ abstract class DMLModStatementNode extends DMLStatementNode
 		ConstraintDescriptorList			activeList = dd.getActiveConstraintDescriptors(cdl);
 		int[]								rowMap = getRowMap(readColsBitSet, td);
 		int[]                               raRules = null;
-		FastTable                              refTableNames = new FastTable(1);
-		FastTable                              refIndexConglomNum = new FastTable(1);
-		FastTable                              refActions = new FastTable(1);
-		FastTable                              refColDescriptors = new FastTable(1);
-		FastTable                              fkColMap = new FastTable(1);
+		FastTable                              refTableNames = new FastTable();
+		FastTable                              refIndexConglomNum = new FastTable();
+		FastTable                              refActions = new FastTable();
+		FastTable                              refColDescriptors = new FastTable();
+		FastTable                              fkColMap = new FastTable();
 		int activeSize = activeList.size();
 		for (int index = 0; index < activeSize; index++)
 		{
@@ -1021,8 +1021,8 @@ abstract class DMLModStatementNode extends DMLStatementNode
 					{
 						//find  the referencing  table Name
 						fktd = fkcd.getTableDescriptor();
-						refTableNames.addElement(fktd.getSchemaName() + "." + fktd.getName());
-						refActions.addElement(new Integer(raRules[inner]));
+						refTableNames.add(fktd.getSchemaName() + "." + fktd.getName());
+						refActions.add(new Integer(raRules[inner]));
 						//find the referencing column name required for update null.
 						refColumns = fkcd.getReferencedColumns();
 						coldl = fktd.getColumnDescriptorList();
@@ -1032,9 +1032,9 @@ abstract class DMLModStatementNode extends DMLStatementNode
 							cold =(ColumnDescriptor)coldl.elementAt(refColumns[i]-1);
 							releventColDes.add(cold);
 						}
-						refColDescriptors.addElement(releventColDes);
-						refIndexConglomNum.addElement(new Long(conglomNumbers[inner]));
-						fkColMap.addElement(colArray);
+						refColDescriptors.add(releventColDes);
+						refIndexConglomNum.add(new Long(conglomNumbers[inner]));
+						fkColMap.add(colArray);
 					}
 				}
 			}
@@ -1048,7 +1048,7 @@ abstract class DMLModStatementNode extends DMLStatementNode
 			ConglomerateDescriptor pkIndexConglom = pktd.getConglomerateDescriptor(pkuuid);
 
 			TableDescriptor refTd = cd.getTableDescriptor();
-			fkFastTable.addElement(new FKInfo(
+			fkFastTable.add(new FKInfo(
 									fkNames,							// foreign key names
 									refTd.getName(),				// table being modified
 									statementType,						// INSERT|UPDATE|DELETE
@@ -1074,7 +1074,7 @@ abstract class DMLModStatementNode extends DMLStatementNode
 			fkInfo = new FKInfo[size];
 			for (int i = 0; i < size; i++)
 			{
-				fkInfo[i] = (FKInfo)fkFastTable.elementAt(i);
+				fkInfo[i] = (FKInfo)fkFastTable.get(i);
 			}
 		}
 
@@ -1089,13 +1089,13 @@ abstract class DMLModStatementNode extends DMLStatementNode
 			fkColArrays = new int[size][];
 			for (int i = 0; i < size; i++)
 			{
-				fkTableNames[i] = (String)refTableNames.elementAt(i);
-				fkRefActions[i]  = ((Integer) refActions.elementAt(i)).intValue();
+				fkTableNames[i] = (String)refTableNames.get(i);
+				fkRefActions[i]  = ((Integer) refActions.get(i)).intValue();
 				fkColDescriptors[i] =
-					(ColumnDescriptorList)refColDescriptors.elementAt(i);
+					(ColumnDescriptorList)refColDescriptors.get(i);
 				fkIndexConglomNumbers[i] =
-					((Long)refIndexConglomNum.elementAt(i)).longValue();
-				fkColArrays[i] = ((int[])fkColMap.elementAt(i));
+					((Long)refIndexConglomNum.get(i)).longValue();
+				fkColArrays[i] = ((int[])fkColMap.get(i));
 			}
 		}		
 
@@ -1827,7 +1827,7 @@ abstract class DMLModStatementNode extends DMLStatementNode
 				if (i == distinctCount)		// first appearence
 				{
 					distinctConglomNums[distinctCount++] = cd.getConglomerateNumber();
-					conglomFastTable.addElement( cd );
+					conglomFastTable.add( cd );
 				}
 			}
 
@@ -1861,7 +1861,7 @@ abstract class DMLModStatementNode extends DMLStatementNode
 
 		for ( int ictr = 0; ictr < indexCount; ictr++ )
 		{
-			cd = (ConglomerateDescriptor) affectedConglomerates.elementAt( ictr );
+			cd = (ConglomerateDescriptor) affectedConglomerates.get( ictr );
 
 			indicesToMaintain[ ictr ] = cd.getIndexDescriptor();
 			indexConglomerateNumbers[ ictr ] = cd.getConglomerateNumber();

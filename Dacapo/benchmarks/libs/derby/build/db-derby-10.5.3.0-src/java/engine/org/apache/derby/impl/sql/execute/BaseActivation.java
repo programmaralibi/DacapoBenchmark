@@ -880,11 +880,11 @@ public abstract class BaseActivation implements CursorActivation, GeneratedByteC
 					if (resultSetNumber < rowCountCheckFastTable.size())
 					{
 						firstRowCount =
-							(Long) rowCountCheckFastTable.elementAt(resultSetNumber);
+							(Long) rowCountCheckFastTable.get(resultSetNumber);
 					}
 					else
 					{
-						rowCountCheckFastTable.setSize(resultSetNumber + 1);
+						//rowCountCheckFastTable.setSize(resultSetNumber + 1);
 					}
 
 					if (firstRowCount != null)
@@ -976,9 +976,8 @@ public abstract class BaseActivation implements CursorActivation, GeneratedByteC
 					else
 					{
 						firstRowCount = new Long(currentRowCount);
-						rowCountCheckFastTable.setElementAt(
-														firstRowCount,
-														resultSetNumber
+						rowCountCheckFastTable.add(resultSetNumber, 
+														firstRowCount
 														);
 
 					}
@@ -1532,7 +1531,7 @@ public abstract class BaseActivation implements CursorActivation, GeneratedByteC
 			if (cacheSize > maxMemoryPerTable ||
 					rowCache.size() > Optimizer.MAX_DYNAMIC_MATERIALIZED_ROWS)
 				break;
-			rowCache.addElement(aRow.getClone(toClone));
+			rowCache.add(aRow.getClone(toClone));
 			aRow = rs.getNextRowCore();
 		}
 		rs.close();
@@ -1559,7 +1558,7 @@ public abstract class BaseActivation implements CursorActivation, GeneratedByteC
 			{
 				rrs[i] = new RowResultSet(
 										this,
-										(ExecRow) rowCache.elementAt(i),
+										(ExecRow) rowCache.get(i),
 										true,
 										rsNum,
 										1,
@@ -1604,10 +1603,10 @@ public abstract class BaseActivation implements CursorActivation, GeneratedByteC
 		if(rsFastTable == null)
 		{
 			rsFastTable = new FastTable();
-			rsFastTable.addElement(rs);
+			rsFastTable.add(rs);
 		}else
 		{
-			rsFastTable.addElement(rs);
+			rsFastTable.add(rs);
 		}
 		parentResultSets.put(resultSetId , rsFastTable);
 	}

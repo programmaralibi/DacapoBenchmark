@@ -1883,7 +1883,7 @@ public abstract class ResultSetNode extends QueryTreeNode
 
 		for (int index = 0; index < size; index++)
 		{
-			count += (((AggregateNode) aggregateFastTable.elementAt(index)).isDistinct() == true) ?
+			count += (((AggregateNode) aggregateFastTable.get(index)).isDistinct() == true) ?
 						1 : 0;
 		}
 		

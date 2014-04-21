@@ -2143,7 +2143,7 @@ public class FromBaseTable extends FromTable
 		if (this.dependencyMap != null)
 		{
 			for (int i = 0; i < locations.size() ; i++)
-				this.dependencyMap.clear(((Integer)locations.elementAt(i)).intValue());
+				this.dependencyMap.clear(((Integer)locations.get(i)).intValue());
 		}
 	}
 
@@ -4091,7 +4091,7 @@ public class FromBaseTable extends FromTable
 
 		if (fbtFastTable != null)
 		{
-			fbtFastTable.addElement(this);
+			fbtFastTable.add(this);
 		}
 
 		return isOrdered;

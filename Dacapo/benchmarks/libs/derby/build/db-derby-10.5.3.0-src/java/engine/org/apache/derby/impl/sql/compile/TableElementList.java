@@ -192,8 +192,8 @@ public class TableElementList extends QueryTreeNodeFastTable
 		int numAutoCols = 0;
 
 		int			size = size();
-		FastMap	columnHT = new FastMap(size + 2, (float) .999);
-		FastMap	constraintHT = new FastMap(size + 2, (float) .999);
+		FastMap	columnHT = new FastMap();
+		FastMap	constraintHT = new FastMap();
 		//all the primary key/unique key constraints for this table
 		FastTable constraintsFastTable = new FastTable();
 
@@ -214,7 +214,7 @@ public class TableElementList extends QueryTreeNodeFastTable
 					//if the constraint type is not primary key or unique key, ignore it.
 					if (cd.getConstraintType() == DataDictionary.PRIMARYKEY_CONSTRAINT ||
 					cd.getConstraintType() == DataDictionary.UNIQUE_CONSTRAINT)
-						constraintsFastTable.addElement(cd);
+						constraintsFastTable.add(cd);
 				}
 			}
 		}
@@ -289,7 +289,7 @@ public class TableElementList extends QueryTreeNodeFastTable
 				for (int i=0; i<constraintsFastTable.size();i++)
 				{
 
-					destConstraint = constraintsFastTable.elementAt(i);
+					destConstraint = constraintsFastTable.get(i);
 					if (destConstraint instanceof ConstraintDefinitionNode)
 					{
 						ConstraintDefinitionNode destCDN = (ConstraintDefinitionNode)destConstraint;
@@ -308,7 +308,7 @@ public class TableElementList extends QueryTreeNodeFastTable
 						throw StandardException.newException(SQLState.LANG_MULTIPLE_CONSTRAINTS_WITH_SAME_COLUMNS,
 						cdn.getConstraintMoniker(), destName);
 				}
-				constraintsFastTable.addElement(cdn);
+				constraintsFastTable.add(cdn);
 			}
 
 			/* Make sure that there are no duplicate constraint names in the list */
@@ -955,7 +955,7 @@ public class TableElementList extends QueryTreeNodeFastTable
             int                     refCount = referencedColumns.size();
             for ( int j = 0; j < refCount; j++ )
             {
-                String  name = ((ColumnReference) referencedColumns.elementAt( j ) ).getColumnName();
+                String  name = ((ColumnReference) referencedColumns.get( j ) ).getColumnName();
 
                 if ( name != null )
                 {

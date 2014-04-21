@@ -21,14 +21,13 @@
 
 package org.apache.derby.impl.sql.execute;
 
-import org.apache.derby.iapi.services.io.StoredFormatIds;
-import org.apache.derby.iapi.services.io.FormatIdUtil;
-import org.apache.derby.iapi.services.io.Formatable;
-
-import java.io.ObjectOutput;
-import java.io.ObjectInput;
 import java.io.IOException;
-import javolution.util.FastTable;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.util.Vector;
+
+import org.apache.derby.iapi.services.io.Formatable;
+import org.apache.derby.iapi.services.io.StoredFormatIds;
 
 /**
  * FastTable of AggergatorInfo objects.
@@ -36,7 +35,7 @@ import javolution.util.FastTable;
  * @see javolution.util.FastTable
  *
  */
-public class AggregatorInfoList extends FastTable implements Formatable 
+public class AggregatorInfoList extends Vector implements Formatable 
 {
 	/********************************************************
 	**

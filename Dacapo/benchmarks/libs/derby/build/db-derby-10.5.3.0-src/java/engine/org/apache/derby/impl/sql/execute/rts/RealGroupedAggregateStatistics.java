@@ -157,7 +157,7 @@ public class RealGroupedAggregateStatistics
 	}
   public javolution.util.FastTable getChildren(){
     javolution.util.FastTable children = new javolution.util.FastTable();
-    children.addElement(childResultSetStatistics);
+    children.add(childResultSetStatistics);
     return children;
   }
 	/**

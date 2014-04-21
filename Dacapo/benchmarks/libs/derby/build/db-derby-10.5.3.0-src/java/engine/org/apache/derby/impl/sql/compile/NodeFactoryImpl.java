@@ -75,7 +75,7 @@ public class NodeFactoryImpl extends NodeFactory implements ModuleControl, Modul
 	private final ClassInfo[]	nodeCi =
 		new ClassInfo[C_NodeTypes.FINAL_VALUE+1];
 	
-	private static final FastTable emptyFastTable = new FastTable(0);
+	private static final FastTable emptyFastTable = new FastTable();
 
 	//////////////////////////////////////////////////////////////////////
 	//

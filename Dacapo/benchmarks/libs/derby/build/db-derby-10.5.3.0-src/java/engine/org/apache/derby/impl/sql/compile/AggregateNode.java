@@ -276,7 +276,7 @@ public class AggregateNode extends UnaryOperatorNode
 		instantiateAggDef();
 
 		/* Add ourselves to the aggregateFastTable before we do anything else */
-		aggregateFastTable.addElement(this);
+		aggregateFastTable.add(this);
 
         // operand being null means a count(*)
 		if (operand != null)

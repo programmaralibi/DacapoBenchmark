@@ -150,11 +150,11 @@ class TriggerEventActivator
 				case TriggerDescriptor.TRIGGER_EVENT_INSERT:
 					if (td.isBeforeTrigger())
 					{
-						executorLists[TriggerEvent.BEFORE_INSERT].addElement(td);
+						executorLists[TriggerEvent.BEFORE_INSERT].add(td);
 					}
 					else
 					{
-						executorLists[TriggerEvent.AFTER_INSERT].addElement(td);
+						executorLists[TriggerEvent.AFTER_INSERT].add(td);
 					}
 					break;
 
@@ -162,22 +162,22 @@ class TriggerEventActivator
 				case TriggerDescriptor.TRIGGER_EVENT_DELETE:
 					if (td.isBeforeTrigger())
 					{
-						executorLists[TriggerEvent.BEFORE_DELETE].addElement(td);
+						executorLists[TriggerEvent.BEFORE_DELETE].add(td);
 					}
 					else
 					{
-						executorLists[TriggerEvent.AFTER_DELETE].addElement(td);
+						executorLists[TriggerEvent.AFTER_DELETE].add(td);
 					}
 					break;
 
 				case TriggerDescriptor.TRIGGER_EVENT_UPDATE:
 					if (td.isBeforeTrigger())
 					{
-						executorLists[TriggerEvent.BEFORE_UPDATE].addElement(td);
+						executorLists[TriggerEvent.BEFORE_UPDATE].add(td);
 					}
 					else
 					{
-						executorLists[TriggerEvent.AFTER_UPDATE].addElement(td);
+						executorLists[TriggerEvent.AFTER_UPDATE].add(td);
 					}
 					break;
 				default:
@@ -196,7 +196,7 @@ class TriggerEventActivator
 				executors[i] = new GenericTriggerExecutor[size];
 				for (int j = 0; j < size; j++)
 				{
-					TriggerDescriptor td = (TriggerDescriptor)executorLists[i].elementAt(j);
+					TriggerDescriptor td = (TriggerDescriptor)executorLists[i].get(j);
 					executors[i][j] =  (td.isRowTrigger()) ? 
 								(GenericTriggerExecutor)new RowTriggerExecutor(tec, td, activation, lcc) :
 								(GenericTriggerExecutor)new StatementTriggerExecutor(tec, td, activation, lcc);

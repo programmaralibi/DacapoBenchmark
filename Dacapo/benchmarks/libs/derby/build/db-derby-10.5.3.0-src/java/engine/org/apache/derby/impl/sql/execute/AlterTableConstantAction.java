@@ -21,12 +21,13 @@
 
 package org.apache.derby.impl.sql.execute;
 
-import java.sql.SQLException;
-import javolution.util.FastTable;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
+
+import javolution.util.FastTable;
 
 import org.apache.derby.catalog.DefaultInfo;
 import org.apache.derby.catalog.DependableFinder;
@@ -34,7 +35,6 @@ import org.apache.derby.catalog.IndexDescriptor;
 import org.apache.derby.catalog.UUID;
 import org.apache.derby.catalog.types.ReferencedColumnsDescriptorImpl;
 import org.apache.derby.catalog.types.StatisticsImpl;
-import org.apache.derby.iapi.error.PublicAPI;
 import org.apache.derby.iapi.error.StandardException;
 import org.apache.derby.iapi.reference.SQLState;
 import org.apache.derby.iapi.services.io.FormatableBitSet;
@@ -44,7 +44,6 @@ import org.apache.derby.iapi.sql.Activation;
 import org.apache.derby.iapi.sql.PreparedStatement;
 import org.apache.derby.iapi.sql.ResultSet;
 import org.apache.derby.iapi.sql.StatementType;
-import org.apache.derby.iapi.sql.conn.ConnectionUtil;
 import org.apache.derby.iapi.sql.conn.LanguageConnectionContext;
 import org.apache.derby.iapi.sql.depend.DependencyManager;
 import org.apache.derby.iapi.sql.dictionary.CheckConstraintDescriptor;
@@ -82,7 +81,6 @@ import org.apache.derby.iapi.store.access.TransactionController;
 import org.apache.derby.iapi.types.DataTypeDescriptor;
 import org.apache.derby.iapi.types.DataValueDescriptor;
 import org.apache.derby.iapi.types.RowLocation;
-import org.apache.derby.iapi.types.StringDataValue;
 import org.apache.derby.iapi.util.IdUtil;
 import org.apache.derby.impl.sql.catalog.DDColumnDependableFinder;
 import org.apache.derby.impl.sql.compile.ColumnDefinitionNode;
@@ -1620,7 +1618,7 @@ class AlterTableConstantAction extends DDLSingleTableConstantAction
 		ConstraintDescriptorList csdl = dd.getConstraintDescriptors(td);
 		int csdl_size = csdl.size();
 
-		FastTable newCongloms = new FastTable();
+		ArrayList newCongloms = new ArrayList();
 
 		// we want to remove referenced primary/unique keys in the second
 		// round.  This will ensure that self-referential constraints will
@@ -2592,7 +2590,7 @@ class AlterTableConstantAction extends DDLSingleTableConstantAction
 		numIndexes = compressIRGs.length;
 		indexConglomerateNumbers = indexLister.getIndexConglomerateNumbers();
 
-		FastTable newCongloms = new FastTable();
+		ArrayList newCongloms = new ArrayList();
 		if (! (compressTable || truncateTable))		// then it's drop column
 		{
 			for (int i = 0; i < compressIRGs.length; i++)
@@ -2729,7 +2727,7 @@ class AlterTableConstantAction extends DDLSingleTableConstantAction
 	 * here (because the index that the constant action was going to create
 	 * is no longer needed), so we have to check for that.
 	 *
-	 * @param newConglomActions Potentially empty list of constant actions
+	 * @param newCongloms Potentially empty list of constant actions
 	 *   to execute, if still needed
 	 * @param ixCongNums Optional array of conglomerate numbers; if non-null
 	 *   then any entries in the array which correspond to a dropped physical
@@ -2737,15 +2735,15 @@ class AlterTableConstantAction extends DDLSingleTableConstantAction
 	 *   be updated to have the conglomerate number of the newly-created
 	 *   physical conglomerate.
 	 */
-	private void createNewBackingCongloms(FastTable newConglomActions,
+	private void createNewBackingCongloms(ArrayList newCongloms,
 		long [] ixCongNums, Activation activation, DataDictionary dd)
 		throws StandardException
 	{
-		int sz = newConglomActions.size();
+		int sz = newCongloms.size();
 		for (int i = 0; i < sz; i++)
 		{
 			CreateIndexConstantAction ca =
-				(CreateIndexConstantAction)newConglomActions.get(i);
+				(CreateIndexConstantAction)newCongloms.get(i);
 
 			if (dd.getConglomerateDescriptor(ca.getCreatedUUID()) == null)
 			{

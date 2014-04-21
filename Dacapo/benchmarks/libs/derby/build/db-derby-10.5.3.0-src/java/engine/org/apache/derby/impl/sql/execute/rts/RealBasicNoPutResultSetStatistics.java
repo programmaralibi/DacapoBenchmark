@@ -193,9 +193,9 @@ abstract class RealBasicNoPutResultSetStatistics
 	 */
   public long getChildrenTime(){
     long childrenTime = 0;
-    java.util.Enumeration e = getChildren().elements();
-    while (e.hasMoreElements()){
-      childrenTime = childrenTime + ((RealBasicNoPutResultSetStatistics)e.nextElement()).getTotalTime();
+    java.util.Iterator e = getChildren().iterator();
+    while (e.hasNext()){
+      childrenTime = childrenTime + ((RealBasicNoPutResultSetStatistics)e.next()).getTotalTime();
     }
     return childrenTime;
   }

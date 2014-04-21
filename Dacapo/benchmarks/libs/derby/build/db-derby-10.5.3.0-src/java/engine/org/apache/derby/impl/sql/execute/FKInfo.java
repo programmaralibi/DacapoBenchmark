@@ -201,7 +201,7 @@ public class FKInfo implements Formatable
 			if (addAllTypeIsFK && 
 				(fkInfo[i].type == FOREIGN_KEY))
 			{
-				newfksFastTable.addElement(fkInfo[i]);
+				newfksFastTable.add(fkInfo[i]);
 				continue;
 			}
 				
@@ -216,7 +216,7 @@ public class FKInfo implements Formatable
 					*/
 					if (fkInfo[i].colArray[fkCols] == cols[chcol])
 					{
-						newfksFastTable.addElement(fkInfo[i]);
+						newfksFastTable.add(fkInfo[i]);
 						
 						// go to the next fk
 						fkCols = fkcollen;
@@ -236,7 +236,7 @@ public class FKInfo implements Formatable
 			newfks = new FKInfo[size];
 			for (int i = 0; i < size; i++)
 			{
-				newfks[i] = (FKInfo)newfksFastTable.elementAt(i);
+				newfks[i] = (FKInfo)newfksFastTable.get(i);
 			}
 		}
 		return newfks;

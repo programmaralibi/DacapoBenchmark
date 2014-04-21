@@ -22,7 +22,10 @@
 package org.apache.derby.impl.sql.depend;
 
 import java.util.Enumeration;
+
 import javolution.util.FastMap;
+
+import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -653,7 +656,7 @@ public class BasicDependencyManager implements DependencyManager {
 	public ProviderInfo[] getPersistentProviderInfos(ProviderList pl)
 							throws StandardException
 	{
-		Enumeration e = pl.elements();
+		Iterator e = pl.keySet().iterator();
 		int			numProviders = 0;
 		ProviderInfo[]	retval;
 
@@ -661,9 +664,9 @@ public class BasicDependencyManager implements DependencyManager {
 		** We make 2 passes - the first to count the number of persistent
  		** providers and the second to populate the array of ProviderInfos.
 		*/
-		while (e != null && e.hasMoreElements())
+		while (e != null && e.hasNext())
 		{
-			Provider prov = (Provider) e.nextElement();
+			Provider prov = (Provider) e.next();
 
 			if (prov.isPersistent())
 			{
@@ -671,12 +674,12 @@ public class BasicDependencyManager implements DependencyManager {
 			}
 		}
 
-		e = pl.elements();
+		e = pl.keySet().iterator();
 		retval = new ProviderInfo[numProviders];
 		int piCtr = 0;
-		while (e != null && e.hasMoreElements())
+		while (e != null && e.hasNext())
 		{
-			Provider prov = (Provider) e.nextElement();
+			Provider prov = (Provider) e.next();
 
 			if (prov.isPersistent())
 			{
@@ -701,10 +704,10 @@ public class BasicDependencyManager implements DependencyManager {
 	public void clearColumnInfoInProviders(ProviderList pl)
 					throws StandardException
 	{
-		Enumeration e = pl.elements();
-		while (e.hasMoreElements())
+		Iterator e = pl.keySet().iterator();
+		while (e.hasNext())
 		{
-			Provider pro = (Provider) e.nextElement();
+			Provider pro = (Provider) e.next();
 			if (pro instanceof TableDescriptor)
 				((TableDescriptor) pro).setReferencedColumnMap(null);
 		}
@@ -911,19 +914,19 @@ public class BasicDependencyManager implements DependencyManager {
 		synchronized(this)
 		{
 			int numDependencies = 0;
-			Enumeration deps = dependents.elements();
-			Enumeration provs = providers.elements();
+			Iterator deps = dependents.keySet().iterator();
+			Iterator provs = providers.keySet().iterator();
 			List storedDeps = dd.getAllDependencyDescriptorsList();
 
 			/* Count the in memory dependencies */
-			while (deps.hasMoreElements())
+			while (deps.hasNext())
 			{
-				numDependencies += ((List) deps.nextElement()).size();
+				numDependencies += ((List) deps.next()).size();
 			}
 
-			while (provs.hasMoreElements())
+			while (provs.hasNext())
 			{
-				numDependencies += ((List) provs.nextElement()).size();
+				numDependencies += ((List) provs.next()).size();
 			}
 
 			/* Add in the stored dependencies */
@@ -953,11 +956,11 @@ public class BasicDependencyManager implements DependencyManager {
 
 			if (SanityManager.DEBUG)
 			{
-				Enumeration deps = dependents.keys();
+				Iterator deps = dependents.keySet().iterator();
 				UUID[]		depKeys = new UUID[dependents.size()];
 
 				/* Record the in memory dependencies */
-				for (int i = 0; deps.hasMoreElements(); i++)
+				for (int i = 0; deps.hasNext(); i++)
 				{
 					/*
 					** Get all the keys and sort them, so that they will always
@@ -966,7 +969,7 @@ public class BasicDependencyManager implements DependencyManager {
 					** is a UUID, the order they are returned from
 					** hasMoreElements() changes from run to run).
 					*/
-					depKeys[i] = (UUID) deps.nextElement();
+					depKeys[i] = (UUID) deps.next();
 				}
 
 				/* Do a bubble sort - there aren't likely to be many elements */
@@ -1001,9 +1004,9 @@ public class BasicDependencyManager implements DependencyManager {
 				}
 
 				/* Record the in memory dependencies */
-				Enumeration provs = providers.keys();
+				Iterator provs = providers.keySet().iterator();
 				UUID[]		provKeys = new UUID[providers.size()];
-				for (int i = 0; provs.hasMoreElements(); i++)
+				for (int i = 0; provs.hasNext(); i++)
 				{
 					/*
 					** Get all the keys and sort them, so that they will always
@@ -1012,7 +1015,7 @@ public class BasicDependencyManager implements DependencyManager {
 					** is a UUID, the order they are returned from
 					** hasMoreElements() changes from run to run).
 					*/
-					provKeys[i] = (UUID) provs.nextElement();
+					provKeys[i] = (UUID) provs.next();
 				}
 
 				/* Do a bubble sort - there aren't likely to be many elements */

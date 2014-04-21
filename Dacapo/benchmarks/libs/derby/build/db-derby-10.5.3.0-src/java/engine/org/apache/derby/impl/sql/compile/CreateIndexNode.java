@@ -314,7 +314,7 @@ public class CreateIndexNode extends DDLStatementNode
 				throws StandardException
 	{
 		int size = columnNameList.size();
-		FastMap	ht = new FastMap(size + 2, (float) .999);
+		FastMap	ht = new FastMap();
 		columnNames = new String[size];
 		isAscending = new boolean[size];
 
@@ -323,7 +323,7 @@ public class CreateIndexNode extends DDLStatementNode
 			/* Verify that this column's name is unique within the list
 			 * Having a space at the end meaning descending on the column
 			 */
-			columnNames[index] = (String) columnNameList.elementAt(index);
+			columnNames[index] = (String) columnNameList.get(index);
 			if (columnNames[index].endsWith(" "))
 			{
 				columnNames[index] = columnNames[index].substring(0, columnNames[index].length() - 1);

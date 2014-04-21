@@ -3158,7 +3158,7 @@ public class GenericLanguageConnectionContext
 		if (autoincrementCacheHashtable == null)
 			return;
 
-		if (autoincrementHT == null)
+		if (auBasicDependencyManager.java= null)
 			autoincrementHT = new FastMap();
 
 		DataDictionary dd = getDataDictionary();
@@ -3183,7 +3183,7 @@ public class GenericLanguageConnectionContext
 	 * into autoincrementHT, the cache of autoincrement values 
 	 * kept in the languageconnectioncontext.
 	 */
-	public void copyHashtableToAIHT(Map from)
+	public void copyFastMapToAIHT(Map from)
 	{
 		if (from.isEmpty())
 			return;

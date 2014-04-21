@@ -24,6 +24,7 @@ package	org.apache.derby.impl.sql.compile;
 import javolution.util.FastTable;
 import javolution.util.FastTable;
 
+import org.apache.derby.catalog.TypeDescriptor;
 import org.apache.derby.iapi.error.StandardException;
 import org.apache.derby.iapi.reference.SQLState;
 import org.apache.derby.iapi.services.compiler.MethodBuilder;
@@ -778,7 +779,7 @@ public class CursorNode extends DMLStatementNode
 
 		for (int index = 0; index < size; index++)
 		{
-		    columnName = (String) updatableColumns.elementAt(index);
+		    columnName = (String) updatableColumns.get(index);
 		    tableDescriptor = targetTable.getTableDescriptor();
 		    if ( tableDescriptor.getColumnDescriptor(columnName) == null)
 		    {
@@ -816,8 +817,10 @@ public class CursorNode extends DMLStatementNode
 		}
 
 		String[] names = new String[size];
-
-		updatableColumns.copyInto(names);
+		
+		for(int index = 0; index < size; index ++) {
+			names[index] = (String)updatableColumns.get(index); 
+		}
 
 		return names;
 	}

@@ -762,7 +762,7 @@ public class FromList extends QueryTreeNodeFastTable implements OptimizableList
 					ft.isFlattenableJoinNode())
 				{
 					//save the table number of the node to be flattened
-					flattenedTableNumbers.addElement(new Integer(ft.getTableNumber()));
+					flattenedTableNumbers.add(new Integer(ft.getTableNumber()));
 
 					/* Remove the node from the list and insert its
 					 * FromList here.

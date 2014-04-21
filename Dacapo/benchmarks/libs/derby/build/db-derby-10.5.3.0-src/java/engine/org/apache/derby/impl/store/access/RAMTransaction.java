@@ -21,34 +21,27 @@
 
 package org.apache.derby.impl.store.access;
 
-import javolution.util.FastTable;
-import javolution.util.FastMap;
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Properties;
 
+import javolution.util.FastMap;
+import javolution.util.FastTable;
+
+import org.apache.derby.iapi.error.StandardException;
 import org.apache.derby.iapi.reference.SQLState;
-import org.apache.derby.iapi.util.ReuseFactory;
-
 import org.apache.derby.iapi.services.context.ContextManager;
-
-import org.apache.derby.iapi.services.io.Storable;
-
 import org.apache.derby.iapi.services.daemon.Serviceable;
+import org.apache.derby.iapi.services.io.FormatableBitSet;
+import org.apache.derby.iapi.services.io.Storable;
 import org.apache.derby.iapi.services.locks.CompatibilitySpace;
 import org.apache.derby.iapi.services.sanity.SanityManager;
-import org.apache.derby.iapi.error.StandardException;
-import org.apache.derby.iapi.store.access.conglomerate.Conglomerate;
-import org.apache.derby.iapi.store.access.conglomerate.ConglomerateFactory;
-import org.apache.derby.iapi.store.access.conglomerate.ScanManager;
-import org.apache.derby.iapi.store.access.conglomerate.MethodFactory;
-import org.apache.derby.iapi.store.access.conglomerate.ScanControllerRowSource;
-import org.apache.derby.iapi.store.access.conglomerate.Sort;
-import org.apache.derby.iapi.store.access.conglomerate.SortFactory;
-import org.apache.derby.iapi.store.access.conglomerate.TransactionManager;
 import org.apache.derby.iapi.store.access.AccessFactory;
 import org.apache.derby.iapi.store.access.AccessFactoryGlobals;
+import org.apache.derby.iapi.store.access.BackingStoreFastMap;
 import org.apache.derby.iapi.store.access.ColumnOrdering;
 import org.apache.derby.iapi.store.access.ConglomerateController;
+import org.apache.derby.iapi.store.access.DatabaseInstant;
 import org.apache.derby.iapi.store.access.DynamicCompiledOpenConglomInfo;
 import org.apache.derby.iapi.store.access.FileResource;
 import org.apache.derby.iapi.store.access.GroupFetchScanController;
@@ -61,27 +54,22 @@ import org.apache.derby.iapi.store.access.SortObserver;
 import org.apache.derby.iapi.store.access.StaticCompiledOpenConglomInfo;
 import org.apache.derby.iapi.store.access.StoreCostController;
 import org.apache.derby.iapi.store.access.TransactionController;
-
 import org.apache.derby.iapi.store.access.XATransactionController;
-
-
+import org.apache.derby.iapi.store.access.conglomerate.Conglomerate;
+import org.apache.derby.iapi.store.access.conglomerate.ConglomerateFactory;
+import org.apache.derby.iapi.store.access.conglomerate.MethodFactory;
+import org.apache.derby.iapi.store.access.conglomerate.ScanControllerRowSource;
+import org.apache.derby.iapi.store.access.conglomerate.ScanManager;
+import org.apache.derby.iapi.store.access.conglomerate.Sort;
+import org.apache.derby.iapi.store.access.conglomerate.SortFactory;
+import org.apache.derby.iapi.store.access.conglomerate.TransactionManager;
 import org.apache.derby.iapi.store.raw.ContainerHandle;
 import org.apache.derby.iapi.store.raw.LockingPolicy;
-
-
 import org.apache.derby.iapi.store.raw.Loggable;
 import org.apache.derby.iapi.store.raw.Transaction;
-
 import org.apache.derby.iapi.types.DataValueDescriptor;
-
+import org.apache.derby.iapi.util.ReuseFactory;
 import org.apache.derby.impl.store.access.conglomerate.ConglomerateUtil;
-
-import org.apache.derby.iapi.store.access.DatabaseInstant;
-
-import org.apache.derby.iapi.store.access.BackingStoreFastMap;
-import org.apache.derby.iapi.services.io.FormatableBitSet;
-
-import java.io.Serializable;
 
 // debugging
 
@@ -832,6 +820,120 @@ public class RAMTransaction
 			conglomId = nextTempConglomId--;
 			if (tempCongloms == null)
 				tempCongloms = new FastMap();
+			tempCongloms.put(new Long(conglomId), conglom);
+		}
+		else
+		{
+			conglomId = conglom.getContainerid();
+
+            accessmanager.conglomCacheAddEntry(conglomId, conglom);
+		}
+
+		return conglomId;
+	}
+
+	/**
+		Create a conglomerate and populate it with rows from rowSource.
+
+		@see TransactionController#createAndLoadConglomerate
+		@exception StandardException Standard Derby Error Policy
+	*/
+    public long createAndLoadConglomerate(
+    String                  implementation,
+    DataValueDescriptor[]   template,
+	ColumnOrdering[]		columnOrder,
+    int[]                   collationIds,
+    Properties              properties,
+    int                     temporaryFlag,
+    RowLocationRetRowSource rowSource,
+	long[] rowCount)
+		throws StandardException
+	{
+        return(
+            recreateAndLoadConglomerate(
+                implementation,
+                true,
+                template,
+				columnOrder,
+                collationIds,
+                properties,
+                temporaryFlag,
+                0 /* unused if recreate_ifempty is true */,
+                rowSource,
+				rowCount));
+	}
+
+	/**
+		recreate a conglomerate and populate it with rows from rowSource.
+
+		@see TransactionController#createAndLoadConglomerate
+		@exception StandardException Standard Derby Error Policy
+	*/
+    public long recreateAndLoadConglomerate(
+    String                  implementation,
+    boolean                 recreate_ifempty,
+    DataValueDescriptor[]   template,
+	ColumnOrdering[]		columnOrder,
+    int[]                   collationIds,
+    Properties              properties,
+    int			            temporaryFlag,
+    long                    orig_conglomId,
+    RowLocationRetRowSource rowSource,
+	long[] rowCount)
+        throws StandardException
+
+	{
+		// RESOLVE: this create the conglom LOGGED, this is slower than
+		// necessary although still correct.
+		long conglomId = 
+			createConglomerate(
+                implementation, template, columnOrder, collationIds, 
+                properties, temporaryFlag);
+
+        long rows_loaded = 
+            loadConglomerate(
+                conglomId, 
+                true, // conglom is being created
+                rowSource);
+
+		if (rowCount != null)
+			rowCount[0] = rows_loaded;
+
+        if (!recreate_ifempty && (rows_loaded == 0))
+        {
+            dropConglomerate(conglomId);
+
+            conglomId = orig_conglomId;
+        }
+
+		return conglomId;
+	}
+
+    /**
+     * Return a string with debug information about opened congloms/scans/sorts.
+     * <p>
+     * Return a string with debugging information about current opened
+     * congloms/scans/sorts which have not been close()'d.
+     * Calls to this routine are only valid under code which is conditional
+     * on SanityManager.DEBUG.
+     * <p>
+     *
+	 * @return String with debugging information.
+     *
+	 * @exception  StandardException  Standard exception policy.
+     **/
+    public String debugOpened() throws StandardException
+    {
+        String str = null;
+
+        if (SanityManager.DEBUG)
+        {
+
+            str = new String();
+
+            for (Iterator it = scanControllers.iterator(); it.hasNext(); )
+            {
+                ScanController sc = (ScanController) it.next();
                 str += "open scan controller: " + sc + "\n";
             }
 
@@ -1212,10 +1314,10 @@ public class RAMTransaction
     }
 
     /**
-     * Create a BackingStoreFastMap which contains all rows that qualify for
+     * Create a BackingStoreHashtable which contains all rows that qualify for
      * the described scan.
      **/
-    public BackingStoreFastMap createBackingStoreFastMapFromScan(
+    public BackingStoreFastMap createBackingStoreHashtableFromScan(
     long                    conglomId,
     int                     open_mode,
     int                     lock_level,

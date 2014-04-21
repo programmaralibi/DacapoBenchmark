@@ -116,14 +116,16 @@ abstract class GenericAggregateResultSet extends NoPutResultSetImpl
 			if (! (eliminateDistincts && aggInfo.isDistinct()))
 			// if (eliminateDistincts == aggInfo.isDistinct())
 			{
-				tmpAggregators.addElement(new GenericAggregator(aggInfo, cf));
+				tmpAggregators.add(new GenericAggregator(aggInfo, cf));
 			}
 		}
 
 
 
 		aggregators = new GenericAggregator[tmpAggregators.size()];
-		tmpAggregators.copyInto(aggregators);
+		for(int index=0; index<tmpAggregators.size(); index++) {
+			aggregators[index] = (GenericAggregator)tmpAggregators.get(index); 
+		}
 		// System.out.println("size of sort aggregates " + tmpAggregators.size());
 
 		return aggregators;

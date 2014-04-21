@@ -37,13 +37,18 @@ import org.apache.derby.iapi.services.i18n.MessageService;
 import org.apache.derby.iapi.reference.SQLState;
 import org.apache.derby.iapi.jdbc.ConnectionContext; 
 import org.apache.derby.catalog.UUID;
+
 import java.util.Enumeration;
+import java.util.Iterator;
+
 import javolution.util.FastTable;
 import javolution.util.FastMap;
+
 import java.util.Map;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import org.apache.derby.iapi.error.ExceptionSeverity;
 /**
  * There is one of these beasts per INSERT/DELETE/UPDATE 
@@ -261,10 +266,10 @@ public class InternalTriggerExecutionContext implements TriggerExecutionContext,
 		** Explicitly close all result sets that we have
 		** given out to the user.  
 	 	*/
-		for (Enumeration e = resultSetFastTable.elements();
-			 e.hasMoreElements(); )
+		for (Iterator e = resultSetFastTable.iterator();
+			 e.hasNext(); )
 		{
-			java.sql.ResultSet rs = (java.sql.ResultSet)e.nextElement();
+			java.sql.ResultSet rs = (java.sql.ResultSet)e.next();
 			try
 			{
 				rs.close();
@@ -496,7 +501,7 @@ public class InternalTriggerExecutionContext implements TriggerExecutionContext,
 				brs = (CursorResultSet) ((TableScanResultSet) brs).clone();
 			brs.open();
 			java.sql.ResultSet rs = cc.getResultSet(brs);
-			resultSetFastTable.addElement(rs);
+			resultSetFastTable.add(rs);
 			return rs;
 		} catch (StandardException se)
 		{
@@ -539,7 +544,7 @@ public class InternalTriggerExecutionContext implements TriggerExecutionContext,
 				ars = (CursorResultSet) ((TableScanResultSet) ars).clone();
 			ars.open();
 			java.sql.ResultSet rs = cc.getResultSet(ars);
-			resultSetFastTable.addElement(rs);
+			resultSetFastTable.add(rs);
 			return rs;
 		} catch (StandardException se)
 		{
@@ -605,7 +610,7 @@ public class InternalTriggerExecutionContext implements TriggerExecutionContext,
 			for (int i = 0; i < aiCounters.size(); i++)
 			{
 				AutoincrementCounter aic = 
-					(AutoincrementCounter)aiCounters.elementAt(i);
+					(AutoincrementCounter)aiCounters.get(i);
 
 				//				System.out.println("in itec:getaivalue " + aic);
 				if (identity.equals(aic.getIdentity()))
@@ -653,7 +658,7 @@ public class InternalTriggerExecutionContext implements TriggerExecutionContext,
 		for (int i = 0; i < size; i++)
 		{
 			AutoincrementCounter aic = 
-				(AutoincrementCounter)aiCounters.elementAt(i);
+				(AutoincrementCounter)aiCounters.get(i);
 			aic.reset(begin);
 		}
 	}	
@@ -671,7 +676,7 @@ public class InternalTriggerExecutionContext implements TriggerExecutionContext,
 		for (int i = 0; i < size; i++)
 		{
 			AutoincrementCounter aic = 
-				(AutoincrementCounter)aiCounters.elementAt(i);
+				(AutoincrementCounter)aiCounters.get(i);
 			DataValueDescriptor dvd = afterRow.getColumn(aic.getColumnPosition());
 			aic.update(dvd.getLong());
 		}

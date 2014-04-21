@@ -905,7 +905,7 @@ public class EmbedStatement extends ConnectionChild
   	  synchronized (getConnectionSynchronization()) {
 		  if (batchStatements == null)
 			  batchStatements = new FastTable();
-        batchStatements.addElement(sql);
+        batchStatements.add(sql);
   		}
 	}
 
@@ -971,7 +971,7 @@ public class EmbedStatement extends ConnectionChild
 			try {
 				for (; i< size; i++) 
 				{
-					if (executeBatchElement(stmts.elementAt(i)))
+					if (executeBatchElement(stmts.get(i)))
 						throw newSQLException(SQLState.RESULTSET_RETURN_NOT_ALLOWED);
 					returnUpdateCountForBatch[i] = getUpdateCount();
 				}

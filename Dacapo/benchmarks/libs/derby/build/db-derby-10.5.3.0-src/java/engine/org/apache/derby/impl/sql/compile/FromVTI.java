@@ -23,16 +23,11 @@ package	org.apache.derby.impl.sql.compile;
 
 import org.apache.derby.iapi.services.loader.ClassInspector;
 import org.apache.derby.iapi.services.loader.GeneratedMethod;
-
 import org.apache.derby.iapi.services.context.ContextManager;
-
 import org.apache.derby.iapi.services.compiler.MethodBuilder;
 import org.apache.derby.iapi.services.compiler.LocalField;
-
 import org.apache.derby.iapi.services.sanity.SanityManager;
-
 import org.apache.derby.iapi.error.StandardException;
-
 import org.apache.derby.iapi.sql.compile.CompilerContext;
 import org.apache.derby.iapi.sql.compile.OptimizablePredicateList;
 import org.apache.derby.iapi.sql.compile.Optimizer;
@@ -43,50 +38,43 @@ import org.apache.derby.iapi.sql.compile.Visitable;
 import org.apache.derby.iapi.sql.compile.Visitor;
 import org.apache.derby.iapi.sql.compile.RowOrdering;
 import org.apache.derby.iapi.sql.compile.C_NodeTypes;
-
 import org.apache.derby.iapi.sql.conn.LanguageConnectionContext;
-
 import org.apache.derby.iapi.sql.dictionary.DataDictionary;
 import org.apache.derby.iapi.sql.dictionary.ColumnDescriptor;
 import org.apache.derby.iapi.sql.dictionary.ColumnDescriptorList;
 import org.apache.derby.iapi.sql.dictionary.ConglomerateDescriptor;
 import org.apache.derby.iapi.sql.dictionary.TableDescriptor;
 import org.apache.derby.iapi.types.DataTypeDescriptor;
-
 import org.apache.derby.iapi.reference.ClassName;
 import org.apache.derby.iapi.reference.SQLState;
-
 import org.apache.derby.iapi.sql.Activation;
-
 import org.apache.derby.catalog.TypeDescriptor;
 import org.apache.derby.catalog.UUID;
 import org.apache.derby.catalog.types.RoutineAliasInfo;
-
 import org.apache.derby.vti.DeferModification;
 import org.apache.derby.vti.VTICosting;
 import org.apache.derby.vti.VTIEnvironment;
-
 import org.apache.derby.iapi.util.JBitSet;
 import org.apache.derby.iapi.services.io.FormatableBitSet;
 import org.apache.derby.iapi.services.classfile.VMOpcode;
 import org.apache.derby.iapi.services.info.JVMInfo;
-
 import org.apache.derby.impl.sql.compile.ActivationClassBuilder;
 import org.apache.derby.iapi.sql.execute.ExecutionContext;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Types;
-
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.Properties; 
+
 import javolution.util.FastTable;
+
 import org.apache.derby.iapi.services.io.FormatableFastMap;
 
 import java.lang.reflect.Modifier;
@@ -897,9 +885,9 @@ public class FromVTI extends FromTable implements VTIEnvironment
 		 */
 		FastTable colRefs = getNodesFromParameters(ColumnReference.class);
 		FastTable aggregateFastTable = null;
-		for (Enumeration e = colRefs.elements(); e.hasMoreElements(); )
+		for (Iterator e = colRefs.iterator(); e.hasNext(); )
 		{
-			ColumnReference ref = (ColumnReference)e.nextElement();
+			ColumnReference ref = (ColumnReference)e.next();
 
 			// Rebind the CR if the tableNumber is uninitialized
 			if (ref.getTableNumber() == -1)

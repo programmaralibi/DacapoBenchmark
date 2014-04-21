@@ -493,7 +493,7 @@ public class SQLParser implements SQLParserConstants {
                 {
                         paramCount++;
 
-                        newNode = (ParameterNode) parameterList.elementAt(index);
+                        newNode = (ParameterNode) parameterList.get(index);
                         newNode.setDescriptors(descriptors );
                 }
         }
@@ -535,7 +535,7 @@ public class SQLParser implements SQLParserConstants {
                                                                 getContextManager());
 
                 parameterNumber++;
-                parameterList.addElement(parm);
+                parameterList.add(parm);
 
                 return parm;
         }
@@ -553,7 +553,7 @@ public class SQLParser implements SQLParserConstants {
         {
                 ParameterNode           unnamedParameter;
 
-                unnamedParameter = (ParameterNode) parameterList.elementAt( paramNumber );
+                unnamedParameter = (ParameterNode) parameterList.get( paramNumber );
                 return unnamedParameter;
         }
 
@@ -4030,7 +4030,7 @@ public class SQLParser implements SQLParserConstants {
   final public void qualifiedNameElement(FastTable list, int id_length_limit) throws ParseException, StandardException {
         TableName qualifiedName = null;
     qualifiedName = qualifiedName(id_length_limit);
-                list.addElement(qualifiedName);
+                list.add(qualifiedName);
   }
 
 /*
@@ -5364,12 +5364,12 @@ public class SQLParser implements SQLParserConstants {
         ValueNode       parameter;
     if (jj_2_31(1)) {
       parameter = additiveExpression(null,0, false);
-                parameterList.addElement(parameter);
+                parameterList.add(parameter);
     } else {
       switch (jj_nt.kind) {
       case NULL:
         parameter = nullSpecification();
-                parameterList.addElement(parameter);
+                parameterList.add(parameter);
         break;
       default:
         jj_la1[111] = jj_gen;
@@ -7817,7 +7817,7 @@ columnReference() throws StandardException :
         String           columnName;
     /* identifier() used to be columnName() */
             columnName = identifier(Limits.MAX_IDENTIFIER_LENGTH, true);
-                columnList.addElement(columnName);
+                columnList.add(columnName);
   }
 
 /*
@@ -8920,7 +8920,7 @@ columnReference() throws StandardException :
 		** Store the column names for the index columns in the
 		** index column list.
 		*/
-                columnList.addElement(columnName);
+                columnList.add(columnName);
   }
 
 /*
@@ -10098,9 +10098,9 @@ columnReference() throws StandardException :
       ;
     }
     typeDescriptor = dataTypeDDL();
-                list[0].addElement(parameterName);
-                list[1].addElement(typeDescriptor.getCatalogType());
-                list[2].addElement(inout);
+                list[0].add(parameterName);
+                list[1].add(typeDescriptor.getCatalogType());
+                list[2].add(inout);
   }
 
   final public Integer inoutParameter() throws ParseException {
@@ -10238,9 +10238,9 @@ columnReference() throws StandardException :
       ;
     }
     typeDescriptor = dataTypeDDL();
-                list[0].addElement(parameterName);
-                list[1].addElement(typeDescriptor.getCatalogType());
-                list[2].addElement(ReuseFactory.getInteger(JDBC30Translation.PARAMETER_MODE_IN));
+                list[0].add(parameterName);
+                list[1].add(typeDescriptor.getCatalogType());
+                list[2].add(ReuseFactory.getInteger(JDBC30Translation.PARAMETER_MODE_IN));
   }
 
 /*
@@ -10657,7 +10657,7 @@ columnReference() throws StandardException :
     }
     jj_consume_token(AS);
     identifier = identifier(Limits.MAX_IDENTIFIER_LENGTH, true);
-                FastTable.addElement(new TriggerReferencingStruct(isRow, isNew, identifier));
+                FastTable.add(new TriggerReferencingStruct(isRow, isNew, identifier));
   }
 
 /*
@@ -11725,7 +11725,7 @@ ReuseFactory.getInteger(StatementType.RENAME_INDEX),
                         setUpAndLinkParameters();
                         // set the type of parameter node, it should be a varchar
                         // max Limits.MAX_IDENTIFIER_LENGTH - non nullable
-                        ParameterNode p = (ParameterNode)parameterList.elementAt(0);
+                        ParameterNode p = (ParameterNode)parameterList.get(0);
                         p.setType(new DataTypeDescriptor
                                           (TypeId.getBuiltInTypeId(Types.VARCHAR),
                                            false,
@@ -11806,7 +11806,7 @@ ReuseFactory.getInteger(StatementType.RENAME_INDEX),
                 {
                         setUpAndLinkParameters();
                         // set the type of parameter node, it should be a varchar max Limits.MAX_IDENTIFIER_LENGTH - non nullable
-                        ParameterNode p = (ParameterNode)parameterList.elementAt(0);
+                        ParameterNode p = (ParameterNode)parameterList.get(0);
                         p.setType(new DataTypeDescriptor(TypeId.getBuiltInTypeId(Types.VARCHAR), false, Limits.MAX_IDENTIFIER_LENGTH));
                 }
                 {if (true) return setSchema;}
@@ -20265,8 +20265,8 @@ ReuseFactory.getInteger(StatementType.RENAME_COLUMN),
         jj_expentry[i] = jj_lasttokens[i];
       }
       boolean exists = false;
-      for (java.util.Enumeration e = jj_expentries.elements(); e.hasMoreElements();) {
-        int[] oldentry = (int[])(e.nextElement());
+      for (java.util.Iterator e = jj_expentries.iterator(); e.hasNext();) {
+        int[] oldentry = (int[])(e.next());
         if (oldentry.length == jj_expentry.length) {
           exists = true;
           for (int i = 0; i < jj_expentry.length; i++) {
@@ -20278,13 +20278,13 @@ ReuseFactory.getInteger(StatementType.RENAME_COLUMN),
           if (exists) break;
         }
       }
-      if (!exists) jj_expentries.addElement(jj_expentry);
+      if (!exists) jj_expentries.add(jj_expentry);
       if (pos != 0) jj_lasttokens[(jj_endpos = pos) - 1] = kind;
     }
   }
 
   public ParseException generateParseException() {
-    jj_expentries.removeAllElements();
+    jj_expentries.clear();
     boolean[] la1tokens = new boolean[490];
     for (int i = 0; i < 490; i++) {
       la1tokens[i] = false;
@@ -20351,7 +20351,7 @@ ReuseFactory.getInteger(StatementType.RENAME_COLUMN),
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;
-        jj_expentries.addElement(jj_expentry);
+        jj_expentries.add(jj_expentry);
       }
     }
     jj_endpos = 0;
@@ -20359,7 +20359,7 @@ ReuseFactory.getInteger(StatementType.RENAME_COLUMN),
     jj_add_error_token(0, 0);
     int[][] exptokseq = new int[jj_expentries.size()][];
     for (int i = 0; i < jj_expentries.size(); i++) {
-      exptokseq[i] = (int[])jj_expentries.elementAt(i);
+      exptokseq[i] = (int[])jj_expentries.get(i);
     }
     return new ParseException(token, exptokseq, SQLParserConstants.tokenImage);
   }

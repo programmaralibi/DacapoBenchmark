@@ -25,10 +25,11 @@ import org.apache.derby.iapi.error.StandardException;
 import org.apache.derby.iapi.sql.dictionary.TableDescriptor;
 import org.apache.derby.iapi.sql.compile.Visitor;
 import org.apache.derby.iapi.sql.compile.Visitable;
-
 import org.apache.derby.vti.DeferModification;
 
 import java.util.Enumeration;
+import java.util.Iterator;
+
 import javolution.util.FastMap;
 
 import java.sql.ResultSet;
@@ -91,11 +92,11 @@ class VTIDeferModPolicy implements Visitor
             if( statementType == DeferModification.UPDATE_STATEMENT)
             {
                 // Apply the columnRequiresDefer method to updated columns not in the where clause.
-                Enumeration columns = deferralSearch.columns.keys();
-                while( columns.hasMoreElements())
+                Iterator columns = deferralSearch.columns.keySet().iterator();
+                while( columns.hasNext())
                 {
                     if( deferralControl.columnRequiresDefer( statementType,
-                                                             (String) columns.nextElement(),
+                                                             (String) columns.next(),
                                                              false))
                         return true;
                 }

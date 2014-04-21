@@ -156,8 +156,8 @@ public class RealUnionResultSetStatistics
 	}
   public javolution.util.FastTable getChildren(){
     javolution.util.FastTable children = new javolution.util.FastTable();
-    children.addElement(leftResultSetStatistics);
-    children.addElement(rightResultSetStatistics);
+    children.add(leftResultSetStatistics);
+    children.add(rightResultSetStatistics);
     return children;
   }
 	/**

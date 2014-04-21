@@ -35,12 +35,13 @@ import org.apache.derby.iapi.store.access.ConglomerateController;
 import org.apache.derby.iapi.store.access.TransactionController;
 import org.apache.derby.iapi.sql.execute.ExecRow;
 import org.apache.derby.iapi.sql.execute.TemporaryRowHolder;
-
 import org.apache.derby.iapi.reference.SQLState;
 
 import javolution.util.FastTable;
 import javolution.util.FastMap;
+
 import java.util.Enumeration;
+import java.util.Iterator;
 
 /**
  * Delete the rows from the specified  base table and executes delete/update
@@ -396,7 +397,7 @@ class DeleteCascadeResultSet extends DeleteResultSet
 					rowHolderId++;
 					continue;
 				}
-				TemporaryRowHolder currentRowHolder = (TemporaryRowHolder)sFastTable.elementAt(rowHolderId);	
+				TemporaryRowHolder currentRowHolder = (TemporaryRowHolder)sFastTable.get(rowHolderId);	
 				CursorResultSet rs = currentRowHolder.getResultSet();
 				rs.open();
 				while ((row = rs.getNextRow()) != null)
@@ -427,9 +428,9 @@ class DeleteCascadeResultSet extends DeleteResultSet
 	private boolean isMultipleDeletePathsExist()
 	{
 		FastMap parentResultSets = activation.getParentResultSets();
-		for (Enumeration e = parentResultSets.keys() ; e.hasMoreElements() ;) 
+		for (Iterator e = parentResultSets.keySet().iterator() ; e.hasNext() ;) 
 		{
-			String rsId  = (String) e.nextElement();
+			String rsId  = (String) e.next();
 			FastTable sFastTable = (FastTable) activation.getParentResultSet(rsId);
 			int size = sFastTable.size();
 			if(size > 1)
@@ -450,15 +451,15 @@ class DeleteCascadeResultSet extends DeleteResultSet
 	private void setRowHoldersTypeToUniqueStream()
 	{
 		FastMap parentResultSets = activation.getParentResultSets();
-		for (Enumeration e = parentResultSets.keys() ; e.hasMoreElements() ;) 
+		for (Iterator e = parentResultSets.keySet().iterator(); e.hasNext() ;) 
 		{
-			String rsId  = (String) e.nextElement();
+			String rsId  = (String) e.next();
 			FastTable sFastTable = (FastTable) activation.getParentResultSet(rsId);
 			int size = sFastTable.size();
 			int rowHolderId = 0 ;
 			while(rowHolderId <  size)
 			{
-				TemporaryRowHolder currentRowHolder = (TemporaryRowHolder)sFastTable.elementAt(rowHolderId);	
+				TemporaryRowHolder currentRowHolder = (TemporaryRowHolder)sFastTable.get(rowHolderId);	
 				currentRowHolder.setRowHolderTypeToUniqueStream();
 				rowHolderId++;
 			}

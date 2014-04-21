@@ -652,7 +652,7 @@ public class GroupByNode extends SingleChildResultSetNode
 		int alSize = aggregateFastTable.size();
 		for (int index = 0; index < alSize; index++)
 		{
-			aggregate = (AggregateNode) aggregateFastTable.elementAt(index);
+			aggregate = (AggregateNode) aggregateFastTable.get(index);
 
 			/*
 			** AGG RESULT: Set the aggregate result to null in the
@@ -1184,7 +1184,7 @@ public class GroupByNode extends SingleChildResultSetNode
 		{
 			if (aggregateFastTable.size() == 1)
 			{
-				AggregateNode an = (AggregateNode) aggregateFastTable.elementAt(0);
+				AggregateNode an = (AggregateNode) aggregateFastTable.get(0);
 				AggregateDefinition ad = an.getAggregateDefinition();
 				if (ad instanceof MaxMinAggregateDefinition)
 				{
@@ -1237,7 +1237,7 @@ public class GroupByNode extends SingleChildResultSetNode
 									break;
 								}
 							}
-							FromBaseTable fbt = (FromBaseTable)tableFastTable.firstElement();
+							FromBaseTable fbt = (FromBaseTable)tableFastTable.get(0);
 							MaxMinAggregateDefinition temp = (MaxMinAggregateDefinition)ad;
 
 							/*  MAX   ASC      NULLABLE 

@@ -21,42 +21,39 @@
 
 package org.apache.derby.impl.store.access;
 
-import org.apache.derby.iapi.reference.Attribute;
-import org.apache.derby.iapi.reference.Property;
-import org.apache.derby.iapi.reference.SQLState;
-
-import org.apache.derby.iapi.types.UserType;
-import org.apache.derby.iapi.services.io.FormatableBitSet;
-import org.apache.derby.iapi.services.io.FormatableFastMap; 
-import org.apache.derby.iapi.services.locks.CompatibilitySpace;
-import org.apache.derby.iapi.services.locks.ShExLockable;
-import org.apache.derby.iapi.services.locks.ShExQual;
-import org.apache.derby.iapi.services.locks.C_LockFactory;
-import org.apache.derby.iapi.services.locks.Latch;
-import org.apache.derby.iapi.services.locks.LockFactory;
-import org.apache.derby.iapi.services.property.PropertyUtil;
-
-import org.apache.derby.iapi.services.monitor.Monitor;
-import org.apache.derby.iapi.services.sanity.SanityManager;
-import org.apache.derby.iapi.services.io.Formatable;
-import org.apache.derby.iapi.error.StandardException;
-import org.apache.derby.iapi.sql.dictionary.DataDictionary;
-import org.apache.derby.iapi.store.access.conglomerate.TransactionManager;
-import org.apache.derby.iapi.store.access.AccessFactory;
-import org.apache.derby.iapi.store.access.AccessFactoryGlobals;
-import org.apache.derby.iapi.store.access.ConglomerateController;
-import org.apache.derby.iapi.services.property.PropertyFactory;
-import org.apache.derby.iapi.store.access.Qualifier;
-import org.apache.derby.iapi.store.access.ScanController;
-import org.apache.derby.iapi.store.access.TransactionController;
-import org.apache.derby.iapi.store.raw.RawStoreFactory;
-import org.apache.derby.iapi.types.DataValueDescriptor;
-
 import java.io.Serializable;
 import java.util.Dictionary;
 import java.util.Enumeration;
-import javolution.util.FastMap;
+import java.util.Hashtable;
 import java.util.Properties;
+
+import org.apache.derby.iapi.error.StandardException;
+import org.apache.derby.iapi.reference.Attribute;
+import org.apache.derby.iapi.reference.Property;
+import org.apache.derby.iapi.reference.SQLState;
+import org.apache.derby.iapi.services.io.Formatable;
+import org.apache.derby.iapi.services.io.FormatableBitSet;
+import org.apache.derby.iapi.services.locks.C_LockFactory;
+import org.apache.derby.iapi.services.locks.CompatibilitySpace;
+import org.apache.derby.iapi.services.locks.Latch;
+import org.apache.derby.iapi.services.locks.LockFactory;
+import org.apache.derby.iapi.services.locks.ShExLockable;
+import org.apache.derby.iapi.services.locks.ShExQual;
+import org.apache.derby.iapi.services.monitor.Monitor;
+import org.apache.derby.iapi.services.property.PropertyFactory;
+import org.apache.derby.iapi.services.property.PropertyUtil;
+import org.apache.derby.iapi.services.sanity.SanityManager;
+import org.apache.derby.iapi.sql.dictionary.DataDictionary;
+import org.apache.derby.iapi.store.access.AccessFactory;
+import org.apache.derby.iapi.store.access.AccessFactoryGlobals;
+import org.apache.derby.iapi.store.access.ConglomerateController;
+import org.apache.derby.iapi.store.access.Qualifier;
+import org.apache.derby.iapi.store.access.ScanController;
+import org.apache.derby.iapi.store.access.TransactionController;
+import org.apache.derby.iapi.store.access.conglomerate.TransactionManager;
+import org.apache.derby.iapi.store.raw.RawStoreFactory;
+import org.apache.derby.iapi.types.DataValueDescriptor;
+import org.apache.derby.iapi.types.UserType;
 
 /**
 Stores properties in a congolmerate with complete transactional support.
@@ -271,7 +268,7 @@ class PropertyConglomerate
 		else
 		{
 			synchronized (this) {
-				FastMap defaults = new FastMap();
+				Hashtable defaults = new Hashtable();
 				getProperties(tc,defaults,false/*!stringsOnly*/,true/*defaultsOnly*/);
 				validate(key,value,defaults);
 				valueToSave = map(key,value,defaults);
@@ -366,7 +363,7 @@ class PropertyConglomerate
 		if (saveServiceProperty(key,value)) return;
 
 		Dictionary defaults = (Dictionary)readProperty(tc,AccessFactoryGlobals.DEFAULT_PROPERTY_NAME);
-		if (defaults == null) defaults = new FormatableFastMap();
+		if (defaults == null) defaults = new FormatableHashtable();
 		if (value==null)
 			defaults.remove(key);
 		else
@@ -379,7 +376,7 @@ class PropertyConglomerate
 											 String key, Serializable value, boolean dbOnlyProperty)
 		 throws StandardException
 	{
-		Dictionary d = new FastMap();
+		Dictionary d = new Hashtable();
 		getProperties(tc,d,false/*!stringsOnly*/,false/*!defaultsOnly*/);
 		Serializable mappedValue = pf.doValidateApplyAndMap(tc, key,
 																   value, d, dbOnlyProperty);
@@ -706,7 +703,7 @@ class PropertyConglomerate
 	private Dictionary readDbProperties(TransactionController tc)
 		 throws StandardException
 	{
-		Dictionary set = new FastMap();
+		Dictionary set = new Hashtable();
 
         // scan the table for a row with no matching "key"
 		ScanController scan = openScan(tc, (String) null, 0);

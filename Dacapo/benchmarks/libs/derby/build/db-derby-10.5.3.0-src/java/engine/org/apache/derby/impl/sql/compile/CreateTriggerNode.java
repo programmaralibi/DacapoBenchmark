@@ -23,6 +23,8 @@ package	org.apache.derby.impl.sql.compile;
 
 import java.sql.Timestamp;
 import java.util.Enumeration;
+import java.util.Iterator;
+
 import javolution.util.FastMap;
 import javolution.util.FastTable;
 
@@ -518,12 +520,12 @@ public class CreateTriggerNode extends DDLStatementNode
 		int size = refs.size();
 		QueryTreeNode[] sorted = new QueryTreeNode[size];
 		int i = 0;
-		for (Enumeration e = refs.elements(); e.hasMoreElements(); )
+		for (Iterator e = refs.iterator(); e.hasNext(); )
 		{
 			if (isRow)
-				sorted[i++] = (ColumnReference)e.nextElement();
+				sorted[i++] = (ColumnReference)e.next();
 			else
-				sorted[i++] = (FromBaseTable)e.nextElement();
+				sorted[i++] = (FromBaseTable)e.next();
 		}
 
 		/* bubble sort
@@ -757,9 +759,9 @@ public class CreateTriggerNode extends DDLStatementNode
 			return;
 		}
 
-		for (Enumeration e = refClause.elements(); e.hasMoreElements(); )
+		for (Iterator e = refClause.iterator(); e.hasNext(); )
 		{
-			TriggerReferencingStruct trn = (TriggerReferencingStruct)e.nextElement();
+			TriggerReferencingStruct trn = (TriggerReferencingStruct)e.next();
 
 			/*
 			** 1) Make sure that we don't try to refer
@@ -876,11 +878,11 @@ public class CreateTriggerNode extends DDLStatementNode
 			if (refClause != null)
 			{
 				StringBuffer buf = new StringBuffer();
-				for (Enumeration e = refClause.elements(); e.hasMoreElements(); )
+				for (Iterator e = refClause.iterator(); e.hasNext(); )
 				{
 					buf.append("\t");
 					TriggerReferencingStruct trn = 	
-							(TriggerReferencingStruct)e.nextElement();
+							(TriggerReferencingStruct)e.next();
 					buf.append(trn.toString());
 					buf.append("\n");
 				}

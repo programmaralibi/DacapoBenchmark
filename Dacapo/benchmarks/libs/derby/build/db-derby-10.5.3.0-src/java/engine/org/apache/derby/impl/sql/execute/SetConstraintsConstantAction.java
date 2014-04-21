@@ -22,6 +22,8 @@
 package org.apache.derby.impl.sql.execute;
 
 import java.util.Enumeration;
+import java.util.Iterator;
+
 import javolution.util.FastMap;
 
 import org.apache.derby.catalog.UUID;
@@ -204,7 +206,7 @@ class SetConstraintsConstantAction extends DDLConstantAction
 
 					if (checkConstraintTables == null)
 					{
-						checkConstraintTables = new FastMap(10);
+						checkConstraintTables = new FastMap();
 					}
 
 					ConstraintDescriptorList tabCdl = (ConstraintDescriptorList)
@@ -305,10 +307,10 @@ class SetConstraintsConstantAction extends DDLConstantAction
 			return;
 		}
 
-		for (Enumeration e = ht.elements(); e.hasMoreElements(); )
+		for (Iterator e = ht.keySet().iterator(); e.hasNext(); )
 		{
 		
-			cdl = (ConstraintDescriptorList) e.nextElement();
+			cdl = (ConstraintDescriptorList) e.next();
 			text = null;
 			constraintNames = null;
 

@@ -120,7 +120,7 @@ public class BasicSortObserver implements SortObserver
 	{
 		if (reuseWrappers && FastTable.size() < maxFreeListSize)
 		{
-			FastTable.addElement(objectArray);
+			FastTable.add(objectArray);
 		}
 	}
 
@@ -131,8 +131,8 @@ public class BasicSortObserver implements SortObserver
 
 		if (lastElement > 0)
 		{
-			DataValueDescriptor[] retval = (DataValueDescriptor[]) FastTable.elementAt(lastElement - 1);
-			FastTable.removeElementAt(lastElement - 1);
+			DataValueDescriptor[] retval = (DataValueDescriptor[]) FastTable.get(lastElement - 1);
+			FastTable.remove(lastElement - 1);
 			return retval;
 		}
 		return execRow.getRowArrayClone();

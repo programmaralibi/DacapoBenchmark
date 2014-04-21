@@ -23,22 +23,22 @@ package org.apache.derby.impl.sql.execute;
 
 import org.apache.derby.iapi.services.sanity.SanityManager;
 import org.apache.derby.iapi.error.StandardException;
-
 import org.apache.derby.iapi.types.DataValueDescriptor;
 import org.apache.derby.iapi.types.RowLocation;
 import org.apache.derby.iapi.sql.conn.LanguageConnectionContext;
 import org.apache.derby.iapi.sql.dictionary.ConglomerateDescriptor;
 import org.apache.derby.iapi.sql.execute.ExecRow;
 import org.apache.derby.iapi.sql.execute.ExecIndexRow;
-
 import org.apache.derby.iapi.store.access.ConglomerateController;
 import org.apache.derby.iapi.store.access.DynamicCompiledOpenConglomInfo;
 import org.apache.derby.iapi.store.access.ScanController;
 import org.apache.derby.iapi.store.access.StaticCompiledOpenConglomInfo;
 import org.apache.derby.iapi.store.access.TransactionController;
-
 import org.apache.derby.iapi.services.io.FormatableBitSet;
+
 import java.util.Enumeration;
+import java.util.Iterator;
+
 import javolution.util.FastMap;
 
 /**
@@ -222,10 +222,10 @@ public abstract class GenericRIChecker
 	void close()
 		throws StandardException
 	{
-		Enumeration e = scanControllers.elements();
-		while (e.hasMoreElements())
+		Iterator e = scanControllers.keySet().iterator();
+		while (e.hasNext())
 		{
-			ScanController scan = (ScanController)e.nextElement();
+			ScanController scan = (ScanController)e.next();
 			scan.close();
 		}
 		scanControllers.clear();
