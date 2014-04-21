@@ -27,7 +27,7 @@ import org.apache.derby.iapi.sql.dictionary.DataDictionary;
 import org.apache.derby.iapi.services.sanity.SanityManager;
 import org.apache.derby.iapi.error.StandardException;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 public class OrNode extends BinaryLogicalOperatorNode
 {
@@ -65,7 +65,7 @@ public class OrNode extends BinaryLogicalOperatorNode
 	 *
 	 * @param fromList			The query's FROM list
 	 * @param subqueryList		The subquery list being built as we find SubqueryNodes
-	 * @param aggregateVector	The aggregate vector being built as we find AggregateNodes
+	 * @param aggregateFastTable	The aggregate FastTable being built as we find AggregateNodes
 	 *
 	 * @return	The new top of the expression tree.
 	 *
@@ -74,10 +74,10 @@ public class OrNode extends BinaryLogicalOperatorNode
 
 	public ValueNode bindExpression(
 		FromList fromList, SubqueryList subqueryList,
-		Vector	aggregateVector)
+		FastTable	aggregateFastTable)
 			throws StandardException
 	{
-		super.bindExpression(fromList, subqueryList, aggregateVector);
+		super.bindExpression(fromList, subqueryList, aggregateFastTable);
 		postBindFixup();
 		return this;
 	}

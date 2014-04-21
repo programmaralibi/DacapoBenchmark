@@ -21,7 +21,7 @@
 
 package org.apache.derby.diag;
 
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import java.util.Enumeration;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;

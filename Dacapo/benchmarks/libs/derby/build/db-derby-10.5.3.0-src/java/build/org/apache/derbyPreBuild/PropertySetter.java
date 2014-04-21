@@ -25,10 +25,11 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import javolution.util.FastTable;
 import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.List;
+
+import javolution.util.FastTable;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;

@@ -38,11 +38,11 @@ import java.sql.SQLData;
 import java.sql.SQLOutput;
 import java.util.Calendar;
 import java.util.Map;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 public  class   SQLOutputImpl implements  SQLOutput
 {
-    public  SQLOutputImpl(Vector<?> attributes, Map<String,?> map) throws SQLException {}
+    public  SQLOutputImpl(FastTable<?> attributes, Map<String,?> map) throws SQLException {}
 
     public  void 	writeArray(Array x) throws SQLException {}
     public  void 	writeAsciiStream(InputStream x) throws SQLException {}

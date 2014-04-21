@@ -60,7 +60,7 @@ import org.apache.derby.iapi.util.ReuseFactory;
 
 import java.sql.Types;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * An CastNode represents a cast expressionr.
@@ -181,7 +181,7 @@ public class CastNode extends ValueNode
 	 * @param fromList		The FROM list for the query this
 	 *				expression is in, for binding columns.
 	 * @param subqueryList		The subquery list being built as we find SubqueryNodes
-	 * @param aggregateVector	The aggregate vector being built as we find AggregateNodes
+	 * @param aggregateFastTable	The aggregate FastTable being built as we find AggregateNodes
 	 *
 	 * @return	The new top of the expression tree.
 	 *
@@ -189,12 +189,12 @@ public class CastNode extends ValueNode
 	 */
 
 	public ValueNode bindExpression(FromList fromList, SubqueryList subqueryList,
-									Vector aggregateVector)
+									FastTable aggregateFastTable)
 				throws StandardException
 	{
 		castOperand = castOperand.bindExpression(
 								fromList, subqueryList,
-								aggregateVector);
+								aggregateFastTable);
 
 		if (getTypeServices() == null)   //CHAR or VARCHAR function without specifying target length
 		{

@@ -49,7 +49,7 @@ public  abstract    class   QueryVTIHelper
     //
     ///////////////////////////////////////////////////////////////////////////////////
 
-    private static  Hashtable<String,Connection>    _openConnections = new Hashtable<String,Connection>();
+    private static  FastMap<String,Connection>    _openConnections = new FastMap<String,Connection>();
 
     ///////////////////////////////////////////////////////////////////////////////////
     //

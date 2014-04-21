@@ -85,7 +85,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 import java.util.Dictionary;
 import java.util.Enumeration;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import java.util.Locale;
 import java.lang.reflect.Method;
 import java.text.Collator;

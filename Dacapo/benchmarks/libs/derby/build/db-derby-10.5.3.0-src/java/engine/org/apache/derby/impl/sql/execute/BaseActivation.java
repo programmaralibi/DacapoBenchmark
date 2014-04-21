@@ -26,8 +26,8 @@ import java.sql.SQLException;
 import java.sql.SQLWarning;
 import javolution.util.FastTable;
 import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.Vector;
+import javolution.util.FastMap;
+import javolution.util.FastTable;
 
 import	org.apache.derby.catalog.Dependable;
 import	org.apache.derby.catalog.DependableFinder;
@@ -865,11 +865,11 @@ public abstract class BaseActivation implements CursorActivation, GeneratedByteC
 			{
 				synchronized (getPreparedStatement())
 				{
-					Vector rowCountCheckVector = getRowCountCheckVector();
+					FastTable rowCountCheckFastTable = getRowCountCheckFastTable();
 
-					if (rowCountCheckVector == null) {
-						rowCountCheckVector = new Vector();
-						setRowCountCheckVector(rowCountCheckVector);
+					if (rowCountCheckFastTable == null) {
+						rowCountCheckFastTable = new FastTable();
+						setRowCountCheckFastTable(rowCountCheckFastTable);
 					}
 
 					Long firstRowCount = null;
@@ -877,14 +877,14 @@ public abstract class BaseActivation implements CursorActivation, GeneratedByteC
 					/*
 					** Check whether this resultSet has been seen yet.
 					*/
-					if (resultSetNumber < rowCountCheckVector.size())
+					if (resultSetNumber < rowCountCheckFastTable.size())
 					{
 						firstRowCount =
-							(Long) rowCountCheckVector.elementAt(resultSetNumber);
+							(Long) rowCountCheckFastTable.elementAt(resultSetNumber);
 					}
 					else
 					{
-						rowCountCheckVector.setSize(resultSetNumber + 1);
+						rowCountCheckFastTable.setSize(resultSetNumber + 1);
 					}
 
 					if (firstRowCount != null)
@@ -976,7 +976,7 @@ public abstract class BaseActivation implements CursorActivation, GeneratedByteC
 					else
 					{
 						firstRowCount = new Long(currentRowCount);
-						rowCountCheckVector.setElementAt(
+						rowCountCheckFastTable.setElementAt(
 														firstRowCount,
 														resultSetNumber
 														);
@@ -1206,9 +1206,9 @@ public abstract class BaseActivation implements CursorActivation, GeneratedByteC
 	** out whether the row count for a particular result set has changed
 	** enough to force recompilation.
 	*/
-	abstract protected Vector getRowCountCheckVector();
+	abstract protected FastTable getRowCountCheckFastTable();
 
-	abstract protected void setRowCountCheckVector(Vector newValue);
+	abstract protected void setRowCountCheckFastTable(FastTable newValue);
 
 	/*
 	** These accessor methods are provided by the sub-class to remember the
@@ -1513,7 +1513,7 @@ public abstract class BaseActivation implements CursorActivation, GeneratedByteC
 		throws StandardException
 	{
 		rs.openCore();
-		Vector rowCache = new Vector();
+		FastTable rowCache = new FastTable();
 		ExecRow aRow;
 		int cacheSize = 0;
 		FormatableBitSet toClone = null;
@@ -1592,36 +1592,36 @@ public abstract class BaseActivation implements CursorActivation, GeneratedByteC
 	protected CursorResultSet[] raParentResultSets;
 
 
-	// maintain hash table of parent result set vector
+	// maintain hash table of parent result set FastTable
 	// a table can have more than one parent source.
-	protected Hashtable parentResultSets;
+	protected FastMap parentResultSets;
 	public void setParentResultSet(TemporaryRowHolder rs, String resultSetId)
 	{
-		Vector  rsVector;
+		FastTable  rsFastTable;
 		if(parentResultSets == null)
-			parentResultSets = new Hashtable();
-		rsVector = (Vector) parentResultSets.get(resultSetId);
-		if(rsVector == null)
+			parentResultSets = new FastMap();
+		rsFastTable = (FastTable) parentResultSets.get(resultSetId);
+		if(rsFastTable == null)
 		{
-			rsVector = new Vector();
-			rsVector.addElement(rs);
+			rsFastTable = new FastTable();
+			rsFastTable.addElement(rs);
 		}else
 		{
-			rsVector.addElement(rs);
+			rsFastTable.addElement(rs);
 		}
-		parentResultSets.put(resultSetId , rsVector);
+		parentResultSets.put(resultSetId , rsFastTable);
 	}
 
 	/**
 	 * get the reference to parent table ResultSets, that will be needed by the 
 	 * referential action dependent table scans.
 	 */
-	public Vector getParentResultSet(String resultSetId)
+	public FastTable getParentResultSet(String resultSetId)
 	{
-		return (Vector) parentResultSets.get(resultSetId);
+		return (FastTable) parentResultSets.get(resultSetId);
 	}
 
-	public Hashtable getParentResultSets()
+	public FastMap getParentResultSets()
 	{
 		return parentResultSets;
 	}

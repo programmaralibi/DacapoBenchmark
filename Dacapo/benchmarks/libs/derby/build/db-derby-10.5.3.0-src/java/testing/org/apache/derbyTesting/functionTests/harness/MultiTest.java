@@ -28,7 +28,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.FileInputStream;
 import java.io.BufferedInputStream;
-import java.util.Vector;
+import javolution.util.FastTable;
 import java.util.Enumeration;
 import org.apache.derby.impl.tools.ij.*;
 
@@ -394,7 +394,7 @@ public class MultiTest
 	/**
 	** Sequentially run scripts
 	*/
-	private static void seqRunCases(Vector cases, String descr, String inputDir, String outputDir) 
+	private static void seqRunCases(FastTable cases, String descr, String inputDir, String outputDir) 
 		throws FileNotFoundException, IOException, ijFatalException
 	{
 		LocalizedOutput	out;

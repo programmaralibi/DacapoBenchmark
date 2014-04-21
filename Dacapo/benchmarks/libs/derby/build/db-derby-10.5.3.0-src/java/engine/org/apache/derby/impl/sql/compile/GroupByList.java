@@ -36,7 +36,7 @@ import org.apache.derby.impl.sql.compile.ActivationClassBuilder;
 
 import org.apache.derby.iapi.util.ReuseFactory;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * A GroupByList represents the list of expressions in a GROUP BY clause in
@@ -110,12 +110,12 @@ public class GroupByList extends OrderedColumnList
 	 *		   expressions in SELECT's RCL.
 	 *
 	 * @param select		The SelectNode
-	 * @param aggregateVector	The aggregate vector being built as we find AggregateNodes
+	 * @param aggregateFastTable	The aggregate FastTable being built as we find AggregateNodes
 	 *
 	 * @exception StandardException		Thrown on error
 	 */
 	public void bindGroupByColumns(SelectNode select,
-								   Vector	aggregateVector)
+								   FastTable	aggregateFastTable)
 					throws StandardException
 	{
 		FromList		 fromList = select.getFromList();
@@ -138,7 +138,7 @@ public class GroupByList extends OrderedColumnList
 		{
 			GroupByColumn groupByCol = (GroupByColumn) elementAt(index);
 			groupByCol.bindExpression(fromList,
-									  dummySubqueryList, aggregateVector);
+									  dummySubqueryList, aggregateFastTable);
 		}
 
 		

@@ -48,7 +48,7 @@
       verbose="${verbose}"
       srcdir="${derby.tools.src.dir}"
       destdir="${out.dir}">
-      <classpath>
+      <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
         <pathelement path="${compile.classpath}"/>
       </classpath>
       <include name="${derby.dir}/iapi/tools/i18n/**"/>
@@ -70,7 +70,7 @@
       verbose="${verbose}"
       srcdir="${derby.tools.src.dir}"
       destdir="${out.dir}">
-      <classpath>
+      <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
         <pathelement path="${compile.classpath}"/>
       </classpath>
       <include name="${derby.dir}/iapi/tools/run.java"/>

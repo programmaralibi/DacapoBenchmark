@@ -37,7 +37,7 @@ import org.apache.derby.io.StorageFactory;
 	To use a CipherProvider to encrypt or decrypt, it needs 3 things:
 	1) A CipherProvider that is initialized to ENCRYPT or DECRYPT
 	2) A secret Key for the encryption/decryption
-	3) An Initialization Vector (IvParameterSpec) that is used to create some
+	3) An Initialization FastTable (IvParameterSpec) that is used to create some
 		randomness in the encryption
 
     See $WS/docs/funcspec/mulan/configurableEncryption.html

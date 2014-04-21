@@ -34,7 +34,7 @@ import org.apache.derby.iapi.services.sanity.SanityManager;
 
 import org.apache.derby.iapi.util.JBitSet;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * A BinaryListOperatorNode represents a built-in "binary" operator with a single
@@ -128,7 +128,7 @@ public abstract class BinaryListOperatorNode extends ValueNode
 	 * @param fromList		The FROM list for the query this
 	 *				expression is in, for binding columns.
 	 * @param subqueryList		The subquery list being built as we find SubqueryNodes
-	 * @param aggregateVector	The aggregate vector being built as we find AggregateNodes
+	 * @param aggregateFastTable	The aggregate FastTable being built as we find AggregateNodes
 	 *
 	 * @return	The new top of the expression tree.
 	 *
@@ -137,11 +137,11 @@ public abstract class BinaryListOperatorNode extends ValueNode
 
 	public ValueNode bindExpression(
 		FromList fromList, SubqueryList subqueryList,
-		Vector	aggregateVector) 
+		FastTable	aggregateFastTable) 
 			throws StandardException
 	{
-		leftOperand = leftOperand.bindExpression(fromList, subqueryList, aggregateVector);
-		rightOperandList.bindExpression(fromList, subqueryList, aggregateVector);
+		leftOperand = leftOperand.bindExpression(fromList, subqueryList, aggregateFastTable);
+		rightOperandList.bindExpression(fromList, subqueryList, aggregateFastTable);
 
 		/* Is there a ? parameter on the left? */
 		if (leftOperand.requiresTypeFromContext())

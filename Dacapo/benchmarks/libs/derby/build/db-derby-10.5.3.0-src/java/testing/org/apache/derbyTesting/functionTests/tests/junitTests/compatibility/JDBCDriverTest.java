@@ -206,31 +206,7 @@ public	class	JDBCDriverTest	extends	CompatibilitySuite
 	/////////////////////////////////////////////////////////////
 
 	// map derby type name to type descriptor
-	private	static	FastMap		_types = new FastMap();	// maps Derby type names to TypeDescriptors
-
-	// map jdbc type to index into COERCIONS
-	private	static	FastMap		_coercionIndex = new FastMap();	// maps jdbc types to legal coercions
-
-	/////////////////////////////////////////////////////////////
-	//
-	//	CONSTRUCTOR
-	//
-	/////////////////////////////////////////////////////////////
-	
-	public	JDBCDriverTest() {}
-
-	/////////////////////////////////////////////////////////////
-	//
-	//	TEST ENTRY POINTS
-	//
-	/////////////////////////////////////////////////////////////
-
-	/**
-	 * <p>
-	 * Sanity check the integrity of this test suite.
-	 * </p>
-	 */
-	public	void	testSanity()
+	private	static	FastMap		_types = new FastMap()
 	{
 		assertEquals
 			( "ALL_TYPES.length == ROW_1.length", ALL_TYPES.length, ROW_1.length );

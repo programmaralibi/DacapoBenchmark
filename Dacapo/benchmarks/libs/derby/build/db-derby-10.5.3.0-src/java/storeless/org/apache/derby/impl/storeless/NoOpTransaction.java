@@ -29,7 +29,7 @@ import org.apache.derby.iapi.services.io.FormatableBitSet;
 import org.apache.derby.iapi.services.io.Storable;
 import org.apache.derby.iapi.services.locks.CompatibilitySpace;
 import org.apache.derby.iapi.store.access.AccessFactory;
-import org.apache.derby.iapi.store.access.BackingStoreHashtable;
+import org.apache.derby.iapi.store.access.BackingStoreFastMap;
 import org.apache.derby.iapi.store.access.ColumnOrdering;
 import org.apache.derby.iapi.store.access.ConglomerateController;
 import org.apache.derby.iapi.store.access.DatabaseInstant;
@@ -144,7 +144,7 @@ class NoOpTransaction implements TransactionController {
         return null;
     }
 
-    public BackingStoreHashtable createBackingStoreHashtableFromScan(
+    public BackingStoreFastMap createBackingStoreFastMapFromScan(
             long conglomId, int open_mode, int lock_level, int isolation_level,
             FormatableBitSet scanColumnList,
             DataValueDescriptor[] startKeyValue, int startSearchOperator,

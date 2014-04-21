@@ -25,13 +25,13 @@ import org.apache.derby.iapi.store.access.ColumnOrdering;
 
 import org.apache.derby.impl.sql.execute.IndexColumnOrder;
 
-import java.util.Hashtable;
+import javolution.util.FastMap;
 
 /**
  * List of OrderedColumns
  *
  */
-public abstract class OrderedColumnList extends QueryTreeNodeVector
+public abstract class OrderedColumnList extends QueryTreeNodeFastTable
 {
 	/**
 	 * Get an array of ColumnOrderings to pass to the store
@@ -50,9 +50,9 @@ public abstract class OrderedColumnList extends QueryTreeNodeVector
 			of an earlier entry are considered purely redundant,
 			they won't affect the result, so we can drop them.
 			We don't know how many columns are in the source,
-			so we use a hashtable for lookup of the positions
+			so we use a FastMap for lookup of the positions
 		*/
-		Hashtable hashColumns = new Hashtable();
+		FastMap hashColumns = new FastMap();
 
 		actualCols = 0;
 

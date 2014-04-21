@@ -86,8 +86,8 @@ import java.sql.Types;
 
 import java.util.Enumeration;
 import java.util.Properties; 
-import java.util.Vector;
-import org.apache.derby.iapi.services.io.FormatableHashtable;
+import javolution.util.FastTable;
+import org.apache.derby.iapi.services.io.FormatableFastMap;
 
 import java.lang.reflect.Modifier;
 
@@ -110,7 +110,7 @@ public class FromVTI extends FromTable implements VTIEnvironment
 	boolean				isDerbyStyleTableFunction;
 	ResultSet			rs;
 
-	private	FormatableHashtable	compileTimeConstants;
+	private	FormatableFastMap	compileTimeConstants;
 
 	// Number of columns returned by the VTI
 	protected int numVTICols;
@@ -537,10 +537,10 @@ public class FromVTI extends FromTable implements VTIEnvironment
 		 * Correlated subqueries are not allowed as parameters to
 		 * a VTI, so pass an empty FromList.
 		 */
-		Vector aggregateVector = new Vector();
+		FastTable aggregateFastTable = new FastTable();
 		methodCall.bindExpression(fromListParam,
 									 subqueryList,
-									 aggregateVector);
+									 aggregateFastTable);
 
 		// Is the parameter list to the constructor valid for a VTI?
 		methodParms = methodCall.getMethodParms();
@@ -895,8 +895,8 @@ public class FromVTI extends FromTable implements VTIEnvironment
 		 * from other VTIs that appear after this one in the FROM list.
 		 * These CRs will have uninitialized column and table numbers.
 		 */
-		Vector colRefs = getNodesFromParameters(ColumnReference.class);
-		Vector aggregateVector = null;
+		FastTable colRefs = getNodesFromParameters(ColumnReference.class);
+		FastTable aggregateFastTable = null;
 		for (Enumeration e = colRefs.elements(); e.hasMoreElements(); )
 		{
 			ColumnReference ref = (ColumnReference)e.nextElement();
@@ -905,13 +905,13 @@ public class FromVTI extends FromTable implements VTIEnvironment
 			if (ref.getTableNumber() == -1)
 			{
 				// we need a fake agg list
-				if (aggregateVector == null)
+				if (aggregateFastTable == null)
 				{
-					aggregateVector = new Vector();
+					aggregateFastTable = new FastTable();
 				}
 				ref.bindExpression(fromListParam,
 									subqueryList,
-									aggregateVector);
+									aggregateFastTable);
 			}
 		}
 	}
@@ -922,11 +922,11 @@ public class FromVTI extends FromTable implements VTIEnvironment
 	 *
 	 * @param nodeClass	The Class of interest.
 	 *
-	 * @return A vector containing all of the nodes of interest.
+	 * @return A FastTable containing all of the nodes of interest.
 	 *
 	 * @exception StandardException		Thrown on error
 	 */
-	Vector getNodesFromParameters(Class nodeClass)
+	FastTable getNodesFromParameters(Class nodeClass)
 		throws StandardException
 	{
 		CollectNodesVisitor getCRs = new CollectNodesVisitor(nodeClass);
@@ -1540,7 +1540,7 @@ public class FromVTI extends FromTable implements VTIEnvironment
 		return true;
 	}
 
-	protected void markUpdatableByCursor(Vector updateColumns) {
+	protected void markUpdatableByCursor(FastTable updateColumns) {
 		super.markUpdatableByCursor(updateColumns);
 		forUpdatePresent = true;
 		emptyForUpdate = ((updateColumns == null) || (updateColumns.size() == 0));
@@ -1590,7 +1590,7 @@ public class FromVTI extends FromTable implements VTIEnvironment
 			return;
 
 		if (compileTimeConstants == null)
-			compileTimeConstants = new FormatableHashtable();
+			compileTimeConstants = new FormatableFastMap();
 
 		compileTimeConstants.put(key, value);
 	}

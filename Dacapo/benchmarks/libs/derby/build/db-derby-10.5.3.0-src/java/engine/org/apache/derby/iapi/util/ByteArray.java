@@ -27,7 +27,7 @@ import java.io.IOException;
 
 /**
 	ByteArray wraps java byte arrays (byte[]) to allow
-	byte arrays to be used as keys in hashtables.
+	byte arrays to be used as keys in FastMaps.
 
 	This is required because the equals function on
 	byte[] directly uses reference equality.

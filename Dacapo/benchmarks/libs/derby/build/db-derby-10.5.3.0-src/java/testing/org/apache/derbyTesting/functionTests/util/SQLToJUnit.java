@@ -134,7 +134,7 @@ public class SQLToJUnit
     
     /* This is set if connect .. user .. as statements are found in
      * the test to decide if we should alter our search patterns to
-     * account for ij's multiple connection behavior. The hashtable
+     * account for ij's multiple connection behavior. The FastMap
      * is used to store the user and connection names.
      */
     private boolean multipleUserConnections = false;

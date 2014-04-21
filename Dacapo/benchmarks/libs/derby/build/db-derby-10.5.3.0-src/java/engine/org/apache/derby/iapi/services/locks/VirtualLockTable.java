@@ -27,8 +27,8 @@ package org.apache.derby.iapi.services.locks;
 	a snap shot of all the locks currently held in the lock manager.  A VTI can
 	then be written to query the content of the lock table.
 	<P>
-	Each lock held by the lock manager is represented by a Hashtable.  The key
-	to each Hashtable entry is a lock attribute that is of interest to the
+	Each lock held by the lock manager is represented by a FastMap.  The key
+	to each FastMap entry is a lock attribute that is of interest to the
 	outside world, such as transaction id, type, mode, etc.  
  */
 

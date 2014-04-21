@@ -28,12 +28,12 @@ import org.apache.derby.iapi.services.sanity.SanityManager;
 
 import org.apache.derby.iapi.error.StandardException;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 class RowOrderingImpl implements RowOrdering {
 
-	/* This vector contains ColumnOrderings */
-	Vector ordering;
+	/* This FastTable contains ColumnOrderings */
+	FastTable ordering;
 
 	/*
 	** This ColumnOrdering represents the columns that can be considered
@@ -46,21 +46,21 @@ class RowOrderingImpl implements RowOrdering {
 	ColumnOrdering	columnsAlwaysOrdered;
 
 	/*
-	** This vector contains table numbers for tables that are always ordered.
+	** This FastTable contains table numbers for tables that are always ordered.
 	** This happens for one-row tables.
 	*/
-	Vector alwaysOrderedOptimizables;
+	FastTable alwaysOrderedOptimizables;
 
 	ColumnOrdering	currentColumnOrdering;
 
-	/* This vector contains unordered Optimizables */
-	Vector unorderedOptimizables;
+	/* This FastTable contains unordered Optimizables */
+	FastTable unorderedOptimizables;
 
 	RowOrderingImpl() {
-		ordering = new Vector();
-		unorderedOptimizables = new Vector();
+		ordering = new FastTable();
+		unorderedOptimizables = new FastTable();
 		columnsAlwaysOrdered = new ColumnOrdering(RowOrdering.DONTCARE);
-		alwaysOrderedOptimizables = new Vector();
+		alwaysOrderedOptimizables = new FastTable();
 	}
 	
 	/** @see RowOrdering#isColumnAlwaysOrdered */
@@ -82,7 +82,7 @@ class RowOrderingImpl implements RowOrdering {
 		/*
 		** Return true if the table is always ordered.
 		*/
-		if (vectorContainsOptimizable(tableNumber, alwaysOrderedOptimizables))
+		if (FastTableContainsOptimizable(tableNumber, alwaysOrderedOptimizables))
 		{
 			return true;
 		}
@@ -123,7 +123,7 @@ class RowOrderingImpl implements RowOrdering {
 		/*
 		** Return true if the table is always ordered.
 		*/
-		if (vectorContainsOptimizable(tableNumber, alwaysOrderedOptimizables))
+		if (FastTableContainsOptimizable(tableNumber, alwaysOrderedOptimizables))
 		{
 			return true;
 		}
@@ -158,10 +158,10 @@ class RowOrderingImpl implements RowOrdering {
 	}
 
 	/**
-	 * Return true if the given vector of Optimizables contains an Optimizable
+	 * Return true if the given FastTable of Optimizables contains an Optimizable
 	 * with the given table number.
 	 */
-	private boolean vectorContainsOptimizable(int tableNumber, Vector vec)
+	private boolean FastTableContainsOptimizable(int tableNumber, FastTable vec)
 	{
 		int i;
 
@@ -281,7 +281,7 @@ class RowOrderingImpl implements RowOrdering {
 	/** @see RowOrdering#alwaysOrdered */
 	public boolean alwaysOrdered(int tableNumber)
 	{
-		return vectorContainsOptimizable(
+		return FastTableContainsOptimizable(
 										tableNumber,
 										alwaysOrderedOptimizables
 										);
@@ -311,17 +311,17 @@ class RowOrderingImpl implements RowOrdering {
 		columnsAlwaysOrdered.removeColumns(tableNumber);
 
 		/* Also remove from list of unordered optimizables */
-		removeOptimizableFromVector(tableNumber, unorderedOptimizables);
+		removeOptimizableFromFastTable(tableNumber, unorderedOptimizables);
 
 		/* Also remove from list of always ordered optimizables */
-		removeOptimizableFromVector(tableNumber, alwaysOrderedOptimizables);
+		removeOptimizableFromFastTable(tableNumber, alwaysOrderedOptimizables);
 	}
 
 	/**
 	 * Remove all optimizables with the given table number from the
-	 * given vector of optimizables.
+	 * given FastTable of optimizables.
 	 */
-	private void removeOptimizableFromVector(int tableNumber, Vector vec)
+	private void removeOptimizableFromFastTable(int tableNumber, FastTable vec)
 	{
 		int i;
 

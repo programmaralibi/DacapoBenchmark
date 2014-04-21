@@ -42,7 +42,7 @@ import java.io.ObjectInput;
 import java.io.IOException;
 import java.util.Enumeration;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * This is a simple class used to store the run time information

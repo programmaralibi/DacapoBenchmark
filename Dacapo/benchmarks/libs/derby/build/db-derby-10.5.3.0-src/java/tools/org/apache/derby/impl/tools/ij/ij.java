@@ -23,11 +23,11 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.SQLWarning;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import java.util.Properties;
 import java.util.StringTokenizer;
 import java.io.IOException;
-import java.util.Vector;
+import javolution.util.FastTable;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.List;
@@ -82,9 +82,9 @@ class ij implements ijConstants {
         boolean exit = false;
 
         utilMain utilInstance = null;
-        Hashtable ignoreErrors = null;
+        FastMap ignoreErrors = null;
         String protocol = null;         // the (single) unnamed protocol
-        Hashtable namedProtocols;
+        FastMap namedProtocols;
 
 
 
@@ -129,7 +129,7 @@ class ij implements ijConstants {
                 }
 
 
-                namedProtocols = new Hashtable();
+                namedProtocols = new FastMap();
                 String prefix = PROTOCOL_PROPERTY + ".";
                 for (Enumeration e = p.propertyNames(); e.hasMoreElements(); )
                 {
@@ -445,7 +445,7 @@ class ij implements ijConstants {
                 String[] array = new String[size];
                 String key;
 
-                Hashtable ss = currentConnEnv.getSessions();
+                FastMap ss = currentConnEnv.getSessions();
                 // Calculate the number of connections in the sessions list and
                 // build an array of all the connection names.
                 for (Enumeration connectionNames = ss.keys(); connectionNames.hasMoreElements();) {
@@ -478,8 +478,8 @@ class ij implements ijConstants {
 	  all the connections made so far.
 	    */
         public ijResult showConnectionsMethod(boolean ignore0Rows) throws SQLException {
-                Hashtable ss = currentConnEnv.getSessions();
-                Vector v = new Vector();
+                FastMap ss = currentConnEnv.getSessions();
+                FastTable v = new FastTable();
                 SQLWarning w = null;
         if (ss == null || ss.size() == 0) {
                 if (!ignore0Rows)
@@ -531,7 +531,7 @@ class ij implements ijConstants {
                     else
                 v.addElement(LocalizedResource.getMessage("IJ_NoCurreConne"));
                 }
-                return new ijVectorResult(v,w);
+                return new ijFastTableResult(v,w);
         }
 
         /**
@@ -1375,7 +1375,7 @@ class ij implements ijConstants {
   */
   final public ijResult staticConnection() throws ParseException, SQLException {
         String                  name = null;
-        Vector                  idList;
+        FastTable                  idList;
         int                             idx = 0;
         int                             lastID = 0;
         StringBuffer    buffer;
@@ -2407,7 +2407,7 @@ class ij implements ijConstants {
                 Process p = Runtime.getRuntime().exec(stringValue(cmd.image));
                 LocalizedInput in = new LocalizedInput(p.getInputStream());
                 int c;
-                Vector v = new Vector();
+                FastTable v = new FastTable();
                 StringBuffer output = new StringBuffer();
                 // echo output
                 while ((c = in.read()) != -1) {
@@ -2422,7 +2422,7 @@ class ij implements ijConstants {
                 }
                 in.close();
                 v.addElement(output);
-                result = new ijVectorResult(v,null);
+                result = new ijFastTableResult(v,null);
                 // wait for completion
                 try {
                         p.waitFor();
@@ -2450,14 +2450,14 @@ class ij implements ijConstants {
  */
   final public ijResult ExpectStatement() throws ParseException {
         Token f = null;
-        Vector stringVector = new Vector();
+        FastTable stringFastTable = new FastTable();
     jj_consume_token(EXPECT);
     if (jj_2_117(2)) {
       f = jj_consume_token(FAIL);
     } else {
       ;
     }
-    StringList(stringVector);
+    StringList(stringFastTable);
     jj_consume_token(END);
     jj_consume_token(EXPECT);
                 if (!getExpect()) {if (true) return null;} // don't bother processing.
@@ -2476,7 +2476,7 @@ class ij implements ijConstants {
     throw new Error("Missing return statement in function");
   }
 
-  final public void StringList(Vector v) throws ParseException {
+  final public void StringList(FastTable v) throws ParseException {
     StringItem(v);
     label_1:
     while (true) {
@@ -2489,7 +2489,7 @@ class ij implements ijConstants {
     }
   }
 
-  final public void StringItem(Vector v) throws ParseException {
+  final public void StringItem(FastTable v) throws ParseException {
         Token s;
     s = jj_consume_token(STRING);
                 v.addElement(s);
@@ -2501,14 +2501,14 @@ class ij implements ijConstants {
  **/
   final public ijResult HelpStatement() throws ParseException {
     jj_consume_token(HELP);
-                Vector v = new Vector();
+                FastTable v = new FastTable();
 
                 StringTokenizer st = new StringTokenizer(LocalizedResource.getMessage("IJ_HelpText"), "\n");
                 while (st.hasMoreTokens()) {
                     v.addElement(st.nextToken());
                 }
 
-                {if (true) return new ijVectorResult(v,null);}
+                {if (true) return new ijFastTableResult(v,null);}
     throw new Error("Missing return statement in function");
   }
 
@@ -2546,8 +2546,8 @@ class ij implements ijConstants {
     throw new Error("Missing return statement in function");
   }
 
-  final public Vector staticMethodName() throws ParseException, SQLException {
-        Vector  list = new Vector();
+  final public FastTable staticMethodName() throws ParseException, SQLException {
+        FastTable  list = new FastTable();
     methodLeg(list);
     label_2:
     while (true) {
@@ -2563,14 +2563,14 @@ class ij implements ijConstants {
     throw new Error("Missing return statement in function");
   }
 
-  final public void methodLeg(Vector list) throws ParseException, SQLException {
+  final public void methodLeg(FastTable list) throws ParseException, SQLException {
         Token   id;
     id = jj_consume_token(IDENTIFIER);
                 list.addElement( id.image );
   }
 
   final public String[] staticMethodArgs() throws ParseException, SQLException {
-        Vector          list = new Vector();
+        FastTable          list = new FastTable();
         String[]        args;
     jj_consume_token(LEFT_PAREN);
     if (jj_2_122(2)) {
@@ -2596,7 +2596,7 @@ class ij implements ijConstants {
     throw new Error("Missing return statement in function");
   }
 
-  final public void oneStaticArg(Vector list) throws ParseException, SQLException {
+  final public void oneStaticArg(FastTable list) throws ParseException, SQLException {
         Token   tok;
     tok = jj_consume_token(STRING);
                 list.addElement( stringValue( tok.image ) );
@@ -7784,7 +7784,7 @@ class ij implements ijConstants {
     return t;
   }
 
-  private java.util.Vector jj_expentries = new java.util.Vector();
+  private javolution.util.FastTable jj_expentries = new javolution.util.FastTable();
   private int[] jj_expentry;
   private int jj_kind = -1;
   private int[] jj_lasttokens = new int[100];

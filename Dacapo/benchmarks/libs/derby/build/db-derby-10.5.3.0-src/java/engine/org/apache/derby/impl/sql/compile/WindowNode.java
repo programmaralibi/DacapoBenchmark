@@ -22,7 +22,7 @@ package org.apache.derby.impl.sql.compile;
 
 import java.util.Properties;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 import org.apache.derby.iapi.error.StandardException;
 
 import org.apache.derby.iapi.reference.ClassName;
@@ -117,7 +117,7 @@ public class WindowNode extends SingleChildResultSetNode {
 	 * @param fromList		The FROM list for the query this
 	 *						expression is in, for binding columns.
 	 * @param subqueryList		The subquery list being built as we find SubqueryNodes
-	 * @param aggregateVector	The aggregate vector being built as we find AggregateNodes
+	 * @param aggregateFastTable	The aggregate FastTable being built as we find AggregateNodes
 	 *
 	 * @return	The new top of the expression tree.
 	 *
@@ -128,7 +128,7 @@ public class WindowNode extends SingleChildResultSetNode {
 	public WindowNode bind(
 			FromList fromList, 
 			SubqueryList subqueryList,
-			Vector	aggregateVector)
+			FastTable	aggregateFastTable)
 		throws StandardException
 	{
 		/*		 

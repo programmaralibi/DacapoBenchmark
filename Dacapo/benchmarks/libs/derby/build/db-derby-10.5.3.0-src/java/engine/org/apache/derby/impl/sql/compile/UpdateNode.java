@@ -82,7 +82,7 @@ import javolution.util.FastTable;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Properties;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * An UpdateNode represents an UPDATE statement.  It is the top node of the
@@ -912,16 +912,16 @@ public final class UpdateNode extends DMLModStatementNode
 		boolean[]	needsDeferredProcessing = new boolean[1];
 		needsDeferredProcessing[0] = requiresDeferredProcessing();
 
-		Vector		conglomVector = new Vector();
+		FastTable		conglomFastTable = new FastTable();
 		relevantCdl = new ConstraintDescriptorList();
 		relevantTriggers =  new GenericDescriptorList();
 
 		FormatableBitSet	columnMap = getUpdateReadMap
             (
-             baseTable, updateColumnList, conglomVector, relevantCdl,
+             baseTable, updateColumnList, conglomFastTable, relevantCdl,
              relevantTriggers, needsDeferredProcessing, affectedGeneratedColumns );
 
-		markAffectedIndexes( conglomVector );
+		markAffectedIndexes( conglomFastTable );
 
 		adjustDeferredFlag( needsDeferredProcessing[0] );
 
@@ -957,7 +957,7 @@ public final class UpdateNode extends DMLModStatementNode
       *        the updated columns and adds all of the mentioned columns
 	  *
 	  *	@param	updateColumnList	a list of updated columns
-	  *	@param	conglomVector		OUT: vector of affected indices
+	  *	@param	conglomFastTable		OUT: FastTable of affected indices
 	  *	@param	relevantConstraints	IN/OUT. Empty list is passed in. We hang constraints on it as we go.
 	  *	@param	relevantTriggers	IN/OUT. Passed in as an empty list. Filled in as we go.
 	  *	@param	needsDeferredProcessing	IN/OUT. true if the statement already needs
@@ -974,7 +974,7 @@ public final class UpdateNode extends DMLModStatementNode
 	(
 		TableDescriptor				baseTable,
 		ResultColumnList			updateColumnList,
-		Vector						conglomVector,
+		FastTable						conglomFastTable,
 		ConstraintDescriptorList	relevantConstraints,
 		GenericDescriptorList		relevantTriggers,
 		boolean[]					needsDeferredProcessing,
@@ -1010,7 +1010,7 @@ public final class UpdateNode extends DMLModStatementNode
 		** columns where 1 or more columns in the index
 		** are going to be modified.
 		*/
-		DMLModStatementNode.getXAffectedIndexes(baseTable, updateColumnList, columnMap, conglomVector );
+		DMLModStatementNode.getXAffectedIndexes(baseTable, updateColumnList, columnMap, conglomFastTable );
  
 		/* 
 		** Add all columns needed for constraints.  We don't

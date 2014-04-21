@@ -32,23 +32,23 @@ import org.apache.derby.iapi.sql.dictionary.TableDescriptor;
 
 import org.apache.derby.iapi.store.access.TransactionController;
 
-import java.util.Hashtable;
+import javolution.util.FastMap;
 
 public class TableNameInfo {
 
 	// things to look up table name etc
 	private DataDictionary dd;
-	private Hashtable ddCache;			// conglomId -> conglomerateDescriptor
-	private Hashtable tdCache;			// tableID UUID -> table descriptor
-	private Hashtable tableCache;		// conglomId -> table descriptor
-	private Hashtable indexCache;		// conglomId -> indexname
+	private FastMap ddCache;			// conglomId -> conglomerateDescriptor
+	private FastMap tdCache;			// tableID UUID -> table descriptor
+	private FastMap tableCache;		// conglomId -> table descriptor
+	private FastMap indexCache;		// conglomId -> indexname
 
 	public TableNameInfo(LanguageConnectionContext lcc, boolean andIndex)
 		throws StandardException {
 
-		tableCache = new Hashtable(31);
+		tableCache = new FastMap();
 		if (andIndex)
-			indexCache = new Hashtable(13);
+			indexCache = new FastMap();
 
 		TransactionController tc = lcc.getTransactionExecute();
 

@@ -22,20 +22,21 @@
 package org.apache.derby.iapi.services.classfile;
 
 import java.io.IOException;
-
-import java.util.Hashtable;
+import java.util.ArrayList;
 import java.util.Vector;
+
+import javolution.util.FastMap;
 
 
 
 class MemberTable {
 	protected Vector entries;
-	private Hashtable hashtable;
+	private FastMap FastMap;
 	private MemberTableHash	mutableMTH = null;
 
 	public MemberTable(int count) {
-		entries = new Vector(count);
-		hashtable = new Hashtable((count > 50) ? count : 50);
+		entries = new Vector();
+		FastMap = new FastMap();
 		mutableMTH = new MemberTableHash(null, null);
 	}
 
@@ -44,11 +45,11 @@ class MemberTable {
 									item.getName(), 
 									item.getDescriptor(),
 									entries.size());
-		/* Add to the Vector */
-		entries.addElement(item);
+		/* Add to the FastTable */
+		entries.add(item);
 
-		/* Add to the Hashtable */
-		hashtable.put(mth, mth);
+		/* Add to the FastMap */
+		FastMap.put(mth, mth);
 	}
 
 	ClassMember find(String name, String descriptor) {
@@ -59,13 +60,13 @@ class MemberTable {
 		mutableMTH.setHashCode();
 
 		/* search the hash table */
-		MemberTableHash mth = (MemberTableHash) hashtable.get(mutableMTH);
+		MemberTableHash mth = (MemberTableHash) FastMap.get(mutableMTH);
 		if (mth == null)
 		{
 			return null;
 		}
 
-		return (ClassMember) entries.elementAt(mth.index);
+		return (ClassMember) entries.get(mth.index);
 	}
 
 	void put(ClassFormatOutput out) throws IOException {
@@ -73,7 +74,7 @@ class MemberTable {
 		Vector lentries = entries;
 		int count = lentries.size();
 		for (int i = 0; i < count; i++) {
-			((ClassMember) lentries.elementAt(i)).put(out);
+			((ClassMember) lentries.get(i)).put(out);
 		}
 	}
 
@@ -87,7 +88,7 @@ class MemberTable {
 		Vector lentries = entries;
 		int count = lentries.size();
 		for (int i = 0; i < count; i++) {
-			size += ((ClassMember) lentries.elementAt(i)).classFileSize();
+			size += ((ClassMember) lentries.get(i)).classFileSize();
 		}
 
 		return size;

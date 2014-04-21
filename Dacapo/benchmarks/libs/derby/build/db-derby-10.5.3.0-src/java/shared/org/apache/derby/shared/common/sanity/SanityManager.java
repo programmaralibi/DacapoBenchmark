@@ -22,7 +22,7 @@
 package org.apache.derby.shared.common.sanity;
 
 
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import java.util.Enumeration;
 
 /**
@@ -72,7 +72,7 @@ public class SanityManager {
 	 * DebugFlags holds the values of all debug flags in
 	 * the configuration file.
 	 */
-	static private Hashtable DebugFlags = new Hashtable();
+	static private FastMap DebugFlags = new FastMap();
 	/**
 	 * AllDebugOn and AllDebugOff override individual flags
 	 */

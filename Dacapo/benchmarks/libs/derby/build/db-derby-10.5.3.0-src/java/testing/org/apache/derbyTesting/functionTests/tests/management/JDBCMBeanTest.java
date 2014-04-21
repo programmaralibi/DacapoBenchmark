@@ -23,7 +23,7 @@ package org.apache.derbyTesting.functionTests.tests.management;
 
 import java.io.BufferedReader;
 import java.sql.Driver;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import javax.management.ObjectName;
 import junit.framework.Test;
 import junit.framework.Test;
@@ -75,7 +75,7 @@ public class JDBCMBeanTest extends MBeanTest {
             throws Exception {
         
         // get a reference to the JDBCMBean instance
-        Hashtable<String, String> keyProps = new Hashtable<String, String>();
+        FastMap<String, String> keyProps = new FastMap<String, String>();
         keyProps.put("type", "JDBC");
         return getDerbyMBeanName(keyProps);
     }

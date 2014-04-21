@@ -103,7 +103,7 @@ class DistinctScanResultSet extends HashScanResultSet
 	    {
 			if (firstNext)
 			{
-				element = hashtable.elements();
+				element = FastMap.elements();
 				firstNext = false;
 			}
 

@@ -21,39 +21,33 @@
 
 package	org.apache.derby.impl.sql.compile;
 
-import org.apache.derby.iapi.services.context.ContextManager;
+import java.util.Enumeration;
+import java.util.Properties;
 
+import javolution.util.FastMap;
+import javolution.util.FastTable;
+
+import org.apache.derby.iapi.error.StandardException;
+import org.apache.derby.iapi.reference.SQLState;
+import org.apache.derby.iapi.services.io.FormatableBitSet;
+import org.apache.derby.iapi.services.sanity.SanityManager;
+import org.apache.derby.iapi.sql.compile.AccessPath;
+import org.apache.derby.iapi.sql.compile.C_NodeTypes;
+import org.apache.derby.iapi.sql.compile.CostEstimate;
+import org.apache.derby.iapi.sql.compile.JoinStrategy;
 import org.apache.derby.iapi.sql.compile.Optimizable;
 import org.apache.derby.iapi.sql.compile.OptimizablePredicate;
 import org.apache.derby.iapi.sql.compile.OptimizablePredicateList;
 import org.apache.derby.iapi.sql.compile.Optimizer;
-import org.apache.derby.iapi.sql.compile.CostEstimate;
-import org.apache.derby.iapi.sql.compile.JoinStrategy;
-import org.apache.derby.iapi.sql.compile.AccessPath;
 import org.apache.derby.iapi.sql.compile.RowOrdering;
-import org.apache.derby.iapi.sql.compile.C_NodeTypes;
-
-import org.apache.derby.iapi.sql.dictionary.*;
-
+import org.apache.derby.iapi.sql.dictionary.ConglomerateDescriptor;
+import org.apache.derby.iapi.sql.dictionary.DataDictionary;
+import org.apache.derby.iapi.sql.dictionary.SchemaDescriptor;
+import org.apache.derby.iapi.sql.dictionary.TableDescriptor;
 import org.apache.derby.iapi.types.DataTypeDescriptor;
-
-import org.apache.derby.iapi.error.StandardException;
-import org.apache.derby.iapi.services.sanity.SanityManager;
-
-import org.apache.derby.iapi.reference.SQLState;
-import org.apache.derby.iapi.error.StandardException;
-
-import org.apache.derby.impl.sql.execute.HashScanResultSet;
-
 import org.apache.derby.iapi.util.JBitSet;
-import org.apache.derby.iapi.services.io.FormatableBitSet;
 import org.apache.derby.iapi.util.StringUtil;
-import org.apache.derby.catalog.UUID;
-
-import java.util.Enumeration;
-import java.util.Properties;
-import java.util.Vector;
-import javolution.util.FastMap;
+import org.apache.derby.impl.sql.execute.HashScanResultSet;
 
 /**
  * A FromTable represents a table in the FROM clause of a DML statement.
@@ -1400,10 +1394,10 @@ abstract class FromTable extends ResultSetNode implements Optimizable
 	 * FromBaseTable that match the columns in the given update column list.
 	 * If the list is null, it means all the columns are updatable.
 	 *
-	 * @param updateColumns		A Vector representing the columns
+	 * @param updateColumns		A FastTable representing the columns
 	 *							that can be updated.
 	 */
-	protected void markUpdatableByCursor(Vector updateColumns)
+	protected void markUpdatableByCursor(FastTable updateColumns)
 	{
 		resultColumns.markUpdatableByCursor(updateColumns);
 	}

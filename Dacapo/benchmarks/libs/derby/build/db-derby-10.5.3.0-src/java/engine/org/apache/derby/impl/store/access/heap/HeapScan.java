@@ -37,7 +37,7 @@ import org.apache.derby.iapi.error.StandardException;
 import org.apache.derby.iapi.store.access.conglomerate.ScanManager;
 import org.apache.derby.iapi.store.access.conglomerate.TransactionManager;
 
-import org.apache.derby.iapi.store.access.BackingStoreHashtable;
+import org.apache.derby.iapi.store.access.BackingStoreFastMap;
 import org.apache.derby.iapi.store.access.Qualifier;
 import org.apache.derby.iapi.store.access.RowUtil;
 import org.apache.derby.iapi.store.access.ScanInfo;
@@ -239,7 +239,7 @@ class HeapScan
             fetchRows(
                 fetchNext_one_slot_array, 
                 (RowLocation[]) null,
-                (BackingStoreHashtable) null,
+                (BackingStoreFastMap) null,
                 1,
                 (int[]) null) == 1;
 
@@ -266,7 +266,7 @@ class HeapScan
             fetchRows(
                 fetchNext_one_slot_array, 
                 (RowLocation[]) null,
-                (BackingStoreHashtable) null,
+                (BackingStoreFastMap) null,
                 1,
                 (int[]) null) == 1;
 
@@ -323,7 +323,7 @@ class HeapScan
             fetchRows(
                 row_array, 
                 rowloc_array,
-                (BackingStoreHashtable) null,
+                (BackingStoreFastMap) null,
                 row_array.length,
                 (int[]) null));
     }

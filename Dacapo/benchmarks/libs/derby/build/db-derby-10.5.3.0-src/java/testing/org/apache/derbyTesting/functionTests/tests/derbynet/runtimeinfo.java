@@ -22,7 +22,7 @@ package org.apache.derbyTesting.functionTests.tests.derbynet;
 
 import java.net.InetAddress;
 import java.sql.*;
-import java.util.Vector;
+import javolution.util.FastTable;
 import java.util.Properties;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -44,7 +44,7 @@ public class runtimeinfo
 
 	private static Properties properties = new java.util.Properties();
 	private static jvm jvm;
-	private static Vector vCmd;
+	private static FastTable vCmd;
 	private static BufferedOutputStream bos;
 	private static String[] RuntimeinfoCmd = new String[] {"org.apache.derby.drda.NetworkServerControl",
 		"runtimeinfo"};

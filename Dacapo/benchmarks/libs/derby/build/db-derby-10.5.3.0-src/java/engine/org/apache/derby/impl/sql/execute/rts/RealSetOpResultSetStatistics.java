@@ -183,11 +183,11 @@ public class RealSetOpResultSetStatistics
      *
      * @return the children runtime statistics of this <code>
      *         RealSetOpResultSetStatistics</code> object stored in a <code>
-     *         Vector</code>. 
+     *         FastTable</code>. 
      *         
      */
-    public java.util.Vector getChildren() {
-        java.util.Vector children = new java.util.Vector();
+    public javolution.util.FastTable getChildren() {
+        javolution.util.FastTable children = new javolution.util.FastTable();
         children.addElement(leftResultSetStatistics);
         children.addElement(rightResultSetStatistics);
         return children;

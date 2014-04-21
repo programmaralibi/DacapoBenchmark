@@ -21,25 +21,22 @@
 
 package org.apache.derby.impl.sql;
 
-import org.apache.derby.iapi.reference.SQLState;
-import org.apache.derby.iapi.sql.ResultColumnDescriptor;
-import org.apache.derby.iapi.sql.ResultDescription;
-
-import org.apache.derby.iapi.services.sanity.SanityManager;
-
-import org.apache.derby.iapi.services.io.StoredFormatIds;
-import org.apache.derby.iapi.services.io.FormatIdUtil;
-import org.apache.derby.iapi.services.io.Formatable;
-import org.apache.derby.iapi.util.ReuseFactory;
-import org.apache.derby.iapi.util.StringUtil;
-
-import java.io.ObjectOutput;
-import java.io.ObjectInput;
 import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 import java.sql.ResultSetMetaData;
 import java.util.Collections;
-import javolution.util.FastMap;
 import java.util.Map;
+
+import javolution.util.FastMap;
+
+import org.apache.derby.iapi.services.io.Formatable;
+import org.apache.derby.iapi.services.io.StoredFormatIds;
+import org.apache.derby.iapi.services.sanity.SanityManager;
+import org.apache.derby.iapi.sql.ResultColumnDescriptor;
+import org.apache.derby.iapi.sql.ResultDescription;
+import org.apache.derby.iapi.util.ReuseFactory;
+import org.apache.derby.iapi.util.StringUtil;
 
 /**
  * GenericResultDescription: basic implementation of result

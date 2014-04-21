@@ -21,7 +21,7 @@
 
 package org.apache.derby.impl.sql.execute;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 import org.apache.derby.catalog.UUID;
 import org.apache.derby.iapi.error.StandardException;
@@ -50,7 +50,7 @@ class TriggerEventActivator
 	private int								dmlType;
 	private UUID							tableId;
 	private String							tableName;
-	private Vector							aiCounters;
+	private FastTable							aiCounters;
 
 	/**
 	 * Basic constructor
@@ -60,7 +60,7 @@ class TriggerEventActivator
 	 * @param triggerInfo	the trigger information 
 	 * @param dmlType		Type of DML for which this trigger is being fired.
 	 * @param activation	the activation.
-	 * @param aiCounters	vector of ai counters 
+	 * @param aiCounters	FastTable of ai counters 
 	 *
 	 * @exception StandardException on error
 	 */
@@ -72,7 +72,7 @@ class TriggerEventActivator
 		TriggerInfo 				triggerInfo,
 		int							dmlType,
 		Activation					activation,
-		Vector						aiCounters
+		FastTable						aiCounters
 	) throws StandardException
 	{
 		if (triggerInfo == null)
@@ -136,10 +136,10 @@ class TriggerEventActivator
 	private void setupExecutors(TriggerInfo triggerInfo) throws StandardException
 	{
 		executors = new GenericTriggerExecutor[TriggerEvent.MAX_EVENTS][];
-		Vector[] executorLists = new Vector[TriggerEvent.MAX_EVENTS];
+		FastTable[] executorLists = new FastTable[TriggerEvent.MAX_EVENTS];
 		for (int i = 0; i < TriggerEvent.MAX_EVENTS; i++)
 		{
-			executorLists[i] = new Vector();
+			executorLists[i] = new FastTable();
 		}
 
 		for (int i = 0; i < triggerInfo.triggerArray.length; i++)

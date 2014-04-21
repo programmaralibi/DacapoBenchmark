@@ -1253,7 +1253,7 @@ public class Xact extends RawTransaction implements Limit, LockOwner {
 			return;
 
 		if (postCommitWorks == null)
-			postCommitWorks = new FastTable(1);
+			postCommitWorks = new FastTable();
 		postCommitWorks.add(work);
 	}
 
@@ -2412,7 +2412,7 @@ public class Xact extends RawTransaction implements Limit, LockOwner {
 		throws StandardException {
 
 		// Count row locks by table
-		Dictionary containers = new java.util.Hashtable();
+		Dictionary containers = new javolution.util.FastMap();
 
 		for (; lockList.hasMoreElements(); ) {
 
@@ -2486,7 +2486,7 @@ public class Xact extends RawTransaction implements Limit, LockOwner {
 		// It would be possible to pass in the notifyObservers
 		// some indication of which tables were escalated
 		// to reduce the extra lock call for the un-escalated
-		// containers. This would involve passing the Hashtable
+		// containers. This would involve passing the FastMap
 		// of escalated containers and having the update method
 		// of BaseContainerHandle look for its ContainerKey within it.
 		if (didEscalate) {

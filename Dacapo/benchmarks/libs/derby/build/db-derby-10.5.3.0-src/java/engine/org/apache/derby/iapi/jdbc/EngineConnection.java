@@ -86,7 +86,7 @@ public interface EngineConnection extends Connection {
         throws SQLException;
 
     /**
-    * Clear the HashTable of all entries.
+    * Clear the FastMap of all entries.
     * Called when a commit or rollback of the transaction
     * happens.
     */

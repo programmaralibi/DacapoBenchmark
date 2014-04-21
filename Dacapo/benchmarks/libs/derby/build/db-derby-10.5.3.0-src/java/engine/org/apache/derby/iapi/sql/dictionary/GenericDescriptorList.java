@@ -21,24 +21,12 @@
 
 package org.apache.derby.iapi.sql.dictionary;
 
-import org.apache.derby.iapi.error.StandardException;
-import org.apache.derby.iapi.services.sanity.SanityManager;
-
-import org.apache.derby.catalog.UUID;
-
-import org.apache.derby.iapi.sql.dictionary.DataDictionary;
-import org.apache.derby.iapi.sql.dictionary.UniqueTupleDescriptor;
-import org.apache.derby.iapi.sql.dictionary.SchemaDescriptor;
-
-import org.apache.derby.iapi.error.StandardException;
-import org.apache.derby.iapi.services.sanity.SanityManager;
-
-import org.apache.derby.catalog.UUID;
-
-import javolution.util.FastTable;
+import java.util.ArrayList;
 import java.util.Iterator;
 
-public class GenericDescriptorList extends FastTable
+import org.apache.derby.catalog.UUID;
+
+public class GenericDescriptorList extends ArrayList
 {
 	private boolean scanned;
 

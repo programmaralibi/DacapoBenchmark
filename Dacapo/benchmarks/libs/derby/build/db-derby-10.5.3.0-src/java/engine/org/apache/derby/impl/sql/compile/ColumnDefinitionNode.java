@@ -54,7 +54,7 @@ import org.apache.derby.catalog.UUID;
 
 import org.apache.derby.catalog.types.DefaultInfoImpl;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 import java.sql.Types;
 
 /**
@@ -628,7 +628,7 @@ public class ColumnDefinitionNode extends TableElementNode
 								getNodeFactory().doJoinOrderOptimization(),
 								getContextManager()), 
 							(SubqueryList) null,
-							(Vector) null);
+							(FastTable) null);
 
 			TypeId columnTypeId = getType().getTypeId();
 			TypeId defaultTypeId = defaultTree.getTypeId();

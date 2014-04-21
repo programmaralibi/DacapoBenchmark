@@ -35,11 +35,11 @@ import java.io.Serializable;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.Properties;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 public class PropertyValidation implements PropertyFactory
 {
-	private Vector  notifyOnSet;
+	private FastTable  notifyOnSet;
 
     /* Constructors for This class: */
 	public PropertyValidation()
@@ -57,7 +57,7 @@ public class PropertyValidation implements PropertyFactory
 			synchronized (this) {
 
 				for (int i = 0; i < notifyOnSet.size() ; i++) {
-					PropertySetCallback psc = (PropertySetCallback) notifyOnSet.elementAt(i);
+					PropertySetCallback psc = (PropertySetCallback) notifyOnSet.get(i);
 					if (!psc.validate(key, value, d))
 						continue;
 
@@ -100,7 +100,7 @@ public class PropertyValidation implements PropertyFactory
 		Serializable mappedValue = null;
  		if (notifyOnSet != null) {
 			for (int i = 0; i < notifyOnSet.size() && mappedValue == null; i++) {
-				PropertySetCallback psc = (PropertySetCallback) notifyOnSet.elementAt(i);
+				PropertySetCallback psc = (PropertySetCallback) notifyOnSet.get(i);
 				mappedValue = psc.map(key, value, set);
 			}
 		}
@@ -125,7 +125,7 @@ public class PropertyValidation implements PropertyFactory
 
  		if (notifyOnSet != null) {
 			for (int i = 0; i < notifyOnSet.size(); i++) {
-				PropertySetCallback psc = (PropertySetCallback) notifyOnSet.elementAt(i);
+				PropertySetCallback psc = (PropertySetCallback) notifyOnSet.get(i);
 				psc.validate(key, value, set);
 			}
 		}
@@ -134,8 +134,8 @@ public class PropertyValidation implements PropertyFactory
 	public synchronized void addPropertySetNotification(PropertySetCallback who){
 
 		if (notifyOnSet == null)
-			notifyOnSet = new Vector(1,1);
-		notifyOnSet.addElement(who);
+			notifyOnSet = new FastTable();
+		notifyOnSet.add(who);
 
 	}
 

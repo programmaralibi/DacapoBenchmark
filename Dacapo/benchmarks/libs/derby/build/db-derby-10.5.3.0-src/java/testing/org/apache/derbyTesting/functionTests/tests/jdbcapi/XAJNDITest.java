@@ -23,7 +23,7 @@ package org.apache.derbyTesting.functionTests.tests.jdbcapi;
 
 import java.lang.reflect.Method;
 import javolution.util.FastTable;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 
 import javax.naming.Context;
 import javax.naming.NamingException;
@@ -78,7 +78,7 @@ public class XAJNDITest extends BaseJDBCTestCase {
     private InitialDirContext getInitialDirContext()
     {
         try {
-            Hashtable env = new Hashtable();
+            FastMap env = new FastMap();
             // using properties - these will have been passed in.
             String ldapContextFactory=getSystemProperty("derbyTesting.ldapContextFactory");
             if (ldapContextFactory == null || ldapContextFactory.length() < 1)

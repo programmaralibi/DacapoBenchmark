@@ -58,7 +58,7 @@ import org.apache.derby.impl.sql.compile.ActivationClassBuilder;
 
 import org.apache.derby.catalog.UUID;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 import java.lang.reflect.Modifier;
 
 /**
@@ -158,7 +158,7 @@ public class StaticMethodCallNode extends MethodCallNode
 	 * @param fromList		The FROM list for the query this
 	 *				expression is in, for binding columns.
 	 * @param subqueryList		The subquery list being built as we find SubqueryNodes
-	 * @param aggregateVector	The aggregate vector being built as we find AggregateNodes
+	 * @param aggregateFastTable	The aggregate FastTable being built as we find AggregateNodes
 	 *
 	 * @return	this or an AggregateNode
 	 *
@@ -167,7 +167,7 @@ public class StaticMethodCallNode extends MethodCallNode
 
 	public JavaValueNode bindExpression(
 		FromList fromList, SubqueryList subqueryList,
-		Vector	aggregateVector) 
+		FastTable	aggregateFastTable) 
 			throws StandardException
 	{
 		// for a function we can get called recursively
@@ -175,7 +175,7 @@ public class StaticMethodCallNode extends MethodCallNode
 			return this;
 
 
-		bindParameters(fromList, subqueryList, aggregateVector);
+		bindParameters(fromList, subqueryList, aggregateFastTable);
 
 		
 		/* If javaClassName is null then we assume that the current methodName
@@ -196,7 +196,7 @@ public class StaticMethodCallNode extends MethodCallNode
 
             // The field methodName is used by resolveRoutine and
             // is set to the name of the routine (procedureName.getTableName()).
-			resolveRoutine(fromList, subqueryList, aggregateVector, sd);
+			resolveRoutine(fromList, subqueryList, aggregateFastTable, sd);
 
 			if (ad == null && noSchema && !forCallStatement)
 			{
@@ -207,7 +207,7 @@ public class StaticMethodCallNode extends MethodCallNode
 				// an in-memory table, set up in DataDictioanryImpl.
 				sd = getSchemaDescriptor("SYSFUN", true);
 				
-				resolveRoutine(fromList, subqueryList, aggregateVector, sd);
+				resolveRoutine(fromList, subqueryList, aggregateFastTable, sd);
 			}
 	
 			/* Throw exception if no routine found */
@@ -310,7 +310,7 @@ public class StaticMethodCallNode extends MethodCallNode
 										returnValueCastNode, 
 										getContextManager());
 					returnValueToJava.setCollationType(returnType.getCollationType());
-					return returnValueToJava.bindExpression(fromList, subqueryList, aggregateVector);
+					return returnValueToJava.bindExpression(fromList, subqueryList, aggregateFastTable);
 				}
 
 			}
@@ -387,11 +387,11 @@ public class StaticMethodCallNode extends MethodCallNode
 	 * be required.
 	 * @param fromList
 	 * @param subqueryList
-	 * @param aggregateVector
+	 * @param aggregateFastTable
 	 * @param sd
 	 * @throws StandardException
 	 */
-	private void resolveRoutine(FromList fromList, SubqueryList subqueryList, Vector aggregateVector, SchemaDescriptor sd) throws StandardException {
+	private void resolveRoutine(FromList fromList, SubqueryList subqueryList, FastTable aggregateFastTable, SchemaDescriptor sd) throws StandardException {
 		if (sd.getUUID() != null) {
 
 		java.util.List list = getDataDictionary().getRoutineList(
@@ -596,7 +596,7 @@ public class StaticMethodCallNode extends MethodCallNode
 							castNode, 
 							getContextManager());
 
-					methodParms[p] = methodParms[p].bindExpression(fromList, subqueryList, aggregateVector);
+					methodParms[p] = methodParms[p].bindExpression(fromList, subqueryList, aggregateFastTable);
 				}
 
 				// only force the type for a ? so that the correct type shows up

@@ -25,15 +25,15 @@ import org.apache.derby.iapi.error.StandardException;
 import org.apache.derby.iapi.services.io.FormatableBitSet;
 import org.apache.derby.iapi.services.io.Storable;
 import org.apache.derby.iapi.services.sanity.SanityManager;
-
 import org.apache.derby.iapi.store.raw.FetchDescriptor;
-
 import org.apache.derby.iapi.types.DataValueDescriptor;
 import org.apache.derby.iapi.types.DataValueFactory;
 
 import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Vector;
+import java.util.Iterator;
+
+import javolution.util.FastMap;
+import javolution.util.FastTable;
 
 /**
   A set of static utility methods to work with rows.
@@ -480,7 +480,7 @@ public class RowUtil
     }
 
     /**
-     * return string version of a HashTable returned from a FetchSet.
+     * return string version of a FastMap returned from a FetchSet.
      * <p>
      *
 	 * @return The string version of row.
@@ -489,34 +489,34 @@ public class RowUtil
      **/
 
     // For debugging only. 
-    public static String toString(Hashtable hash_table)
+    public static String toString(FastMap hash_table)
     {
         if (SanityManager.DEBUG)
         {
             String str = new String();
 
-            Object  row_or_vector;
+            Object  row_or_FastTable;
 
-            for (Enumeration e = hash_table.elements(); e.hasMoreElements();)
+            for (Iterator e = hash_table.entrySet().iterator(); e.hasNext();)
             {
-                row_or_vector = e.nextElement();
+                row_or_FastTable = e.next();
 
-                if (row_or_vector instanceof Object[])
+                if (row_or_FastTable instanceof Object[])
                 {
                     // it's a row
-                    str += RowUtil.toString((Object[]) row_or_vector);
+                    str += RowUtil.toString((Object[]) row_or_FastTable);
                     str += "\n";
                 }
-                else if (row_or_vector instanceof Vector)
+                else if (row_or_FastTable instanceof FastTable)
                 {
-                    // it's a vector
-                    Vector vec = (Vector) row_or_vector;
+                    // it's a FastTable
+                    FastTable vec = (FastTable) row_or_FastTable;
 
                     for (int i = 0; i < vec.size(); i++)
                     {
                         str += 
                             "vec[" + i + "]:" + 
-                            RowUtil.toString((Object[]) vec.elementAt(i));
+                            RowUtil.toString((Object[]) vec.get(i));
 
                         str += "\n";
                     }

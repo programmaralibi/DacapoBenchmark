@@ -35,7 +35,7 @@ import org.apache.derby.iapi.types.DataValueDescriptor;
 
 import org.apache.derby.iapi.types.RowLocation;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 // For JavaDoc references (i.e. @see)
 import org.apache.derby.iapi.store.access.RowLocationRetRowSource;
@@ -58,7 +58,7 @@ public class MergeScanRowSource extends MergeScan implements ScanControllerRowSo
     MergeSort           sort, 
     TransactionManager  tran,
     SortBuffer          sortBuffer, 
-    Vector              mergeRuns,
+    FastTable              mergeRuns,
 	SortObserver		sortObserver,
     boolean             hold)
     {

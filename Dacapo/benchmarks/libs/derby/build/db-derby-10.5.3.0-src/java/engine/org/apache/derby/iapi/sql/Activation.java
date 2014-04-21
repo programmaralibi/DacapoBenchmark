@@ -49,8 +49,8 @@ import org.apache.derby.iapi.types.DataTypeDescriptor;
 
 import java.sql.SQLWarning;
 import java.util.Enumeration;
-import java.util.Vector;
-import java.util.Hashtable;
+import javolution.util.FastTable;
+import javolution.util.FastMap;
 
 
 /**
@@ -562,12 +562,12 @@ public interface Activation extends Dependent
 	 * get the reference to parent table ResultSets, that will be needed by the 
 	 * referential action dependent table scans.
 	 */
-	public Vector getParentResultSet(String resultSetId);
+	public FastTable getParentResultSet(String resultSetId);
 	
 	//clear the parent resultset hash table;
 	public void clearParentResultSets();
 
-	public Hashtable getParentResultSets();
+	public FastMap getParentResultSets();
 
 	/**
 	 * beetle 3865: updateable cursor using index.  A way of communication

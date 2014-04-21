@@ -136,7 +136,7 @@ public class Statement implements java.sql.Statement, StatementCallbackInterface
     ResultSet[] resultSetList_ = null;   // array of ResultSet objects
 
     protected final static String TIMEOUT_STATEMENT = "SET STATEMENT_TIMEOUT ";
-    protected javolution.util.FastTable timeoutFastTable = new javolution.util.FastTable(1);
+    protected javolution.util.FastTable timeoutFastTable = new javolution.util.FastTable();
     protected boolean doWriteTimeout = false;
     int timeout_ = 0; // for query timeout in seconds
     int maxRows_ = 0;
@@ -2662,7 +2662,7 @@ public class Statement implements java.sql.Statement, StatementCallbackInterface
     // for all statements. Otherwise, this will cause memory leaks when statements
     // are not explicitly closed in the application. 
     void resetCursorNameAndRemoveFromWhereCurrentOfMappings() {
-        // Remove client/server cursorName -> ResultSet mapping from the hashtable.
+        // Remove client/server cursorName -> ResultSet mapping from the FastMap.
         // If Statement.close() is called before ResultSet.close(), then statement_.section is null.
         if (section_ != null) {
             agent_.sectionManager_.removeCursorNameToResultSetMapping(cursorName_,
@@ -2673,7 +2673,7 @@ public class Statement implements java.sql.Statement, StatementCallbackInterface
             agent_.sectionManager_.removeCursorNameToResultSetMapping(cursorName_,
                     section_.getServerCursorName());
 
-            // Remove client and server cursorName -> QuerySection mapping from the hashtable
+            // Remove client and server cursorName -> QuerySection mapping from the FastMap
             // if one exists
             agent_.sectionManager_.removeCursorNameToQuerySectionMapping(cursorName_,
                     section_.getServerCursorNameForPositionedUpdate());

@@ -24,13 +24,13 @@ package org.apache.derby.impl.io;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
-import javolution.util.FastMap;
 import java.util.Map;
 
-import org.apache.derby.impl.io.vfmem.PathUtil;
-import org.apache.derby.impl.io.vfmem.DataStore;
-import org.apache.derby.impl.io.vfmem.VirtualFile;
+import javolution.util.FastMap;
 
+import org.apache.derby.impl.io.vfmem.DataStore;
+import org.apache.derby.impl.io.vfmem.PathUtil;
+import org.apache.derby.impl.io.vfmem.VirtualFile;
 import org.apache.derby.io.StorageFactory;
 import org.apache.derby.io.StorageFile;
 import org.apache.derby.io.WritableStorageFactory;

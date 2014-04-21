@@ -24,7 +24,7 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.io.PrintStream;
 import java.io.PrintWriter;
-import java.util.Vector;
+import javolution.util.FastTable;
 import java.security.AccessController;
 
 /**
@@ -50,7 +50,7 @@ public class DriverManager {
      * Set to hold Registered Drivers - initial capacity 10 drivers (will expand
      * automatically if necessary.
      */
-    private static final List theDrivers = new FastTable(10);
+    private static final List theDrivers = new FastTable();
 
     // Permission for setting log
     private static final SQLPermission logPermission = null;

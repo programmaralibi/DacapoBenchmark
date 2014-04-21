@@ -44,7 +44,7 @@ import java.lang.reflect.Modifier;
 
 import org.apache.derby.iapi.util.JBitSet;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * This node type converts a value from the Java domain to the SQL domain.
@@ -227,7 +227,7 @@ public class JavaToSQLValueNode extends ValueNode
 	 *				expression is in, for binding columns.
 	 * @param subqueryList		The subquery list being built as we find
 	 *							SubqueryNodes
-	 * @param aggregateVector	The aggregate vector being built as we find AggregateNodes
+	 * @param aggregateFastTable	The aggregate FastTable being built as we find AggregateNodes
 	 *
 	 * @return	The new top of the expression tree.
 	 *
@@ -235,7 +235,7 @@ public class JavaToSQLValueNode extends ValueNode
 	 */
 
 	public ValueNode bindExpression(FromList fromList, SubqueryList subqueryList,
-		Vector	aggregateVector) 
+		FastTable	aggregateFastTable) 
 			throws StandardException
 	{
 		// method invocations are not allowed in ADD TABLE clauses.
@@ -243,7 +243,7 @@ public class JavaToSQLValueNode extends ValueNode
 		javaNode.checkReliability(this);
 
 		/* Bind the expression under us */
-		javaNode = javaNode.bindExpression(fromList, subqueryList, aggregateVector);
+		javaNode = javaNode.bindExpression(fromList, subqueryList, aggregateFastTable);
 
 		DataTypeDescriptor dts = DataTypeDescriptor.getSQLDataTypeDescriptor(javaNode.getJavaTypeName());
 		if (dts == null)

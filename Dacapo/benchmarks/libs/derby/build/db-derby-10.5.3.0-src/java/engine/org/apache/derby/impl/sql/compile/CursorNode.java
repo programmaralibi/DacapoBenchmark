@@ -22,7 +22,7 @@
 package	org.apache.derby.impl.sql.compile;
 
 import javolution.util.FastTable;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 import org.apache.derby.iapi.error.StandardException;
 import org.apache.derby.iapi.reference.SQLState;
@@ -63,7 +63,7 @@ public class CursorNode extends DMLStatementNode
 	** There can only be a list of updatable columns when FOR UPDATE
 	** is specified as part of the cursor specification.
 	*/
-	private Vector	updatableColumns;
+	private FastTable	updatableColumns;
 	private FromTable updateTable;
 	private ResultColumnDescriptor[]	targetColumnDescriptors;
 
@@ -110,7 +110,7 @@ public class CursorNode extends DMLStatementNode
 		this.fetchFirst = (NumericConstantNode)fetchFirst;
 
 		this.updateMode = ((Integer) updateMode).intValue();
-		this.updatableColumns = (Vector) updatableColumns;
+		this.updatableColumns = (FastTable) updatableColumns;
 
 		/*
 		** This is a sanity check and not an error since the parser

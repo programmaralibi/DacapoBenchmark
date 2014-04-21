@@ -28,7 +28,7 @@ import java.lang.Runtime;
 import java.lang.SecurityException;
 import java.net.URL;
 import java.security.CodeSource;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 import org.apache.derbyTesting.functionTests.harness.BackgroundStreamSaver;
 import org.apache.derbyTesting.functionTests.harness.jvm;
@@ -78,7 +78,7 @@ public class derbyrunjartest {
             return;
         }
 
-        Vector cmd = jvm.getCommandLine();
+        FastTable cmd = jvm.getCommandLine();
         cmd.addElement("-jar");
         cmd.addElement(loc);
         for (int i=0; i < args.length; i++) {

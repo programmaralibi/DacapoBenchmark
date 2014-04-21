@@ -27,7 +27,7 @@ import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.SQLWarning;
-import java.util.Vector;
+import javolution.util.FastTable;
 import java.util.List;
 
 /**
@@ -42,7 +42,7 @@ interface ijResult {
 	boolean isResultSet() throws SQLException;
 	boolean isUpdateCount() throws SQLException;
 	boolean isNextRowOfResultSet();
-	boolean isVector();
+	boolean isFastTable();
 	boolean isMulti();
 	boolean isException();
 	boolean isMultipleResultSetResult();
@@ -54,7 +54,7 @@ interface ijResult {
 	ResultSet getResultSet() throws SQLException;
 	List getMultipleResultSets();
 	ResultSet getNextRowOfResultSet();
-	Vector getVector();
+	FastTable getFastTable();
 	SQLException getException();
 	int[] getColumnDisplayList();
 	int[] getColumnWidthList();

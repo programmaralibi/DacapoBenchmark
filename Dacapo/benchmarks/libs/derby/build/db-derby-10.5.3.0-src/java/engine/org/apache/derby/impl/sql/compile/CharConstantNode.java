@@ -33,7 +33,7 @@ import org.apache.derby.iapi.reference.SQLState;
 
 import org.apache.derby.iapi.util.ReuseFactory;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 public final class CharConstantNode extends ConstantNode
 {
@@ -150,7 +150,7 @@ public final class CharConstantNode extends ConstantNode
 	
 	public ValueNode bindExpression(
 			FromList fromList, SubqueryList subqueryList,
-			Vector	aggregateVector)
+			FastTable	aggregateFastTable)
 	throws StandardException
 	{
 		//The DTD for this character constant should get its collation type

@@ -29,7 +29,7 @@ import org.apache.derby.iapi.services.sanity.SanityManager;
 
 import org.apache.derby.catalog.DependableFinder;
 import org.apache.derby.catalog.UUID;
-import org.apache.derby.iapi.services.io.FormatableHashtable;
+import org.apache.derby.iapi.services.io.FormatableFastMap;
 
 import java.io.ObjectOutput;
 import java.io.ObjectInput;
@@ -118,7 +118,7 @@ public class BasicProviderInfo implements ProviderInfo
 		 throws IOException, ClassNotFoundException
 	{
 
-		FormatableHashtable fh = (FormatableHashtable)in.readObject();
+		FormatableFastMap fh = (FormatableFastMap)in.readObject();
 		uuid = (UUID)fh.get("uuid");
 		dFinder = (DependableFinder)fh.get("dFinder");
 		providerName = (String) fh.get("providerName");
@@ -134,7 +134,7 @@ public class BasicProviderInfo implements ProviderInfo
 	public void writeExternal( ObjectOutput out )
 		 throws IOException
 	{
-		FormatableHashtable fh = new FormatableHashtable();
+		FormatableFastMap fh = new FormatableFastMap();
 		fh.put("uuid", uuid);
 		fh.put("dFinder", dFinder);
 		fh.put("providerName", providerName);

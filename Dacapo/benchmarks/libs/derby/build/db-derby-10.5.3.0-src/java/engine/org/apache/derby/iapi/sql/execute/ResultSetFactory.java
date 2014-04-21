@@ -338,8 +338,8 @@ public interface ResultSetFactory {
 		@param keyColItem	Item for hash key column array
 		@param removeDuplicates	Whether or not to remove duplicates when building the hash table
 		@param maxInMemoryRowCount			Max size of in-memory hash table
-		@param initialCapacity				initialCapacity for java.util.HashTable
-		@param loadFactor					loadFactor for java.util.HashTable
+		@param initialCapacity				initialCapacity for javolution.util.FastMap
+		@param loadFactor					loadFactor for javolution.util.FastMap
 		@param optimizerEstimatedRowCount	Estimated total # of rows by
 											optimizer
 		@param optimizerEstimatedCost		Estimated total cost by optimizer
@@ -347,7 +347,7 @@ public interface ResultSetFactory {
 		@exception StandardException thrown when unable to create the
 			result set
 	 */
-	public NoPutResultSet getHashTableResultSet(NoPutResultSet source,
+	public NoPutResultSet getFastMapResultSet(NoPutResultSet source,
 		GeneratedMethod singleTableRestriction, 
 		Qualifier[][] equijoinQualifiers,
 		GeneratedMethod projection, int resultSetNumber,
@@ -367,7 +367,7 @@ public interface ResultSetFactory {
 		duplicates.  It will generate the entire result when open, and
 		then return it a row at a time.
 		<p>
-		If passed aggregates it will do scalar or vector aggregate
+		If passed aggregates it will do scalar or FastTable aggregate
 		processing.  A list of aggregator information is passed
 		off of the PreparedStatement's savedObjects.  Aggregation
 		and SELECT DISTINCT cannot be processed in the same sort.
@@ -707,9 +707,9 @@ public interface ResultSetFactory {
 		@param scanQualifiers the array of Qualifiers for the scan.
 			Null or an array length of zero means there are no qualifiers.
 		@param nextQualifiers the array of Qualifiers for the look up into the hash table.
-		@param initialCapacity	The initialCapacity for the HashTable.
-		@param loadFactor		The loadFactor for the HashTable.
-		@param maxCapacity		The maximum size for the HashTable.
+		@param initialCapacity	The initialCapacity for the FastMap.
+		@param loadFactor		The loadFactor for the FastMap.
+		@param maxCapacity		The maximum size for the FastMap.
 		@param hashKeyColumn	The 0-based column # for the hash key.
 		@param tableName		The full name of the table 
 		@param userSuppliedOptimizerOverrides		Overrides specified by the user on the sql

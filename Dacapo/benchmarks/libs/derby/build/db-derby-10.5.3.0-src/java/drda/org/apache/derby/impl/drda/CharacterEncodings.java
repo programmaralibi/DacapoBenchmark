@@ -27,8 +27,8 @@ final class CharacterEncodings
   // This is a static class, so hide the default constructor.
   private CharacterEncodings () {}
 
-  //private static java.util.Hashtable javaEncodingToCCSIDTable__ = new java.util.Hashtable();
-  private static java.util.Hashtable ccsidToJavaEncodingTable__ = new java.util.Hashtable();
+  //private static javolution.util.FastMap javaEncodingToCCSIDTable__ = new javolution.util.FastMap();
+  private static javolution.util.FastMap ccsidToJavaEncodingTable__ = new javolution.util.FastMap();
 
   static {
     populate_ccsidToJavaEncodingTable();

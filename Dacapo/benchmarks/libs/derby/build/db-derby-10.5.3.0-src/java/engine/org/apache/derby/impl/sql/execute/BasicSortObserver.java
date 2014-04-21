@@ -34,7 +34,7 @@ import org.apache.derby.iapi.sql.execute.ExecRow;
 
 import org.apache.derby.iapi.types.DataValueDescriptor;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * This is the most basic sort observer.  It
@@ -47,7 +47,7 @@ public class BasicSortObserver implements SortObserver
 	protected boolean	distinct;
 	private	  boolean	reuseWrappers;
 	private	  ExecRow	execRow;
-	private	  Vector	vector;
+	private	  FastTable	FastTable;
 
 	/**
 	 * Simple constructor
@@ -69,7 +69,7 @@ public class BasicSortObserver implements SortObserver
 		this.distinct = distinct;
 		this.execRow = execRow;
 		this.reuseWrappers = reuseWrappers;
-		vector = new Vector();
+		FastTable = new FastTable();
 	}
 
 	/**
@@ -118,21 +118,21 @@ public class BasicSortObserver implements SortObserver
 
 	public void addToFreeList(DataValueDescriptor[] objectArray, int maxFreeListSize)
 	{
-		if (reuseWrappers && vector.size() < maxFreeListSize)
+		if (reuseWrappers && FastTable.size() < maxFreeListSize)
 		{
-			vector.addElement(objectArray);
+			FastTable.addElement(objectArray);
 		}
 	}
 
 	public DataValueDescriptor[] getArrayClone()
 		throws StandardException
 	{
-		int lastElement = vector.size();
+		int lastElement = FastTable.size();
 
 		if (lastElement > 0)
 		{
-			DataValueDescriptor[] retval = (DataValueDescriptor[]) vector.elementAt(lastElement - 1);
-			vector.removeElementAt(lastElement - 1);
+			DataValueDescriptor[] retval = (DataValueDescriptor[]) FastTable.elementAt(lastElement - 1);
+			FastTable.removeElementAt(lastElement - 1);
 			return retval;
 		}
 		return execRow.getRowArrayClone();
@@ -151,7 +151,7 @@ public class BasicSortObserver implements SortObserver
 /* RESOLVE - We can't enable this code
  * until Bug 2829 is fixed.
  * (Close bug 2828 when enabling the code.
-		if (vector.size() > 0)
+		if (FastTable.size() > 0)
 		{
 			DataValueDescriptor[] retval = getArrayClone();
 			for (int index = 0; index < retval.length; index++)

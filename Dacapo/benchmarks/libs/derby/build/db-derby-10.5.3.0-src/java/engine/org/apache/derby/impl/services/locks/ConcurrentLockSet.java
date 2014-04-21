@@ -37,7 +37,6 @@ import org.apache.derby.iapi.reference.SQLState;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.concurrent.ConcurrentFastMap;
 import javolution.util.FastTable;
 import javolution.util.FastMap;
 import java.util.Enumeration;
@@ -80,7 +79,7 @@ final class ConcurrentLockSet implements LockTable {
 
     /** Hash table which maps <code>Lockable</code> objects to
      * <code>Lock</code>s. */
-    private final ConcurrentFastMap<Lockable, Entry> locks;
+    private final FastMap<Lockable, Entry> locks;
 
     /**
      * List containing all entries seen by the last call to
@@ -118,7 +117,7 @@ final class ConcurrentLockSet implements LockTable {
 	ConcurrentLockSet(AbstractPool factory) {
 		this.factory = factory;
         blockCount = new AtomicInteger();
-		locks = new ConcurrentFastMap<Lockable, Entry>();
+		locks = new FastMap<Lockable, Entry>();
 	}
 
     /**
@@ -933,7 +932,7 @@ forever:	for (;;) {
      * finished.
      */
     public void addWaiters(Map waiters) {
-        seenByDeadlockDetection = new FastTable<Entry>(locks.size());
+        seenByDeadlockDetection = new FastTable<Entry>();
         for (Entry entry : locks.values()) {
             seenByDeadlockDetection.add(entry);
             entry.lockForDeadlockDetection();

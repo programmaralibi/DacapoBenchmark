@@ -32,7 +32,7 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.lang.SecurityException;
 import java.lang.ClassNotFoundException;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import java.util.Enumeration;
 import java.util.Calendar;
 import java.util.Date;
@@ -133,7 +133,7 @@ public class ClassSizeCrawler
 
         StringBuffer packagePrefix = new StringBuffer( );
 
-        Hashtable classSizes = new Hashtable();
+        FastMap classSizes = new FastMap();
 
         ClassSizeCrawler crawler = new ClassSizeCrawler(interfaceList, interfaceCount, classSizes);
 
@@ -200,8 +200,8 @@ public class ClassSizeCrawler
                        "   limitations under the License.\n" +
                        " */\n");
             out.print( "package org.apache.derby.iapi.services.cache;\n" +
-                       "import java.util.Hashtable;\n" +
-                       "class ClassSizeCatalog extends java.util.Hashtable\n" +
+                       "import javolution.util.FastMap;\n" +
+                       "class ClassSizeCatalog extends javolution.util.FastMap\n" +
                        "{\n" +
                        "    ClassSizeCatalog()\n" +
                        "    {\n");
@@ -227,12 +227,12 @@ public class ClassSizeCrawler
 
     private Class[] interfaceList; // Search for classes that implement these interfaces
     private int interfaceCount;
-    private Hashtable classSizes;
+    private FastMap classSizes;
     private boolean verbose = false;
 
     private ClassSizeCrawler( Class[] interfaceList,
                               int interfaceCount,
-                              Hashtable classSizes)
+                              FastMap classSizes)
     {
         this.interfaceList = interfaceList;
         this.classSizes = classSizes;

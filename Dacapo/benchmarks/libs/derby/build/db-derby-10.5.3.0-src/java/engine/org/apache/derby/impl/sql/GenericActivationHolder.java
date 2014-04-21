@@ -71,8 +71,8 @@ import org.apache.derby.iapi.store.access.TransactionController;
 
 import java.sql.SQLWarning;
 import java.util.Enumeration;
-import java.util.Vector;
-import java.util.Hashtable;
+import javolution.util.FastTable;
+import javolution.util.FastMap;
 
 /**
  * This class holds an Activation, and passes through most of the calls
@@ -798,7 +798,7 @@ final public class GenericActivationHolder implements Activation
 	}
 
 
-	public Vector getParentResultSet(String resultSetId)
+	public FastTable getParentResultSet(String resultSetId)
 	{
 		return ac.getParentResultSet(resultSetId);
 	}
@@ -808,7 +808,7 @@ final public class GenericActivationHolder implements Activation
 		ac.clearParentResultSets();
 	}
 
-	public Hashtable getParentResultSets()
+	public FastMap getParentResultSets()
 	{
 		return ac.getParentResultSets();
 	}

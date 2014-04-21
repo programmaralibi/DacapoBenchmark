@@ -41,7 +41,7 @@ import java.sql.Types;
 import javolution.util.FastTable;
 import java.util.Date;
 import java.util.Properties;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 import org.apache.derby.catalog.SystemProcedures;
 import org.apache.derby.iapi.error.StandardException;
@@ -137,10 +137,10 @@ class DRDAConnThread extends Thread {
 	private byte diagnosticLevel = (byte)0xF0; 
 
 	// manager processing
-	private Vector unknownManagers;
-	private Vector knownManagers;
-	private Vector errorManagers;
-	private Vector errorManagersLevel;
+	private FastTable unknownManagers;
+	private FastTable knownManagers;
+	private FastTable errorManagers;
+	private FastTable errorManagersLevel;
 
 	// database accessed failed
 	private SQLException databaseAccessException;
@@ -1637,11 +1637,11 @@ class DRDAConnThread extends Thread {
 	{
 		int manager, managerLevel;
 		int currentLevel;
-		// set up vectors to keep track of manager information
-		unknownManagers = new Vector();
-		knownManagers = new Vector();
-		errorManagers = new Vector();
-		errorManagersLevel = new Vector();
+		// set up FastTables to keep track of manager information
+		unknownManagers = new FastTable();
+		knownManagers = new FastTable();
+		errorManagers = new FastTable();
+		errorManagersLevel = new FastTable();
 		if (SanityManager.DEBUG)
 			trace("Manager Levels");
 

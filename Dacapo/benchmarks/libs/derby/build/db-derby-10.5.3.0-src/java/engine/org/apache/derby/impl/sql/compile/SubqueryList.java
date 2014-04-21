@@ -29,11 +29,11 @@ import org.apache.derby.iapi.services.sanity.SanityManager;
 
 /**
  * A SubqueryList represents a list of subquerys within a specific clause 
- * (select, where or having) in a DML statement.  It extends QueryTreeNodeVector.
+ * (select, where or having) in a DML statement.  It extends QueryTreeNodeFastTable.
  *
  */
 
-public class SubqueryList extends QueryTreeNodeVector
+public class SubqueryList extends QueryTreeNodeFastTable
 {
 
 	/**

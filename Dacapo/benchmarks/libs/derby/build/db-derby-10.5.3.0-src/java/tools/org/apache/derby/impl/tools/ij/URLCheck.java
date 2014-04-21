@@ -23,7 +23,7 @@ package org.apache.derby.impl.tools.ij;
 
 import org.apache.derby.iapi.reference.Attribute;
 import org.apache.derby.iapi.tools.i18n.LocalizedResource;
-import java.util.Vector;
+import javolution.util.FastTable;
 import java.util.Properties;
 import java.util.Enumeration;
 import java.util.StringTokenizer;
@@ -42,11 +42,11 @@ import java.sql.SQLException;
 
 public class URLCheck {
 
-  public Vector attributes;
-  public static Vector booleanAttributes;
+  public FastTable attributes;
+  public static FastTable booleanAttributes;
   //Need so that AppUI class does not get garbage collected
   LocalizedResource langUtil = LocalizedResource.getInstance();
-  Vector validProps;
+  FastTable validProps;
 
   public URLCheck(String anURL) {
 
@@ -113,7 +113,7 @@ public class URLCheck {
 		
 		//Parse the url into attributes and put them in a Properties object.
 		StringTokenizer st = new StringTokenizer(url.substring(protocol.length()), ";:\"");
-		attributes = new Vector();
+		attributes = new FastTable();
 		while (st.hasMoreTokens()) {
       AttributeHolder anAttribute = new AttributeHolder();
       String anAtt = "";
@@ -139,9 +139,9 @@ public class URLCheck {
 		return props;
 	}
 
-  public static Vector getBooleanAttributes(){
+  public static FastTable getBooleanAttributes(){
     if (booleanAttributes == null) {
-      booleanAttributes = new Vector();
+      booleanAttributes = new FastTable();
 		  booleanAttributes.addElement(Attribute.DATA_ENCRYPTION);
 		  booleanAttributes.addElement(Attribute.CREATE_ATTR);
 		  booleanAttributes.addElement(Attribute.SHUTDOWN_ATTR);
@@ -150,14 +150,14 @@ public class URLCheck {
     return booleanAttributes;
   }
 
-    private static Vector validDerbyProps;
-    private Vector getValidDerbyProps()
+    private static FastTable validDerbyProps;
+    private FastTable getValidDerbyProps()
     {
         if( validDerbyProps == null)
         {
             try
             {
-                Vector props = new Vector();
+                FastTable props = new FastTable();
                 Class att = Attribute.class;
                 //Use reflection to get the list of valid keys from the Attribute class.
                 //The Attribute class is an interface and therefore all the field

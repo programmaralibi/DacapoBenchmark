@@ -72,7 +72,7 @@ public class IntersectOrExceptNode extends SetOperatorNode
      * There are other query plans that may be more efficient, depending on the sizes. One plan is
      * to make a hash table from one of the input tables and then look up each row of the other input
      * table in the hash table.  However, we have not yet implemented spilling to disk in the
-     * BackingStoreHashtable class: currently the whole hash table is in RAM. If we were to use it
+     * BackingStoreFastMap class: currently the whole hash table is in RAM. If we were to use it
      * we would blow up on large input tables.
      */
 

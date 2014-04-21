@@ -57,7 +57,7 @@ import org.apache.derby.iapi.services.classfile.VMOpcode;
 
 import java.util.Enumeration;
 import java.util.Properties;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * A RowResultSetNode represents the result set for a VALUES clause.
@@ -67,7 +67,7 @@ import java.util.Vector;
 public class RowResultSetNode extends FromTable
 {
 	SubqueryList subquerys;
-	Vector		 aggregateVector;
+	FastTable		 aggregateFastTable;
 	OrderByList	 orderByList;
 
 	/**
@@ -207,7 +207,7 @@ public class RowResultSetNode extends FromTable
 										C_NodeTypes.SUBQUERY_LIST,
 										getContextManager());
 
-		aggregateVector = new Vector();
+		aggregateFastTable = new FastTable();
 
 		/* Verify that there are no DEFAULTs in the RCL.
 		 * DEFAULT is only valid for an insert, and it has
@@ -236,11 +236,11 @@ public class RowResultSetNode extends FromTable
 		setLevel(nestingLevel);
 		fromListParam.insertElementAt(this, 0);
 		resultColumns.bindExpressions(fromListParam, subquerys,
-									  aggregateVector);
+									  aggregateFastTable);
 		// Pop ourselves back out of the FROM list
 		fromListParam.removeElementAt(0);
 
-		if (aggregateVector.size() > 0)
+		if (aggregateFastTable.size() > 0)
 		{
 			throw StandardException.newException(SQLState.LANG_NO_AGGREGATES_IN_WHERE_CLAUSE);
 		}
@@ -508,8 +508,8 @@ public class RowResultSetNode extends FromTable
 			return false;
 		}
 
-		if ((aggregateVector != null) &&
-			(aggregateVector.size() > 0))
+		if ((aggregateFastTable != null) &&
+			(aggregateFastTable.size() > 0))
 		{
 			return false;
 		}

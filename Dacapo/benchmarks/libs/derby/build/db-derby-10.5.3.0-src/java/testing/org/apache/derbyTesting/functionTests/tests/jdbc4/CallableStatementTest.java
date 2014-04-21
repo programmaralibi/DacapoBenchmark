@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.sql.*;
 import java.lang.reflect.Method;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * Tests of the <code>java.sql.CallableStatement</code> JDBC40 API.

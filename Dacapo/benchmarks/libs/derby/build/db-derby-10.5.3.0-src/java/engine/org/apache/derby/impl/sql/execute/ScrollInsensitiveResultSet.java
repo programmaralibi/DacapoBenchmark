@@ -35,7 +35,7 @@ import org.apache.derby.iapi.types.DataValueDescriptor;
 import org.apache.derby.iapi.error.StandardException;
 import org.apache.derby.iapi.reference.SQLState;
 
-import org.apache.derby.iapi.store.access.BackingStoreHashtable;
+import org.apache.derby.iapi.store.access.BackingStoreFastMap;
 
 import org.apache.derby.iapi.sql.execute.RowChanger;
 import org.apache.derby.iapi.types.SQLBoolean;
@@ -92,7 +92,7 @@ public class ScrollInsensitiveResultSet extends NoPutResultSetImpl
 
 	private int							sourceRowWidth;
 
-	private	  BackingStoreHashtable		ht;
+	private	  BackingStoreFastMap		ht;
 	private	  ExecRow					resultRow;
 
 	// Scroll tracking
@@ -104,8 +104,8 @@ public class ScrollInsensitiveResultSet extends NoPutResultSetImpl
 	private	boolean beforeFirst = true;
 	private	boolean afterLast;
 
-	public int numFromHashTable;
-	public int numToHashTable;
+	public int numFromFastMap;
+	public int numToFastMap;
 
 	private int maxRows;
 
@@ -119,10 +119,10 @@ public class ScrollInsensitiveResultSet extends NoPutResultSetImpl
 	 */
 	private int extraColumns;
 	
-	/* positionInHashTable is used for getting a row from the hash table. Prior
-	 * to getting the row, positionInHashTable will be set to the desired KEY.
+	/* positionInFastMap is used for getting a row from the hash table. Prior
+	 * to getting the row, positionInFastMap will be set to the desired KEY.
 	 */
-	private SQLInteger positionInHashTable;
+	private SQLInteger positionInFastMap;
 
 	/* Reference to the target result set. Target is used for updatable result
 	 * sets in order to keep the target result set on the same row as the
@@ -130,7 +130,7 @@ public class ScrollInsensitiveResultSet extends NoPutResultSetImpl
 	 */
 	private CursorResultSet target;
 
-	/* If the last row was fetched from the HashTable, updatable result sets
+	/* If the last row was fetched from the FastMap, updatable result sets
 	 * need to be positioned in the last fetched row before resuming the 
 	 * fetch from core.
 	 */
@@ -174,7 +174,7 @@ public class ScrollInsensitiveResultSet extends NoPutResultSetImpl
 				"maxRows not expected to be -1");
 		}
 
-		positionInHashTable = new SQLInteger();
+		positionInFastMap = new SQLInteger();
 		needsRepositioning = false;
 		if (isForUpdate()) {
 			target = ((CursorActivation)activation).getTargetResultSet();
@@ -222,10 +222,10 @@ public class ScrollInsensitiveResultSet extends NoPutResultSetImpl
 		 * wildly pessimistic.  We only use Hash tables when the optimizer row count
 		 * is within certain bounds.  We have no alternative for scrolling insensitive 
 		 * cursors so we'll just trust that it will fit.
-		 * We need BackingStoreHashtable to actually go to disk when it doesn't fit.
+		 * We need BackingStoreFastMap to actually go to disk when it doesn't fit.
 		 * This is a known limitation.
 		 */
-		ht = new BackingStoreHashtable(getTransactionController(),
+		ht = new BackingStoreFastMap(getTransactionController(),
 									   null,
 									   keyCols,
 									   false,
@@ -241,8 +241,8 @@ public class ScrollInsensitiveResultSet extends NoPutResultSetImpl
 		// had in a newly constructed object.
 		lastPosition = 0;
 		needsRepositioning = false;
-		numFromHashTable = 0;
-		numToHashTable = 0;
+		numFromFastMap = 0;
+		numToFastMap = 0;
 		positionInSource = 0;
 		seenFirst = false;
 		seenLast = false;
@@ -324,7 +324,7 @@ public class ScrollInsensitiveResultSet extends NoPutResultSetImpl
 			if (row <= positionInSource)
 			{
 				// We've already seen the row before
-				return getRowFromHashTable(row);
+				return getRowFromFastMap(row);
 			}
 			
 			/* We haven't seen the row yet, scan until we find
@@ -344,7 +344,7 @@ public class ScrollInsensitiveResultSet extends NoPutResultSetImpl
 				}
 			}
 			if (result != null) {
-				result = getRowFromHashTable(row);
+				result = getRowFromFastMap(row);
 			}
 			currentRow = result;
 			return result;
@@ -365,7 +365,7 @@ public class ScrollInsensitiveResultSet extends NoPutResultSetImpl
 			if (beyondResult + row > 0)
 			{
 				// valid row
-				return getRowFromHashTable(beyondResult + row);
+				return getRowFromFastMap(beyondResult + row);
 			}
 			else
 			{
@@ -419,7 +419,7 @@ public class ScrollInsensitiveResultSet extends NoPutResultSetImpl
                     if (beforeFirst || afterLast || currentPosition==0) {
                         return null;
                     } else {
-			return getRowFromHashTable(currentPosition);
+			return getRowFromFastMap(currentPosition);
                     }
 		}
 		else if (row > 0)
@@ -476,7 +476,7 @@ public class ScrollInsensitiveResultSet extends NoPutResultSetImpl
 		 */
 		if (seenFirst)
 		{
-			return getRowFromHashTable(1);
+			return getRowFromFastMap(1);
 		}
 
 		attachStatementContext();
@@ -517,7 +517,7 @@ public class ScrollInsensitiveResultSet extends NoPutResultSetImpl
 			 */
 			result = getNextRowFromSource();
 			if (result !=null) {
-				result = getRowFromHashTable(currentPosition);
+				result = getRowFromFastMap(currentPosition);
 			}
 		}
 		else if (currentPosition < positionInSource)
@@ -525,7 +525,7 @@ public class ScrollInsensitiveResultSet extends NoPutResultSetImpl
 			/* Current position is before position in source.
 			 * Get row from the hash table.
 			 */
-			result = getRowFromHashTable(currentPosition + 1);
+			result = getRowFromFastMap(currentPosition + 1);
 		}
 		else
 		{
@@ -594,7 +594,7 @@ public class ScrollInsensitiveResultSet extends NoPutResultSetImpl
 			}
 			else
 			{
-				return getRowFromHashTable(lastPosition);
+				return getRowFromFastMap(lastPosition);
 			}
 		}
 
@@ -605,7 +605,7 @@ public class ScrollInsensitiveResultSet extends NoPutResultSetImpl
 			setBeforeFirstRow();
 			return null;
 		}
-		return getRowFromHashTable(currentPosition);
+		return getRowFromFastMap(currentPosition);
 	}
 
 	/**
@@ -661,7 +661,7 @@ public class ScrollInsensitiveResultSet extends NoPutResultSetImpl
 		}
 		else
 		{
-			return getRowFromHashTable(lastPosition);
+			return getRowFromFastMap(lastPosition);
 		}
 	}
 
@@ -754,7 +754,7 @@ public class ScrollInsensitiveResultSet extends NoPutResultSetImpl
 			{
 				final int savePosition = currentPosition;
 				final boolean retval = (getNextRowFromSource() == null);
-				getRowFromHashTable(savePosition);
+				getRowFromFastMap(savePosition);
 				return retval;
 			}
 		case ISAFTERLAST:
@@ -822,7 +822,7 @@ public class ScrollInsensitiveResultSet extends NoPutResultSetImpl
 				rowLoc = ((CursorResultSet)source).getRowLocation();
 			}
 
-			addRowToHashTable(sourceRow, currentPosition, rowLoc, false);
+			addRowToFastMap(sourceRow, currentPosition, rowLoc, false);
 
 		}
 		// Remember whether or not we're past the end of the table
@@ -966,7 +966,7 @@ public class ScrollInsensitiveResultSet extends NoPutResultSetImpl
 	 * @param rowUpdated Indicates whether the row has been updated.
 	 *
 	 */
-	private void addRowToHashTable(ExecRow sourceRow, int position,
+	private void addRowToFastMap(ExecRow sourceRow, int position,
 			RowLocation rowLoc, boolean rowUpdated)
 		throws StandardException
 	{
@@ -992,7 +992,7 @@ public class ScrollInsensitiveResultSet extends NoPutResultSetImpl
 
 		ht.putRow(true, hashRowArray);
 
-		numToHashTable++;
+		numToFastMap++;
 	}
 
 	/**
@@ -1005,14 +1005,14 @@ public class ScrollInsensitiveResultSet extends NoPutResultSetImpl
 	 *
  	 * @exception StandardException thrown on failure 
 	 */
-	private ExecRow getRowFromHashTable(int position)
+	private ExecRow getRowFromFastMap(int position)
 		throws StandardException
 	{
 
 		// Get the row from the hash table
-		positionInHashTable.setValue(position);
+		positionInFastMap.setValue(position);
 		DataValueDescriptor[] hashRowArray = (DataValueDescriptor[]) 
-				ht.get(positionInHashTable);
+				ht.get(positionInFastMap);
 
 
 		if (SanityManager.DEBUG)
@@ -1031,7 +1031,7 @@ public class ScrollInsensitiveResultSet extends NoPutResultSetImpl
 		// Reset the current position to the user position
 		currentPosition = position;
 
-		numFromHashTable++;
+		numFromFastMap++;
 
 		if (resultRow != null)
 		{
@@ -1062,12 +1062,12 @@ public class ScrollInsensitiveResultSet extends NoPutResultSetImpl
 	 *
  	 * @exception StandardException thrown on failure 
 	 */
-	private DataValueDescriptor[] getRowArrayFromHashTable(int position)
+	private DataValueDescriptor[] getRowArrayFromFastMap(int position)
 		throws StandardException
 	{
-		positionInHashTable.setValue(position);
+		positionInFastMap.setValue(position);
 		final DataValueDescriptor[] hashRowArray = (DataValueDescriptor[]) 
-			ht.get(positionInHashTable);
+			ht.get(positionInFastMap);
 		
 		// Copy out the Object[] without the position.
 		final DataValueDescriptor[] resultRowArray = new 
@@ -1084,9 +1084,9 @@ public class ScrollInsensitiveResultSet extends NoPutResultSetImpl
 	 */
 	private void positionInLastFetchedRow() throws StandardException {
 		if (positionInSource > 0) {
-			positionInHashTable.setValue(positionInSource);
+			positionInFastMap.setValue(positionInSource);
 			DataValueDescriptor[] hashRowArray = (DataValueDescriptor[]) 
-					ht.get(positionInHashTable);
+					ht.get(positionInFastMap);
 			RowLocation rowLoc = (RowLocation) hashRowArray[POS_ROWLOCATION];
 			((NoPutResultSet)target).positionScanAtRowLocation(rowLoc);
 			currentPosition = positionInSource;
@@ -1113,9 +1113,9 @@ public class ScrollInsensitiveResultSet extends NoPutResultSetImpl
 			prRS = ((RowCountResultSet)source).getUnderlyingProjectRestrictRS();
 		}
 
-		positionInHashTable.setValue(currentPosition);
+		positionInFastMap.setValue(currentPosition);
 		DataValueDescriptor[] hashRowArray = (DataValueDescriptor[])
-				ht.get(positionInHashTable);
+				ht.get(positionInFastMap);
 		RowLocation rowLoc = (RowLocation) hashRowArray[POS_ROWLOCATION];
 
 		// Maps from each selected column to underlying base table column
@@ -1159,16 +1159,16 @@ public class ScrollInsensitiveResultSet extends NoPutResultSetImpl
 		}
 
 		ht.remove(new SQLInteger(currentPosition));
-		addRowToHashTable(newRow, currentPosition, rowLoc, true);
+		addRowToFastMap(newRow, currentPosition, rowLoc, true);
 
-		// Modify row to refer to data in the BackingStoreHashtable.
+		// Modify row to refer to data in the BackingStoreFastMap.
 		// This allows reading of data which goes over multiple pages
 		// when doing the actual update (LOBs). Putting columns of
 		// type SQLBinary to disk, has destructive effect on the columns,
 		// and they need to be re-read. That is the reason this is needed.
 
 		DataValueDescriptor[] backedData =
-			getRowArrayFromHashTable(currentPosition);
+			getRowArrayFromFastMap(currentPosition);
 
 		for (int i=0; i < map.length; i++) {
 			// What index in "row" corresponds to this position in the table,
@@ -1188,9 +1188,9 @@ public class ScrollInsensitiveResultSet extends NoPutResultSetImpl
 	 * Sets the deleted column of the hash table to true in the current row.
 	 */
 	public void markRowAsDeleted() throws StandardException  {
-		positionInHashTable.setValue(currentPosition);
+		positionInFastMap.setValue(currentPosition);
 		DataValueDescriptor[] hashRowArray = (DataValueDescriptor[]) 
-				ht.get(positionInHashTable);
+				ht.get(positionInFastMap);
 		RowLocation rowLoc = (RowLocation) hashRowArray[POS_ROWLOCATION];
 		ht.remove(new SQLInteger(currentPosition));
 		((SQLBoolean)hashRowArray[POS_ROWDELETED]).setValue(true);
@@ -1212,9 +1212,9 @@ public class ScrollInsensitiveResultSet extends NoPutResultSetImpl
 	 */
 	public boolean isDeleted() throws StandardException  {
 		if (currentPosition <= positionInSource && currentPosition > 0) {
-			positionInHashTable.setValue(currentPosition);
+			positionInFastMap.setValue(currentPosition);
 			DataValueDescriptor[] hashRowArray = (DataValueDescriptor[]) 
-					ht.get(positionInHashTable);
+					ht.get(positionInFastMap);
 			return hashRowArray[POS_ROWDELETED].getBoolean();
 		}
 		return false;
@@ -1230,9 +1230,9 @@ public class ScrollInsensitiveResultSet extends NoPutResultSetImpl
 	 */
 	public boolean isUpdated() throws StandardException {
 		if (currentPosition <= positionInSource && currentPosition > 0) {
-			positionInHashTable.setValue(currentPosition);
+			positionInFastMap.setValue(currentPosition);
 			DataValueDescriptor[] hashRowArray = (DataValueDescriptor[]) 
-					ht.get(positionInHashTable);
+					ht.get(positionInFastMap);
 			return hashRowArray[POS_ROWUPDATED].getBoolean();
 		}
 		return false;

@@ -27,7 +27,7 @@ import org.apache.derby.iapi.util.PropertyUtil;
 import org.apache.derby.iapi.services.i18n.MessageService;
 import org.apache.derby.iapi.reference.SQLState;
 
-import org.apache.derby.iapi.services.io.FormatableHashtable;
+import org.apache.derby.iapi.services.io.FormatableFastMap;
 import org.apache.derby.iapi.services.io.FormatableProperties;
 
 import java.io.ObjectOutput;
@@ -35,7 +35,7 @@ import java.io.ObjectInput;
 import java.io.IOException;
 
 import java.util.Enumeration;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import java.util.Properties;
 
 
@@ -50,7 +50,7 @@ public class RealHashScanStatistics
 
 	/* Leave these fields public for object inspectors */
 	public boolean isConstraint;
-	public int hashtableSize;
+	public int FastMapSize;
 	public int[] hashKeyColumns;
 	public String isolationLevel;
 	public String lockString;
@@ -80,7 +80,7 @@ public class RealHashScanStatistics
 									String tableName,
 									String indexName,
 									boolean isConstraint,
-									int hashtableSize,
+									int FastMapSize,
 									int[] hashKeyColumns,
 									String scanQualifiers,
 									String nextQualifiers,
@@ -108,7 +108,7 @@ public class RealHashScanStatistics
 		this.tableName = tableName;
 		this.indexName = indexName;
 		this.isConstraint = isConstraint;
-		this.hashtableSize = hashtableSize;
+		this.FastMapSize = FastMapSize;
 		this.hashKeyColumns = hashKeyColumns;
 		this.scanQualifiers = scanQualifiers;
 		this.nextQualifiers = nextQualifiers;
@@ -202,7 +202,7 @@ public class RealHashScanStatistics
 						" = " + numOpens + "\n" +
 			indent + MessageService.getTextMessage(
 												SQLState.RTS_HASH_TABLE_SIZE) +
-						" = " + hashtableSize + "\n" +
+						" = " + FastMapSize + "\n" +
 			indent + hashKeyColumnString + "\n" +
 			indent + MessageService.getTextMessage(SQLState.RTS_ROWS_SEEN) +
 						" = " + rowsSeen + "\n" +

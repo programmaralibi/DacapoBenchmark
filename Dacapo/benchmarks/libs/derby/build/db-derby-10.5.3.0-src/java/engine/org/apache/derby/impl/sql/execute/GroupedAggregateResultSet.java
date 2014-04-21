@@ -169,7 +169,7 @@ class GroupedAggregateResultSet extends GenericAggregateResultSet
 			if (currSortedRow != null)
 			{
 				currSortedRow = (ExecIndexRow) currSortedRow.getClone();
-				initializeVectorAggregation(currSortedRow);
+				initializeFastTableAggregation(currSortedRow);
 			}
 		}
 		else
@@ -188,7 +188,7 @@ class GroupedAggregateResultSet extends GenericAggregateResultSet
 
 	/**
 	 * Load up the sorter.  Feed it every row from the
-	 * source scan.  If we have a vector aggregate, initialize
+	 * source scan.  If we have a FastTable aggregate, initialize
 	 * the aggregator for each source row.  When done, close
 	 * the source scan and open the sort.  Return the sort
 	 * scan controller.
@@ -356,7 +356,7 @@ class GroupedAggregateResultSet extends GenericAggregateResultSet
 
 					/* Save a clone of the new row so that it doesn't get overwritten */
 					currSortedRow = (ExecIndexRow) nextRow.getClone();
-					initializeVectorAggregation(currSortedRow);
+					initializeFastTableAggregation(currSortedRow);
 
 					nextTime += getElapsedMillis(beginTime);
 					rowsReturned++;
@@ -365,8 +365,8 @@ class GroupedAggregateResultSet extends GenericAggregateResultSet
 				else
 				{
 					/* Same group - initialize the new row and then merge the aggregates */
-					initializeVectorAggregation(nextRow);
-					mergeVectorAggregates(nextRow, currSortedRow);
+					initializeFastTableAggregation(nextRow);
+					mergeFastTableAggregates(nextRow, currSortedRow);
 				}
 
 				// Get the next row
@@ -391,7 +391,7 @@ class GroupedAggregateResultSet extends GenericAggregateResultSet
 			/*
 			** Only finish the aggregation
 			** if we have a return row.  We don't generate
-			** a row on a vector aggregate unless there was
+			** a row on a FastTable aggregate unless there was
 			** a group.
 			*/
 			if (sortResult != null)
@@ -650,7 +650,7 @@ class GroupedAggregateResultSet extends GenericAggregateResultSet
 	 *
 	 * @exception	standard Derby exception
 	 */
-	private void initializeVectorAggregation(ExecRow row)
+	private void initializeFastTableAggregation(ExecRow row)
 		throws StandardException
 	{
 		int size = aggregates.length;
@@ -658,7 +658,7 @@ class GroupedAggregateResultSet extends GenericAggregateResultSet
 		if (SanityManager.DEBUG)
 		{
 			SanityManager.ASSERT(row != null, 
-					"Null row passed to initializeVectorAggregation");
+					"Null row passed to initializeFastTableAggregation");
 		}
 
 		for (int i = 0; i < size; i++)
@@ -682,7 +682,7 @@ class GroupedAggregateResultSet extends GenericAggregateResultSet
 	 *
 	 * @exception	standard Derby exception
 	 */
-	private void mergeVectorAggregates(ExecRow newRow, ExecRow currRow)
+	private void mergeFastTableAggregates(ExecRow newRow, ExecRow currRow)
 		throws StandardException
 	{
 		for (int i = 0; i < aggregates.length; i++)

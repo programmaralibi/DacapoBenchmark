@@ -28,7 +28,7 @@ import org.apache.derby.iapi.services.monitor.Monitor;
 import org.apache.derby.iapi.services.context.Context;
 
 import java.util.Enumeration;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 public class T_Bomb implements Runnable { 
 	public static String BOMB_DELAY_PN="derby.testing.BombDelay";
@@ -37,7 +37,7 @@ public class T_Bomb implements Runnable {
 	private static T_Bomb me;
 	
 	private Thread t;
-	private Vector v;
+	private FastTable v;
 	private long delay;
 	private boolean armed = false;
 
@@ -47,7 +47,7 @@ public class T_Bomb implements Runnable {
 			PropertyUtil.getSystemInt(BOMB_DELAY_PN,0,
 									  Integer.MAX_VALUE,
 									  DEFAULT_BOMB_DELAY);
-		v = new Vector();
+		v = new FastTable();
 		t = new Thread(this);
 		t.setDaemon(true);
 		t.start();

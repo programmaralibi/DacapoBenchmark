@@ -26,7 +26,7 @@ import org.apache.derby.iapi.services.io.StoredFormatIds;
 import org.apache.derby.iapi.services.i18n.MessageService;
 import org.apache.derby.iapi.reference.SQLState;
 
-import org.apache.derby.iapi.services.io.FormatableHashtable;
+import org.apache.derby.iapi.services.io.FormatableFastMap;
 
 import java.io.ObjectOutput;
 import java.io.ObjectInput;
@@ -221,8 +221,8 @@ public class RealProjectRestrictStatistics
 	{
 		return getStatementExecutionPlanText(0);
 	}
-  public java.util.Vector getChildren(){
-    java.util.Vector children = new java.util.Vector();
+  public javolution.util.FastTable getChildren(){
+    javolution.util.FastTable children = new javolution.util.FastTable();
     children.addElement(childResultSetStatistics);
 
 	// get all of our subqueries

@@ -51,7 +51,7 @@ import java.sql.Statement;
 
 import java.util.Enumeration;
 import java.util.Properties;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * Test the network server derby.drda.startNetworkServer property.
@@ -287,7 +287,7 @@ public class DerbyNetAutoStart
             return;
         }
         portNumber = -1;
-        Vector vCmd = jvm.getCommandLine();
+        FastTable vCmd = jvm.getCommandLine();
         Properties systemProperties = System.getProperties();
         String cmd[] = new String[ vCmd.size() + systemProperties.size() + 3];
         int i;

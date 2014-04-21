@@ -36,7 +36,7 @@ import org.apache.derby.iapi.jdbc.EngineStatement;
 import java.sql.SQLException;
 import java.sql.SQLWarning;
 import java.sql.Statement;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /*
  We would import these, but have name-overlap
@@ -102,9 +102,9 @@ public class EmbedStatement extends ConnectionChild
 	//the state of this statement, set to false when close() is called
 	private boolean active = true;
 
-    //in case of batch update, save the individual statements in the batch in this vector
+    //in case of batch update, save the individual statements in the batch in this FastTable
  	//this is only used by JDBC 2.0
- 	Vector batchStatements;
+ 	FastTable batchStatements;
 	
 	// The maximum # of rows to return per result set.
 	// (0 means no limit.)
@@ -904,7 +904,7 @@ public class EmbedStatement extends ConnectionChild
 		checkStatus();
   	  synchronized (getConnectionSynchronization()) {
 		  if (batchStatements == null)
-			  batchStatements = new Vector();
+			  batchStatements = new FastTable();
         batchStatements.addElement(sql);
   		}
 	}
@@ -957,7 +957,7 @@ public class EmbedStatement extends ConnectionChild
 			// setup and restore themselves.
 			clearResultSets();
 
-			Vector stmts = batchStatements;
+			FastTable stmts = batchStatements;
 			batchStatements = null;
 			int size;
 			if (stmts == null)

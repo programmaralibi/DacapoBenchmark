@@ -26,7 +26,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.SQLException;
 import java.sql.SQLWarning;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * This is an impl for a statement execution; the result

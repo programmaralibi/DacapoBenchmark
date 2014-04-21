@@ -35,13 +35,13 @@ import org.apache.derbyTesting.unitTests.harness.T_Bomb;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Properties;
-import java.util.Vector;
-import java.util.Hashtable;
+import javolution.util.FastTable;
+import javolution.util.FastMap;
 
 public class BasicUnitTestManager implements UnitTestManager, ModuleControl
 {
-	private Vector vectorOfTests;
-	private Hashtable	namesOfTests;
+	private FastTable FastTableOfTests;
+	private FastMap	namesOfTests;
 
 	private	static	boolean	alreadyRun = false;
 	private HeaderPrintWriter output;
@@ -78,8 +78,8 @@ public class BasicUnitTestManager implements UnitTestManager, ModuleControl
 
 		this.currentOutput = output;
 
-		vectorOfTests = new Vector();
-		namesOfTests = new Hashtable();
+		FastTableOfTests = new FastTable();
+		namesOfTests = new FastMap();
 
 		findTests(startParams, startParams);
 		try {
@@ -114,7 +114,7 @@ public class BasicUnitTestManager implements UnitTestManager, ModuleControl
 		// otherwise you will upset me.
 		if ( !namesOfTests.containsKey( testName ) )
 		{
-			vectorOfTests.addElement(objectToTest);
+			FastTableOfTests.addElement(objectToTest);
 			namesOfTests.put( testName, testName );
 		}
 	}
@@ -237,17 +237,17 @@ public class BasicUnitTestManager implements UnitTestManager, ModuleControl
 		if (runTests) {
 
 		if (!runForever) T_Bomb.makeBomb();
-		for(int ix = vectorOfTests.size() - 1; ix >= 0 ; ix--){
+		for(int ix = FastTableOfTests.size() - 1; ix >= 0 ; ix--){
 
 			UnitTest thisTest =
-				((UnitTest)vectorOfTests.elementAt(ix));
+				((UnitTest)FastTableOfTests.elementAt(ix));
 			if (thisTest.UnitTestDuration() <= this.testDuration &&
 				thisTest.UnitTestType() <= this.testType){
 				if (runATest(thisTest))
 					passCount++;
 				else
 					failCount++;
-				vectorOfTests.removeElementAt(ix);
+				FastTableOfTests.removeElementAt(ix);
 			}
 			else{
 				skipCount++;

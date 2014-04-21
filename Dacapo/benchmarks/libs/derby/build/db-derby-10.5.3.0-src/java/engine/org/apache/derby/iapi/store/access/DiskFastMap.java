@@ -1,6 +1,6 @@
 /*
 
-   Derby - Class org.apache.derby.iapi.store.access.DiskHashtable
+   Derby - Class org.apache.derby.iapi.store.access.DiskFastMap
 
    Licensed to the Apache Software Foundation (ASF) under one or more
    contributor license agreements.  See the NOTICE file distributed with
@@ -23,7 +23,7 @@ package org.apache.derby.iapi.store.access;
 import java.util.Enumeration;
 import java.util.NoSuchElementException;
 import java.util.Properties;
-import java.util.Vector;
+import javolution.util.FastTable;
 import org.apache.derby.shared.common.reference.SQLState;
 import org.apache.derby.iapi.error.StandardException;
 import org.apache.derby.iapi.types.DataValueDescriptor;
@@ -38,7 +38,7 @@ import org.apache.derby.iapi.services.sanity.SanityManager;
 import org.apache.derby.iapi.sql.conn.LanguageConnectionContext;
 
 /**
- * This class is used by BackingStoreHashtable when the BackingStoreHashtable 
+ * This class is used by BackingStoreFastMap when the BackingStoreFastMap 
  * must spill to disk.  It implements the methods of a hash table: put, get, 
  * remove, elements, however it is not implemented as a hash table. In order to
  * minimize the amount of unique code it is implemented using a Btree and a 
@@ -50,7 +50,7 @@ import org.apache.derby.iapi.sql.conn.LanguageConnectionContext;
  * @version 1.0
  */
 
-public class DiskHashtable 
+public class DiskFastMap 
 {
     private final long                    rowConglomerateId;
     private       ConglomerateController  rowConglomerate;
@@ -67,7 +67,7 @@ public class DiskHashtable
     private final boolean                 keepAfterCommit;
 
     /**
-     * Creates a new <code>DiskHashtable</code> instance.
+     * Creates a new <code>DiskFastMap</code> instance.
      *
      * @param tc
      * @param template              An array of DataValueDescriptors that 
@@ -78,7 +78,7 @@ public class DiskHashtable
      * @param keepAfterCommit       If true then the hash table is kept after 
      *                              a commit
      */
-    public DiskHashtable( 
+    public DiskFastMap( 
     TransactionController   tc,
     DataValueDescriptor[]   template,
     int[]                   collation_ids,
@@ -241,7 +241,7 @@ public class DiskHashtable
      * @return null if there is no corresponding row,
      *         the row (DataValueDescriptor[]) if there is exactly one row 
      *         with the key, or
-     *         a Vector of all the rows with the key if there is more than one.
+     *         a FastTable of all the rows with the key if there is more than one.
      *
      * @exception StandardException
      */
@@ -289,28 +289,28 @@ public class DiskHashtable
                     if( rowCount == 1)
                     {
                         // if there is only one matching row just return row. 
-                        retValue = BackingStoreHashtable.shallowCloneRow( row);
+                        retValue = BackingStoreFastMap.shallowCloneRow( row);
                     }
                     else 
                     {
-                        // if there is more than one row, return a vector of
+                        // if there is more than one row, return a FastTable of
                         // the rows.
                         //
-                        Vector v;
+                        FastTable v;
                         if( rowCount == 2)
                         {
                             // convert the "single" row retrieved from the
-                            // first trip in the loop, to a vector with the
+                            // first trip in the loop, to a FastTable with the
                             // first two rows.
-                            v = new Vector( 2);
+                            v = new FastTable();
                             v.add( retValue);
                             retValue = v;
                         }
                         else
                         {
-                            v = (Vector) retValue;
+                            v = (FastTable) retValue;
                         }
-                        v.add( BackingStoreHashtable.shallowCloneRow( row));
+                        v.add( BackingStoreFastMap.shallowCloneRow( row));
                     }
                     if( remove)
                     {
@@ -455,7 +455,7 @@ public class DiskHashtable
 
                 scan.fetch(row);
 
-                Object retValue =  BackingStoreHashtable.shallowCloneRow( row);
+                Object retValue =  BackingStoreFastMap.shallowCloneRow( row);
                 hasMore = scan.next();
 
                 if( ! hasMore)

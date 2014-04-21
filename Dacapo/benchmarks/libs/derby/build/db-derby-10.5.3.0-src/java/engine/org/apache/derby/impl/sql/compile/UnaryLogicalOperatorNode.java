@@ -31,7 +31,7 @@ import org.apache.derby.iapi.types.DataTypeDescriptor;
 
 import org.apache.derby.iapi.services.sanity.SanityManager;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 public abstract class UnaryLogicalOperatorNode extends UnaryOperatorNode
 {
@@ -59,7 +59,7 @@ public abstract class UnaryLogicalOperatorNode extends UnaryOperatorNode
 	 *
 	 * @param fromList			The query's FROM list
 	 * @param subqueryList		The subquery list being built as we find SubqueryNodes
-	 * @param aggregateVector	The aggregate vector being built as we find AggregateNodes
+	 * @param aggregateFastTable	The aggregate FastTable being built as we find AggregateNodes
 	 *
 	 * @return	The new top of the expression tree.
 	 *
@@ -68,11 +68,11 @@ public abstract class UnaryLogicalOperatorNode extends UnaryOperatorNode
 
 	public ValueNode bindExpression(
 		FromList fromList, SubqueryList subqueryList,
-		Vector	aggregateVector)
+		FastTable	aggregateFastTable)
 			throws StandardException
 	{
 		bindOperand(fromList, subqueryList,
-							 aggregateVector);
+							 aggregateFastTable);
 
 		/*
 		** Logical operators work only on booleans.  If the operand 

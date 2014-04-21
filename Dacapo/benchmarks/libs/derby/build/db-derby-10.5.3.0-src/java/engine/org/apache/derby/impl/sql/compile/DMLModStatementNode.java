@@ -23,9 +23,9 @@ package	org.apache.derby.impl.sql.compile;
 
 import java.lang.reflect.Modifier;
 import java.util.Enumeration;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import java.util.HashSet;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 import org.apache.derby.catalog.DefaultInfo;
 import org.apache.derby.catalog.UUID;
@@ -103,7 +103,7 @@ abstract class DMLModStatementNode extends DMLStatementNode
 	protected long[] fkIndexConglomNumbers; //conglomerate number of the backing index
 	protected  boolean isDependentTable;
 	protected int[][] fkColArrays; 
-	protected Hashtable graphHashTable; 
+	protected FastMap graphFastMap; 
                           // Hash Table which maitains the querytreenode graph 
 	protected TableName synonymTableName;
 	
@@ -808,7 +808,7 @@ abstract class DMLModStatementNode extends DMLStatementNode
 		expression = expression.bindExpression(
 										fakeFromList,
 										(SubqueryList) null,
-										(Vector) null);
+										(FastTable) null);
 	}
 
 	/**
@@ -937,7 +937,7 @@ abstract class DMLModStatementNode extends DMLStatementNode
     )
 		throws StandardException
 	{
-		Vector								fkVector = new Vector(10);
+		FastTable								fkFastTable = new FastTable(10);
 		int 								type;
 		UUID[] 								uuids = null;
 		long[] 								conglomNumbers = null;
@@ -948,11 +948,11 @@ abstract class DMLModStatementNode extends DMLStatementNode
 		ConstraintDescriptorList			activeList = dd.getActiveConstraintDescriptors(cdl);
 		int[]								rowMap = getRowMap(readColsBitSet, td);
 		int[]                               raRules = null;
-		Vector                              refTableNames = new Vector(1);
-		Vector                              refIndexConglomNum = new Vector(1);
-		Vector                              refActions = new Vector(1);
-		Vector                              refColDescriptors = new Vector(1);
-		Vector                              fkColMap = new Vector(1);
+		FastTable                              refTableNames = new FastTable(1);
+		FastTable                              refIndexConglomNum = new FastTable(1);
+		FastTable                              refActions = new FastTable(1);
+		FastTable                              refColDescriptors = new FastTable(1);
+		FastTable                              fkColMap = new FastTable(1);
 		int activeSize = activeList.size();
 		for (int index = 0; index < activeSize; index++)
 		{
@@ -1048,7 +1048,7 @@ abstract class DMLModStatementNode extends DMLStatementNode
 			ConglomerateDescriptor pkIndexConglom = pktd.getConglomerateDescriptor(pkuuid);
 
 			TableDescriptor refTd = cd.getTableDescriptor();
-			fkVector.addElement(new FKInfo(
+			fkFastTable.addElement(new FKInfo(
 									fkNames,							// foreign key names
 									refTd.getName(),				// table being modified
 									statementType,						// INSERT|UPDATE|DELETE
@@ -1066,19 +1066,19 @@ abstract class DMLModStatementNode extends DMLStatementNode
 		}
 		
 		/*
-		** Now convert the vector into an array.
+		** Now convert the FastTable into an array.
 		*/
-		int size = fkVector.size();
+		int size = fkFastTable.size();
 		if (size > 0)
 		{
 			fkInfo = new FKInfo[size];
 			for (int i = 0; i < size; i++)
 			{
-				fkInfo[i] = (FKInfo)fkVector.elementAt(i);
+				fkInfo[i] = (FKInfo)fkFastTable.elementAt(i);
 			}
 		}
 
-		//convert the ref action info vectors to  to arrays
+		//convert the ref action info FastTables to  to arrays
 		size = refActions.size();
 		if (size > 0)
 		{
@@ -1761,11 +1761,11 @@ abstract class DMLModStatementNode extends DMLStatementNode
 	)
 					throws StandardException
 	{
-		Vector		conglomVector = new Vector();
+		FastTable		conglomFastTable = new FastTable();
 
-		DMLModStatementNode.getXAffectedIndexes(td, updatedColumns, colBitSet, conglomVector );
+		DMLModStatementNode.getXAffectedIndexes(td, updatedColumns, colBitSet, conglomFastTable );
 
-		markAffectedIndexes( conglomVector );
+		markAffectedIndexes( conglomFastTable );
 	}
 	/**
 	  *	Marks which indexes are affected by an UPDATE of the
@@ -1780,7 +1780,7 @@ abstract class DMLModStatementNode extends DMLStatementNode
 	  *
 	  *	@param	updatedColumns	a list of updated columns
 	  *	@param	colBitSet		OUT: evolving bitmap of affected columns
-	  *	@param	conglomVector	OUT: vector of affected indices
+	  *	@param	conglomFastTable	OUT: FastTable of affected indices
 	  *
 	  * @exception StandardException		Thrown on error
 	  */
@@ -1789,7 +1789,7 @@ abstract class DMLModStatementNode extends DMLStatementNode
 		TableDescriptor		baseTable,
 		ResultColumnList	updatedColumns,
 		FormatableBitSet				colBitSet,
-		Vector				conglomVector
+		FastTable				conglomFastTable
 	)
 		throws StandardException
 	{
@@ -1816,7 +1816,7 @@ abstract class DMLModStatementNode extends DMLStatementNode
 					cd.getIndexDescriptor().baseColumnPositions())))
 			{ continue; }
 
-			if ( conglomVector != null )
+			if ( conglomFastTable != null )
 			{
 				int i;
 				for (i = 0; i < distinctCount; i++)
@@ -1827,7 +1827,7 @@ abstract class DMLModStatementNode extends DMLStatementNode
 				if (i == distinctCount)		// first appearence
 				{
 					distinctConglomNums[distinctCount++] = cd.getConglomerateNumber();
-					conglomVector.addElement( cd );
+					conglomFastTable.addElement( cd );
 				}
 			}
 
@@ -1847,7 +1847,7 @@ abstract class DMLModStatementNode extends DMLStatementNode
 
 	protected	void	markAffectedIndexes
 	(
-		Vector	affectedConglomerates
+		FastTable	affectedConglomerates
     )
 		throws StandardException
 	{

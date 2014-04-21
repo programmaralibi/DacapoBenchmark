@@ -21,7 +21,7 @@
 
 package org.apache.derby.iapi.services.locks;
 
-import java.util.Hashtable;
+import javolution.util.FastMap;
 
 /**
 	Any object that needs to be locked must implement Lockable.
@@ -70,7 +70,7 @@ import java.util.Hashtable;
 	In either case the equals() method must accept a reference to an object of
 	a different type.
 	<BR>
-	As per standard hashtable rules the value returned by hashCode() must be in sync
+	As per standard FastMap rules the value returned by hashCode() must be in sync
 	with the equals() method.
 
 	<BR>
@@ -129,7 +129,7 @@ public interface Lockable {
 		for TABLE_AND_ROWLOCK and if this is not a table or row lock, then
 		don't paritipate. 
 		@param attributes if this decides to participate, put all relavent
-		attributes into the Hashtable.  The complete list of interesting
+		attributes into the FastMap.  The complete list of interesting
 		attributes is listed in VirtualLockTable.
 		The following attributes must be present for all participating
 		lockables:
@@ -147,5 +147,5 @@ public interface Lockable {
 
 		@see VirtualLockTable
 	 */
-	public boolean lockAttributes(int flag, Hashtable attributes);
+	public boolean lockAttributes(int flag, FastMap attributes);
 }

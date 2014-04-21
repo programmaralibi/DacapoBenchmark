@@ -518,7 +518,7 @@ public class NetStatementRequest extends NetPackageRequest implements StatementR
 
         int[][] protocolTypesAndLengths = allocateLidAndLengthsArray(parameterMetaData);
 
-        java.util.Hashtable protocolTypeToOverrideLidMapping = null;
+        javolution.util.FastMap protocolTypeToOverrideLidMapping = null;
         javolution.util.FastTable mddOverrideArray = null;
         protocolTypeToOverrideLidMapping =
                 computeProtocolTypesAndLengths(inputRow, parameterMetaData, protocolTypesAndLengths,
@@ -554,7 +554,7 @@ public class NetStatementRequest extends NetPackageRequest implements StatementR
     private void buildFDODSC(int numColumns,
                              int[][] protocolTypesAndLengths,
                              boolean overrideExists,
-                             java.util.Hashtable overrideMap,
+                             javolution.util.FastMap overrideMap,
                              javolution.util.FastTable overrideArray) throws SqlException {
         markLengthBytes(CodePoint.FDODSC);
         buildSQLDTA(numColumns, protocolTypesAndLengths, overrideExists, overrideMap, overrideArray);
@@ -567,7 +567,7 @@ public class NetStatementRequest extends NetPackageRequest implements StatementR
     protected void buildSQLDTA(int numColumns,
                                int[][] lidAndLengthOverrides,
                                boolean overrideExists,
-                               java.util.Hashtable overrideMap,
+                               javolution.util.FastMap overrideMap,
                                javolution.util.FastTable overrideArray) throws SqlException {
         // mdd overrides need to be built first if any before the descriptors are built.
         if (overrideExists) {
@@ -588,7 +588,7 @@ public class NetStatementRequest extends NetPackageRequest implements StatementR
     protected void buildSQLDTAGRP(int numVars,
                                   int[][] lidAndLengthOverrides,
                                   boolean mddRequired,
-                                  java.util.Hashtable overrideMap) throws SqlException {
+                                  javolution.util.FastMap overrideMap) throws SqlException {
         int n = 0;
         int offset = 0;
 
@@ -1101,10 +1101,10 @@ public class NetStatementRequest extends NetPackageRequest implements StatementR
     // Comment: I don't think that it is possible to send decimal values without looking at the data for 
     // precision and scale (Kathey Marsden 10/11)
     // backburner: after refactoring this, later on, think about replacing case statements with table lookups
-    private java.util.Hashtable computeProtocolTypesAndLengths(Object[] inputRow,
+    private javolution.util.FastMap computeProtocolTypesAndLengths(Object[] inputRow,
                                                                ColumnMetaData parameterMetaData,
                                                                int[][] lidAndLengths,
-                                                               java.util.Hashtable overrideMap) throws SqlException {
+                                                               javolution.util.FastMap overrideMap) throws SqlException {
         try
         {
             int numVars = parameterMetaData.columns_;

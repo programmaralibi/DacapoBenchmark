@@ -39,7 +39,7 @@ import java.io.InputStream;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.io.StreamCorruptedException;
-import java.util.Vector;
+import javolution.util.FastTable;
 import java.io.OutputStream;
 import java.io.InputStream;
 import org.apache.derby.iapi.services.io.LimitObjectInput;

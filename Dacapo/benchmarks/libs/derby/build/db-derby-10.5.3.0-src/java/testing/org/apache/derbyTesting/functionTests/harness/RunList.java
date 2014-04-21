@@ -41,7 +41,7 @@ import java.lang.ClassNotFoundException;
 import java.lang.reflect.Method;
 import java.util.Enumeration;
 import java.util.Properties;
-import java.util.Vector;
+import javolution.util.FastTable;
 import java.util.StringTokenizer;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -140,15 +140,15 @@ public class RunList
 
     /**
     * RunList
-    * suitesToRun: a Vector of suites from RunSuite
+    * suitesToRun: a FastTable of suites from RunSuite
     * outDir: The output directory for the suite(s)
     * pwOut: The output for writing suite and test results
     * suiteProperties: From RunSuite for the top suite
-    * (individual suites in the vector may have their own
+    * (individual suites in the FastTable may have their own
     * properties which must also be located and applied)
     */
 
-    public RunList(Vector suitesToRun, 
+    public RunList(FastTable suitesToRun, 
         File runDir, File outDir, PrintWriter pwOut,
         Properties suiteProperties, 
         Properties specialProperties, 
@@ -170,7 +170,7 @@ public class RunList
         runSuites(suitesToRun);
     }
 
-    private static void runSuites(Vector suitesToRun)
+    private static void runSuites(FastTable suitesToRun)
         throws ClassNotFoundException,
         FileNotFoundException, IOException, Exception
     {
@@ -350,7 +350,7 @@ public class RunList
         // Build command string for RunTest()
         StringBuffer sb = new StringBuffer();
 	    jvm = jvm.getJvm(jvmName);
-	    Vector jvmProps = new Vector();
+	    FastTable jvmProps = new FastTable();
 	    if ((javaCmd.length()>0) )
 	    {
 	        jvm.setJavaCmd(javaCmd);
@@ -490,7 +490,7 @@ public class RunList
             jvm.setClasspath(classpath);
 
         jvm.setD(jvmProps);
-        Vector v = jvm.getCommandLine();
+        FastTable v = jvm.getCommandLine();
         v.addElement("org.apache.derbyTesting.functionTests.harness.RunTest");
 
         String str = "";
@@ -508,7 +508,7 @@ public class RunList
 		        skipTo = null;
 	        if (stopAfter != null && lastTest != null && lastTest.equals(stopAfter)) break;
             // Create the command for RunTest
-            // Create a string array from the vector
+            // Create a string array from the FastTable
             String testCmd[] = new String[v.size() + 1];
             StringBuffer verboseSb = new StringBuffer();
             int i = 0;

@@ -1073,7 +1073,7 @@ public class Request {
                                   int count,
                                   int offset,
                                   boolean mddRequired,
-                                  java.util.Hashtable map) {
+                                  javolution.util.FastMap map) {
         if (!mddRequired) {
             writeLidAndLengths(lidAndLengthOverrides, count, offset);
         }

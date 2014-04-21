@@ -139,11 +139,11 @@ import org.apache.derby.iapi.util.IdUtil;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import javolution.util.FastMap;
 import java.util.HashSet;
 import java.util.Properties;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 import java.util.List;
 import java.util.Iterator;
@@ -361,8 +361,8 @@ public final class	DataDictionaryImpl
 	CacheManager	OIDTdCache;
 	CacheManager	nameTdCache;
 	private CacheManager	spsNameCache;
-	private Hashtable		spsIdHash;
-	// private Hashtable       spsTextHash;
+	private FastMap		spsIdHash;
+	// private FastMap       spsTextHash;
 	int				tdCacheSize;
 	int				stmtCacheSize;	
 
@@ -628,8 +628,8 @@ public final class	DataDictionaryImpl
 					"SPSNameDescriptorCache",
 					stmtCacheSize,
 					stmtCacheSize);
-			spsIdHash = new Hashtable(stmtCacheSize);
-			// spsTextHash = new Hashtable(stmtCacheSize);
+			spsIdHash = new FastMap();
+			// spsTextHash = new FastMap(stmtCacheSize);
 		}
 
 
@@ -2988,9 +2988,9 @@ public final class	DataDictionaryImpl
 			throws StandardException {
 
 		FastMap hm = new FastMap();
-
 		TabInfoImpl ti = getNonCoreTI(SYSROLES_CATALOG_NUM);
 		SYSROLESRowFactory rf = (SYSROLESRowFactory) ti.getCatalogRowFactory();
+
 
 		DataValueDescriptor isDefOrderable = new SQLVarchar("N");
 		ScanQualifier[][] scanQualifier = exFactory.getScanQualifier(1);
@@ -3741,7 +3741,7 @@ public final class	DataDictionaryImpl
 	}
 
 	/**
-		Add an entry to the hashtables for lookup from the cache.
+		Add an entry to the FastMaps for lookup from the cache.
 	 */
 	void spsCacheEntryAdded(SPSDescriptor spsd)
 	{
@@ -3929,7 +3929,7 @@ public final class	DataDictionaryImpl
 		*/
 		if (spsd != null)
 		{
-			Vector v = new Vector();
+			FastTable v = new FastTable();
 			spsd.setParams(getSPSParams(spsd, v));
 			Object[] defaults = new Object[v.size()];
 			v.copyInto(defaults);
@@ -4035,13 +4035,13 @@ public final class	DataDictionaryImpl
 	 * into parameter descriptors.  
 	 *
 	 * @param spsd	sps descriptor
-	 * @param defaults	vector for storing column defaults
+	 * @param defaults	FastTable for storing column defaults
 	 *
 	 * @return array of data type descriptors
 	 *
 	 * @exception StandardException		Thrown on error
 	 */
-	public DataTypeDescriptor[] getSPSParams(SPSDescriptor spsd, Vector defaults)
+	public DataTypeDescriptor[] getSPSParams(SPSDescriptor spsd, FastTable defaults)
 		throws StandardException
 	{
 		ColumnDescriptorList cdl = new ColumnDescriptorList();
@@ -5925,15 +5925,15 @@ public final class	DataDictionaryImpl
 	 *
 	 * @param tc		TransactionController for the transaction
 	 *
-	 * @return	A Hashtable with all of the ConglomerateDescriptors
+	 * @return	A FastMap with all of the ConglomerateDescriptors
 	 *		in the database hashed by conglomerate number.
 	 *
 	 * @exception StandardException		Thrown on failure
 	 */
-	public Hashtable hashAllConglomerateDescriptorsByNumber(TransactionController tc)
+	public FastMap hashAllConglomerateDescriptorsByNumber(TransactionController tc)
 		throws StandardException
 	{
-		Hashtable ht = new Hashtable();
+		FastMap ht = new FastMap();
 		ConglomerateDescriptor	  cd = null;
 		ScanController			  scanController;
 		ExecRow 				  outRow;
@@ -5982,16 +5982,16 @@ public final class	DataDictionaryImpl
 	 *
 	 * @param tc		TransactionController for the transaction
 	 *
-	 * @return	A Hashtable with all of the Table descriptors in the database
+	 * @return	A FastMap with all of the Table descriptors in the database
 	 *			hashed by TableId
 	 *
 	 *
 	 * @exception StandardException		Thrown on failure
 	 */
-	public Hashtable hashAllTableDescriptorsByTableId(TransactionController tc)
+	public FastMap hashAllTableDescriptorsByTableId(TransactionController tc)
 		throws StandardException
 	{
-		Hashtable ht = new Hashtable();
+		FastMap ht = new FastMap();
 		ScanController			  scanController;
 		ExecRow 				  outRow;
 		TabInfoImpl					ti = coreInfo[SYSTABLES_CORE_NUM];

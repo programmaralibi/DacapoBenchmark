@@ -29,7 +29,7 @@ import org.apache.derby.iapi.error.StandardException;
 import org.apache.derby.iapi.services.daemon.*;
 
 import java.util.Random;
-import java.util.Vector;
+import javolution.util.FastTable;
 /**
 	This test exercices the DaemonFactory and DaemonService implementation
 */
@@ -41,12 +41,12 @@ public class T_DaemonService extends T_MultiThreadedIterations
 	/*
 	 * fields for testing serviceable, one per test object
 	 */
-	private Vector serviceRecord; // a vectory of T_Serviceable
+	private FastTable serviceRecord; // a FastTabley of T_Serviceable
 
 	public T_DaemonService()
 	{
 		super();
-		serviceRecord = new Vector(9, 1);
+		serviceRecord = new FastTable(9, 1);
 		random = new Random();
 	}
 

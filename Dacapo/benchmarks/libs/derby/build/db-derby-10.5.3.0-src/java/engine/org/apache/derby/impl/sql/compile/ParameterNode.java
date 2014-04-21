@@ -23,7 +23,7 @@ package	org.apache.derby.impl.sql.compile;
 
 import java.sql.Types;
 import java.util.Enumeration;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 import org.apache.derby.iapi.error.StandardException;
 import org.apache.derby.iapi.reference.ClassName;
@@ -209,7 +209,7 @@ public class ParameterNode extends ValueNode
 	 * @param fromList		The FROM list for the query this
 	 *				expression is in, for binding columns.
 	 * @param subqueryList		The subquery list being built as we find SubqueryNodes
-	 * @param aggregateVector	The aggregate vector being built as we find AggregateNodes
+	 * @param aggregateFastTable	The aggregate FastTable being built as we find AggregateNodes
 	 *
 	 * @return	The new top of the expression tree.
 	 *
@@ -218,7 +218,7 @@ public class ParameterNode extends ValueNode
 
 	public ValueNode bindExpression(
 			FromList fromList, SubqueryList subqueryList,
-			Vector	aggregateVector) 
+			FastTable	aggregateFastTable) 
 				throws StandardException
 	{
 		checkReliability( "?", CompilerContext.UNNAMED_PARAMETER_ILLEGAL );
@@ -410,7 +410,7 @@ public class ParameterNode extends ValueNode
 	 */
 	static public	void generateParameterValueSet(ExpressionClassBuilder	acb,
 								   int		numberOfParameters,
-								   Vector	parameterList)
+								   FastTable	parameterList)
 		throws StandardException
 	{
 		if (numberOfParameters > 0)

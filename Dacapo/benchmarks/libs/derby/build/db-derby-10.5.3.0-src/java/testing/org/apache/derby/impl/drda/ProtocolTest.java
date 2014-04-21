@@ -42,7 +42,7 @@ import java.security.PrivilegedActionException;
 
 import javolution.util.FastTable;
 import java.util.Arrays;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import java.util.Iterator;
 import java.util.Locale;
 
@@ -76,8 +76,8 @@ public class ProtocolTest
     private static final CodePointNameTable codePointNameTable =
             new CodePointNameTable();
     /** Mapping from code point value to code point name. */
-    private static final Hashtable<String,Integer> codePointValueTable =
-        new Hashtable<String,Integer>();
+    private static final FastMap<String,Integer> codePointValueTable =
+        new FastMap<String,Integer>();
     private static final CcsidManager ccsidManager = new EbcdicCcsidManager();
 
     // Constants used to encode / represent multiple values for a command.

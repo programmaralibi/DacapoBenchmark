@@ -21,7 +21,7 @@
 
 package org.apache.derby.impl.tools.ij;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 import java.util.Enumeration;
 import java.util.Properties;
 import java.io.FileNotFoundException;
@@ -32,16 +32,16 @@ import java.lang.Math;
  */
 public class mtTestSuite
 {
-	private Vector cases;
-	private Vector last;
-	private Vector init;
+	private FastTable cases;
+	private FastTable last;
+	private FastTable init;
 	private mtTime time;
 	private int numThreads;
 	private String rootDir = null;
 
 
 	mtTestSuite(int numThreads, mtTime time, 
-			Vector initCases, Vector testCases, Vector finalCases)
+			FastTable initCases, FastTable testCases, FastTable finalCases)
 	{
 		this.numThreads = numThreads;
 		this.time = time;
@@ -68,7 +68,7 @@ public class mtTestSuite
 	** @return boolean indicates if there was a problem loading
 	** 	the file
 	*/
-	private boolean loadCases(Vector cases)
+	private boolean loadCases(FastTable cases)
 	{
 		if (cases == null)
 			return false;
@@ -108,17 +108,17 @@ public class mtTestSuite
 		return numThreads;
 	}
 
-	public Vector getCases()
+	public FastTable getCases()
 	{
 		return cases;
 	}
 
-	public Vector getInitCases()
+	public FastTable getInitCases()
 	{
 		return init;
 	}
 
-	public Vector getFinalCases()
+	public FastTable getFinalCases()
 	{
 		return last;
 	}

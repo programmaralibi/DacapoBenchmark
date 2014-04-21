@@ -22,7 +22,7 @@
 package org.apache.derby.impl.store.access.sort;
 
 import java.util.Enumeration;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 import org.apache.derby.iapi.services.sanity.SanityManager;
 import org.apache.derby.iapi.error.StandardException;
@@ -51,7 +51,7 @@ public class MergeScan extends SortScan
 	/**
 	The merge runs.
 	**/
-	protected Vector mergeRuns;
+	protected FastTable mergeRuns;
 
 	/**
 	Array of scan controllers for the merge runs.
@@ -70,7 +70,7 @@ public class MergeScan extends SortScan
     MergeSort           sort, 
     TransactionManager  tran,
     SortBuffer          sortBuffer, 
-    Vector              mergeRuns,
+    FastTable              mergeRuns,
 	SortObserver		sortObserver,
     boolean             hold)
 	{

@@ -45,7 +45,7 @@ import org.apache.derby.iapi.types.DataValueDescriptor;
 import org.apache.derby.iapi.util.JBitSet;
 
 import javolution.util.FastTable;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 
 /**
  * A Predicate represents a top level predicate.
@@ -69,10 +69,10 @@ public final class Predicate extends QueryTreeNode implements OptimizablePredica
 	protected boolean stopKey;
 	protected boolean isQualifier;
 
-	/* Hashtable used for tracking the search clause types that have been
+	/* FastMap used for tracking the search clause types that have been
 	 * pushed through this predicate (if an equijoin) via transitive closure.
 	 */
-	private Hashtable searchClauseHT;
+	private FastMap searchClauseHT;
 
 	// Whether or not this predicate has been scoped; see the
 	// getPredScopedForResultSet() method of this class for more.
@@ -583,7 +583,7 @@ public final class Predicate extends QueryTreeNode implements OptimizablePredica
 	{
 		if (searchClauseHT == null)
 		{
-			searchClauseHT = new Hashtable();
+			searchClauseHT = new FastMap();
 		}
 		/* I have to remember that this ro has been added to this predicate as a
 		 * transitive search clause.
@@ -855,7 +855,7 @@ public final class Predicate extends QueryTreeNode implements OptimizablePredica
 	 * Get the search clause Hash Table.
 	 */
 
-	public Hashtable getSearchClauseHT() {
+	public FastMap getSearchClauseHT() {
 		return searchClauseHT;
 	}
 

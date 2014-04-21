@@ -33,31 +33,7 @@ import java.util.*;
 public class Globals {
 
   // The mappings from old id's to new id's.
-  static FastMap mappings = new FastMap();
-
-  // A table of targets of all known mappings.
-  static FastMap mapTargets = new FastMap();
-
-  // These id's may not be changed.
-  static FastMap noChangeIds = new FastMap();
-
-  // These id's should be used for mappings.
-  static FastMap useIds = new FastMap();
-
-  // The location of the input and output directories.
-  static File inpDir, outDir;
-
-  // Set to true by Java parser if class has a main program.
-  static boolean mainExists;
-
-  // Returns the map of old to obfuscated id.  If map does not
-  // exist, it is created.
-  static String map(String str) {
-    Object obj = mappings.get(str);
-    if (obj != null) {
-      return (String)obj;
-    }
-    if (useIds.isEmpty()) {
+  static FastMap mappings = new FastMap() {
       String newId = "O0" + counter++;
       mappings.put(str, newId);
       return newId;

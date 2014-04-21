@@ -27,7 +27,7 @@ import org.apache.derby.iapi.reference.Property;
 import org.apache.derby.iapi.error.StandardException;
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.Vector;
+import javolution.util.FastTable;
 import java.util.HashSet;
 import java.util.Properties;
 import org.apache.derby.iapi.reference.Limits;
@@ -125,7 +125,7 @@ public abstract class IdUtil
 	private static String[] parseMultiPartSQLIdentifier(StringReader r)
 		 throws StandardException
 	{
-		Vector v = new Vector();
+		FastTable v = new FastTable();
 		while (true)
 		{
 			String thisId = parseId(r,true);
@@ -411,7 +411,7 @@ public abstract class IdUtil
 		if (input.length() == 0)
 			return new String[0][];
 
-		Vector v = new Vector();
+		FastTable v = new FastTable();
 		java.io.StringReader r = new java.io.StringReader(input);
 		//
 		while (true)
@@ -486,7 +486,7 @@ public abstract class IdUtil
 	private static String[] parseIdList(StringReader r, boolean normalize)
 		 throws StandardException
 	{
-		Vector v = new Vector();
+		FastTable v = new FastTable();
 		while (true)
 		{
 			int delim;
@@ -531,9 +531,9 @@ public abstract class IdUtil
 		if (l1 == null || l2 == null) return null;
 		HashSet h = new HashSet();
 		for(int ix=0;ix<l2.length;ix++) h.add(l2[ix]); 
-		Vector v = new Vector();
+		FastTable v = new FastTable();
 		for(int ix=0;ix<l1.length;ix++) if (h.contains(l1[ix])) v.addElement(l1[ix]);
-		return vectorToIdList(v,true); 
+		return FastTableToIdList(v,true); 
 	}
 
 	/**
@@ -543,7 +543,7 @@ public abstract class IdUtil
 	  @param normal True means the ids in v are in normal form
 	         and false means they are in external form.
 	  */
-	private static String vectorToIdList(Vector v,boolean normal)
+	private static String FastTableToIdList(FastTable v,boolean normal)
 	{
 		if (v.size() == 0) return null;
 		String[] a = new String[v.size()];
@@ -597,7 +597,7 @@ public abstract class IdUtil
 	{
 		if (l == null) return null;
 		HashSet h = new HashSet();
-		Vector v = new Vector();
+		FastTable v = new FastTable();
 		for(int ix=0;ix<l.length;ix++)
 		{
 			if (!h.contains(l[ix]))
@@ -605,7 +605,7 @@ public abstract class IdUtil
 			else
 				v.addElement(l[ix]);
 		}
-		return vectorToIdList(v,true);
+		return FastTableToIdList(v,true);
 	}
 	
 	/**
@@ -620,7 +620,7 @@ public abstract class IdUtil
 		StringReader r = new StringReader(l);
 		String[] external_a = parseIdList(r,false);
 		HashSet h = new HashSet();
-		Vector v = new Vector();
+		FastTable v = new FastTable();
 		for(int ix=0;ix<normal_a.length;ix++)
 		{
 			if (!h.contains(normal_a[ix]))
@@ -629,7 +629,7 @@ public abstract class IdUtil
 				v.addElement(external_a[ix]);
 			}
 		}
-		return vectorToIdList(v,false);
+		return FastTableToIdList(v,false);
 	}
 
 	/**
@@ -698,7 +698,7 @@ public abstract class IdUtil
 		 throws StandardException
 	{
 		if (list==null) return null;
-		Vector v = new Vector();
+		FastTable v = new FastTable();
 		StringReader r = new StringReader(list);
 		String[] enteredList_a = parseIdList(r,false);
         
@@ -713,7 +713,7 @@ public abstract class IdUtil
 		if (v.size() == 0)
 			return null;
 		else
-			return vectorToIdList(v,false);
+			return FastTableToIdList(v,false);
 	}
 
 

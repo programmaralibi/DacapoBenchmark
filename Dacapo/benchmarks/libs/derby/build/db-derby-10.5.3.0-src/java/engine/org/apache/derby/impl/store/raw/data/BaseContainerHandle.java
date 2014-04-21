@@ -44,7 +44,7 @@ import org.apache.derby.iapi.store.raw.log.LogInstant;
 import org.apache.derby.iapi.util.ByteArray;
 import org.apache.derby.catalog.UUID;
 
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Properties;

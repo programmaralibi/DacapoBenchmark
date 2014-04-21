@@ -48,7 +48,7 @@ import java.lang.Thread;
 import java.lang.reflect.Method;
 import java.util.Enumeration;
 import java.util.Locale;
-import java.util.Vector;
+import javolution.util.FastTable;
 import java.sql.Timestamp;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -2252,7 +2252,7 @@ clp.list(System.out);
     }
 
 	public static void
-	addStandardTestJvmProps(Vector testJvmProps,String derbySystemHome,
+	addStandardTestJvmProps(FastTable testJvmProps,String derbySystemHome,
 							String userDirName, jvm jvm)
 	{
 		if (derbySystemHome==null || derbySystemHome.length() == 0)
@@ -2283,7 +2283,7 @@ clp.list(System.out);
         if ( (classpath != null) && (classpath.length()>0) )
             jvm.setClasspath(classpath);
 
-		Vector jvmProps = new Vector();
+		FastTable jvmProps = new FastTable();
 		if ( testType.equals("java"))
 		    addStandardTestJvmProps(jvmProps,systemHome,
 			    outDir.getCanonicalPath(),null);		    
@@ -2372,7 +2372,7 @@ clp.list(System.out);
         else
         	System.out.println("-- SecurityManager not installed --");
             
-        Vector v = jvm.getCommandLine();
+        FastTable v = jvm.getCommandLine();
         if ( ij.startsWith("ij") )
         {
             // As of cn1411-20030930 IBM jvm the system takes the default
@@ -2441,7 +2441,7 @@ clp.list(System.out);
             v.addElement(propString);
         }
 
-        // Now convert the vector into a string array
+        // Now convert the FastTable into a string array
         String[] sCmd = new String[v.size()];
         for (int i = 0; i < v.size(); i++)
         {
@@ -2967,7 +2967,7 @@ clp.list(System.out);
     	{
         	// Get the set of -D options that would be needed
         	// for a spawned VM and convert them to system properties.
-    	    Vector propList = jvm.getSecurityProps(null);
+    	    FastTable propList = jvm.getSecurityProps(null);
     	    for (Enumeration e = propList.elements(); e.hasMoreElements();)
     	    {
     	    	String dashDOpt = (String) e.nextElement();

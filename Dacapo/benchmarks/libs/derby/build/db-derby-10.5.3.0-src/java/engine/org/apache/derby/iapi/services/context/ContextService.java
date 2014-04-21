@@ -28,7 +28,7 @@ import org.apache.derby.iapi.services.stream.HeaderPrintWriter;
 
 import java.security.AccessController;
 import java.security.PrivilegedAction;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import java.util.Enumeration;
 
 import java.util.HashSet;
@@ -37,7 +37,7 @@ import java.util.Iterator;
 /**
 	A set of static methods to supply easier access to contexts.
 */
-public final class ContextService //OLD extends Hashtable
+public final class ContextService //OLD extends FastMap
 {
 
 	private static ContextService factory;

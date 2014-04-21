@@ -21,11 +21,10 @@
 
 package org.apache.derby.iapi.services.classfile;
 
-import java.util.Vector;
-
 import java.io.IOException;
+import java.util.ArrayList;
 
-class Attributes extends Vector {
+class Attributes extends ArrayList {
 	private int classFileSize;
 
 	Attributes(int count) {
@@ -35,7 +34,7 @@ class Attributes extends Vector {
 	void put(ClassFormatOutput out) throws IOException {
 		int size = size();
 		for (int i = 0; i < size; i++) {
-			((AttributeEntry) elementAt(i)).put(out);
+			((AttributeEntry) get(i)).put(out);
 		}
 	}
 
@@ -47,7 +46,7 @@ class Attributes extends Vector {
 	*/
 
 	void addEntry(AttributeEntry item) {
-		addElement(item);
+		add(item);
 		classFileSize += item.classFileSize();
 	}
 }

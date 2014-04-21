@@ -54,7 +54,7 @@ import org.apache.derby.iapi.reference.ClassName;
 import java.sql.SQLException;
 import java.sql.Types;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * This node represents a unary getCurrentConnection operator
@@ -86,14 +86,14 @@ public final class GetCurrentConnectionNode extends JavaValueNode
 	 *
 	 * @param fromList			The query's FROM list
 	 * @param subqueryList		The subquery list being built as we find SubqueryNodes
-	 * @param aggregateVector	The aggregate vector being built as we find AggregateNodes
+	 * @param aggregateFastTable	The aggregate FastTable being built as we find AggregateNodes
 	 *
 	 * @exception StandardException		Thrown on error
 	 */
 
 	public JavaValueNode bindExpression(
 		FromList	fromList, SubqueryList subqueryList,
-		Vector	aggregateVector)
+		FastTable	aggregateFastTable)
 			throws StandardException
 	{
 		return this;

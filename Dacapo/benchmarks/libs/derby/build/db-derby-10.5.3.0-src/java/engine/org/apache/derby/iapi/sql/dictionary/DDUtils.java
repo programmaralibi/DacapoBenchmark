@@ -21,14 +21,14 @@
 
 package org.apache.derby.iapi.sql.dictionary;
 
-import org.apache.derby.iapi.error.StandardException;
-
-import org.apache.derby.iapi.reference.SQLState;
-import org.apache.derby.iapi.sql.StatementType;
 import java.util.Hashtable;
-import org.apache.derby.iapi.services.sanity.SanityManager;
+import java.util.Iterator;
+
+import java.util.Hashtable;
+import org.apache.derby.iapi.error.StandardException;
+import org.apache.derby.iapi.reference.SQLState;
 import org.apache.derby.iapi.services.i18n.MessageService;
-import java.util.Enumeration;
+import org.apache.derby.iapi.sql.StatementType;
 
 /**
  *	Static Data dictionary utilities.
@@ -226,15 +226,15 @@ public	class	DDUtils
 		//check whether the foreign key relation ships referential action
 		//is not violating the restrictions we have in the current system.
 		TableDescriptor refTd = otherConstraintInfo.getReferencedTableDescriptor(dd);
-		Hashtable deleteConnHashtable = new Hashtable();
+		Hashtable deleteConnFastMap = new Hashtable();
 		//find whether the foreign key is self referencing.
 		boolean isSelfReferencingFk = (refTd.getUUID().equals(td.getUUID()));
 		String refTableName = refTd.getSchemaName() + "." + refTd.getName();
 		//look for the other foreign key constraints on this table first
-		int currentSelfRefValue = getCurrentDeleteConnections(dd, td, -1, deleteConnHashtable, false, true);
+		int currentSelfRefValue = getCurrentDeleteConnections(dd, td, -1, deleteConnFastMap, false, true);
 		validateDeleteConnection(dd, td, refTd, 
 								 refAction, 
-								 deleteConnHashtable, (Hashtable) deleteConnHashtable.clone(),
+								 deleteConnFastMap, (Hashtable) deleteConnFastMap.clone(),
 								 true, myConstraintName, false , 
 								 new StringBuffer(0), refTableName,
 								 isSelfReferencingFk,
@@ -245,7 +245,7 @@ public	class	DDUtils
 		{
 			checkForAnyExistingDeleteConnectionViolations(dd, td,
 														  refAction, 
-														  deleteConnHashtable, 
+														  deleteConnFastMap, 
 														  myConstraintName);
 		}	
 	}
@@ -253,7 +253,7 @@ public	class	DDUtils
 	/*
 	** Finds the existing delete connection for the table and the referential
 	** actions that will occur  and stores the information in the hash table.
-	** HashTable (key , value) = ( table name that this table is delete
+	** FastMap (key , value) = ( table name that this table is delete
 	** connected to, referential action that will occur if there is a delete on
 	** the table this table connected to[CASACDE, SETNULL , RESTRICT ...etc).)
 	**/
@@ -263,7 +263,7 @@ public	class	DDUtils
 	 DataDictionary	dd,
 	 TableDescriptor	td,
 	 int refActionType,
-	 Hashtable dch,
+	 Hashtable deleteConnFastMap,
 	 boolean prevNotCascade,
 	 boolean findSelfRef
 	 )
@@ -304,7 +304,7 @@ public	class	DDUtils
 				   
 					String refTableName = refTd.getSchemaName() + "." + refTd.getName();
 					//check with  the existing references.
-					Integer rAction = ((Integer)dch.get(refTableName));
+					Integer rAction = ((Integer)deleteConnFastMap.get(refTableName));
 					if(rAction != null) // we already looked at this table
 					{
 						prevNotCascade = passedInPrevNotCascade;
@@ -331,13 +331,13 @@ public	class	DDUtils
 					//not specified on the current link. It is actually the 
 					//value of what happens to the table whose delete
 					// connections we are finding.
-					dch.put(refTableName, (new Integer(childRefAction)));
+					deleteConnFastMap.put(refTableName, (new Integer(childRefAction)));
 					
 					//find the next delete conectiions on this path for non
 					//self referencig delete connections.
 					if(!fkcd.isSelfReferencingFK())
 						getCurrentDeleteConnections(dd , refTd, childRefAction,
-													dch, true, false);
+													deleteConnFastMap, true, false);
 					prevNotCascade = passedInPrevNotCascade;
 				}
 		}
@@ -366,8 +366,8 @@ public	class	DDUtils
 		TableDescriptor actualTd,  // the table we are adding the foriegn key.
 		TableDescriptor	refTd,
 		int refActionType,
-		Hashtable dch,
-		Hashtable ech,  //existing delete connections
+		Hashtable deleteConnFastMap,
+		Hashtable hashtable,  //existing delete connections
 		boolean checkImmediateRefTable,
 		String myConstraintName,
 		boolean prevNotCascade,
@@ -392,7 +392,7 @@ public	class	DDUtils
 
 		if(checkImmediateRefTable)
 		{
-			rAction = ((Integer)dch.get(refTableName));
+			rAction = ((Integer)deleteConnFastMap.get(refTableName));
 			
 			// check possible invalide cases incase of self referencing foreign key
 			if(isSelfReferencingFk)
@@ -443,7 +443,7 @@ public	class	DDUtils
 				** CASCADE, otherwise we should throw error.
 				*/
 
-				if(isSelfReferencingFk && dch.contains(new Integer(StatementType.RA_CASCADE)) && 
+				if(isSelfReferencingFk && deleteConnFastMap.contains(new Integer(StatementType.RA_CASCADE)) && 
 				   refActionType!=  StatementType.RA_CASCADE)
 				{
 					throw
@@ -589,7 +589,7 @@ public	class	DDUtils
 				
 
 				String nextRefTableName =  nextRefTd.getSchemaName() + "." + nextRefTd.getName();
-				rAction = ((Integer)ech.get(nextRefTableName));
+				rAction = ((Integer)hashtable.get(nextRefTableName));
 				if(rAction != null)
 				{
 					/*
@@ -607,15 +607,15 @@ public	class	DDUtils
 
 				}else
 				{
-					rAction = ((Integer)dch.get(nextRefTableName));
+					rAction = ((Integer)deleteConnFastMap.get(nextRefTableName));
 					if(rAction == null)
 					{
 						if(multiPathCheck)
-							dch.put(nextRefTableName, (new Integer(refActionType)));
+							deleteConnFastMap.put(nextRefTableName, (new Integer(refActionType)));
 						if(!isSelfRefLink)
 						{
 							validateDeleteConnection(dd, actualTd,  nextRefTd,
-												 refActionType, dch, ech, false,
+												 refActionType, deleteConnFastMap, hashtable, false,
 												 myConstraintName,prevNotCascade,
 												 cycleString, currentRefTableName, 
 												 isSelfReferencingFk, currentSelfRefValue); 
@@ -757,7 +757,7 @@ public	class	DDUtils
 	 DataDictionary	dd,
 	 TableDescriptor td,
 	 int refActionType,
-	 Hashtable newDconnHashTable,
+	 Hashtable deleteConnFastMap,
 	 String myConstraintName
 	 )
 	throws StandardException
@@ -790,7 +790,7 @@ public	class	DDUtils
 				
 				//Note: More than one table can refer to the same
 				//ReferencedKeyConstraintDescriptor, so we need to find all the tables.
-				Hashtable dConnHashtable = new Hashtable();
+				Hashtable dConnFastMap = new Hashtable();
 				for (int inner = 0; inner < size; inner++)
 				{
 					ForeignKeyConstraintDescriptor fkcd = (ForeignKeyConstraintDescriptor) fkcdl.elementAt(inner);
@@ -806,7 +806,7 @@ public	class	DDUtils
 						//gather the delete connections of the table that is
 						//referring to the table we are adding foreign key relation ship
 
-						getCurrentDeleteConnections(dd, fktd, -1, dConnHashtable, false, true);
+						getCurrentDeleteConnections(dd, fktd, -1, dConnFastMap, false, true);
 
 						/*
 						**Find out if we introduced more than one delete connection
@@ -816,16 +816,16 @@ public	class	DDUtils
 						**referential action and only one SET NULL path.
 						**/
 
-						for (Enumeration e = dConnHashtable.keys() ; e.hasMoreElements() ;) 
+						for (Iterator e = dConnFastMap.keySet().iterator() ; e.hasNext() ;) 
 						{
-							String tName = (String) e.nextElement();
+							String tName = (String) e.next();
 							//we should not check for the table name to which  we are
 							//adding the foreign key relation ship.
 							if(!tName.equals(addTableName))
 							{
-								if(newDconnHashTable.containsKey(tName))
+								if(deleteConnFastMap.containsKey(tName))
 								{
-									int currentDeleteRule = ((Integer)	dConnHashtable.get(tName)).intValue();
+									int currentDeleteRule = ((Integer)	dConnFastMap.get(tName)).intValue();
 									if((currentDeleteRule == StatementType.RA_SETNULL
 										&& raDeleteRuleToAddTable == StatementType.RA_SETNULL) ||
 									   currentDeleteRule  != raDeleteRuleToAddTable)
@@ -840,7 +840,7 @@ public	class	DDUtils
 					}
 					//same hash table can be used for the other referring tables
 					//so clear the hash table.
-					dConnHashtable.clear();
+					dConnFastMap.clear();
 				}
 			}
 		}

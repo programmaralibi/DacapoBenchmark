@@ -1354,7 +1354,7 @@ class DDMReader
 	 * Read encrypted string
 	 * @param   decryptM  decryption manager
 	 * @param   securityMechanism security mechanism
-	 * @param   initVector   initialization vector for cipher
+	 * @param   initFastTable   initialization FastTable for cipher
 	 * @param   sourcePublicKey  public key (as in Deffie-Hellman algorithm)
 	 *                           from source (encryptor)
 	 * @return  decrypted string
@@ -1362,12 +1362,12 @@ class DDMReader
 	 * @exception DRDProtocolException, SQLException(wrapping any exception in decryption)
 	 */
 	protected String readEncryptedString (DecryptionManager decryptM, int securityMechanism,
-										 byte[] initVector, byte[] sourcePublicKey)
+										 byte[] initFastTable, byte[] sourcePublicKey)
 			throws DRDAProtocolException, java.sql.SQLException
 	{
 		byte[] cipherText = readBytes();
 		byte[] plainText = null;
-		plainText = decryptM.decryptData(cipherText, securityMechanism, initVector,
+		plainText = decryptM.decryptData(cipherText, securityMechanism, initFastTable,
 											 sourcePublicKey);
 		if (plainText == null)
 			return null;

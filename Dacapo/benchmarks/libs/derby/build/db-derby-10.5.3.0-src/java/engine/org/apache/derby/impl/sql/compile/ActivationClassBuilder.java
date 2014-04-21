@@ -54,7 +54,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 
 /**
  * ActivationClassBuilder
@@ -285,8 +285,8 @@ class ActivationClassBuilder	extends	ExpressionClassBuilder
 		getClassBuilder().newFieldWithAccessors("getExecutionCount", "setExecutionCount",
 			Modifier.PROTECTED, true, "int");
 
-		getClassBuilder().newFieldWithAccessors("getRowCountCheckVector", "setRowCountCheckVector",
-			Modifier.PROTECTED, true, "java.util.Vector");
+		getClassBuilder().newFieldWithAccessors("getRowCountCheckFastTable", "setRowCountCheckFastTable",
+			Modifier.PROTECTED, true, "javolution.util.FastTable");
 
 		getClassBuilder().newFieldWithAccessors("getStalePlanCheckInterval", "setStalePlanCheckInterval",
 			Modifier.PROTECTED, true, "int");

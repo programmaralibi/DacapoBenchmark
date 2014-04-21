@@ -38,7 +38,7 @@ import org.apache.derby.iapi.sql.execute.CursorResultSet;
 import org.apache.derby.iapi.sql.execute.ExecIndexRow;
 import org.apache.derby.iapi.sql.execute.ExecRow;
 import org.apache.derby.iapi.sql.execute.NoPutResultSet;
-import org.apache.derby.iapi.store.access.BackingStoreHashtable;
+import org.apache.derby.iapi.store.access.BackingStoreFastMap;
 import org.apache.derby.iapi.store.access.KeyHasher;
 import org.apache.derby.iapi.store.access.Qualifier;
 import org.apache.derby.iapi.store.access.RowUtil;
@@ -60,7 +60,7 @@ import org.apache.derby.iapi.types.RowLocation;
 public class HashScanResultSet extends ScanResultSet
 	implements CursorResultSet
 {
-	private boolean		hashtableBuilt;
+	private boolean		FastMapBuilt;
 	private ExecIndexRow	startPosition;
 	private ExecIndexRow	stopPosition;
 	protected	ExecRow		compactRow;
@@ -68,8 +68,8 @@ public class HashScanResultSet extends ScanResultSet
 	// Variable for managing next() logic on hash entry
 	protected boolean	firstNext = true;
 	private int			numFetchedOnNext;
-	private int			entryVectorSize;
-	private List		entryVector;
+	private int			entryFastTableSize;
+	private List		entryFastTable;
 
     // set in constructor and not altered during
     // life of object.
@@ -95,14 +95,14 @@ public class HashScanResultSet extends ScanResultSet
 	private boolean skipNullKeyColumns;
 	private boolean keepAfterCommit;
 
-	protected BackingStoreHashtable hashtable;
+	protected BackingStoreFastMap FastMap;
 	protected boolean eliminateDuplicates;		// set to true in DistinctScanResultSet
 
 	// Run time statistics
 	public Properties scanProperties;
 	public String startPositionString;
 	public String stopPositionString;
-	public int hashtableSize;
+	public int FastMapSize;
 	public boolean isConstraint;
 
 	public static final	int	DEFAULT_INITIAL_CAPACITY = -1;
@@ -252,15 +252,15 @@ public class HashScanResultSet extends ScanResultSet
 			// Do nothing
 			;
 		}
-		else if (! hashtableBuilt)
+		else if (! FastMapBuilt)
 		{
 			DataValueDescriptor[] startPositionRow = 
                 startPosition == null ? null : startPosition.getRowArray();
 			DataValueDescriptor[] stopPositionRow = 
                 stopPosition == null ? null : stopPosition.getRowArray();
 
-            hashtable = 
-                tc.createBackingStoreHashtableFromScan(
+            FastMap = 
+                tc.createBackingStoreFastMapFromScan(
                     conglomId,          // conglomerate to open
                     (forUpdate ? TransactionController.OPENMODE_FORUPDATE : 0),
                     lockMode,
@@ -276,8 +276,8 @@ public class HashScanResultSet extends ScanResultSet
                     eliminateDuplicates,// remove duplicates?
                     -1,                 // RESOLVE - is there a row estimate?
                     maxCapacity,
-                    initialCapacity,    // in memory Hashtable initial capacity
-                    loadFactor,         // in memory Hashtable load factor
+                    initialCapacity,    // in memory FastMap initial capacity
+                    loadFactor,         // in memory FastMap load factor
                     runTimeStatisticsOn,
 					skipNullKeyColumns,
 					keepAfterCommit);
@@ -285,7 +285,7 @@ public class HashScanResultSet extends ScanResultSet
 
 			if (runTimeStatisticsOn)
 			{
-				hashtableSize = hashtable.size();
+				FastMapSize = FastMap.size();
 
 				if (scanProperties == null)
 				{
@@ -294,9 +294,9 @@ public class HashScanResultSet extends ScanResultSet
 
 				try
 				{
-					if (hashtable != null)
+					if (FastMap != null)
 					{
-                        hashtable.getAllRuntimeStats(scanProperties);
+                        FastMap.getAllRuntimeStats(scanProperties);
 					}
 				}
 				catch(StandardException se)
@@ -307,14 +307,14 @@ public class HashScanResultSet extends ScanResultSet
 
 
 			/* Remember that we created the hash table */
-			hashtableBuilt = true;
+			FastMapBuilt = true;
 
 			/*
 			** Tell the activation about the number of qualifying rows.
 			** Do this only here, not in reopen, because we don't want
 			** to do this costly operation too often.
 			*/
-			activation.informOfRowCount(this, (long) hashtableSize);
+			activation.informOfRowCount(this, (long) FastMapSize);
 		}
 
 	    isOpen = true;
@@ -351,8 +351,8 @@ public class HashScanResultSet extends ScanResultSet
 	{
 		firstNext = true;
 		numFetchedOnNext = 0;
-		entryVector = null;
-		entryVectorSize = 0;
+		entryFastTable = null;
+		entryFastTableSize = 0;
 
 		if (nextQualifiers != null)
 		{
@@ -372,7 +372,7 @@ public class HashScanResultSet extends ScanResultSet
 		DataValueDescriptor[] columns = null;
 
 		beginTime = getCurrentTimeMillis();
-	    if ( isOpen && hashtableBuilt)
+	    if ( isOpen && FastMapBuilt)
 	    {
 			/* We use a do/while loop to ensure that we continue down
 			 * the duplicate chain, if one exists, until we find a
@@ -392,7 +392,7 @@ public class HashScanResultSet extends ScanResultSet
 					Object hashEntry;
 					if (keyColumns.length == 1)
 					{
-						hashEntry = hashtable.get(nextQualifiers[0][0].getOrderable());
+						hashEntry = FastMap.get(nextQualifiers[0][0].getOrderable());
 					}
 					else
 					{
@@ -421,28 +421,28 @@ public class HashScanResultSet extends ScanResultSet
 							mh.setObject(
                                 index, nextQualifiers[0][index].getOrderable());
 						}
-						hashEntry = (mh == null) ? null : hashtable.get(mh);
+						hashEntry = (mh == null) ? null : FastMap.get(mh);
 					}
 
 					if (hashEntry instanceof List)
 					{
-						entryVector = (List) hashEntry;
-						entryVectorSize = entryVector.size();
+						entryFastTable = (List) hashEntry;
+						entryFastTableSize = entryFastTable.size();
 						columns = 
-                            (DataValueDescriptor[]) entryVector.get(0);
+                            (DataValueDescriptor[]) entryFastTable.get(0);
 					}
 					else
 					{
-						entryVector = null;
-						entryVectorSize = 0;
+						entryFastTable = null;
+						entryFastTableSize = 0;
 						columns = (DataValueDescriptor[]) hashEntry;
 					}
 				}
-				else if (numFetchedOnNext < entryVectorSize)
+				else if (numFetchedOnNext < entryFastTableSize)
 				{
 					// We are walking a list and there are more rows left.
 					columns = (DataValueDescriptor[]) 
-                        entryVector.get(numFetchedOnNext);
+                        entryFastTable.get(numFetchedOnNext);
 				}
 
 				if (columns != null)
@@ -484,7 +484,7 @@ public class HashScanResultSet extends ScanResultSet
 					result = null;
 				}
 			}
-			while (result == null && numFetchedOnNext < entryVectorSize);
+			while (result == null && numFetchedOnNext < entryFastTableSize);
 
 		}
 
@@ -511,7 +511,7 @@ public class HashScanResultSet extends ScanResultSet
 			// block, to ensure that it is executed?
 		    clearCurrentRow();
 
-			if (hashtableBuilt)
+			if (FastMapBuilt)
 			{
 				// This is where we get the scan properties for a subquery
 				scanProperties = getScanProperties();
@@ -523,9 +523,9 @@ public class HashScanResultSet extends ScanResultSet
 				}
 
 				// close the hash table, eating any exception
-				hashtable.close();
-				hashtable = null;
-				hashtableBuilt = false;
+				FastMap.close();
+				FastMap = null;
+				FastMapBuilt = false;
 			}
 			startPosition = null;
 			stopPosition = null;
@@ -596,7 +596,7 @@ public class HashScanResultSet extends ScanResultSet
 	{
 		if (! isOpen) return null;
 
-		if ( ! hashtableBuilt)
+		if ( ! FastMapBuilt)
 			return null;
 
 		/* This method should only be called if the last column

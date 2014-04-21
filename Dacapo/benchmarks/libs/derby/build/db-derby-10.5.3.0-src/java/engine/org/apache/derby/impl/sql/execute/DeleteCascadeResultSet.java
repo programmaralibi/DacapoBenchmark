@@ -38,8 +38,8 @@ import org.apache.derby.iapi.sql.execute.TemporaryRowHolder;
 
 import org.apache.derby.iapi.reference.SQLState;
 
-import java.util.Vector;
-import java.util.Hashtable;
+import javolution.util.FastTable;
+import javolution.util.FastMap;
 import java.util.Enumeration;
 
 /**
@@ -127,9 +127,9 @@ class DeleteCascadeResultSet extends DeleteResultSet
 			}
 
 			runFkChecker(true); //check for only RESTRICT referential action rule violations
-			Hashtable mntHashTable = new Hashtable(); //Hash Table to identify  mutiple node for same table cases. 
-			mergeRowHolders(mntHashTable);
-			fireBeforeTriggers(mntHashTable);
+			FastMap mntFastMap = new FastMap(); //Hash Table to identify  mutiple node for same table cases. 
+			mergeRowHolders(mntFastMap);
+			fireBeforeTriggers(mntFastMap);
 			deleteDeferredRows();
 			runFkChecker(false); //check for all constraint violations
 			rowChangerFinish();
@@ -164,8 +164,8 @@ class DeleteCascadeResultSet extends DeleteResultSet
 
 		super.setup();
 		activation.setParentResultSet(rowHolder, resultSetId);
-		Vector sVector = (Vector) activation.getParentResultSet(resultSetId);
-		tempRowHolderId = sVector.size() -1;
+		FastTable sFastTable = (FastTable) activation.getParentResultSet(resultSetId);
+		tempRowHolderId = sFastTable.size() -1;
 		for(int i =0 ; i < noDependents; i++)
 		{
 			if(dependentResultSets[i] instanceof UpdateResultSet)
@@ -206,7 +206,7 @@ class DeleteCascadeResultSet extends DeleteResultSet
 	}
 
 
-	void fireBeforeTriggers(Hashtable msht) throws StandardException
+	void fireBeforeTriggers(FastMap msht) throws StandardException
 	{
 		if(!mainNodeForTable) 
 		{
@@ -347,7 +347,7 @@ class DeleteCascadeResultSet extends DeleteResultSet
 
 	//if there is more than one node for the same table, copy the rows
 	// into one node , so that we don't fire trigger more than once.
-	private void mergeRowHolders(Hashtable msht) throws StandardException
+	private void mergeRowHolders(FastMap msht) throws StandardException
 	{
 		if(msht.containsKey(resultSetId) || rowCount ==0)
 		{
@@ -379,8 +379,8 @@ class DeleteCascadeResultSet extends DeleteResultSet
 
 	private void mergeResultSets() throws StandardException
 	{
-		Vector sVector = (Vector) activation.getParentResultSet(resultSetId);
-		int size = sVector.size();
+		FastTable sFastTable = (FastTable) activation.getParentResultSet(resultSetId);
+		int size = sFastTable.size();
 		// if there is more than one source, we need to merge them into onc
 		// temporary result set.
 		if(size > 1)
@@ -396,7 +396,7 @@ class DeleteCascadeResultSet extends DeleteResultSet
 					rowHolderId++;
 					continue;
 				}
-				TemporaryRowHolder currentRowHolder = (TemporaryRowHolder)sVector.elementAt(rowHolderId);	
+				TemporaryRowHolder currentRowHolder = (TemporaryRowHolder)sFastTable.elementAt(rowHolderId);	
 				CursorResultSet rs = currentRowHolder.getResultSet();
 				rs.open();
 				while ((row = rs.getNextRow()) != null)
@@ -426,12 +426,12 @@ class DeleteCascadeResultSet extends DeleteResultSet
 	**/
 	private boolean isMultipleDeletePathsExist()
 	{
-		Hashtable parentResultSets = activation.getParentResultSets();
+		FastMap parentResultSets = activation.getParentResultSets();
 		for (Enumeration e = parentResultSets.keys() ; e.hasMoreElements() ;) 
 		{
 			String rsId  = (String) e.nextElement();
-			Vector sVector = (Vector) activation.getParentResultSet(rsId);
-			int size = sVector.size();
+			FastTable sFastTable = (FastTable) activation.getParentResultSet(rsId);
+			int size = sFastTable.size();
 			if(size > 1)
 			{
 				return true;
@@ -449,16 +449,16 @@ class DeleteCascadeResultSet extends DeleteResultSet
 	**/
 	private void setRowHoldersTypeToUniqueStream()
 	{
-		Hashtable parentResultSets = activation.getParentResultSets();
+		FastMap parentResultSets = activation.getParentResultSets();
 		for (Enumeration e = parentResultSets.keys() ; e.hasMoreElements() ;) 
 		{
 			String rsId  = (String) e.nextElement();
-			Vector sVector = (Vector) activation.getParentResultSet(rsId);
-			int size = sVector.size();
+			FastTable sFastTable = (FastTable) activation.getParentResultSet(rsId);
+			int size = sFastTable.size();
 			int rowHolderId = 0 ;
 			while(rowHolderId <  size)
 			{
-				TemporaryRowHolder currentRowHolder = (TemporaryRowHolder)sVector.elementAt(rowHolderId);	
+				TemporaryRowHolder currentRowHolder = (TemporaryRowHolder)sFastTable.elementAt(rowHolderId);	
 				currentRowHolder.setRowHolderTypeToUniqueStream();
 				rowHolderId++;
 			}

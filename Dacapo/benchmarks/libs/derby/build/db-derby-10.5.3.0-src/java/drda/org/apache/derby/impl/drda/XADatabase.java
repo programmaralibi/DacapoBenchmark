@@ -28,7 +28,7 @@ import javax.transaction.xa.XAResource;
 import javax.sql.XADataSource;
 import javax.sql.XAConnection;
 
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import java.util.Properties;
 import java.util.Enumeration;
 

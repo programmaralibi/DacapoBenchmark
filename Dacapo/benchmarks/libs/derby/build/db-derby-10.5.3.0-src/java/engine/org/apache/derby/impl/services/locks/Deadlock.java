@@ -31,7 +31,7 @@ import org.apache.derby.iapi.services.context.ContextService;
 import org.apache.derby.iapi.store.access.TransactionController;
 import org.apache.derby.iapi.store.access.TransactionInfo;
 
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import java.util.Dictionary;
 import java.util.Stack;
 
@@ -91,12 +91,12 @@ class Deadlock  {
 						 byte deadlockWake) {
 
 		// step one, get a list of all waiters
-		Dictionary waiters = Deadlock.getWaiters(set);
+		FastMap waiters = Deadlock.getWaiters(set);
 
 		// This stack will track the potential deadlock chain
 		// The Stack consists of
 
-		// start (Vector element 0)
+		// start (FastTable element 0)
 		// - Compatibility space of waiter A
 		// - Stack of compatibility spaces with granted lock for waiter A
 
@@ -218,14 +218,14 @@ inner:		for (;;) {
 		grants.remove(grants.size() - 1);
 	}
 
-	private static Hashtable getWaiters(LockTable set) {
-		Hashtable waiters = new Hashtable();
+	private static FastMap getWaiters(LockTable set) {
+		FastMap waiters = new FastMap();
 		set.addWaiters(waiters);
 		return waiters;
 	}
 
 	private static Object[] handle(AbstractPool factory, Stack chain, int start,
-								   Dictionary waiters, byte deadlockWake) {
+								   FastMap waiters, byte deadlockWake) {
 
 		// If start is zero then the space that started looking for the
 		// deadlock is activly involved in the deadlock.
@@ -302,7 +302,7 @@ inner:		for (;;) {
 
 		StringBuffer sb = new StringBuffer(200);
 
-		Hashtable attributes = new Hashtable(17);
+		FastMap attributes = new FastMap();
 
 		String victimXID = null;
 

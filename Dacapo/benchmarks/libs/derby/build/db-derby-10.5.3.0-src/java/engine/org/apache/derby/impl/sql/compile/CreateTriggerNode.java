@@ -23,8 +23,8 @@ package	org.apache.derby.impl.sql.compile;
 
 import java.sql.Timestamp;
 import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Vector;
+import javolution.util.FastMap;
+import javolution.util.FastTable;
 
 import org.apache.derby.catalog.UUID;
 import org.apache.derby.iapi.error.StandardException;
@@ -59,7 +59,7 @@ public class CreateTriggerNode extends DDLStatementNode
 	private	boolean				isBefore;
 	private	boolean				isRow;
 	private	boolean				isEnabled;
-	private	Vector				refClause;
+	private	FastTable				refClause;
 	private	ValueNode		    whenClause;
 	private	String				whenText;
 	private	int					whenOffset;
@@ -138,7 +138,7 @@ public class CreateTriggerNode extends DDLStatementNode
 		this.isBefore = ((Boolean) isBefore).booleanValue();
 		this.isRow = ((Boolean) isRow).booleanValue();
 		this.isEnabled = ((Boolean) isEnabled).booleanValue();
-		this.refClause = (Vector) refClause;	
+		this.refClause = (FastTable) refClause;	
 		this.whenClause = (ValueNode) whenClause;
 		this.whenText = (whenText == null) ? null : ((String) whenText).trim();
 		this.whenOffset = ((Integer) whenOffset).intValue();
@@ -287,7 +287,7 @@ public class CreateTriggerNode extends DDLStatementNode
 		if (triggerCols != null && triggerCols.size() != 0)
 		{
 			referencedColInts = new int[triggerCols.size()];
-			Hashtable columnNames = new Hashtable();
+			FastMap columnNames = new FastMap();
 			int tcSize = triggerCols.size();
 			for (int i = 0; i < tcSize; i++)
 			{
@@ -385,7 +385,7 @@ public class CreateTriggerNode extends DDLStatementNode
 			*/
 			CollectNodesVisitor visitor = new CollectNodesVisitor(ColumnReference.class);
 			actionNode.accept(visitor);
-			Vector refs = visitor.getList();
+			FastTable refs = visitor.getList();
 			/* we need to sort on position in string, beetle 4324
 			 */
 			QueryTreeNode[] cols = sortRefs(refs, true);
@@ -452,7 +452,7 @@ public class CreateTriggerNode extends DDLStatementNode
 			*/
 			CollectNodesVisitor visitor = new CollectNodesVisitor(FromBaseTable.class);
 			actionNode.accept(visitor);
-			Vector refs = visitor.getList();
+			FastTable refs = visitor.getList();
 			QueryTreeNode[] tabs = sortRefs(refs, false);
 			for (int i = 0; i < tabs.length; i++)
 			{
@@ -513,7 +513,7 @@ public class CreateTriggerNode extends DDLStatementNode
 	/*
 	** Sort the refs into array.
 	*/
-	private QueryTreeNode[] sortRefs(Vector refs, boolean isRow)
+	private QueryTreeNode[] sortRefs(FastTable refs, boolean isRow)
 	{
 		int size = refs.size();
 		QueryTreeNode[] sorted = new QueryTreeNode[size];
@@ -580,7 +580,7 @@ public class CreateTriggerNode extends DDLStatementNode
 
         actionNode.accept( visitor );
 
-        Vector                   columnRefs = visitor.getList();
+        FastTable                   columnRefs = visitor.getList();
         int                             colRefCount = columnRefs.size();
 
         for ( int crf_idx = 0; crf_idx < colRefCount; crf_idx++ )

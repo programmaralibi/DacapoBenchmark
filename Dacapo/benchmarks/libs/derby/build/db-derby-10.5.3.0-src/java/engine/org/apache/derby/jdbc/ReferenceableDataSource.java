@@ -38,7 +38,7 @@ import javax.naming.Context;
 import javax.naming.Name;
 import javax.naming.Reference;
 import javax.naming.RefAddr;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import java.util.Enumeration;
 
 /** 
@@ -280,7 +280,7 @@ public class ReferenceableDataSource implements
 	public Object getObjectInstance(Object obj,
 									Name name,
 									Context nameCtx,
-									Hashtable environment)
+									FastMap environment)
 		 throws Exception
 	{
 		Reference ref = (Reference)obj;

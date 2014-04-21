@@ -41,7 +41,7 @@ import org.apache.derby.iapi.reference.ClassName;
 
 import java.sql.Types;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * This node represents a binary arithmetic operator, like + or *.
@@ -114,7 +114,7 @@ public final class BinaryArithmeticOperatorNode extends BinaryOperatorNode
 	 *
 	 * @param fromList			The query's FROM list
 	 * @param subqueryList		The subquery list being built as we find SubqueryNodes
-	 * @param aggregateVector	The aggregate vector being built as we find AggregateNodes
+	 * @param aggregateFastTable	The aggregate FastTable being built as we find AggregateNodes
 	 *
 	 * @return	The new top of the expression tree.
 	 *
@@ -123,11 +123,11 @@ public final class BinaryArithmeticOperatorNode extends BinaryOperatorNode
 
 	public ValueNode bindExpression(
 		FromList	fromList, SubqueryList subqueryList,
-		Vector aggregateVector)
+		FastTable aggregateFastTable)
 			throws StandardException
 	{
 		super.bindExpression(fromList, subqueryList,
-				aggregateVector);
+				aggregateFastTable);
 
 		TypeId	leftType = leftOperand.getTypeId();
 		TypeId	rightType = rightOperand.getTypeId();

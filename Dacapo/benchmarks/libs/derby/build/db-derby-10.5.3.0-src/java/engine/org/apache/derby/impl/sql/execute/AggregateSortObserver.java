@@ -54,7 +54,7 @@ public class AggregateSortObserver extends BasicSortObserver
 	 *		into the sorter.  This may be different than
 	 *		aggsToProcess in the case where some distinct
 	 *		aggregates are dropped in the initial pass of
-	 *		a two phase aggregation for scalar or vector
+	 *		a two phase aggregation for scalar or FastTable
 	 *		distinct aggregation.  The initialization process
 	 *		consists of replacing an empty UserValue with a new, 
 	 *		initialized aggregate of the appropriate type.

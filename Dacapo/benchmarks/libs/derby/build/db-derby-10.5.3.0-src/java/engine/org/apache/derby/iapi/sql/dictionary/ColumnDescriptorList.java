@@ -21,22 +21,16 @@
 
 package org.apache.derby.iapi.sql.dictionary;
 
-import org.apache.derby.iapi.error.StandardException;
-import org.apache.derby.iapi.services.sanity.SanityManager;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.apache.derby.catalog.UUID;
-
-import org.apache.derby.iapi.error.StandardException;
-import org.apache.derby.iapi.services.sanity.SanityManager;
-
-import javolution.util.FastTable;
-import java.util.Iterator;
 
 /**
  * This represents a list of column descriptors. 
  */
 
-public class ColumnDescriptorList extends FastTable
+public class ColumnDescriptorList extends ArrayList
 {
 	/**
 	 * Add the column.  Currently, the table id is ignored.

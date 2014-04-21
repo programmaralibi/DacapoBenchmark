@@ -25,7 +25,7 @@ package org.apache.derby.impl.sql.execute.rts;
 import org.apache.derby.iapi.services.i18n.MessageService;
 import org.apache.derby.iapi.reference.SQLState;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 public class RealRowCountStatistics
     extends RealNoPutResultSetStatistics
@@ -126,8 +126,8 @@ public class RealRowCountStatistics
     /**
      * @see RealBasicNoPutResultSetStatistics#getChildren
      */
-    public Vector getChildren() {
-        Vector children = new Vector();
+    public FastTable getChildren() {
+        FastTable children = new FastTable();
         children.addElement(childResultSetStatistics);
 
         return children;

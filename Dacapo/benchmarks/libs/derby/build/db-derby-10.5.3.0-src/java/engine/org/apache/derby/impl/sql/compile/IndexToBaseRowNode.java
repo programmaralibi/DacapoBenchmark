@@ -54,7 +54,7 @@ import org.apache.derby.iapi.reference.ClassName;
 import org.apache.derby.iapi.services.classfile.VMOpcode;
 
 import java.util.Properties;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * This node type translates an index row to a base row.  It takes a
@@ -140,17 +140,17 @@ public class IndexToBaseRowNode extends FromTable
 	 *
 	 * @param	crs					The specified ColumnReference[]
 	 * @param	permuteOrdering		Whether or not the order of the CRs in the array can be permuted
-	 * @param	fbtVector			Vector that is to be filled with the FromBaseTable	
+	 * @param	fbtFastTable			FastTable that is to be filled with the FromBaseTable	
 	 *
 	 * @return	Whether the underlying ResultSet tree
 	 * is ordered on the specified column.
 	 *
 	 * @exception StandardException		Thrown on error
 	 */
-	boolean isOrderedOn(ColumnReference[] crs, boolean permuteOrdering, Vector fbtVector)
+	boolean isOrderedOn(ColumnReference[] crs, boolean permuteOrdering, FastTable fbtFastTable)
 				throws StandardException
 	{
-		return source.isOrderedOn(crs, permuteOrdering, fbtVector);
+		return source.isOrderedOn(crs, permuteOrdering, fbtFastTable);
 	}
 
 	/**

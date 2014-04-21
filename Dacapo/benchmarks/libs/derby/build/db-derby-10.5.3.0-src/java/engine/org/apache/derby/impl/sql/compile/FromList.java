@@ -42,15 +42,15 @@ import org.apache.derby.iapi.util.StringUtil;
 
 import java.util.Properties;
 import java.util.Enumeration;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * A FromList represents the list of tables in a FROM clause in a DML
- * statement.  It extends QueryTreeNodeVector.
+ * statement.  It extends QueryTreeNodeFastTable.
  *
  */
 
-public class FromList extends QueryTreeNodeVector implements OptimizableList
+public class FromList extends QueryTreeNodeFastTable implements OptimizableList
 {
 	Properties	properties;
 	// RESOLVE: The default should be false
@@ -732,7 +732,7 @@ public class FromList extends QueryTreeNodeVector implements OptimizableList
 									throws StandardException
 	{
 		boolean			flattened = true;
-		Vector 			flattenedTableNumbers = new Vector();
+		FastTable 			flattenedTableNumbers = new FastTable();
 
 		if (SanityManager.DEBUG)
 		{

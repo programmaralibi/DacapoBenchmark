@@ -53,7 +53,7 @@ import java.util.Map;
 
 	<BR>
 	All searching of
-    the hashtable is performed using java synchroization(this).
+    the FastMap is performed using java synchroization(this).
 	<BR>
 	The class creates ActiveLock and LockControl objects.
 	

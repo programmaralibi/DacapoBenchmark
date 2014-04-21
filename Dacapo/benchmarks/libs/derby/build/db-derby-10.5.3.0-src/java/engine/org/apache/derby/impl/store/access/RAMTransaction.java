@@ -78,7 +78,7 @@ import org.apache.derby.impl.store.access.conglomerate.ConglomerateUtil;
 
 import org.apache.derby.iapi.store.access.DatabaseInstant;
 
-import org.apache.derby.iapi.store.access.BackingStoreHashtable;
+import org.apache.derby.iapi.store.access.BackingStoreFastMap;
 import org.apache.derby.iapi.services.io.FormatableBitSet;
 
 import java.io.Serializable;
@@ -832,120 +832,6 @@ public class RAMTransaction
 			conglomId = nextTempConglomId--;
 			if (tempCongloms == null)
 				tempCongloms = new FastMap();
-			tempCongloms.put(new Long(conglomId), conglom);
-		}
-		else
-		{
-			conglomId = conglom.getContainerid();
-
-            accessmanager.conglomCacheAddEntry(conglomId, conglom);
-		}
-
-		return conglomId;
-	}
-
-	/**
-		Create a conglomerate and populate it with rows from rowSource.
-
-		@see TransactionController#createAndLoadConglomerate
-		@exception StandardException Standard Derby Error Policy
-	*/
-    public long createAndLoadConglomerate(
-    String                  implementation,
-    DataValueDescriptor[]   template,
-	ColumnOrdering[]		columnOrder,
-    int[]                   collationIds,
-    Properties              properties,
-    int                     temporaryFlag,
-    RowLocationRetRowSource rowSource,
-	long[] rowCount)
-		throws StandardException
-	{
-        return(
-            recreateAndLoadConglomerate(
-                implementation,
-                true,
-                template,
-				columnOrder,
-                collationIds,
-                properties,
-                temporaryFlag,
-                0 /* unused if recreate_ifempty is true */,
-                rowSource,
-				rowCount));
-	}
-
-	/**
-		recreate a conglomerate and populate it with rows from rowSource.
-
-		@see TransactionController#createAndLoadConglomerate
-		@exception StandardException Standard Derby Error Policy
-	*/
-    public long recreateAndLoadConglomerate(
-    String                  implementation,
-    boolean                 recreate_ifempty,
-    DataValueDescriptor[]   template,
-	ColumnOrdering[]		columnOrder,
-    int[]                   collationIds,
-    Properties              properties,
-    int			            temporaryFlag,
-    long                    orig_conglomId,
-    RowLocationRetRowSource rowSource,
-	long[] rowCount)
-        throws StandardException
-
-	{
-		// RESOLVE: this create the conglom LOGGED, this is slower than
-		// necessary although still correct.
-		long conglomId = 
-			createConglomerate(
-                implementation, template, columnOrder, collationIds, 
-                properties, temporaryFlag);
-
-        long rows_loaded = 
-            loadConglomerate(
-                conglomId, 
-                true, // conglom is being created
-                rowSource);
-
-		if (rowCount != null)
-			rowCount[0] = rows_loaded;
-
-        if (!recreate_ifempty && (rows_loaded == 0))
-        {
-            dropConglomerate(conglomId);
-
-            conglomId = orig_conglomId;
-        }
-
-		return conglomId;
-	}
-
-    /**
-     * Return a string with debug information about opened congloms/scans/sorts.
-     * <p>
-     * Return a string with debugging information about current opened
-     * congloms/scans/sorts which have not been close()'d.
-     * Calls to this routine are only valid under code which is conditional
-     * on SanityManager.DEBUG.
-     * <p>
-     *
-	 * @return String with debugging information.
-     *
-	 * @exception  StandardException  Standard exception policy.
-     **/
-    public String debugOpened() throws StandardException
-    {
-        String str = null;
-
-        if (SanityManager.DEBUG)
-        {
-
-            str = new String();
-
-            for (Iterator it = scanControllers.iterator(); it.hasNext(); )
-            {
-                ScanController sc = (ScanController) it.next();
                 str += "open scan controller: " + sc + "\n";
             }
 
@@ -1326,10 +1212,10 @@ public class RAMTransaction
     }
 
     /**
-     * Create a BackingStoreHashtable which contains all rows that qualify for
+     * Create a BackingStoreFastMap which contains all rows that qualify for
      * the described scan.
      **/
-    public BackingStoreHashtable createBackingStoreHashtableFromScan(
+    public BackingStoreFastMap createBackingStoreFastMapFromScan(
     long                    conglomId,
     int                     open_mode,
     int                     lock_level,
@@ -1353,7 +1239,7 @@ public class RAMTransaction
         throws StandardException
     {
         return (
-            new BackingStoreHashTableFromScan(
+            new BackingStoreFastMapFromScan(
                 this,
                 conglomId,
                 open_mode,
@@ -1710,7 +1596,7 @@ public class RAMTransaction
 						sortObserver, alreadyInOrder, estimatedRows, 
                         estimatedRowSize);
 
-		// Add the sort to the sorts vector
+		// Add the sort to the sorts FastTable
 		if (sorts == null) {
 			sorts = new FastTable();
             freeSortIds = new FastTable();

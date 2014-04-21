@@ -34,7 +34,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Savepoint;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import java.util.Iterator;
 
 import javax.sql.ConnectionEvent;
@@ -82,12 +82,12 @@ public class J2EEDataSourceTest extends BaseJDBCTestCase {
         TestConfiguration.getCurrent().getDefaultDatabaseName();
     
     /**
-     * A hashtable of opened connections.  This is used when checking to
+     * A FastMap of opened connections.  This is used when checking to
      * make sure connection strings are unique; we need to make sure all
      * the connections are closed when we are done, so they are stored
-     * in this hashtable
+     * in this FastMap
      */
-    protected static Hashtable conns = new Hashtable();
+    protected static FastMap conns = new FastMap();
     
     /** The expected format of a connection string. In English:
      * "<classname>@<hashcode> (XID=<xid>), (SESSION = <sessionid>),
@@ -3899,7 +3899,7 @@ public class J2EEDataSourceTest extends BaseJDBCTestCase {
 
     /**
      * Clear out and close connections in the connections
-     * hashtable. 
+     * FastMap. 
      */
     private static void clearConnections() throws SQLException
     {
@@ -3942,7 +3942,7 @@ public class J2EEDataSourceTest extends BaseJDBCTestCase {
 
         //  First get a bunch of pooled connections
         //  and make sure they're all unique
-        Hashtable xaConns = new Hashtable();
+        FastMap xaConns = new FastMap();
         for ( int i = 0 ; i < numConnections ; i++ )
         {
             XAConnection xc = xds.getXAConnection();
@@ -3987,7 +3987,7 @@ public class J2EEDataSourceTest extends BaseJDBCTestCase {
 
         //  First get a bunch of pooled connections
         //  and make sure they're all unique
-        Hashtable pooledConns = new Hashtable();
+        FastMap pooledConns = new FastMap();
         for ( int i = 0 ; i < numConnections ; i++ )
         {
             PooledConnection pc = pds.getPooledConnection();

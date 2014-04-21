@@ -38,7 +38,7 @@ import org.apache.derby.iapi.store.access.Qualifier;
 
 import org.apache.derby.iapi.util.JBitSet;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * A ColumnReference represents a column in the query tree.  The parser generates a
@@ -323,7 +323,7 @@ public class ColumnReference extends ValueNode
 	 * @param fromList		The FROM list for the query this
 	 *				expression is in, for binding columns.
 	 * @param subqueryList		The subquery list being built as we find SubqueryNodes
-	 * @param aggregateVector	The aggregate vector being built as we find AggregateNodes
+	 * @param aggregateFastTable	The aggregate FastTable being built as we find AggregateNodes
 	 *
 	 * @return	The new top of the expression tree.
 	 *
@@ -331,7 +331,7 @@ public class ColumnReference extends ValueNode
 	 */
 
 	public ValueNode bindExpression(FromList fromList, SubqueryList subqueryList,
-			Vector aggregateVector) 
+			FastTable aggregateFastTable) 
 				throws StandardException
 	{
 		ResultColumn matchingRC;

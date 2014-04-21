@@ -21,27 +21,20 @@
 
 package	org.apache.derby.impl.sql.compile;
 
-import org.apache.derby.iapi.services.sanity.SanityManager;
+import javolution.util.FastMap;
+import javolution.util.FastTable;
 
 import org.apache.derby.iapi.error.StandardException;
-
-import org.apache.derby.iapi.sql.compile.AccessPath;
+import org.apache.derby.iapi.reference.SQLState;
+import org.apache.derby.iapi.services.sanity.SanityManager;
 import org.apache.derby.iapi.sql.compile.C_NodeTypes;
 import org.apache.derby.iapi.sql.compile.CostEstimate;
 import org.apache.derby.iapi.sql.compile.Optimizable;
 import org.apache.derby.iapi.sql.compile.OptimizablePredicate;
 import org.apache.derby.iapi.sql.compile.OptimizablePredicateList;
-
-import org.apache.derby.iapi.sql.dictionary.DataDictionary;
 import org.apache.derby.iapi.sql.dictionary.TableDescriptor;
-
-import org.apache.derby.iapi.reference.SQLState;
 import org.apache.derby.iapi.types.DataTypeDescriptor;
-import org.apache.derby.iapi.types.StringDataValue;
-
 import org.apache.derby.iapi.util.JBitSet;
-
-import javolution.util.FastMap;
 
 /**
  * A SetOperatorNode represents a UNION, INTERSECT, or EXCEPT in a DML statement. Binding and optimization
@@ -214,7 +207,7 @@ abstract class SetOperatorNode extends TableOperatorNode
 		// Find all UnionNodes in the subtree.
 		CollectNodesVisitor cnv = new CollectNodesVisitor(UnionNode.class);
 		this.accept(cnv);
-		java.util.Vector unions = cnv.getList();
+		FastTable unions = cnv.getList();
 
 		// Now see if any of them have unpushed predicates.
 		boolean genPRN = false;

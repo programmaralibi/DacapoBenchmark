@@ -77,7 +77,7 @@ import java.sql.Statement;
 
 import java.util.HashSet;
 import java.util.Map;
-import java.util.WeakFastMap;
+import javolution.util.FastMap;
 import javolution.util.FastMap;
 import java.util.Properties;
 import java.util.Iterator;
@@ -149,11 +149,11 @@ public abstract class EmbedConnection implements EngineConnection
      * connection. These lobs will be cleared after the transaction
      * is no longer valid or when connection is closed
      */
-    private WeakFastMap lobReferences = null;
+    private FastMap lobReferences = null;
 
     // Set to keep track of the open LOBFiles, so they can be closed at the end of 
     // the transaction. This would normally happen as lobReferences are freed as they
-    // get garbage collected after being removed from the WeakFastMap, but it is 
+    // get garbage collected after being removed from the FastMap, but it is 
     // possible that finalization will not have occurred before the user tries to 
     // remove the database (DERBY-3655).  Therefore we keep this set so that we can
     // explicitly close the files.
@@ -3138,13 +3138,13 @@ public abstract class EmbedConnection implements EngineConnection
 	}
 
     /**
-     * Adds an entry of the lob in WeakFastMap. These entries are used
+     * Adds an entry of the lob in FastMap. These entries are used
      * for cleanup during commit/rollback or close.
      * @param lobReference LOB Object
      */
     void addLOBReference (Object lobReference) {
         if (rootConnection.lobReferences == null) {
-            rootConnection.lobReferences = new WeakFastMap ();
+            rootConnection.lobReferences = new FastMap ();
         }
         rootConnection.lobReferences.put (lobReference, null);
     }
@@ -3156,49 +3156,6 @@ public abstract class EmbedConnection implements EngineConnection
 	public FastMap getlobHMObj() {
 		if (rootConnection.lobFastMap == null) {
 			rootConnection.lobFastMap = new FastMap();
-		}
-		return rootConnection.lobFastMap;
-	}
-
-    /** Cancels the current running statement. */
-    public void cancelRunningStatement() {
-        getLanguageConnection().getStatementContext().cancel();
-    }
-
-    /**
-     * Obtain the name of the current schema. Not part of the
-     * java.sql.Connection interface, but is accessible through the
-     * EngineConnection interface, so that the NetworkServer can get at the
-     * current schema for piggy-backing
-     * @return the current schema name
-     */
-    public String getCurrentSchemaName() {
-        return getLanguageConnection().getCurrentSchemaName();
-    }
-    
-    
-	/**
-	 * Add a temporary lob file to the lobFiles set.
-	 * This will get closed at transaction end or removed as the lob is freed.
-	 * @param lobFile  LOBFile to add
-	 */
-	void addLobFile(LOBFile lobFile) {
-		synchronized (this) {
-			if (lobFiles == null)
-				lobFiles = new HashSet();
-			lobFiles.add(lobFile);
-		}
-	}
-    
-	/**
-	 * Remove LOBFile from the lobFiles set. This will occur when the lob 
-	 * is freed or at transaction end if the lobFile was removed from the 
-	 * WeakFastMap but not finalized.
-	 * @param lobFile  LOBFile to remove.
-	 */
-	void removeLobFile(LOBFile lobFile) {
-		synchronized (this) {
-			lobFiles.remove(lobFile);
 		}
 	}
 }

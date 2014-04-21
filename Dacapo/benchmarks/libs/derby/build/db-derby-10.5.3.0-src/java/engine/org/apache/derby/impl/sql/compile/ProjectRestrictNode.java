@@ -781,7 +781,7 @@ public class ProjectRestrictNode extends SingleChildResultSetNode
 		if (trulyTheBestAccessPath.getJoinStrategy() != null &&
 			trulyTheBestAccessPath.getJoinStrategy().isHashJoin())
 		{
-			return replaceWithHashTableNode();
+			return replaceWithFastMapNode();
 		}
 
 		/* We consider materialization into a temp table as a last step.
@@ -793,7 +793,7 @@ public class ProjectRestrictNode extends SingleChildResultSetNode
 	}
 
 	/**
-	 * This method creates a HashTableNode between the PRN and
+	 * This method creates a FastMapNode between the PRN and
 	 * it's child when the optimizer chooses hash join on an
 	 * arbitrary (non-FBT) result set tree.
 	 * We divide up the restriction list into 3 parts and
@@ -802,7 +802,7 @@ public class ProjectRestrictNode extends SingleChildResultSetNode
 	 * @return The new (same) top of our result set tree.
 	 * @exception StandardException		Thrown on error
 	 */
-	private Optimizable replaceWithHashTableNode()
+	private Optimizable replaceWithFastMapNode()
 		throws StandardException
 	{
 		// If this PRN has TTB access path for its child, store that access

@@ -34,7 +34,7 @@ public abstract class ConstantPoolEntry /*implements PoolEntry*/
 	protected int tag; // u1 (page 83)
 	protected boolean doubleSlot; // Some entries take up two slots! (see footnote page 98) 
 
-	/* Index within Vector */
+	/* Index within FastTable */
 	protected int index;
 
 	protected ConstantPoolEntry(int tag) {
@@ -60,7 +60,7 @@ public abstract class ConstantPoolEntry /*implements PoolEntry*/
 	}
 
 	/**
-		Return the key used to key this object in a hashtable
+		Return the key used to key this object in a FastMap
 	*/
 	Object getKey() {
 		return this;

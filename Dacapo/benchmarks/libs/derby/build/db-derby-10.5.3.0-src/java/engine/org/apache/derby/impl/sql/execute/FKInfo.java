@@ -42,7 +42,7 @@ import java.io.ObjectOutput;
 import java.io.ObjectInput;
 import java.io.IOException;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * This is a simple class used to store the run time information
@@ -190,7 +190,7 @@ public class FKInfo implements Formatable
 			return (FKInfo[])null;
 		}
 
-		Vector newfksVector = new Vector();
+		FastTable newfksFastTable = new FastTable();
 		FKInfo[] newfks = null;
 
 		/*
@@ -201,7 +201,7 @@ public class FKInfo implements Formatable
 			if (addAllTypeIsFK && 
 				(fkInfo[i].type == FOREIGN_KEY))
 			{
-				newfksVector.addElement(fkInfo[i]);
+				newfksFastTable.addElement(fkInfo[i]);
 				continue;
 			}
 				
@@ -216,7 +216,7 @@ public class FKInfo implements Formatable
 					*/
 					if (fkInfo[i].colArray[fkCols] == cols[chcol])
 					{
-						newfksVector.addElement(fkInfo[i]);
+						newfksFastTable.addElement(fkInfo[i]);
 						
 						// go to the next fk
 						fkCols = fkcollen;
@@ -228,15 +228,15 @@ public class FKInfo implements Formatable
 
 		
 		/*
-		** Now convert the vector into an array.
+		** Now convert the FastTable into an array.
 		*/
-		int size = newfksVector.size();
+		int size = newfksFastTable.size();
 		if (size > 0)
 		{
 			newfks = new FKInfo[size];
 			for (int i = 0; i < size; i++)
 			{
-				newfks[i] = (FKInfo)newfksVector.elementAt(i);
+				newfks[i] = (FKInfo)newfksFastTable.elementAt(i);
 			}
 		}
 		return newfks;

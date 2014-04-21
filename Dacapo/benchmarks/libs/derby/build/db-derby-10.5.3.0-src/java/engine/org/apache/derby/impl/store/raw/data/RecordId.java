@@ -32,7 +32,7 @@ import org.apache.derby.iapi.services.sanity.SanityManager;
 import org.apache.derby.iapi.services.locks.VirtualLockTable;
 
 import org.apache.derby.catalog.UUID;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 
 /**
 	Implementation of RecordHandle.
@@ -270,7 +270,7 @@ public final class RecordId implements RecordHandle {
 	/**
 		This lockable wants to participate in the Virtual Lock table.
 	 */
-	public boolean lockAttributes(int flag, Hashtable attributes)
+	public boolean lockAttributes(int flag, FastMap attributes)
 	{
 
 		if (SanityManager.DEBUG)

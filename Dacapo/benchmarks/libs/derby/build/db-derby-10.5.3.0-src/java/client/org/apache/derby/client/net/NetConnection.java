@@ -172,7 +172,7 @@ public class NetConnection extends org.apache.derby.client.am.Connection {
     // resource manager Id for XA Connections.
     private int rmId_ = 0;
     protected NetXAResource xares_ = null;
-    protected java.util.Hashtable indoubtTransactions_ = null;
+    protected javolution.util.FastMap indoubtTransactions_ = null;
     protected int currXACallInfoOffset_ = 0;
     private short seqNo_ = 1;
 
@@ -1575,7 +1575,7 @@ public class NetConnection extends org.apache.derby.client.am.Connection {
         super.readTransactionStart();
     }
 
-    public void setIndoubtTransactions(java.util.Hashtable indoubtTransactions) {
+    public void setIndoubtTransactions(javolution.util.FastMap indoubtTransactions) {
         if (isXAConnection_) {
             if (indoubtTransactions_ != null) {
                 indoubtTransactions_.clear();

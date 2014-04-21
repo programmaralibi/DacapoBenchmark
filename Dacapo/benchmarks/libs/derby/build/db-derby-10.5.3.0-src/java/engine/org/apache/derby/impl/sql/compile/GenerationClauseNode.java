@@ -47,7 +47,7 @@ import org.apache.derby.iapi.error.StandardException;
 
 import java.sql.Types;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * This node describes a Generation Clause in a column definition.
@@ -111,10 +111,10 @@ public class GenerationClauseNode extends ValueNode
 	 * Binding the generation clause.
 	 */
 	public ValueNode bindExpression
-        ( FromList fromList, SubqueryList subqueryList, Vector	aggregateVector )
+        ( FromList fromList, SubqueryList subqueryList, FastTable	aggregateFastTable )
         throws StandardException
 	{
-        _boundExpression = _generationExpression.bindExpression( fromList, subqueryList, aggregateVector );
+        _boundExpression = _generationExpression.bindExpression( fromList, subqueryList, aggregateFastTable );
 
         return _boundExpression;
 	}
@@ -145,20 +145,20 @@ public class GenerationClauseNode extends ValueNode
     }
     
 	/**
-	 * Return a vector of columns referenced in the generation expression.
+	 * Return a FastTable of columns referenced in the generation expression.
 	 *
 	 * @exception StandardException		Thrown on error
 	 */
-    public Vector findReferencedColumns()
+    public FastTable findReferencedColumns()
         throws StandardException
     {
         CollectNodesVisitor visitor = new CollectNodesVisitor( ColumnReference.class );
 
         _generationExpression.accept( visitor );
 
-        Vector result = visitor.getList();
+        FastTable result = visitor.getList();
 
-        if ( result == null ) { result = new Vector(); }
+        if ( result == null ) { result = new FastTable(); }
 
         return result;
     }

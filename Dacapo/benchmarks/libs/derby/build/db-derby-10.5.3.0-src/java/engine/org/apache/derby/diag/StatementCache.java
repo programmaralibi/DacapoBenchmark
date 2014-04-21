@@ -27,7 +27,7 @@ import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 import org.apache.derby.iapi.reference.Limits;
 import org.apache.derby.iapi.services.cache.CacheManager;
@@ -69,7 +69,7 @@ import org.apache.derby.vti.VTITemplate;
 public final class StatementCache extends VTITemplate {
 
 	private int position = -1;
-	private Vector data;
+	private FastTable data;
 	private GenericPreparedStatement currentPs;
 	private boolean wasNull;
 
@@ -82,7 +82,7 @@ public final class StatementCache extends VTITemplate {
 
 		if (statementCache != null) {
 			final Collection values = statementCache.values();
-			data = new Vector(values.size());
+			data = new FastTable(values.size());
 			for (Iterator i = values.iterator(); i.hasNext(); ) {
 				final CachedStatement cs = (CachedStatement) i.next();
 				final GenericPreparedStatement ps =

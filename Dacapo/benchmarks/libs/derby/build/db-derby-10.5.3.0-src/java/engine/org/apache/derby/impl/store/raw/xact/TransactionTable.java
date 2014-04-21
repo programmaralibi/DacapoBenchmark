@@ -41,7 +41,7 @@ import org.apache.derby.iapi.error.StandardException;
 
 import org.apache.derby.iapi.services.io.CompressedNumber;
 
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import java.util.Enumeration;
 import java.io.ObjectOutput;
 import java.io.ObjectInput;
@@ -81,7 +81,7 @@ import java.io.IOException;
 	TransactionTable must be MT-safe it is called upon by many threads
 	simultaneously (except during recovery)
 
-	<P><B> This class depends on Hashtable synchronization!! </B>
+	<P><B> This class depends on FastMap synchronization!! </B>
 
 */
 
@@ -91,7 +91,7 @@ public class TransactionTable implements Formatable
 	 * Fields
 	 */
 
-	private Hashtable trans;
+	private FastMap trans;
 
 	private TransactionId largestUpdateXactId;
 
@@ -100,7 +100,7 @@ public class TransactionTable implements Formatable
 	*/
 	public TransactionTable()
 	{
-		trans = new Hashtable(17);
+		trans = new FastMap(17);
 	}
 
 	/*************************************************************
@@ -114,7 +114,7 @@ public class TransactionTable implements Formatable
 			SanityManager.ASSERT(
                 id != null, "findTransacionEntry with null id");
 
-		// Hashtable is synchronized
+		// FastMap is synchronized
 		return (TransactionTableEntry)trans.get(id);
 	}
 
@@ -188,7 +188,7 @@ public class TransactionTable implements Formatable
             }
         }
 
-		// Hashtable is synchronized
+		// FastMap is synchronized
 		 TransactionTableEntry ent = (TransactionTableEntry)trans.remove(id);
 		 return (ent == null || ent.needExclusion());
 	}
@@ -247,7 +247,7 @@ public class TransactionTable implements Formatable
 	/**
 	    Change update transaction to non-update
 
-		<P>MT - MT safe, since vector is MT-safe.
+		<P>MT - MT safe, since FastTable is MT-safe.
 
 		@param id the transaction Id
 	  */
@@ -302,7 +302,7 @@ public class TransactionTable implements Formatable
 	 * @return The ContextManager of the transaction being searched for.
      *
      **/
-	public Hashtable getTableForXA()
+	public FastMap getTableForXA()
 	{
         return(trans);
 	}

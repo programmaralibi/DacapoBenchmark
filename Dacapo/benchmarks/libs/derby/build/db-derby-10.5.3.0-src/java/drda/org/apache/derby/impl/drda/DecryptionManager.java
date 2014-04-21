@@ -203,31 +203,31 @@ class DecryptionManager
    * the token.  Decryption needs to use exactly the same token as encryption.
    *
    * @param  securityMechanism security mechanism
-   * @param  initVector  userid or server(this side)'s connection key
+   * @param  initFastTable  userid or server(this side)'s connection key
    * @return byte[]  the decryption token
    */
-  private byte[] calculateDecryptionToken (int securityMechanism, byte[] initVector)
+  private byte[] calculateDecryptionToken (int securityMechanism, byte[] initFastTable)
   {
     byte[] token = new byte[8];
 
     //USRENCPWD, the userid is used as token
     if (securityMechanism == 7) {
-      if (initVector.length < 8) { //shorter than 8 bytes, zero padded to 8 bytes
-		for (int i=0; i<initVector.length; i++)
-		  token[i] = initVector[i];
-		for (int i=initVector.length; i<8; i++)
+      if (initFastTable.length < 8) { //shorter than 8 bytes, zero padded to 8 bytes
+		for (int i=0; i<initFastTable.length; i++)
+		  token[i] = initFastTable[i];
+		for (int i=initFastTable.length; i<8; i++)
 	 	 token[i] = 0;
       }
       else {  //longer than 8 bytes, truncated to 8 bytes
 		for (int i=0; i<8; i++)
-		  token[i] = initVector[i];
+		  token[i] = initFastTable[i];
       }
     }
     //EUSRIDPWD - The middle 8 bytes of the server's connection key is used as
     //the token.
     else if (securityMechanism == 9) {
       for (int i = 0; i < 8; i++) {
-		token[i] = initVector[i + 12];
+		token[i] = initFastTable[i + 12];
       }
     }
     return token;
@@ -241,18 +241,18 @@ class DecryptionManager
    *
    * @param cipherText        The byte array form userid/password to decrypt.
    * @param securityMechanism security mechanism
-   * @param initVector        The byte array which is used to calculate the
+   * @param initFastTable        The byte array which is used to calculate the
    *                          decryption token for initializing the cipher
    * @param sourcePublicKey   application requester (encrypter)'s public key.
    * @return the decrypted data (plain text) in a byte array.
    */
   public byte[] decryptData (byte[] cipherText,
 			     int    securityMechanism,
-			     byte[] initVector,
+			     byte[] initFastTable,
 			     byte[] sourcePublicKey) throws SQLException
   {
     byte[] plainText = null;
-    byte[] token = calculateDecryptionToken (securityMechanism, initVector);
+    byte[] token = calculateDecryptionToken (securityMechanism, initFastTable);
     try {
 
       //initiate a Diffie_Hellman KeyFactory object.
@@ -336,7 +336,7 @@ class DecryptionManager
 
       //We use DES in CBC mode because this is the mode used in DRDA. The
       //encryption mode has to be consistent for encryption and decryption.
-      //CBC mode requires an initialization vector(IV) parameter. In CBC mode
+      //CBC mode requires an initialization FastTable(IV) parameter. In CBC mode
       //we need to initialize the Cipher object with an IV, which can be supplied
       // using the javax.crypto.spec.IvParameterSpec class.
       Cipher cipher= Cipher.getInstance ("DES/CBC/PKCS5Padding", "IBMJCE");

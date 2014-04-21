@@ -27,10 +27,10 @@ import org.apache.derby.iapi.services.io.Formatable;
 import org.apache.derby.iapi.services.i18n.MessageService;
 import org.apache.derby.iapi.reference.SQLState;
 
-import org.apache.derby.iapi.services.io.FormatableHashtable;
+import org.apache.derby.iapi.services.io.FormatableFastMap;
 
 import org.apache.derby.iapi.sql.execute.RunTimeStatistics;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 import java.io.ObjectOutput;
 import java.io.ObjectInput;
@@ -372,10 +372,10 @@ public final class RunTimeStatisticsImpl implements RunTimeStatistics
 	 * <P>
 	 * The objects returned can be of any type, including addtional Inspectables.
    *
-	 * @return java.util.Vector	A vector of objects.
+	 * @return javolution.util.FastTable	A FastTable of objects.
 	 */
-  public Vector getChildren(){
-    Vector children = new Vector();
+  public FastTable getChildren(){
+    FastTable children = new FastTable();
     children.addElement(topResultSetStatistics);
     return children;
   }

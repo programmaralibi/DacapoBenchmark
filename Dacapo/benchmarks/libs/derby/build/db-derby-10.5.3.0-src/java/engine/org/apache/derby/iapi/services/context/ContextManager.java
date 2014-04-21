@@ -21,27 +21,24 @@
 
 package org.apache.derby.iapi.services.context;
 
-import org.apache.derby.iapi.services.sanity.SanityManager;
-import org.apache.derby.iapi.services.stream.HeaderPrintWriter;
-
-import org.apache.derby.iapi.error.ErrorStringBuilder;
-import org.apache.derby.iapi.error.PassThroughException;
-import org.apache.derby.iapi.error.ShutdownException;
-
-import org.apache.derby.iapi.error.StandardException;
-import org.apache.derby.iapi.services.monitor.Monitor;
-
-import org.apache.derby.iapi.reference.Property;
-import org.apache.derby.iapi.services.property.PropertyUtil;
-
-import org.apache.derby.iapi.error.ExceptionSeverity;
-import org.apache.derby.iapi.services.i18n.LocaleFinder;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
 
 import javolution.util.FastMap;
 import javolution.util.FastTable;
-import java.util.List;
-import java.util.Collections;
-import java.util.Locale;
+
+import org.apache.derby.iapi.error.ErrorStringBuilder;
+import org.apache.derby.iapi.error.ExceptionSeverity;
+import org.apache.derby.iapi.error.PassThroughException;
+import org.apache.derby.iapi.error.ShutdownException;
+import org.apache.derby.iapi.error.StandardException;
+import org.apache.derby.iapi.reference.Property;
+import org.apache.derby.iapi.services.i18n.LocaleFinder;
+import org.apache.derby.iapi.services.monitor.Monitor;
+import org.apache.derby.iapi.services.property.PropertyUtil;
+import org.apache.derby.iapi.services.sanity.SanityManager;
+import org.apache.derby.iapi.services.stream.HeaderPrintWriter;
 
 /**
  *
@@ -63,7 +60,7 @@ public class ContextManager
 	/**
 	 * The CtxStack implement a stack on top of an FastTable (to avoid
 	 * the inherent overhead associated with java.util.Stack which is
-	 * built on top of java.util.Vector, which is fully
+	 * built on top of javolution.util.FastTable, which is fully
 	 * synchronized).
 	 */
 	private static final class CtxStack {
@@ -317,7 +314,7 @@ forever: for (;;) {
 			/*
 				Walk down the stack, calling
 				cleanup on each context. We use
-				the vector interface to do this.
+				the FastTable interface to do this.
 			 */
 cleanup:	for (int index = holder.size() - 1; index >= 0; index--) {
 

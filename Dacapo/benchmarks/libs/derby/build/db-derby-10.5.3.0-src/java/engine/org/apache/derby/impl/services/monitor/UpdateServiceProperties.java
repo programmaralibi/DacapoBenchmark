@@ -25,7 +25,7 @@ import org.apache.derby.iapi.services.monitor.PersistentService;
 import org.apache.derby.iapi.services.sanity.SanityManager;
 
 import java.util.Properties;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import org.apache.derby.io.WritableStorageFactory;
 
 import org.apache.derby.iapi.error.StandardException;
@@ -75,14 +75,14 @@ public class UpdateServiceProperties extends Properties {
     }
     
 	/*
-	** Methods of Hashtable (overridden)
+	** Methods of FastMap (overridden)
 	*/
 
 	/**	
 		Put the key-value pair in the Properties set and
 		mark this set as modified.
 
-		@see Hashtable#put
+		@see FastMap#put
 	*/
 	public Object put(Object key, Object value) {
 		Object ref = defaults.put(key, value);
@@ -95,7 +95,7 @@ public class UpdateServiceProperties extends Properties {
 		Remove the key-value pair from the Properties set and
 		mark this set as modified.
 
-		@see Hashtable#remove
+		@see FastMap#remove
 	*/
 	public Object remove(Object key) {
 		Object ref = defaults.remove(key);

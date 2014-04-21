@@ -62,7 +62,7 @@ import org.apache.derby.impl.sql.execute.GenericExecutionFactory;
 /**
  * QueryTreeNode is the root class for all query tree nodes. All
  * query tree nodes inherit from QueryTreeNode except for those that extend
- * QueryTreeNodeVector.
+ * QueryTreeNodeFastTable.
  *
  */
 

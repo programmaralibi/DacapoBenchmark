@@ -49,7 +49,7 @@ import org.apache.derby.iapi.services.classfile.VMOpcode;
 
 import java.lang.reflect.Modifier;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * This node type converts a value in the SQL domain to a value in the Java
@@ -188,7 +188,7 @@ public class SQLToJavaValueNode extends JavaValueNode
 	 *				expression is in, for binding columns.
 	 * @param subqueryList		The subquery list being built as we find
 	 *							SubqueryNodes
-	 * @param aggregateVector	The aggregate vector being built as we find AggregateNodes
+	 * @param aggregateFastTable	The aggregate FastTable being built as we find AggregateNodes
 	 *
 	 * @return this	
 	 *
@@ -197,12 +197,12 @@ public class SQLToJavaValueNode extends JavaValueNode
 
 	public JavaValueNode bindExpression(
 		FromList fromList, SubqueryList subqueryList,
-		Vector	aggregateVector) 
+		FastTable	aggregateFastTable) 
 			throws StandardException
 	{
 		/* Bind the expression under us */
 		value = value.bindExpression(fromList, subqueryList,
-							  aggregateVector);
+							  aggregateFastTable);
 
 		return this;
 	}

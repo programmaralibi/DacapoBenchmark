@@ -113,9 +113,7 @@ public class JDBCDataSource {
      */
     static FastMap getDataSourceProperties(TestConfiguration config) 
     {
-        FastMap beanProperties = new FastMap();
-        
-        if (!config.getJDBCClient().isEmbedded()) {
+        FastMap beanProperties = new FastMap() {
             beanProperties.put("serverName", config.getHostName());
             beanProperties.put("portNumber", new Integer(config.getPort()));
         }

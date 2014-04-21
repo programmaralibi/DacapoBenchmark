@@ -997,7 +997,7 @@ public interface LanguageConnectionContext extends Context {
 	 * Copy a map of autoincrement key value pairs into the cache of
 	 * ai values stored in the language connection context.
 	 */
-	public void copyHashtableToAIHT(Map from);
+	public void copyFastMapToAIHT(Map from);
 	
 	/**
 	 * returns the <b>next</b> value to be inserted into an autoincrement col.

@@ -31,7 +31,7 @@ import org.apache.derby.iapi.types.RowLocation;
 
 import org.apache.derby.iapi.services.io.FormatableBitSet;
 
-import java.util.Hashtable;
+import javolution.util.FastMap;
 
 /**
   This scan controller can only be used for group fetch, no update

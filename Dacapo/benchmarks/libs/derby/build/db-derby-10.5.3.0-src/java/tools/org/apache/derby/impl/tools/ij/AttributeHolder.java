@@ -25,7 +25,7 @@ package org.apache.derby.impl.tools.ij;
 import org.apache.derby.iapi.reference.Attribute;
 import org.apache.derby.iapi.tools.i18n.LocalizedResource;
 import java.util.Locale;
-import java.util.Vector;
+import javolution.util.FastTable;
 import java.util.Properties;
 import java.util.Enumeration;
 import java.util.StringTokenizer;
@@ -40,7 +40,7 @@ public class AttributeHolder {
     String name;
     String value;
     String token;
-    Vector errors = new Vector();
+    FastTable errors = new FastTable();
 
     public String getName(){
       return name;
@@ -65,7 +65,7 @@ public class AttributeHolder {
       if (!errors.contains(aString))
         errors.addElement(aString);
     }
-   public void check( Vector validProps){
+   public void check( FastTable validProps){
       checkName( validProps);
       //checkValue();
       displayErrors();
@@ -83,7 +83,7 @@ public class AttributeHolder {
         displayIndented(aString);
       }
     }
-    void checkName( Vector validProps){
+    void checkName( FastTable validProps){
       if( validProps == null)
           return; // valid properties are unknown
       String anAtt = getName();

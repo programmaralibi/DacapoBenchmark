@@ -21,69 +21,66 @@
 
 package org.apache.derby.impl.sql.conn;
 
-import org.apache.derby.iapi.services.context.ContextImpl;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import javolution.util.FastMap;
+import javolution.util.FastTable;
+
+import org.apache.derby.catalog.UUID;
+import org.apache.derby.iapi.db.Database;
+import org.apache.derby.iapi.db.TriggerExecutionContext;
+import org.apache.derby.iapi.error.ExceptionSeverity;
+import org.apache.derby.iapi.error.StandardException;
+import org.apache.derby.iapi.reference.Limits;
+import org.apache.derby.iapi.reference.Property;
+import org.apache.derby.iapi.reference.SQLState;
 import org.apache.derby.iapi.services.cache.CacheManager;
-
-import org.apache.derby.impl.sql.compile.CompilerContextImpl;
-import org.apache.derby.impl.sql.execute.InternalTriggerExecutionContext;
-import org.apache.derby.impl.sql.execute.AutoincrementCounter;
-import org.apache.derby.impl.sql.GenericPreparedStatement;
-import org.apache.derby.impl.sql.GenericStatement;
-
-import org.apache.derby.iapi.services.property.PropertyUtil;
+import org.apache.derby.iapi.services.cache.Cacheable;
+import org.apache.derby.iapi.services.context.ContextImpl;
 import org.apache.derby.iapi.services.context.ContextManager;
+import org.apache.derby.iapi.services.loader.GeneratedClass;
 import org.apache.derby.iapi.services.monitor.Monitor;
+import org.apache.derby.iapi.services.property.PropertyUtil;
 import org.apache.derby.iapi.services.sanity.SanityManager;
 import org.apache.derby.iapi.services.stream.HeaderPrintWriter;
-import org.apache.derby.iapi.services.loader.GeneratedClass;
-import org.apache.derby.iapi.services.cache.Cacheable;
-import org.apache.derby.iapi.db.Database;
-import org.apache.derby.iapi.error.StandardException;
+import org.apache.derby.iapi.sql.Activation;
+import org.apache.derby.iapi.sql.LanguageFactory;
+import org.apache.derby.iapi.sql.ParameterValueSet;
+import org.apache.derby.iapi.sql.PreparedStatement;
+import org.apache.derby.iapi.sql.ResultSet;
 import org.apache.derby.iapi.sql.compile.CompilerContext;
 import org.apache.derby.iapi.sql.compile.OptimizerFactory;
+import org.apache.derby.iapi.sql.compile.TypeCompilerFactory;
 import org.apache.derby.iapi.sql.conn.Authorizer;
-import org.apache.derby.iapi.error.ExceptionSeverity;
 import org.apache.derby.iapi.sql.conn.LanguageConnectionContext;
 import org.apache.derby.iapi.sql.conn.LanguageConnectionFactory;
-import org.apache.derby.iapi.sql.conn.StatementContext;
 import org.apache.derby.iapi.sql.conn.SQLSessionContext;
+import org.apache.derby.iapi.sql.conn.StatementContext;
+import org.apache.derby.iapi.sql.depend.DependencyManager;
+import org.apache.derby.iapi.sql.depend.Provider;
 import org.apache.derby.iapi.sql.dictionary.ConglomerateDescriptor;
 import org.apache.derby.iapi.sql.dictionary.ConglomerateDescriptorList;
 import org.apache.derby.iapi.sql.dictionary.DataDictionary;
+import org.apache.derby.iapi.sql.dictionary.RoleGrantDescriptor;
 import org.apache.derby.iapi.sql.dictionary.SchemaDescriptor;
 import org.apache.derby.iapi.sql.dictionary.TableDescriptor;
-import org.apache.derby.iapi.sql.dictionary.RoleGrantDescriptor;
-import org.apache.derby.iapi.types.DataValueFactory;
-import org.apache.derby.iapi.sql.compile.TypeCompilerFactory;
-import org.apache.derby.iapi.sql.depend.DependencyManager;
-import org.apache.derby.iapi.sql.depend.Provider;
-import org.apache.derby.iapi.reference.SQLState;
-import org.apache.derby.iapi.reference.Limits;
 import org.apache.derby.iapi.sql.execute.ConstantAction;
 import org.apache.derby.iapi.sql.execute.CursorActivation;
 import org.apache.derby.iapi.sql.execute.ExecPreparedStatement;
 import org.apache.derby.iapi.sql.execute.ExecutionContext;
 import org.apache.derby.iapi.sql.execute.ExecutionStmtValidator;
-import org.apache.derby.iapi.sql.Activation;
-import org.apache.derby.iapi.sql.LanguageFactory;
-import org.apache.derby.iapi.sql.PreparedStatement;
-import org.apache.derby.iapi.sql.ResultSet;
-import org.apache.derby.iapi.sql.ParameterValueSet;
-
+import org.apache.derby.iapi.sql.execute.RunTimeStatistics;
 import org.apache.derby.iapi.store.access.TransactionController;
 import org.apache.derby.iapi.store.access.XATransactionController;
+import org.apache.derby.iapi.types.DataValueFactory;
 import org.apache.derby.iapi.util.IdUtil;
-
-import org.apache.derby.catalog.UUID;
-import org.apache.derby.iapi.sql.execute.RunTimeStatistics;
-import org.apache.derby.iapi.db.TriggerExecutionContext;
-import org.apache.derby.iapi.reference.Property;
-
-import java.util.List;
-import javolution.util.FastTable;
-import javolution.util.FastMap;
-import java.util.Iterator;
-import java.util.Map;
+import org.apache.derby.impl.sql.GenericPreparedStatement;
+import org.apache.derby.impl.sql.GenericStatement;
+import org.apache.derby.impl.sql.compile.CompilerContextImpl;
+import org.apache.derby.impl.sql.execute.AutoincrementCounter;
+import org.apache.derby.impl.sql.execute.InternalTriggerExecutionContext;
 
 /**
  * LanguageConnectionContext keeps the pool of prepared statements,
@@ -825,7 +822,7 @@ public class GenericLanguageConnectionContext
 		acts.remove(a);
 
 		if (maxActsSize > 20 && (maxActsSize > 2 * acts.size())) {
-			acts.trimToSize();
+			//acts.trimToSize();
 			maxActsSize = acts.size();
 		}
 	}

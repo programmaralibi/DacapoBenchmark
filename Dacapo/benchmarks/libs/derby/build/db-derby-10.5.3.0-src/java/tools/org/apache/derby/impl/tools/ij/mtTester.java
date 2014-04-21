@@ -21,7 +21,7 @@
 
 package org.apache.derby.impl.tools.ij;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.io.BufferedInputStream;

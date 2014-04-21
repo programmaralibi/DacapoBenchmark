@@ -36,15 +36,15 @@ public abstract class Connection implements java.sql.Connection,
     public Agent agent_;
 
     public DatabaseMetaData databaseMetaData_;
-    // DERBY-210 -  WeakFastMap is used to store references to objects to avoid
+    // DERBY-210 -  FastMap is used to store references to objects to avoid
     // memory leaks. When there are no other references to the keys in a 
-    // WeakFastMap, they will get removed from the map and can thus get 
+    // FastMap, they will get removed from the map and can thus get 
     // garbage-collected. They do not have to wait till the Connection object 
     // is collected.
         
     // In Connection.markStatementsClosed() method, this list is traversed to get a
     // list of open statements, which are marked closed and removed from the list.
-    final java.util.WeakFastMap openStatements_ = new java.util.WeakFastMap();
+    final javolution.util.FastMap openStatements_ = new javolution.util.FastMap();
 
     // Some statuses of DERBY objects may be invalid on server
     // after both commit and rollback. For example,
@@ -52,7 +52,7 @@ public abstract class Connection implements java.sql.Connection,
     //     after both commit and rollback
     // (2) result set will be unpositioned on server after both commit and rollback.
     // If they depend on both commit and rollback, they need to get on CommitAndRollbackListeners_.
-    final java.util.WeakFastMap CommitAndRollbackListeners_ = new java.util.WeakFastMap();
+    final javolution.util.FastMap CommitAndRollbackListeners_ = new javolution.util.FastMap();
     private SqlWarning warnings_ = null;
     
     //Constant representing an invalid locator value
@@ -157,7 +157,7 @@ public abstract class Connection implements java.sql.Connection,
     public int portNumber_;
     public int clientSSLMode_ = ClientBaseDataSource.SSL_OFF;
 
-    java.util.Hashtable clientCursorNameCache_ = new java.util.Hashtable();
+    javolution.util.FastMap clientCursorNameCache_ = new javolution.util.FastMap();
     public int commBufferSize_ = 32767;
 
     // indicates if a deferred reset connection is required

@@ -31,7 +31,7 @@ import org.apache.derby.iapi.services.sanity.SanityManager;
 
 import org.apache.derby.iapi.error.StandardException;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 import java.util.List;
 
 /**
@@ -61,7 +61,7 @@ import java.util.List;
 	The BasicDaemon implementation manages the DaemonService's data structure,
 	handles subscriptions and enqueues requests, and determine the service
 	schedule for its Serviceable objects.  The BasicDaemon keeps an array
-	(Vector) of Serviceable subscriptions it also keeps 2 queues for clients
+	(FastTable) of Serviceable subscriptions it also keeps 2 queues for clients
 	that uses it for one time service - the 1st queue is for a serviceNow
 	enqueue request, the 2nd queue is for non serviceNow enqueue request.
 
@@ -79,7 +79,7 @@ public class BasicDaemon implements DaemonService, Runnable
 
 	private static final int OPTIMAL_QUEUE_SIZE = 100;
 
-	private final Vector subscription;
+	private final FastTable subscription;
 
 	// the context this daemon should run with
 	protected final ContextService contextService;
@@ -129,7 +129,7 @@ public class BasicDaemon implements DaemonService, Runnable
 		this.contextService = contextService;
 		this.contextMgr = contextService.newContextManager();
 
-		subscription = new Vector(1, 1);
+		subscription = new FastTable();
 		highPQ = new java.util.LinkedList();
 		normPQ = new java.util.LinkedList();
 		
@@ -147,7 +147,7 @@ public class BasicDaemon implements DaemonService, Runnable
 			clientNumber = numClients++;
 
 			clientRecord = new ServiceRecord(newClient, onDemandOnly, true);
-			subscription.insertElementAt(clientRecord, clientNumber);
+			subscription.add(clientNumber, clientRecord);
 		}
 
 
@@ -176,8 +176,8 @@ public class BasicDaemon implements DaemonService, Runnable
 		if (clientNumber < 0 || clientNumber > subscription.size())
 			return;
 
-		// client number is never reused.  Just null out the vector entry.
-		subscription.setElementAt(null, clientNumber);
+		// client number is never reused.  Just null out the FastTable entry.
+		subscription.add(clientNumber, null);
 	}
 
 	public void serviceNow(int clientNumber)
@@ -185,7 +185,7 @@ public class BasicDaemon implements DaemonService, Runnable
 		if (clientNumber < 0 || clientNumber > subscription.size())
 			return;
 
-		ServiceRecord clientRecord = (ServiceRecord)subscription.elementAt(clientNumber);
+		ServiceRecord clientRecord = (ServiceRecord)subscription.get(clientNumber);
 		if (clientRecord == null)
 			return;
 
@@ -251,7 +251,7 @@ public class BasicDaemon implements DaemonService, Runnable
 
 		while (nextService < subscription.size())
 		{
-			clientRecord = (ServiceRecord)subscription.elementAt(nextService++);
+			clientRecord = (ServiceRecord)subscription.get(nextService++);
 			if (clientRecord != null && (clientRecord.needImmediateService() || (!urgent && clientRecord.needService())))
 				return clientRecord;
 		}
@@ -498,7 +498,7 @@ public class BasicDaemon implements DaemonService, Runnable
 				boolean noSubscriptionRequests = true; 
 				for (int urgentServiced = 0; urgentServiced < subscription.size(); urgentServiced++)
 				{
-					ServiceRecord clientRecord = (ServiceRecord)subscription.elementAt(urgentServiced);
+					ServiceRecord clientRecord = (ServiceRecord)subscription.get(urgentServiced);
 					if (clientRecord != null &&	clientRecord.needService())
 					{
 						noSubscriptionRequests = false;

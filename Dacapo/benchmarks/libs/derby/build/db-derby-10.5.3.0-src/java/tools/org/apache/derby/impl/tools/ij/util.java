@@ -44,7 +44,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.Types;
 
 import java.util.Properties;
-import java.util.Vector;
+import javolution.util.FastTable;
 import java.util.Locale;
 
 /**
@@ -548,17 +548,17 @@ public final class util implements java.security.PrivilegedAction {
 
 
 	/**
-		Display a vector of strings to the out stream.
+		Display a FastTable of strings to the out stream.
 	 */
-	public static void DisplayVector(LocalizedOutput out, Vector v) {
+	public static void DisplayFastTable(LocalizedOutput out, FastTable v) {
 		int l = v.size();
 		for (int i=0;i<l;i++)
 			out.println(v.elementAt(i));
 	}
 
 	/**
-		Display a vector of statements to the out stream.
-	public static void DisplayVector(AppStreamWriter out, Vector v, Connection conn) throws SQLException {
+		Display a FastTable of statements to the out stream.
+	public static void DisplayFastTable(AppStreamWriter out, FastTable v, Connection conn) throws SQLException {
 		int l = v.size();
 AppUI.out.println("SIZE="+l);
 		for (int i=0;i<l;i++) {

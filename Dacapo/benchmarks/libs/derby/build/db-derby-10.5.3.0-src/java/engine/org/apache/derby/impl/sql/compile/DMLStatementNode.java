@@ -21,7 +21,7 @@
 
 package	org.apache.derby.impl.sql.compile;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 import org.apache.derby.iapi.error.StandardException;
 import org.apache.derby.iapi.services.sanity.SanityManager;
@@ -267,7 +267,7 @@ abstract class DMLStatementNode extends StatementNode
 	 */
 	int activationKind()
 	{
-		Vector parameterList = getCompilerContext().getParameterList();
+		FastTable parameterList = getCompilerContext().getParameterList();
 		/*
 		** We need rows for all types of DML activations.  We need parameters
 		** only for those that have parameters.
@@ -437,7 +437,7 @@ abstract class DMLStatementNode extends StatementNode
 	void generateParameterValueSet(ActivationClassBuilder acb)
 		throws StandardException
 	{
-		Vector parameterList = getCompilerContext().getParameterList();
+		FastTable parameterList = getCompilerContext().getParameterList();
 		int	numberOfParameters = (parameterList == null) ? 0 : parameterList.size();
 
 		if (numberOfParameters <= 0)

@@ -1,6 +1,6 @@
 /*
 
-   Derby - Class org.apache.derby.iapi.store.access.BackingStoreHashtable
+   Derby - Class org.apache.derby.iapi.store.access.BackingStoreFastMap
 
    Licensed to the Apache Software Foundation (ASF) under one or more
    contributor license agreements.  See the NOTICE file distributed with
@@ -21,33 +21,28 @@
 
 package org.apache.derby.iapi.store.access;
 
-import org.apache.derby.iapi.services.sanity.SanityManager;
-
-import org.apache.derby.iapi.services.io.Storable;
-
-import org.apache.derby.iapi.error.StandardException; 
-
-import org.apache.derby.iapi.types.CloneableObject;
-import org.apache.derby.iapi.types.DataValueDescriptor;
-
-import org.apache.derby.iapi.services.cache.ClassSize;
-
-import javolution.util.FastTable;
 import java.util.Collections;
 import java.util.Enumeration;
 import javolution.util.FastMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Properties; 
 import java.util.NoSuchElementException;
+import java.util.Properties;
+
+import javolution.util.FastTable;
+
+import org.apache.derby.iapi.error.StandardException;
+import org.apache.derby.iapi.services.cache.ClassSize;
+import org.apache.derby.iapi.types.CloneableObject;
+import org.apache.derby.iapi.types.DataValueDescriptor;
 
 /**
-A BackingStoreHashtable is a utility class which will store a set of rows into
+A BackingStoreFastMap is a utility class which will store a set of rows into
 an in memory hash table, or overflow the hash table to a tempory on disk 
 structure.
 <p>
 All rows must contain the same number of columns, and the column at position
-N of all the rows must have the same format id.  If the BackingStoreHashtable needs to be
+N of all the rows must have the same format id.  If the BackingStoreFastMap needs to be
 overflowed to disk, then an arbitrary row will be chosen and used as a template
 for creating the underlying overflow container.
 
@@ -57,12 +52,12 @@ may differ).  The important points are that the hash value is the standard
 java hash value on the row[key_column_numbers[0], if key_column_numbers.length is 1,
 or row[key_column_numbers[0, 1, ...]] if key_column_numbers.length > 1, 
 and that duplicate detection is done by the standard java duplicate detection provided by 
-java.util.Hashtable.
+javolution.util.FastMap.
 <p>
 <pre>
-import java.util.Hashtable;
+import javolution.util.FastMap;
 
-hash_table = new Hashtable();
+hash_table = new FastMap();
 
 Object[] row;
 boolean  needsToClone = rowSource.needsToClone();
@@ -77,26 +72,26 @@ while((row = rowSource.getNextRowFromRowSource()) != null)
     if ((duplicate_value = 
         hash_table.put(key, row)) != null)
     {
-        Vector row_vec;
+        FastTable row_vec;
 
         // inserted a duplicate
-        if ((duplicate_value instanceof vector))
+        if ((duplicate_value instanceof FastTable))
         {
-            row_vec = (Vector) duplicate_value;
+            row_vec = (FastTable) duplicate_value;
         }
         else
         {
-            // allocate vector to hold duplicates
-            row_vec = new Vector(2);
+            // allocate FastTable to hold duplicates
+            row_vec = new FastTable(2);
 
-            // insert original row into vector
+            // insert original row into FastTable
             row_vec.addElement(duplicate_value);
 
-            // put the vector as the data rather than the row
+            // put the FastTable as the data rather than the row
             hash_table.put(key, row_vec);
         }
         
-        // insert new row into vector
+        // insert new row into FastTable
         row_vec.addElement(row);
     }
 }
@@ -104,7 +99,7 @@ while((row = rowSource.getNextRowFromRowSource()) != null)
 
 **/
 
-public class BackingStoreHashtable
+public class BackingStoreFastMap
 {
 
     /**************************************************************************
@@ -119,7 +114,7 @@ public class BackingStoreHashtable
     private Properties  auxillary_runtimestats;
 	private RowSource	row_source;
     /* If max_inmemory_rowcnt > 0 then use that to decide when to spill to disk.
-     * Otherwise compute max_inmemory_size based on the JVM memory size when the BackingStoreHashtable
+     * Otherwise compute max_inmemory_size based on the JVM memory size when the BackingStoreFastMap
      * is constructed and use that to decide when to spill to disk.
      */
     private long max_inmemory_rowcnt;
@@ -133,16 +128,16 @@ public class BackingStoreHashtable
     private final static int ARRAY_LIST_SIZE =
         ClassSize.estimateBaseFromCatalog(FastTable.class);
     
-    private DiskHashtable diskHashtable;
+    private DiskFastMap diskFastMap;
 
     /**************************************************************************
      * Constructors for This class:
      **************************************************************************
      */
-    private BackingStoreHashtable(){}
+    private BackingStoreFastMap(){}
 
     /**
-     * Create the BackingStoreHashtable from a row source.
+     * Create the BackingStoreFastMap from a row source.
      * <p>
      * This routine drains the RowSource.  The performance characteristics
      * depends on the number of rows inserted and the parameters to the 
@@ -191,7 +186,7 @@ public class BackingStoreHashtable
      *
 	 * @exception  StandardException  Standard exception policy.
      **/
-    public BackingStoreHashtable(
+    public BackingStoreFastMap(
     TransactionController   tc,
     RowSource               row_source,
     int[]                   key_column_numbers,
@@ -222,8 +217,8 @@ public class BackingStoreHashtable
         {
             hash_table = 
                 ((loadFactor == -1) ? 
-                     new FastMap(initialCapacity) :
-                     new FastMap(initialCapacity, loadFactor));
+                     new FastMap() :
+                     new FastMap());
         }
         else
         {
@@ -256,7 +251,7 @@ public class BackingStoreHashtable
                 (((estimated_rowcnt <= 0) || (row_source == null)) ?
                      new FastMap() :
                      (estimated_rowcnt < max_inmemory_size) ?
-                         new FastMap((int) estimated_rowcnt) :
+                         new FastMap() :
                          null);
         }
 
@@ -282,7 +277,7 @@ public class BackingStoreHashtable
                     // capacity of the hash table.
                     double rowUsage = getEstimatedMemUsage(row);
                     hash_table =
-                        new FastMap((int)(max_inmemory_size / rowUsage));
+                        new FastMap();
                 }
                
                 add_row_to_hash_table(row, needsToClone);
@@ -292,9 +287,9 @@ public class BackingStoreHashtable
         // In the (unlikely) event that we received a "red flag" estimated_rowcnt
         // that is too big (see comments above), it's possible that, if row_source
         // was null or else didn't have any rows, hash_table could still be null
-        // at this point.  So we initialize it to an empty hashtable (representing
+        // at this point.  So we initialize it to an empty FastMap (representing
         // an empty result set) so that calls to other methods on this
-        // BackingStoreHashtable (ex. "size()") will have a working hash_table
+        // BackingStoreFastMap (ex. "size()") will have a working hash_table
         // on which to operate.
         if (hash_table == null)
             hash_table = new FastMap();
@@ -427,9 +422,9 @@ public class BackingStoreHashtable
                 else
                 {
                     // allocate list to hold duplicates
-                    row_vec = new FastTable(2);
+                    row_vec = new FastTable();
 
-                    // insert original row into vector
+                    // insert original row into FastTable
                     row_vec.add(duplicate_value);
                     doSpaceAccounting( row, true);
                 }
@@ -471,7 +466,7 @@ public class BackingStoreHashtable
     private boolean spillToDisk(DataValueDescriptor[] row) throws StandardException {
         // Once we have started spilling all new rows will go to disk, even if we have freed up some
         // memory by moving duplicates to disk. This simplifies handling of duplicates and accounting.
-        if( diskHashtable == null)
+        if( diskFastMap == null)
         {
             if( max_inmemory_rowcnt > 0)
             {
@@ -483,8 +478,8 @@ public class BackingStoreHashtable
                 return false;
             // Want to start spilling
  
-            diskHashtable = 
-                new DiskHashtable(
+            diskFastMap = 
+                new DiskFastMap(
                        tc,
                        row,
                        (int[]) null, //TODO-COLLATION, set non default collation if necessary.
@@ -506,14 +501,14 @@ public class BackingStoreHashtable
                 for( int i = duplicateVec.size() - 1; i >= 0; i--)
                 {
                     DataValueDescriptor[] dupRow = (DataValueDescriptor[]) duplicateVec.get(i);
-                    diskHashtable.put( key, dupRow);
+                    diskFastMap.put( key, dupRow);
                 }
             }
             else
-                diskHashtable.put( key, (DataValueDescriptor[]) duplicateValue);
+                diskFastMap.put( key, (DataValueDescriptor[]) duplicateValue);
             hash_table.remove( key);
         }
-        diskHashtable.put( key, row);
+        diskFastMap.put( key, row);
         return true;
     } // end of spillToDisk
 
@@ -544,9 +539,9 @@ public class BackingStoreHashtable
      */
 
     /**
-     * Close the BackingStoreHashtable.
+     * Close the BackingStoreFastMap.
      * <p>
-     * Perform any necessary cleanup after finishing with the hashtable.  Will
+     * Perform any necessary cleanup after finishing with the FastMap.  Will
      * deallocate/dereference objects as necessary.  If the table has gone
      * to disk this will drop any on disk files used to support the hash table.
      * <p>
@@ -557,10 +552,10 @@ public class BackingStoreHashtable
 		throws StandardException
     {
         hash_table = null;
-        if( diskHashtable != null)
+        if( diskFastMap != null)
         {
-            diskHashtable.close();
-            diskHashtable = null;
+            diskFastMap.close();
+            diskFastMap = null;
         }
         return;
     }
@@ -578,9 +573,9 @@ public class BackingStoreHashtable
     public Enumeration elements()
         throws StandardException
     {
-        if( diskHashtable == null)
+        if( diskFastMap == null)
             return Collections.enumeration(hash_table.values());
-        return new BackingStoreHashtableEnumeration();
+        return new BackingStoreFastMapEnumeration();
     }
 
     /**
@@ -602,16 +597,16 @@ public class BackingStoreHashtable
      * object if duplicates are expected, to determine if the data value
      * of the hash table entry is a row or is a list of rows.
      * <p>
-     * The BackingStoreHashtable "owns" the objects returned from the get()
+     * The BackingStoreFastMap "owns" the objects returned from the get()
      * routine.  They remain valid until the next access to the 
-     * BackingStoreHashtable.  If the client needs to keep references to these
+     * BackingStoreFastMap.  If the client needs to keep references to these
      * objects, it should clone copies of the objects.  A valid 
-     * BackingStoreHashtable can place all rows into a disk based conglomerate,
+     * BackingStoreFastMap can place all rows into a disk based conglomerate,
      * declare a row buffer and then reuse that row buffer for every get()
      * call.
      *
-	 * @return The value to which the key is mapped in this hashtable; 
-     *         null if the key is not mapped to any value in this hashtable.
+	 * @return The value to which the key is mapped in this FastMap; 
+     *         null if the key is not mapped to any value in this FastMap.
      *
      * @param key    The key to hash on.
      *
@@ -621,9 +616,9 @@ public class BackingStoreHashtable
 		throws StandardException
     {
         Object obj = hash_table.get(key);
-        if( diskHashtable == null || obj != null)
+        if( diskFastMap == null || obj != null)
             return obj;
-        return diskHashtable.get( key);
+        return diskFastMap.get( key);
     }
 
     /**
@@ -655,16 +650,16 @@ public class BackingStoreHashtable
 		throws StandardException
     {
         Object obj = hash_table.remove(key);
-        if( obj != null || diskHashtable == null)
+        if( obj != null || diskFastMap == null)
             return obj;
-        return diskHashtable.remove(key);
+        return diskFastMap.remove(key);
     }
 
     /**
      * Set the auxillary runtime stats.
      * <p>
      * getRuntimeStats() will return both the auxillary stats and any
-     * BackingStoreHashtable() specific stats.  Note that each call to
+     * BackingStoreFastMap() specific stats.  Note that each call to
      * setAuxillaryRuntimeStats() overwrites the Property set that was
      * set previously.
      *
@@ -695,7 +690,7 @@ public class BackingStoreHashtable
      * @param row          The row to insert into the table.
      *
 	 * @return true if row was inserted into the hash table.  Returns
-     *              false if the BackingStoreHashtable is eliminating 
+     *              false if the BackingStoreFastMap is eliminating 
      *              duplicates, and the row being inserted is a duplicate,
 	 *				or if we are skipping rows with 1 or more null key columns
 	 *				and we find a null key column.
@@ -744,24 +739,24 @@ public class BackingStoreHashtable
     public int size()
 		throws StandardException
     {
-        if( diskHashtable == null)
+        if( diskFastMap == null)
             return(hash_table.size());
-        return hash_table.size() + diskHashtable.size();
+        return hash_table.size() + diskFastMap.size();
     }
 
-    private class BackingStoreHashtableEnumeration implements Enumeration
+    private class BackingStoreFastMapEnumeration implements Enumeration
     {
         private Iterator memoryIterator;
         private Enumeration diskEnumeration;
 
-        BackingStoreHashtableEnumeration()
+        BackingStoreFastMapEnumeration()
         {
             memoryIterator = hash_table.values().iterator();
-            if( diskHashtable != null)
+            if( diskFastMap != null)
             {
                 try
                 {
-                    diskEnumeration = diskHashtable.elements();
+                    diskEnumeration = diskFastMap.elements();
                 }
                 catch( StandardException se)
                 {
@@ -793,5 +788,5 @@ public class BackingStoreHashtable
             }
             return diskEnumeration.nextElement();
         }
-    } // end of class BackingStoreHashtableEnumeration
+    } // end of class BackingStoreFastMapEnumeration
 }

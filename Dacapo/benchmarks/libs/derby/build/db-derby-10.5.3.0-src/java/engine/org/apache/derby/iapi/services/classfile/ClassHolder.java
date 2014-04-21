@@ -21,23 +21,15 @@
 
 package org.apache.derby.iapi.services.classfile;
 
-import org.apache.derby.iapi.services.sanity.SanityManager;
-
-
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Enumeration;
-
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.Vector;
 
+import javolution.util.FastMap;
+import javolution.util.FastTable;
+
+import org.apache.derby.iapi.services.sanity.SanityManager;
 import org.apache.derby.iapi.util.ByteArray;
-import org.apache.derby.iapi.services.classfile.VMDescriptor;
-import org.apache.derby.iapi.services.classfile.VMDescriptor;
-
-import java.util.Hashtable;
-import java.util.Vector;
-import java.util.Enumeration;
 
 
 /** Based upon "THE class FILE FORMAT" chapter of "The Java Virtual Machine Specification"
@@ -91,7 +83,7 @@ public class ClassHolder {
 	/*
 	** Fields for Constant Pool Table
 	*/
-	protected Hashtable cptHashTable;
+	protected FastMap cptFastMap;
 	protected Vector cptEntries;
 	private int cptEstimatedSize;
 
@@ -108,11 +100,11 @@ public class ClassHolder {
 	protected ClassHolder(int estimatedConstantPoolCount) {
 		// Constant Pool Information
 		// 100 is the estimate of the number of entries that will be generated
-		cptEntries = new Vector(estimatedConstantPoolCount);
-		cptHashTable = new Hashtable(estimatedConstantPoolCount, (float)0.75);
+		cptEntries = new Vector();
+		cptFastMap = new FastMap();
 
 		// reserve the 0'th constant pool entry
-		cptEntries.setSize(1);
+		//cptEntries.setSize(1);
 	}
 
 
@@ -420,13 +412,13 @@ public class ClassHolder {
 
 		item.setIndex(cptEntries.size());
 		if (key != null)
-			cptHashTable.put(key, item);
-		cptEntries.addElement(item);
+			cptFastMap.put(key, item);
+		cptEntries.add(item);
 
 		cptEstimatedSize += item.classFileSize();
 
 		if (item.doubleSlot()) {
-			cptEntries.addElement(null);
+			cptEntries.add(null);
 			return 2;
 		} else {
 			return 1;
@@ -552,8 +544,8 @@ public class ClassHolder {
 	}
  	protected void cptPut(ClassFormatOutput out) throws IOException {
 
-		for (Enumeration e = cptEntries.elements(); e.hasMoreElements(); ) {
-			ConstantPoolEntry item = (ConstantPoolEntry) e.nextElement();
+		for (Iterator e = cptEntries.iterator(); e.hasNext(); ) {
+			ConstantPoolEntry item = (ConstantPoolEntry) e.next();
 			if (item == null) {
 				continue;
 			}
@@ -567,7 +559,7 @@ public class ClassHolder {
 	*/
 
 	public ConstantPoolEntry getEntry(int index) {
-		return (ConstantPoolEntry) cptEntries.elementAt(index);
+		return (ConstantPoolEntry) cptEntries.get(index);
 	}
 
 	/**
@@ -673,7 +665,7 @@ public class ClassHolder {
 	}
 
 	protected ConstantPoolEntry findMatchingEntry(Object key) {
-		return (ConstantPoolEntry) cptHashTable.get(key);
+		return (ConstantPoolEntry) cptFastMap.get(key);
 	}
 
 	/** get a string (UTF) given a name_index into the constant pool

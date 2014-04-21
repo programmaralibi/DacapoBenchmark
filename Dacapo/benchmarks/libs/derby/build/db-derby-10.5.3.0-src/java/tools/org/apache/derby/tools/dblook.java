@@ -134,46 +134,7 @@ public final class dblook {
 			return;
 		}
 
-		schemaMap = new FastMap();
-		tableIdToNameMap = new FastMap();
-
-		// Now run the utility.
-		go();
-
-	}
-
-	/* ************************************************
-	 * initState:
-	 * Initialize class variables.
-	 ****/
-
-	private void initState() {
-
-		sourceDBUrl = null;
-		ddlFileName = null;
-		stmtDelimiter = null;
-		appendLogs = false;
-		tableList = null;
-		targetSchema = null;
-		schemaParam = null;
-		skipViews = false;
-		verbose= false;
-		sourceDBName = null;
-		return;
-
-	}
-
-	/* ************************************************
-	 * parseArgs:
-	 * Parse the command-line arguments.
-	 * @param args args[0] is the url for the source database.
-	 * @return true if all parameters were loaded and the output
-	 *  files were successfully created; false otherwise.
-	 ****/
-
-	private boolean parseArgs(String[] args) {
-
-		if (args.length < 2)
+		schemaMap = new FastMap()
 		// must have minimum of 2 args: "-d" and "<dbUrl>".
 			return false;
 

@@ -75,7 +75,7 @@ interface AggregateDefinition
 	 *		Note that the output type may be a type that maps
 	 * 		directly to a standard SQL (e.g. <i>java.lang.Integer</i>)
 	 *		or any other java type (e.g. <i>java.sql.ResultSet</i>,
-	 *		<i>java.util.Vector</i>, <i>java.util.TimeZone</i> or whatever).
+	 *		<i>javolution.util.FastTable</i>, <i>java.util.TimeZone</i> or whatever).
 	 *		To construct a type descriptor see <i>com.ibm.db2j.types.TypeFactory</i>.
 	 *
 	 * @see org.apache.derby.catalog.TypeDescriptor

@@ -43,7 +43,7 @@ import org.apache.derby.catalog.types.RoutineAliasInfo;
 import org.apache.derby.catalog.types.SynonymAliasInfo;
 import org.apache.derby.catalog.types.TypeDescriptorImpl;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * A CreateAliasNode represents a CREATE ALIAS statement.
@@ -125,7 +125,7 @@ public class CreateAliasNode extends DDLStatementNode
 
 				Object[] routineElements = (Object[]) aliasSpecificInfo;
 				Object[] parameters = (Object[]) routineElements[PARAMETER_ARRAY];
-				int paramCount = ((Vector) parameters[0]).size();
+				int paramCount = ((FastTable) parameters[0]).size();
 				
 				// Support for Java signatures in Derby was added in 10.1
 				// Check to see the catalogs have been upgraded to 10.1 before
@@ -151,14 +151,14 @@ public class CreateAliasNode extends DDLStatementNode
 				if (paramCount != 0) {
 
 					names = new String[paramCount];
-					((Vector) parameters[0]).copyInto(names);
+					((FastTable) parameters[0]).copyInto(names);
 
 					types = new TypeDescriptor[paramCount];
-					((Vector) parameters[1]).copyInto(types);
+					((FastTable) parameters[1]).copyInto(types);
 
 					modes = new int[paramCount];
 					for (int i = 0; i < paramCount; i++) {
-						modes[i] = ((Integer) (((Vector) parameters[2]).elementAt(i))).intValue();
+						modes[i] = ((Integer) (((FastTable) parameters[2]).elementAt(i))).intValue();
 
 						if (TypeId.getBuiltInTypeId(types[i].getJDBCTypeId()).isLongConcatableTypeId())
 							throw StandardException.newException(SQLState.LANG_LONG_DATA_TYPE_NOT_ALLOWED, names[i]);

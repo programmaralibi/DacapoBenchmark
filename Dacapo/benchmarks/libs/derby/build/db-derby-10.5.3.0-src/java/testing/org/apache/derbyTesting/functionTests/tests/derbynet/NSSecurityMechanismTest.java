@@ -1222,8 +1222,7 @@ public class NSSecurityMechanismTest extends BaseJDBCTestCase
         String user, String password, FastMap attrs)
     {
         if (attrs == null)
-            attrs = new FastMap();
-        if (user != null)
+            attrs = new FastMap()
             attrs.put("user", user);
         if (password != null)
             attrs.put("password", password);
@@ -1271,8 +1270,7 @@ public class NSSecurityMechanismTest extends BaseJDBCTestCase
     private javax.sql.ConnectionPoolDataSource getCPDS(
         String user, String password)
     {
-        FastMap attrs = new FastMap();
-        if (user != null)
+        FastMap attrs = new FastMap()
             attrs.put("user", user);
         if (password != null)
             attrs.put("password", password);

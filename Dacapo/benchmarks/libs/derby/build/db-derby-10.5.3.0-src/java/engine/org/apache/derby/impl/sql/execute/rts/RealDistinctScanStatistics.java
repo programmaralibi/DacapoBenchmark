@@ -27,7 +27,7 @@ import org.apache.derby.iapi.services.i18n.MessageService;
 import org.apache.derby.iapi.reference.SQLState;
 
 import java.util.Enumeration;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import java.util.Properties;
 
 
@@ -58,7 +58,7 @@ public class RealDistinctScanStatistics
 									String tableName,
 									String indexName,
 									boolean isConstraint,
-									int hashtableSize,
+									int FastMapSize,
 									int[] hashKeyColumns,
 									String scanQualifiers,
 									String nextQualifiers,
@@ -83,7 +83,7 @@ public class RealDistinctScanStatistics
 			tableName,
 			indexName,
 			isConstraint,
-			hashtableSize,
+			FastMapSize,
 			hashKeyColumns,
 			scanQualifiers,
 			nextQualifiers,
@@ -171,7 +171,7 @@ public class RealDistinctScanStatistics
 					" = " + numOpens + "\n" +
 			indent + MessageService.getTextMessage(
 												SQLState.RTS_HASH_TABLE_SIZE) +
-					" = " + hashtableSize + "\n" +
+					" = " + FastMapSize + "\n" +
 			indent + hashKeyColumnString + "\n" +
 			indent + MessageService.getTextMessage(SQLState.RTS_ROWS_SEEN) +
 					" = " + rowsSeen + "\n" +

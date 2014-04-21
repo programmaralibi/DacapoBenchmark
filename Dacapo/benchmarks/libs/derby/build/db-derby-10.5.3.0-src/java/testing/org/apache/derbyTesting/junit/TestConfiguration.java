@@ -29,7 +29,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 import javolution.util.FastTable;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 
 import junit.extensions.TestSetup;
 import junit.framework.Assert;
@@ -1571,7 +1571,7 @@ public class TestConfiguration {
      * The <code>defaultDbName</code> is also contained here.  */
     private final FastTable usedDbNames = new FastTable();
     /** Contains the mapping of logical database names to physical database names. */
-    private final Hashtable logicalDbMapping = new Hashtable();
+    private final FastMap logicalDbMapping = new FastMap();
     private final String url;
     private final String userName; 
     private final String userPassword; 

@@ -74,11 +74,11 @@ public class SectionManager {
     // When requested (rs.getCursorName()), if the cursor name is still null,
     // then is given the canned cursor name as defined by our jdbc package set and added to the cursor map.
     // Still need to consider how positioned updates should interact with multiple result sets from a stored.
-    private java.util.Hashtable positionedUpdateCursorNameToQuerySection_ = new java.util.Hashtable();
+    private javolution.util.FastMap positionedUpdateCursorNameToQuerySection_ = new javolution.util.FastMap();
 
     // Cursor name to ResultSet mapping is needed for positioned updates to check whether
     // a ResultSet is scrollable.  If so, exception is thrown.
-    private java.util.Hashtable positionedUpdateCursorNameToResultSet_ = new java.util.Hashtable();
+    private javolution.util.FastMap positionedUpdateCursorNameToResultSet_ = new javolution.util.FastMap();
 
     String databaseName;
 

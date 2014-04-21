@@ -28,15 +28,15 @@ import org.apache.derby.iapi.services.io.Formatable;
 import java.io.ObjectOutput;
 import java.io.ObjectInput;
 import java.io.IOException;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
- * Vector of AggergatorInfo objects.
+ * FastTable of AggergatorInfo objects.
  *
- * @see java.util.Vector
+ * @see javolution.util.FastTable
  *
  */
-public class AggregatorInfoList extends Vector implements Formatable 
+public class AggregatorInfoList extends FastTable implements Formatable 
 {
 	/********************************************************
 	**

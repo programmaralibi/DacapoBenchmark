@@ -1,6 +1,6 @@
 /*
 
-   Derby - Class org.apache.derby.impl.sql.compile.HashTableNode
+   Derby - Class org.apache.derby.impl.sql.compile.FastMapNode
 
    Licensed to the Apache Software Foundation (ASF) under one or more
    contributor license agreements.  See the NOTICE file distributed with
@@ -66,11 +66,11 @@ import org.apache.derby.iapi.services.classfile.VMOpcode;
 import java.util.Properties;
 
 /**
- * A HashTableNode represents a result set where a hash table is built.
+ * A FastMapNode represents a result set where a hash table is built.
  *
  */
 
-public class HashTableNode extends SingleChildResultSetNode
+public class FastMapNode extends SingleChildResultSetNode
 {
 	PredicateList	searchPredicateList;
 	PredicateList	joinPredicateList;
@@ -79,7 +79,7 @@ public class HashTableNode extends SingleChildResultSetNode
 	SubqueryList	rSubqueryList;
 
 	/**
-	 * Initializer for a HashTableNode.
+	 * Initializer for a FastMapNode.
 	 *
 	 * @param childResult			The child result set
 	 * @param tableProperties	Properties list associated with the table
@@ -266,7 +266,7 @@ public class HashTableNode extends SingleChildResultSetNode
 		FormatableArrayHolder hashKeyHolder = new FormatableArrayHolder(fihArray);
 		int hashKeyItem = acb.addItem(hashKeyHolder);
 
-		/* Generate the HashTableResultSet:
+		/* Generate the FastMapResultSet:
 		 *	arg1: childExpress - Expression for childResultSet
 		 *  arg2: searchExpress - Expression for single table predicates
 		 *	arg3	: equijoinExpress - Qualifier[] for hash table look up
@@ -278,8 +278,8 @@ public class HashTableNode extends SingleChildResultSetNode
 		 *	arg8: hashKeyItem - item # for int[] of hash column #s
 		 *	arg9: removeDuplicates - don't remove duplicates in hash table (for now)
 		 *	arg10: maxInMemoryRowCount - max row size for in-memory hash table
-		 *	arg11: initialCapacity - initialCapacity for java.util.Hashtable
-		 *	arg12	: loadFactor - loadFactor for java.util.Hashtable
+		 *	arg11: initialCapacity - initialCapacity for javolution.util.FastMap
+		 *	arg12	: loadFactor - loadFactor for javolution.util.FastMap
 		 *  arg13: estimated row count
 		 *  arg14: estimated cost
 		 *  arg15: close method
@@ -404,7 +404,7 @@ public class HashTableNode extends SingleChildResultSetNode
 		mb.push(costEstimate.singleScanRowCount());
 		mb.push(costEstimate.getEstimatedCost());
 
-		mb.callMethod(VMOpcode.INVOKEINTERFACE, (String) null, "getHashTableResultSet",
+		mb.callMethod(VMOpcode.INVOKEINTERFACE, (String) null, "getFastMapResultSet",
                 ClassName.NoPutResultSet, 14);
 	}
 

@@ -24,7 +24,7 @@ package org.apache.derby.iapi.sql.dictionary;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
-import java.util.WeakFastMap;
+import javolution.util.FastMap;
 
 import org.apache.derby.catalog.Dependable;
 import org.apache.derby.catalog.DependableFinder;
@@ -130,12 +130,12 @@ public class TableDescriptor extends TupleDescriptor
 			protected Object initialValue() {
 				// Key: TableDescriptor
 				// Value: FormatableBitSet
-				return new WeakFastMap();
+				return new FastMap();
 			}
 		};
 
 	private FormatableBitSet referencedColumnMapGet() {
-		WeakFastMap map = (WeakFastMap)(referencedColumnMap.get());
+		FastMap map = (FastMap)(referencedColumnMap.get());
 
 		return (FormatableBitSet) (map.get(this));
 	}
@@ -143,7 +143,7 @@ public class TableDescriptor extends TupleDescriptor
 	private void referencedColumnMapPut
 		(FormatableBitSet newReferencedColumnMap) {
 
-		WeakFastMap map = (WeakFastMap)(referencedColumnMap.get());
+		FastMap map = (FastMap)(referencedColumnMap.get());
 		map.put(this, newReferencedColumnMap);
 	}
 

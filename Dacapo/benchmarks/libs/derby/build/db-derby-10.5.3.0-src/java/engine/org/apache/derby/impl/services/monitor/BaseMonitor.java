@@ -21,86 +21,63 @@
 
 package org.apache.derby.impl.services.monitor;
 
-import org.apache.derby.iapi.services.monitor.Monitor;
-import org.apache.derby.iapi.services.monitor.ModuleFactory;
-import org.apache.derby.iapi.services.monitor.ModuleControl;
-import org.apache.derby.iapi.services.monitor.ModuleSupportable;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.Locale;
+import java.util.NoSuchElementException;
+import java.util.Properties;
+import java.util.ResourceBundle;
+import java.util.StringTokenizer;
+import javolution.util.FastTable;
 
-import org.apache.derby.iapi.services.monitor.PersistentService;
+import javolution.util.FastMap;
 
-import org.apache.derby.iapi.services.io.FormatIdUtil;
-import org.apache.derby.iapi.services.io.RegisteredFormatIds;
-import org.apache.derby.iapi.services.io.StoredFormatIds;
-
-import org.apache.derby.iapi.services.context.ContextManager;
-import org.apache.derby.iapi.services.context.Context;
-import org.apache.derby.iapi.services.context.ContextService;
-
-import org.apache.derby.iapi.services.stream.InfoStreams;
-import org.apache.derby.iapi.services.stream.PrintWriterGetHeader;
-
-import org.apache.derby.iapi.services.sanity.SanityManager;
 import org.apache.derby.iapi.error.ErrorStringBuilder;
+import org.apache.derby.iapi.error.ExceptionSeverity;
 import org.apache.derby.iapi.error.ShutdownException;
 import org.apache.derby.iapi.error.StandardException;
-import org.apache.derby.iapi.services.uuid.UUIDFactory;
-import org.apache.derby.iapi.services.timer.TimerFactory;
+import org.apache.derby.iapi.reference.Attribute;
 import org.apache.derby.iapi.reference.Module;
 import org.apache.derby.iapi.reference.Property;
 import org.apache.derby.iapi.reference.SQLState;
-import org.apache.derby.iapi.reference.Attribute;
-import org.apache.derby.iapi.services.property.PropertyUtil;
-
-import org.apache.derby.iapi.services.io.AccessibleByteArrayOutputStream;
-import org.apache.derby.iapi.services.loader.ClassInfo;
-import org.apache.derby.iapi.services.loader.InstanceGetter;
-import org.apache.derby.iapi.services.io.FormatableInstanceGetter;
-import org.apache.derby.iapi.error.ExceptionSeverity;
-
-
-import  org.apache.derby.io.StorageFactory;
-
-
-import org.apache.derby.iapi.services.info.JVMInfo;
+import org.apache.derby.iapi.services.context.Context;
+import org.apache.derby.iapi.services.context.ContextManager;
+import org.apache.derby.iapi.services.context.ContextService;
 import org.apache.derby.iapi.services.i18n.BundleFinder;
 import org.apache.derby.iapi.services.i18n.MessageService;
-import org.apache.derby.iapi.services.jmx.ManagementService;
-
-import org.apache.derby.impl.services.monitor.StorageFactoryService;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringWriter;
-import java.io.BufferedInputStream;
-import java.io.PrintWriter;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.ByteArrayInputStream;
-import java.io.PrintStream;
-
-import java.util.Collections;
-import java.util.Hashtable;
-import javolution.util.FastMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Enumeration;
-import java.util.StringTokenizer;
-import java.util.Vector;
-import java.util.Locale;
-import java.util.ResourceBundle;
-import java.util.NoSuchElementException;
-
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.InvocationTargetException;
-
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedExceptionAction;
-import java.security.PrivilegedActionException;
-
-import java.net.URL;
+import org.apache.derby.iapi.services.info.JVMInfo;
+import org.apache.derby.iapi.services.io.AccessibleByteArrayOutputStream;
+import org.apache.derby.iapi.services.io.FormatIdUtil;
+import org.apache.derby.iapi.services.io.FormatableInstanceGetter;
+import org.apache.derby.iapi.services.io.RegisteredFormatIds;
+import org.apache.derby.iapi.services.io.StoredFormatIds;
+import org.apache.derby.iapi.services.loader.ClassInfo;
+import org.apache.derby.iapi.services.loader.InstanceGetter;
+import org.apache.derby.iapi.services.monitor.ModuleControl;
+import org.apache.derby.iapi.services.monitor.ModuleFactory;
+import org.apache.derby.iapi.services.monitor.ModuleSupportable;
+import org.apache.derby.iapi.services.monitor.Monitor;
+import org.apache.derby.iapi.services.monitor.PersistentService;
+import org.apache.derby.iapi.services.property.PropertyUtil;
+import org.apache.derby.iapi.services.sanity.SanityManager;
+import org.apache.derby.iapi.services.stream.InfoStreams;
+import org.apache.derby.iapi.services.stream.PrintWriterGetHeader;
+import org.apache.derby.iapi.services.timer.TimerFactory;
+import org.apache.derby.iapi.services.uuid.UUIDFactory;
+import org.apache.derby.io.StorageFactory;
 
 /**
 	Implementation of the monitor that uses the class loader
@@ -118,12 +95,12 @@ abstract class BaseMonitor
 	*/
 	private FastMap serviceProviders = new FastMap();
 
-	// Vector of class objects of implementations, found in the System, application
+	// FastTable of class objects of implementations, found in the System, application
 	// and default (modules.properties) properties
 
-	Vector[]     implementationSets;
+	FastTable[]     implementationSets;
 
-	private Vector	  services;					// Vector of TopServices
+	private FastTable	  services;					// FastTable of TopServices
 
 	Properties bootProperties;		// specifc properties provided by the boot method, override everything else
 	Properties applicationProperties;
@@ -155,8 +132,8 @@ abstract class BaseMonitor
 	BaseMonitor() {
 		super();
 
-		services = new Vector(0, 1);
-		services.addElement(new TopService(this));	// first element is always the free-floating service
+		services = new FastTable();
+		services.add(new TopService(this));	// first element is always the free-floating service
 	}
 
 	/* Methods of ModuleFactory includes BootStrap and Runnable */
@@ -190,7 +167,7 @@ abstract class BaseMonitor
 				if (position == 0)
 					break;
 
-				ts = (TopService) services.elementAt(position);
+				ts = (TopService) services.get(position);
 			}
 
 			// push a new context manager
@@ -209,7 +186,7 @@ abstract class BaseMonitor
 			}
 
 		}
-		((TopService) services.elementAt(0)).shutdown();
+		((TopService) services.get(0)).shutdown();
 
 		synchronized (dontGC) {
 
@@ -240,7 +217,7 @@ abstract class BaseMonitor
 		} finally {
 			synchronized (this) {
 				if (removeService) {
-					boolean found = services.removeElement(ts);
+					boolean found = services.remove(ts);
 					if (SanityManager.DEBUG) {
 						SanityManager.ASSERT(found, "service was not found " + serviceModule);
 					}
@@ -323,10 +300,10 @@ abstract class BaseMonitor
 			}
 		}
 
-		Vector bootImplementations = getImplementations(bootProperties, false);
+		FastTable bootImplementations = getImplementations(bootProperties, false);
 
-		Vector systemImplementations = null;
-		Vector applicationImplementations = null;
+		FastTable systemImplementations = null;
+		FastTable applicationImplementations = null;
 
 		// TEMP - making this sanity only breaks the unit test code
 		// I will fix soon, djd.
@@ -336,7 +313,7 @@ abstract class BaseMonitor
 			applicationImplementations = getImplementations(applicationProperties, false);
 		}
 
-		Vector defaultImplementations = getDefaultImplementations();
+		FastTable defaultImplementations = getDefaultImplementations();
 
 		int implementationCount = 0;
 		if (bootImplementations != null)
@@ -353,7 +330,7 @@ abstract class BaseMonitor
 
 		if (defaultImplementations != null)
 			implementationCount++;
-		implementationSets = new Vector[implementationCount];
+		implementationSets = new FastTable[implementationCount];
 
 		implementationCount = 0;
 		if (bootImplementations != null)
@@ -450,7 +427,7 @@ abstract class BaseMonitor
 		TopService myts = null;
 		synchronized (this) {
 			for (int i = 1; i < services.size(); i++) {
-				TopService ts = (TopService) services.elementAt(i);
+				TopService ts = (TopService) services.get(i);
 				if (ts.isPotentialService(key)) {
 					myts = ts;
 					break;
@@ -581,10 +558,10 @@ abstract class BaseMonitor
 	private synchronized TopService findTopService(Object serviceModule) {
 
 		if (serviceModule == null)
-			return (TopService) services.elementAt(0);
+			return (TopService) services.get(0);
 
 		for (int i = 1; i < services.size(); i++) {
-			TopService ts = (TopService) services.elementAt(i);
+			TopService ts = (TopService) services.get(i);
 			if (ts.inService(serviceModule))
 				return ts;
 		}
@@ -746,7 +723,7 @@ abstract class BaseMonitor
 
 		Object instance = null;
 
-		Vector localImplementations = getImplementations(properties, false);
+		FastTable localImplementations = getImplementations(properties, false);
 		if (localImplementations != null) {
 			instance = loadInstance(localImplementations, factoryInterface, properties);
 		}
@@ -761,7 +738,7 @@ abstract class BaseMonitor
 	}
 
 
-	private Object loadInstance(Vector implementations, Class factoryInterface, Properties properties) {
+	private Object loadInstance(FastTable implementations, Class factoryInterface, Properties properties) {
 
 		for (int index = 0; true; index++) {
 
@@ -771,7 +748,7 @@ abstract class BaseMonitor
 				return null;
 
 			// try to create an instance
-			Object instance = newInstance((Class) implementations.elementAt(index));
+			Object instance = newInstance((Class) implementations.get(index));
 
 			if (BaseMonitor.canSupport(instance, properties))
 				return instance;
@@ -784,12 +761,12 @@ abstract class BaseMonitor
 		into the implementations vecotr of that class. Returns -1 if no class
 		could be found.
 	*/
-	private static int findImplementation(Vector implementations, int startIndex, Class factoryInterface) {
+	private static int findImplementation(FastTable implementations, int startIndex, Class factoryInterface) {
 
 		for (int i = startIndex; i < implementations.size(); i++) {
 
 			//try {
-				Class factoryClass = (Class) implementations.elementAt(i);
+				Class factoryClass = (Class) implementations.get(i);
 				if (!factoryInterface.isAssignableFrom(factoryClass)) {
 					continue;
 				}
@@ -873,7 +850,7 @@ abstract class BaseMonitor
 
 			// count the number of services that implement the required protocol
 			for (int i = 1; i < services.size(); i++) {
-				ts = (TopService) services.elementAt(i);
+				ts = (TopService) services.get(i);
 				if (ts.isActiveService()) {
 					if (ts.getKey().getFactoryInterface().getName().equals(protocol))
 						count++;
@@ -885,7 +862,7 @@ abstract class BaseMonitor
 			if (count != 0) {
 				int j = 0;
 				for (int i = 1; i < services.size(); i++) {
-					ts = (TopService) services.elementAt(i);
+					ts = (TopService) services.get(i);
 					if (ts.isActiveService()) {
 						if (ts.getKey().getFactoryInterface().getName().equals(protocol)) {
 							list[j++] = ts.getServiceType().getUserServiceName(ts.getKey().getIdentifier());
@@ -1075,17 +1052,17 @@ abstract class BaseMonitor
 	/**
 		Create an implementation set.
 		Look through the properties object for all properties that
-		start with derby.module and add the value into the vector.
+		start with derby.module and add the value into the FastTable.
 
 		If no implementations are listed in the properties object
 		then null is returned.
 	*/
-	private Vector getImplementations(Properties moduleList, boolean actualModuleList) {
+	private FastTable getImplementations(Properties moduleList, boolean actualModuleList) {
 
 		if (moduleList == null)
 			return null;
 
-		Vector implementations = actualModuleList ? new Vector(moduleList.size()) : new Vector(0,1);
+		FastTable implementations = actualModuleList ? new FastTable() : new FastTable();
 
 		// Get my current JDK environment
 		int theJDKId = JVMInfo.JDK_ID;
@@ -1191,13 +1168,13 @@ nextModule:
 						offset += envModuleCount[eji];
 					}
 
-					implementations.insertElementAt(possibleModule, offset);
+					implementations.add(offset, possibleModule);
 					envModuleCount[envJDKId]++;
 
 				}
 				else {
-					// just add to the end of the vector
-					implementations.addElement(possibleModule);
+					// just add to the end of the FastTable
+					implementations.add(possibleModule);
 				}
 
 				// Since ModuleControl and ModuleSupportable are not called directly
@@ -1246,7 +1223,7 @@ nextModule:
         
 		if (implementations.isEmpty())
 			return null;
-		implementations.trimToSize();
+		//implementations.trimToSize();
 
 		return implementations;
 	}
@@ -1265,7 +1242,7 @@ nextModule:
         return true;
     } // end of getPersistentServiceImplementation
         
-	private Vector getDefaultImplementations() {
+	private FastTable getDefaultImplementations() {
 
 		Properties moduleList = getDefaultModuleProperties();
 
@@ -1424,7 +1401,7 @@ nextModule:
 	**
 	** A monitor can have any number of service providers installed,
 	** any module that implements PersistentService is treated specially
-	** and stored only in the serviceProviders hashtable, indexed by
+	** and stored only in the serviceProviders FastMap, indexed by
 	** its getType() method.
 	**
 	** Once all the implementations have loaded the service providers
@@ -1757,7 +1734,7 @@ nextModule:
 				}
 
 				for (int i = 1; i < services.size(); i++) {
-					TopService ts2 = (TopService) services.elementAt(i);
+					TopService ts2 = (TopService) services.get(i);
 					if (ts2.isPotentialService(serviceKey)) {
 						// if the service already exists then  just return null
 						return null;
@@ -1790,7 +1767,7 @@ nextModule:
 				}
 
 				ts = new TopService(this, serviceKey, provider, serviceLocale);
-				services.addElement(ts);
+				services.add(ts);
 			}
 
 			if (SanityManager.DEBUG) {
@@ -1883,7 +1860,7 @@ nextModule:
 			if (ts != null) {
 				ts.shutdown();
 				synchronized (this) {
-					services.removeElement(ts);
+					services.remove(ts);
 				}
 
 				// Service root will only have been created if
@@ -2079,7 +2056,7 @@ nextModule:
 	** BundleFinder
 	*/
 
-	//private Hashtable localeBundles;
+	//private FastMap localeBundles;
 
 	/**
 		Get the locale from the ContextManager and then find the bundle

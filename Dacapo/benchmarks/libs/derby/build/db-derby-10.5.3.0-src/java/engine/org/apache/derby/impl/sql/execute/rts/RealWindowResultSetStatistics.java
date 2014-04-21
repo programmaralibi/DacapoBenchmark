@@ -118,9 +118,9 @@ public class RealWindowResultSetStatistics
 		return getStatementExecutionPlanText(0);
 	}
 
-	public java.util.Vector getChildren()
+	public javolution.util.FastTable getChildren()
 	{
-		java.util.Vector children = new java.util.Vector();
+		javolution.util.FastTable children = new javolution.util.FastTable();
 		children.addElement(childResultSetStatistics);
 		return children;
 	}

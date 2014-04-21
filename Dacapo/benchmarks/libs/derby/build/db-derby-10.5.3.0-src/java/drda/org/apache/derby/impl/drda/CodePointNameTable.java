@@ -21,12 +21,12 @@
 package org.apache.derby.impl.drda;
 
 /**
-  This class has a hashtable of CodePoint values.  It is used by the tracing
+  This class has a FastMap of CodePoint values.  It is used by the tracing
   code and by the protocol testing code
   It is arranged in alphabetical order.
 */
 
-class CodePointNameTable extends java.util.Hashtable
+class CodePointNameTable extends javolution.util.FastMap
 {
   CodePointNameTable ()
   {

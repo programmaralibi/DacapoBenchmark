@@ -152,8 +152,7 @@ public class SURQueryMixTest extends SURBaseTest
     private Map createRowMap(final ResultSet rs) 
         throws SQLException
     {
-        final Map rows = new FastMap();        
-        rs.beforeFirst();
+        final Map rows = new FastMap();
         assertTrue("Unexpected return from isBeforeFirst()",
                    rs.isBeforeFirst());
         

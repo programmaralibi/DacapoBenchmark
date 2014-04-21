@@ -21,25 +21,23 @@
 
 package org.apache.derby.iapi.sql.dictionary;
 
+import java.util.ArrayList;
+
 import org.apache.derby.iapi.error.StandardException;
 import org.apache.derby.iapi.services.sanity.SanityManager;
-
 import org.apache.derby.catalog.UUID;
-
 import org.apache.derby.iapi.sql.dictionary.ConstraintDescriptor;
 import org.apache.derby.iapi.sql.dictionary.ReferencedKeyConstraintDescriptor;
 import org.apache.derby.iapi.sql.dictionary.DataDictionary;
 import org.apache.derby.iapi.sql.dictionary.KeyConstraintDescriptor;
 import org.apache.derby.iapi.sql.dictionary.SchemaDescriptor;
-
 import org.apache.derby.iapi.error.StandardException;
 import org.apache.derby.iapi.services.sanity.SanityManager;
-
 import org.apache.derby.catalog.UUID;
 
 import javolution.util.FastTable;
 
-public class ConstraintDescriptorList extends FastTable
+public class ConstraintDescriptorList extends ArrayList
 {
 
 	private boolean scanned;

@@ -155,8 +155,8 @@ public class RealGroupedAggregateStatistics
 	{
 		return getStatementExecutionPlanText(0);
 	}
-  public java.util.Vector getChildren(){
-    java.util.Vector children = new java.util.Vector();
+  public javolution.util.FastTable getChildren(){
+    javolution.util.FastTable children = new javolution.util.FastTable();
     children.addElement(childResultSetStatistics);
     return children;
   }

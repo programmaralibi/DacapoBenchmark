@@ -28,7 +28,7 @@ import org.apache.derby.iapi.services.io.StoredFormatIds;
 
 import org.apache.derby.iapi.reference.SQLState;
 
-import org.apache.derby.iapi.services.io.FormatableHashtable;
+import org.apache.derby.iapi.services.io.FormatableFastMap;
 import org.apache.derby.iapi.services.io.FormatableIntHolder;
 import org.apache.derby.iapi.sql.dictionary.IndexRowGenerator;
 
@@ -240,7 +240,7 @@ public class IndexDescriptorImpl implements IndexDescriptor, Formatable
 	 */
 	public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException
 	{
-		FormatableHashtable fh = (FormatableHashtable)in.readObject();
+		FormatableFastMap fh = (FormatableFastMap)in.readObject();
 		isUnique = fh.getBoolean("isUnique");
 		int bcpLength = fh.getInt("keyLength");
 		baseColumnPositions = new int[bcpLength];
@@ -268,7 +268,7 @@ public class IndexDescriptorImpl implements IndexDescriptor, Formatable
 	 */
 	public void writeExternal(ObjectOutput out) throws IOException
 	{
-		FormatableHashtable fh = new FormatableHashtable();
+		FormatableFastMap fh = new FormatableFastMap();
 		fh.putBoolean("isUnique", isUnique);
 		fh.putInt("keyLength", baseColumnPositions.length);
 		for (int i = 0; i < baseColumnPositions.length; i++)

@@ -54,7 +54,7 @@ import org.apache.derby.iapi.util.JBitSet;
 
 
 import java.util.Properties;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * A DistinctNode represents a result set for a disinct operation
@@ -277,12 +277,12 @@ public class DistinctNode extends SingleChildResultSetNode
 	 *
 	 * @param	crs					The specified ColumnReference[]
 	 * @param	permuteOrdering		Whether or not the order of the CRs in the array can be permuted
-	 * @param	fbtVector			Vector that is to be filled with the FromBaseTable	
+	 * @param	fbtFastTable			FastTable that is to be filled with the FromBaseTable	
 	 *
 	 * @return	Whether the underlying ResultSet tree
 	 * is ordered on the specified column.
 	 */
-	boolean isOrderedOn(ColumnReference[] crs, boolean permuteOrdering, Vector fbtVector)
+	boolean isOrderedOn(ColumnReference[] crs, boolean permuteOrdering, FastTable fbtFastTable)
 	{
 		/* RESOLVE - DistinctNodes are ordered on their RCLs.
 		 * Walk RCL to see if cr is 1st non-constant column in the

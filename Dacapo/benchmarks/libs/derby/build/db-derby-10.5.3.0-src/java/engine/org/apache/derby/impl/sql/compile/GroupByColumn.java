@@ -31,7 +31,7 @@ import org.apache.derby.iapi.reference.SQLState;
 
 import org.apache.derby.iapi.services.sanity.SanityManager;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * A GroupByColumn is a column in the GROUP BY clause.
@@ -106,7 +106,7 @@ public class GroupByColumn extends OrderedColumn
 	 * @param fromList			The FROM list to use for binding
 	 * @param subqueryList		The SubqueryList we are building as we hit
 	 *							SubqueryNodes.
-	 * @param aggregateVector	The aggregate vector we build as we hit 
+	 * @param aggregateFastTable	The aggregate FastTable we build as we hit 
 	 *							AggregateNodes.
 	 *
 	 * @exception StandardException	Thrown on error
@@ -115,13 +115,13 @@ public class GroupByColumn extends OrderedColumn
 	public void bindExpression(
 			FromList fromList, 
 			SubqueryList subqueryList,
-			Vector	aggregateVector) 
+			FastTable	aggregateFastTable) 
 				throws StandardException
 	{
 		/* Bind the ColumnReference to the FromList */
 		columnExpression = (ValueNode) columnExpression.bindExpression(fromList,
 							  subqueryList,
-							  aggregateVector);
+							  aggregateFastTable);
 
 		// Verify that we can group on the column
 		if (columnExpression.isParameterNode()) 

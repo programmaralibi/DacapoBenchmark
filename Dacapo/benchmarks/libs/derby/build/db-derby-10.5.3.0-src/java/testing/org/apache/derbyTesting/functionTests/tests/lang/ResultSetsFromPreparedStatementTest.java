@@ -208,9 +208,9 @@ public class ResultSetsFromPreparedStatementTest extends BaseJDBCTestCase
 
     /**
      * Apply a PreparedStatement repeatedly with the set of parameter
-     * vectors. (Any null params are assumed to be of type CHAR).
+     * FastTables. (Any null params are assumed to be of type CHAR).
      * @param action the ps to execute
-     * @param table an array of parameter vectors to use for each
+     * @param table an array of parameter FastTables to use for each
      * execution of the PreparedStatement
      */
     public static void apply(PreparedStatement action, Object[][] table)
@@ -229,13 +229,13 @@ public class ResultSetsFromPreparedStatementTest extends BaseJDBCTestCase
     }
 
     /**
-     * Iterates over an array of row vectors, comparing each to the
+     * Iterates over an array of row FastTables, comparing each to the
      * data in the RS using assertRow. Always closes the RS, even when
      * an exception is thrown. Assertion failures are intercepted and
      * 'dumpDiff' is used to print the differences between the RS and
      * the expected values to System.err.
      * @param message a message from the caller
-     * @param expected array of row vectors
+     * @param expected array of row FastTables
      * @param returned the resultset to verify
      */
     private static void assertResultSet(String message,
@@ -267,12 +267,12 @@ public class ResultSetsFromPreparedStatementTest extends BaseJDBCTestCase
     }
 
     /**
-     * Iterates over a row vector, comparing each to the corrsponding
-     * column in the ResultSet. The i'th entry in the row vector is
+     * Iterates over a row FastTable, comparing each to the corrsponding
+     * column in the ResultSet. The i'th entry in the row FastTable is
      * compared (using assertEquals) to the return value from
      * getObject(i) on the ResultSet.
      * @param message info from the caller
-     * @param expected the expected row vector
+     * @param expected the expected row FastTable
      * @param returned the resultset to verify
      */
     private static void assertRow(String message,
@@ -1262,9 +1262,9 @@ public class ResultSetsFromPreparedStatementTest extends BaseJDBCTestCase
     }
 
     /**
-     * Test HashTableResultSet
+     * Test FastMapResultSet
      */
-    public void testHashTableResultSet() throws Exception {
+    public void testFastMapResultSet() throws Exception {
         createTestTable("dept", DS, "dept_data");
         createTestTable("emp", ES+","+DNO+")", "emp_data");
         PreparedStatement del =
@@ -1273,7 +1273,7 @@ public class ResultSetsFromPreparedStatementTest extends BaseJDBCTestCase
         Statement s = createStatement();
         s.execute("create view vemp as select * from emp");
         s.execute("create view vdept as select * from dept");
-        // HashJoinResultSet, HashTableResultSet,
+        // HashJoinResultSet, FastMapResultSet,
         // ProjectRestrictResultSet,ScrollInsensitiveResultSet,
         // TableScanResultSet
         PreparedStatement tst = prepareStatement
@@ -1281,7 +1281,7 @@ public class ResultSetsFromPreparedStatementTest extends BaseJDBCTestCase
              "from vemp inner join vdept on vemp.dno = vdept.dno "+
              "where mgrname = ?");
 
-        testHashTableResultSet(tst, del);
+        testFastMapResultSet(tst, del);
 
         s.executeUpdate("drop view vemp");
         s.executeUpdate("drop view vdept");
@@ -1293,7 +1293,7 @@ public class ResultSetsFromPreparedStatementTest extends BaseJDBCTestCase
         s.executeUpdate("create view vdept as select * from dept");
 
         // re-execute on the new tables
-        testHashTableResultSet(tst, del);
+        testFastMapResultSet(tst, del);
 
         // restore data
         s.executeUpdate("delete from emp");
@@ -1317,7 +1317,7 @@ public class ResultSetsFromPreparedStatementTest extends BaseJDBCTestCase
         s2.close();
     }
 
-    private void testHashTableResultSet(PreparedStatement tst,
+    private void testFastMapResultSet(PreparedStatement tst,
                                         PreparedStatement del)
             throws SQLException
     {

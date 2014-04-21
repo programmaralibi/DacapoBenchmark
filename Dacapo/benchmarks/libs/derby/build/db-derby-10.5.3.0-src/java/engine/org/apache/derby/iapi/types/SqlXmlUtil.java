@@ -606,12 +606,12 @@ public class SqlXmlUtil implements Formatable
             { // If we have a sequence (XNodeSet) of length greater
               // than zero, then we know that at least one item
               // "exists" in the result so return a non-null list.
-                return new FastTable(0);
+                return new FastTable();
             }
             else if (!(xOb instanceof XNodeSet))
             // we have a single atomic value, which means the result is
             // non-empty.  So return a non-null list.
-                return new FastTable(0);
+                return new FastTable();
             else {
             // return null; caller will take this to mean we have an
             // an empty sequence.

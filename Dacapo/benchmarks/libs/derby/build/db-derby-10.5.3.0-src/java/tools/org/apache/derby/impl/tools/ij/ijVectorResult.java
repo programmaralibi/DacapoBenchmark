@@ -1,6 +1,6 @@
 /*
 
-   Derby - Class org.apache.derby.impl.tools.ij.ijVectorResult
+   Derby - Class org.apache.derby.impl.tools.ij.ijFastTableResult
 
    Licensed to the Apache Software Foundation (ASF) under one or more
    contributor license agreements.  See the NOTICE file distributed with
@@ -21,26 +21,26 @@
 
 package org.apache.derby.impl.tools.ij;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 import java.sql.SQLWarning;
 
 /**
- * This is an impl for a simple Vector of strings.
+ * This is an impl for a simple FastTable of strings.
  *
  */
-class ijVectorResult extends ijResultImpl {
+class ijFastTableResult extends ijResultImpl {
 
-	Vector vec;
+	FastTable vec;
 	SQLWarning warns;
 
-	ijVectorResult(Vector v, SQLWarning w) {
+	ijFastTableResult(FastTable v, SQLWarning w) {
 		vec = v;
 		warns = w;
 	}
 
-	public boolean isVector() { return true; }
+	public boolean isFastTable() { return true; }
 
-	public Vector getVector() { return vec; }
+	public FastTable getFastTable() { return vec; }
 
 	public SQLWarning getSQLWarnings() { return warns; }
 	public void clearSQLWarnings() { warns = null; }

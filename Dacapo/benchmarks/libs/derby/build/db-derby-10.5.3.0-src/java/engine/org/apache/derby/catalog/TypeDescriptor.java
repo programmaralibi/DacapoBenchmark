@@ -154,7 +154,7 @@ public interface TypeDescriptor
 
 	  or
 
-	             java.util.Hashtable 
+	             javolution.util.FastMap 
 	 
 	 
 	  @return	String version of type, suitable for running through

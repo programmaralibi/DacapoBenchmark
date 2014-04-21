@@ -26,7 +26,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Enumeration;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import org.apache.derby.iapi.tools.i18n.LocalizedResource;
 import java.sql.SQLException;
 
@@ -69,7 +69,7 @@ class Session
 	protected LocalizedResource langUtil;		// localization information for command session
 										// client
 
-	private	Hashtable	dbtable;		// Table of databases accessed in this session
+	private	FastMap	dbtable;		// Table of databases accessed in this session
 	private NetworkServerControlImpl nsctrl;        // NetworkServerControlImpl needed for logging
                                                         // message if tracing fails.
                                                         
@@ -94,7 +94,7 @@ class Session
 		this.traceOn = traceOn;
 		if (traceOn)
 			dssTrace = new DssTrace(); 
-		dbtable = new Hashtable();
+		dbtable = new FastMap();
 		initialize(traceDirectory);
 	}
 

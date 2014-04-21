@@ -55,7 +55,7 @@ import org.apache.derby.iapi.reference.SQLState;
 
 import java.lang.reflect.Modifier;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * This abstract node class represents a data value in the Java domain.
@@ -213,7 +213,7 @@ abstract class JavaValueNode extends QueryTreeNode
 	 * @exception StandardException		Thrown on error
 	 */
 	abstract JavaValueNode bindExpression(FromList fromList, SubqueryList subqueryList,
-							Vector aggregateVector) 
+							FastTable aggregateFastTable) 
 							throws StandardException;
 	/**
 	 * @see ValueNode#preprocess

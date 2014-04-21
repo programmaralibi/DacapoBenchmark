@@ -45,7 +45,7 @@ import org.apache.derby.iapi.util.JBitSet;
 
 import java.sql.Types;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * This node is the superclass  for all unary comparison operators, such as is null
@@ -62,7 +62,7 @@ public class UnaryComparisonOperatorNode extends UnaryOperatorNode
 	 *
 	 * @param fromList			The query's FROM list
 	 * @param subqueryList		The subquery list being built as we find SubqueryNodes
-	 * @param aggregateVector	The aggregate vector being built as we find AggregateNodes
+	 * @param aggregateFastTable	The aggregate FastTable being built as we find AggregateNodes
 	 *
 	 * @return	The new top of the expression tree.
 	 *
@@ -71,11 +71,11 @@ public class UnaryComparisonOperatorNode extends UnaryOperatorNode
 
 	public ValueNode bindExpression(
 		FromList fromList, SubqueryList subqueryList,
-		Vector	aggregateVector)
+		FastTable	aggregateFastTable)
 			throws StandardException
 	{
 		bindOperand(fromList, subqueryList, 
-							 aggregateVector);
+							 aggregateFastTable);
 
 		/* Set type info for this node */
 		bindComparisonOperator();

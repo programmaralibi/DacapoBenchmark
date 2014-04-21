@@ -48,7 +48,7 @@ import org.apache.derby.iapi.store.access.StoreCostController;
 import org.apache.derby.iapi.store.access.SortCostController;
 
 import java.util.List;
-import java.util.Vector;
+import javolution.util.FastTable;
 import java.sql.SQLWarning;
 
 /**
@@ -446,14 +446,14 @@ public interface CompilerContext extends Context
 	 *
 	 * @param parameterList	The parameter list.
 	 */
-	public void setParameterList(Vector parameterList);
+	public void setParameterList(FastTable parameterList);
 
 	/**
 	 * Get the parameter list.
 	 *
 	 * @return	The parameter list.
 	 */
-	public Vector getParameterList();
+	public FastTable getParameterList();
 
 	/**
 	 * If callable statement uses ? = form

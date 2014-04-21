@@ -21,30 +21,25 @@
 
 package org.apache.derby.impl.services.cache;
 
+import java.util.Collection;
+import java.util.Iterator;
+
+import javolution.util.FastMap;
+import javolution.util.FastTable;
+
+import org.apache.derby.iapi.error.StandardException;
+import org.apache.derby.iapi.reference.SQLState;
 import org.apache.derby.iapi.services.cache.CacheManager;
 import org.apache.derby.iapi.services.cache.Cacheable;
 import org.apache.derby.iapi.services.cache.CacheableFactory;
+import org.apache.derby.iapi.services.cache.ClassSize;
 import org.apache.derby.iapi.services.cache.SizedCacheable;
 import org.apache.derby.iapi.services.context.ContextManager;
 import org.apache.derby.iapi.services.daemon.DaemonService;
 import org.apache.derby.iapi.services.daemon.Serviceable;
-
-import org.apache.derby.iapi.error.StandardException;
-
-import org.apache.derby.iapi.services.monitor.Monitor;
-
 import org.apache.derby.iapi.services.sanity.SanityManager;
-
-import org.apache.derby.iapi.services.cache.ClassSize;
 import org.apache.derby.iapi.util.Matchable;
 import org.apache.derby.iapi.util.Operator;
-import org.apache.derby.iapi.reference.SQLState;
-
-import javolution.util.FastTable;
-import javolution.util.FastMap;
-import java.util.Iterator;
-import java.util.Collection;
-import java.util.Properties;
 
 
 /**
@@ -115,7 +110,7 @@ final class Clock implements CacheManager, Serviceable {
     private long currentByteCount = 0;
     /* currentByteCount should be the sum of entry.getSize() for all entries in the cache.
      * That is, it should be the sum of getItemSize( item, false) for each item in the holders
-     * vector.
+     * FastTable.
      */
 
     private static final int ITEM_OVERHEAD = ClassSize.estimateBaseFromCatalog( CachedItem.class)
@@ -151,7 +146,7 @@ final class Clock implements CacheManager, Serviceable {
 	*/
 	Clock(CacheableFactory holderFactory, String name,
 		  int initialSize, long maximumSize, boolean useByteCount) {
-		cache_ = new FastMap(initialSize, (float) 0.95);
+		cache_ = new FastMap();
 		this.maximumSize = maximumSize;
 		this.holderFactory = holderFactory;
 		this.useByteCount = useByteCount;
@@ -166,7 +161,7 @@ final class Clock implements CacheManager, Serviceable {
 		//if (delta < 5)
 		//	delta = 5;
 
-		holders = new FastTable(initialSize);
+		holders = new FastTable();
 		this.name = name;
 		active = true;
 
@@ -812,7 +807,7 @@ final class Clock implements CacheManager, Serviceable {
 				if (entry != null) {
 					// put the actual key into the hash table, not the one that was passed in
 					// for the find or create. This is because the caller may re-use the key
-					// for another cache operation, which would corrupt our hashtable
+					// for another cache operation, which would corrupt our FastMap
 					cache_.put(entry.getIdentity(), item);
                     if( useByteCount)
                         currentByteCount += ((SizedCacheable) entry).getSize() - origEntrySize;
@@ -1850,7 +1845,7 @@ innerscan:
 			holders.remove(r);
 		}
 
-		holders.trimToSize();
+		//holders.trimToSize();
 		// move the clock hand to the start of the invalid items.
 		clockHand = validItems + 1;
 

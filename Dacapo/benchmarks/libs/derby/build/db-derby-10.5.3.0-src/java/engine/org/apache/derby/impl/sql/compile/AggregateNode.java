@@ -54,7 +54,7 @@ import org.apache.derby.impl.sql.compile.CountAggregateDefinition;
 import org.apache.derby.impl.sql.compile.MaxMinAggregateDefinition;
 import org.apache.derby.impl.sql.compile.SumAvgAggregateDefinition;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * An Aggregate Node is a node that reprsents a set function/aggregate.
@@ -255,7 +255,7 @@ public class AggregateNode extends UnaryOperatorNode
 	 *
 	 * @param fromList			The query's FROM list
 	 * @param subqueryList		The subquery list being built as we find SubqueryNodes
-	 * @param aggregateVector	The aggregate list being built as we find AggregateNodes
+	 * @param aggregateFastTable	The aggregate list being built as we find AggregateNodes
 	 *
 	 * @return	The new top of the expression tree.
 	 *
@@ -264,7 +264,7 @@ public class AggregateNode extends UnaryOperatorNode
 	public ValueNode bindExpression(
 					FromList			fromList,
 					SubqueryList		subqueryList,
-					Vector				aggregateVector)
+					FastTable				aggregateFastTable)
 			throws StandardException
 	{
 		DataTypeDescriptor 	dts = null;
@@ -275,13 +275,13 @@ public class AggregateNode extends UnaryOperatorNode
 
 		instantiateAggDef();
 
-		/* Add ourselves to the aggregateVector before we do anything else */
-		aggregateVector.addElement(this);
+		/* Add ourselves to the aggregateFastTable before we do anything else */
+		aggregateFastTable.addElement(this);
 
         // operand being null means a count(*)
 		if (operand != null)
 		{
-            bindOperand(fromList, subqueryList, aggregateVector);
+            bindOperand(fromList, subqueryList, aggregateFastTable);
             
 			/*
 			** Make sure that we don't have an aggregate 

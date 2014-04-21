@@ -22,70 +22,49 @@
 
 package org.apache.derby.impl.sql.compile;
 
+import java.sql.SQLWarning;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Properties;
+import java.util.Stack;
+
+import javolution.util.FastMap;
+import javolution.util.FastTable;
+
 import org.apache.derby.catalog.UUID;
-
-import org.apache.derby.iapi.sql.conn.LanguageConnectionFactory;
-
-import org.apache.derby.iapi.sql.depend.ProviderList;
+import org.apache.derby.iapi.error.ExceptionSeverity;
+import org.apache.derby.iapi.error.StandardException;
+import org.apache.derby.iapi.services.compiler.JavaFactory;
+import org.apache.derby.iapi.services.context.ContextImpl;
+import org.apache.derby.iapi.services.context.ContextManager;
+import org.apache.derby.iapi.services.io.FormatableBitSet;
+import org.apache.derby.iapi.services.loader.ClassFactory;
+import org.apache.derby.iapi.services.sanity.SanityManager;
 import org.apache.derby.iapi.sql.compile.CompilerContext;
 import org.apache.derby.iapi.sql.compile.NodeFactory;
 import org.apache.derby.iapi.sql.compile.Parser;
-
+import org.apache.derby.iapi.sql.compile.TypeCompilerFactory;
 import org.apache.derby.iapi.sql.conn.Authorizer;
 import org.apache.derby.iapi.sql.conn.LanguageConnectionContext;
-
-import org.apache.derby.iapi.sql.dictionary.SchemaDescriptor;
-import org.apache.derby.iapi.sql.dictionary.ColumnDescriptor;
-import org.apache.derby.iapi.sql.dictionary.TableDescriptor;
-import org.apache.derby.iapi.sql.dictionary.AliasDescriptor;
-import org.apache.derby.iapi.sql.dictionary.StatementTablePermission;
-import org.apache.derby.iapi.sql.dictionary.StatementSchemaPermission;
-import org.apache.derby.iapi.sql.dictionary.StatementColumnPermission;
-import org.apache.derby.iapi.sql.dictionary.StatementRoutinePermission;
-import org.apache.derby.iapi.sql.dictionary.StatementRolePermission;
-
-import org.apache.derby.iapi.types.DataTypeDescriptor;
-
-import org.apache.derby.iapi.sql.compile.TypeCompilerFactory;
-
+import org.apache.derby.iapi.sql.conn.LanguageConnectionFactory;
+import org.apache.derby.iapi.sql.depend.DependencyManager;
 import org.apache.derby.iapi.sql.depend.Dependent;
 import org.apache.derby.iapi.sql.depend.Provider;
-import org.apache.derby.iapi.sql.depend.DependencyManager;
-import org.apache.derby.iapi.error.ExceptionSeverity;
+import org.apache.derby.iapi.sql.depend.ProviderList;
+import org.apache.derby.iapi.sql.dictionary.AliasDescriptor;
+import org.apache.derby.iapi.sql.dictionary.ColumnDescriptor;
+import org.apache.derby.iapi.sql.dictionary.SchemaDescriptor;
+import org.apache.derby.iapi.sql.dictionary.StatementColumnPermission;
+import org.apache.derby.iapi.sql.dictionary.StatementRolePermission;
+import org.apache.derby.iapi.sql.dictionary.StatementRoutinePermission;
+import org.apache.derby.iapi.sql.dictionary.StatementSchemaPermission;
+import org.apache.derby.iapi.sql.dictionary.StatementTablePermission;
+import org.apache.derby.iapi.sql.dictionary.TableDescriptor;
 import org.apache.derby.iapi.sql.execute.ExecutionContext;
-
-import org.apache.derby.iapi.types.DataTypeDescriptor;
-import org.apache.derby.iapi.sql.ParameterValueSet;
-
-import org.apache.derby.iapi.store.access.StoreCostController;
 import org.apache.derby.iapi.store.access.SortCostController;
-
-import org.apache.derby.iapi.services.context.ContextManager;
-import org.apache.derby.iapi.services.loader.ClassFactory;
-import org.apache.derby.iapi.services.compiler.JavaFactory;
-import org.apache.derby.iapi.services.uuid.UUIDFactory;
-import org.apache.derby.iapi.services.monitor.Monitor;
-import org.apache.derby.iapi.services.io.FormatableBitSet;
-
-import org.apache.derby.iapi.error.StandardException;
-
-import org.apache.derby.iapi.reference.SQLState;
-
-import org.apache.derby.iapi.services.sanity.SanityManager;
-
-import org.apache.derby.iapi.services.context.ContextImpl;
+import org.apache.derby.iapi.store.access.StoreCostController;
+import org.apache.derby.iapi.types.DataTypeDescriptor;
 import org.apache.derby.iapi.util.ReuseFactory;
-
-import java.sql.SQLWarning;
-import java.util.Vector;
-import java.util.Properties;
-import javolution.util.FastMap;
-import java.util.Iterator;
-import java.util.Map.Entry;
-import java.util.BitSet;
-import java.util.List;
-import java.util.Stack;
-import javolution.util.FastTable;
 
 /**
  *
@@ -334,9 +313,9 @@ public class CompilerContextImpl extends ContextImpl
 	}
 
 	public int addSavedObject(Object obj) {
-		if (savedObjects == null) savedObjects = new Vector();
+		if (savedObjects == null) savedObjects = new FastTable();
 
-		savedObjects.addElement(obj);
+		savedObjects.add(obj);
 		return savedObjects.size()-1;
 	}
 
@@ -344,9 +323,11 @@ public class CompilerContextImpl extends ContextImpl
 		if (savedObjects == null) return null;
 
 		Object[] retVal = new Object[savedObjects.size()];
-		savedObjects.copyInto(retVal);
+		FastTable temp = new FastTable();
+		temp.addAll(savedObjects);
+		//savedObjects.copyInto(retVal);
 		savedObjects = null; // erase to start over
-		return retVal;
+		return temp.toArray();
 	}
 
 	/** @see CompilerContext#setSavedObjects */
@@ -451,9 +432,9 @@ public class CompilerContextImpl extends ContextImpl
 		*/
 		for (int i = 0; i < storeCostConglomIds.size(); i++)
 		{
-			Long conglomId = (Long) storeCostConglomIds.elementAt(i);
+			Long conglomId = (Long) storeCostConglomIds.get(i);
 			if (conglomId.longValue() == conglomerateNumber)
-				return (StoreCostController) storeCostControllers.elementAt(i);
+				return (StoreCostController) storeCostControllers.get(i);
 		}
 
 		/*
@@ -463,13 +444,13 @@ public class CompilerContextImpl extends ContextImpl
 						lcc.getTransactionCompile().openStoreCost(conglomerateNumber);
 
 		/* Put it in the array */
-		storeCostControllers.insertElementAt(retval,
-											storeCostControllers.size());
+		storeCostControllers.add(storeCostControllers.size(), retval
+											);
 
 		/* Put the conglomerate number in its array */
-		storeCostConglomIds.insertElementAt(
-								new Long(conglomerateNumber),
-								storeCostConglomIds.size());
+		storeCostConglomIds.add(
+				storeCostConglomIds.size(),new Long(conglomerateNumber)
+								);
 
 		return retval;
 	}
@@ -482,15 +463,15 @@ public class CompilerContextImpl extends ContextImpl
 		for (int i = 0; i < storeCostControllers.size(); i++)
 		{
 			StoreCostController scc =
-				(StoreCostController) storeCostControllers.elementAt(i);
+				(StoreCostController) storeCostControllers.get(i);
 			try {
 				scc.close();
 			} catch (StandardException se) {
 			}
 		}
 
-		storeCostControllers.removeAllElements();
-		storeCostConglomIds.removeAllElements();
+		storeCostControllers.clear();
+		storeCostConglomIds.clear();
 	}
 
 	/**
@@ -561,7 +542,7 @@ public class CompilerContextImpl extends ContextImpl
 	public void pushCompilationSchema(SchemaDescriptor sd)
 	{
 		if (defaultSchemaStack == null) {
-			defaultSchemaStack = new FastTable(2);
+			defaultSchemaStack = new FastTable();
 		}
 
 		defaultSchemaStack.add(defaultSchemaStack.size(),
@@ -583,7 +564,7 @@ public class CompilerContextImpl extends ContextImpl
 	/**
 	 * @see CompilerContext#setParameterList
 	 */
-	public void setParameterList(Vector parameterList)
+	public void setParameterList(FastTable parameterList)
 	{
 		this.parameterList = parameterList;
 
@@ -599,7 +580,7 @@ public class CompilerContextImpl extends ContextImpl
 	/**
 	 * @see CompilerContext#getParameterList
 	 */
-	public Vector getParameterList()
+	public FastTable getParameterList()
 	{
 		return parameterList;
 	}
@@ -878,7 +859,7 @@ public class CompilerContextImpl extends ContextImpl
 		if( requiredRolePrivileges != null)
 			size += requiredRolePrivileges.size();
 		
-		FastTable list = new FastTable( size);
+		FastTable list = new FastTable();
 		if( requiredRoutinePrivileges != null)
 		{
 			for( Iterator itr = requiredRoutinePrivileges.keySet().iterator(); itr.hasNext();)
@@ -940,7 +921,7 @@ public class CompilerContextImpl extends ContextImpl
 	private int					scanIsolationLevel;
 	private int					nextEquivalenceClass = -1;
 	private long				nextClassName;
-	private Vector				savedObjects;
+	private FastTable				savedObjects;
 	private String				classPrefix;
 	private SchemaDescriptor	compilationSchema;
 
@@ -953,12 +934,12 @@ public class CompilerContextImpl extends ContextImpl
 	private ProviderList		currentAPL;
 	private boolean returnParameterFlag;
 
-	private Vector				storeCostControllers = new Vector();
-	private Vector				storeCostConglomIds = new Vector();
+	private FastTable				storeCostControllers = new FastTable();
+	private FastTable				storeCostConglomIds = new FastTable();
 
 	private SortCostController	sortCostController;
 
-	private Vector parameterList;
+	private FastTable parameterList;
 
 	/* Type descriptors for the ? parameters */
 	private DataTypeDescriptor[]	parameterDescriptors;

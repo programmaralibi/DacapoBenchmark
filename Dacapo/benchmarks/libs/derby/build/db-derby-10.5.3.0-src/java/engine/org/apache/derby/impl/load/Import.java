@@ -45,13 +45,13 @@ public class Import extends ImportAbstract{
     private static  int                _importCounter;
 
     //
-    // This hashtable stores Import instances, which keep the context needed
+    // This FastMap stores Import instances, which keep the context needed
     // to correlate Derby errors with line numbers in the file that is being
-    // imported. An importing thread will access this hashtable at the very
+    // imported. An importing thread will access this FastMap at the very
     // beginning and the very end of its run. We cannot use FastMap
     // because different threads may simultaneously put and delete entries.
     //
-    private static  Hashtable   _importers = new Hashtable();
+    private static  FastMap   _importers = new FastMap();
 
     private String inputFileName;
 
@@ -281,9 +281,9 @@ public class Import extends ImportAbstract{
         finally
         {
             //
-            // The importer was put into a hashtable so that we could look up
+            // The importer was put into a FastMap so that we could look up
             // line numbers for error messages. The Import constructor put
-            // the importer in the hashtable. Now garbage collect that entry.
+            // the importer in the FastMap. Now garbage collect that entry.
             //
             _importers.remove( importCounter );
         }

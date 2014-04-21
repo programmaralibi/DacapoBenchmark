@@ -21,7 +21,7 @@
 
 package org.apache.derby.impl.store.access.sort;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 import org.apache.derby.iapi.services.sanity.SanityManager;
 import org.apache.derby.iapi.error.StandardException;
 import org.apache.derby.iapi.store.access.conglomerate.TransactionManager;
@@ -48,9 +48,9 @@ final class MergeInserter implements SortController
 	private TransactionManager tran;
 
 	/**
-	A vector of the conglomerate ids of the merge runs.
+	A FastTable of the conglomerate ids of the merge runs.
 	**/
-	private Vector mergeRuns;
+	private FastTable mergeRuns;
 
 	/**
 	An in-memory ordered set that is used to sort rows
@@ -73,7 +73,7 @@ final class MergeInserter implements SortController
     int     stat_numRowsInput;
     int     stat_numRowsOutput;
     int     stat_numMergeRuns;
-    Vector  stat_mergeRunsSize;
+    FastTable  stat_mergeRunsSize;
 
 
 	/*
@@ -172,12 +172,12 @@ final class MergeInserter implements SortController
 			}
 
 			// The sort buffer became full.  Empty it into a
-			// merge run, and add the merge run to the vector
+			// merge run, and add the merge run to the FastTable
 			// of merge runs.
             stat_sortType = "external";
 			long conglomid = sort.createMergeRun(tran, sortBuffer);
 			if (mergeRuns == null)
-				mergeRuns = new Vector();
+				mergeRuns = new FastTable();
 			mergeRuns.addElement(new Long(conglomid));
 
             stat_numMergeRuns++;
@@ -204,7 +204,7 @@ final class MergeInserter implements SortController
 	public void completedInserts()
 	{
 		// Tell the sort that we're closed, and hand off
-		// the sort buffer and the vector of merge runs.
+		// the sort buffer and the FastTable of merge runs.
 		if (sort != null)
 			sort.doneInserting(this, sortBuffer, mergeRuns);
 
@@ -275,7 +275,7 @@ final class MergeInserter implements SortController
         stat_numMergeRuns = 0;
         stat_numRowsInput = 0;
         stat_numRowsOutput = 0;
-        stat_mergeRunsSize = new Vector();
+        stat_mergeRunsSize = new FastTable();
         runSize = 0;
         totalRunSize = 0;
 

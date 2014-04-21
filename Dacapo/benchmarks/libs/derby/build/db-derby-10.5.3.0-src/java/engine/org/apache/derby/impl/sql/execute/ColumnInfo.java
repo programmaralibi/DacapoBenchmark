@@ -36,7 +36,7 @@ import org.apache.derby.catalog.DefaultInfo;
 import org.apache.derby.catalog.UUID;
 
 import org.apache.derby.iapi.services.io.FormatableArrayHolder;
-import org.apache.derby.iapi.services.io.FormatableHashtable;
+import org.apache.derby.iapi.services.io.FormatableFastMap;
 import org.apache.derby.iapi.services.io.FormatableIntHolder;
 import org.apache.derby.iapi.services.io.FormatableLongHolder;
 
@@ -160,7 +160,7 @@ public class ColumnInfo implements Formatable
 
 		FormatableLongHolder flh;
 
-		FormatableHashtable fh = (FormatableHashtable)in.readObject();
+		FormatableFastMap fh = (FormatableFastMap)in.readObject();
 		name = (String)fh.get("name");
 		dataType = (DataTypeDescriptor) fh.get("dataType");
 		defaultValue = (DataValueDescriptor)fh.get("defaultValue");
@@ -196,7 +196,7 @@ public class ColumnInfo implements Formatable
 	public void writeExternal( ObjectOutput out )
 		 throws IOException
 	{
-		FormatableHashtable fh = new FormatableHashtable();
+		FormatableFastMap fh = new FormatableFastMap();
 		fh.put("name", name);
 		fh.put("dataType", dataType);
 		fh.put("defaultValue", defaultValue);

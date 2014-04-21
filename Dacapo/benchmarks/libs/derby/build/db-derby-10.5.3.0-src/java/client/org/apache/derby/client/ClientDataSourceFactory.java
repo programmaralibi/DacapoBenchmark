@@ -86,7 +86,7 @@ public class ClientDataSourceFactory implements javax.naming.spi.ObjectFactory {
     public Object getObjectInstance(Object refObj,
                                     javax.naming.Name name,
                                     javax.naming.Context nameContext,
-                                    java.util.Hashtable environment) throws java.lang.Exception {
+                                    javolution.util.FastMap environment) throws java.lang.Exception {
         Object ds = null;
         if (refObj instanceof javax.naming.Reference) {
             javax.naming.Reference ref = (javax.naming.Reference) refObj;

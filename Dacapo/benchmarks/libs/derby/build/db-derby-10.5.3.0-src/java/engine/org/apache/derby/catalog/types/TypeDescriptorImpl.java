@@ -414,7 +414,7 @@ public class TypeDescriptorImpl implements TypeDescriptor, Formatable
 	 *
 	 *	or
 	 *
-	 *			 java.util.Hashtable 
+	 *			 javolution.util.FastMap 
 	 *
 	 * @return	String version of datatype, suitable for running through
 	 *			the Parser.

@@ -54,7 +54,7 @@ import org.apache.derby.iapi.types.RowLocation;
 import org.apache.derby.iapi.reference.SQLState;
 
 import org.apache.derby.iapi.services.io.FormatableBitSet;
-import org.apache.derby.iapi.services.io.FormatableHashtable;
+import org.apache.derby.iapi.services.io.FormatableFastMap;
 
 import org.apache.derby.vti.DeferModification;
 import org.apache.derby.vti.IFastPath;
@@ -86,7 +86,7 @@ class VTIResultSet extends NoPutResultSetImpl
 	private boolean version2;
 	private boolean reuseablePs;
 	private boolean isTarget;
-	private FormatableHashtable compileTimeConstants;
+	private FormatableFastMap compileTimeConstants;
 	private int ctcNumber;
 
 	private boolean pushedProjection;
@@ -150,7 +150,7 @@ class VTIResultSet extends NoPutResultSetImpl
 		}
 
 		this.ctcNumber = ctcNumber;
-		compileTimeConstants = (FormatableHashtable) (activation.getPreparedStatement().
+		compileTimeConstants = (FormatableFastMap) (activation.getPreparedStatement().
 								getSavedObject(ctcNumber));
 
 		recordConstructorTime();
@@ -635,9 +635,9 @@ class VTIResultSet extends NoPutResultSetImpl
 
 			synchronized (savedObjects) {
 
-				compileTimeConstants = (FormatableHashtable) savedObjects[ctcNumber];
+				compileTimeConstants = (FormatableFastMap) savedObjects[ctcNumber];
 				if (compileTimeConstants == null) {
-					compileTimeConstants = new FormatableHashtable();
+					compileTimeConstants = new FormatableFastMap();
 					savedObjects[ctcNumber] = compileTimeConstants;
 				}
 			}

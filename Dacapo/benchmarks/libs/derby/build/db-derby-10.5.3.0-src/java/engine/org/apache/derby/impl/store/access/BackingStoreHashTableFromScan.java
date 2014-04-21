@@ -1,6 +1,6 @@
 /*
 
-   Derby - Class org.apache.derby.impl.store.access.BackingStoreHashTableFromScan
+   Derby - Class org.apache.derby.impl.store.access.BackingStoreFastMapFromScan
 
    Licensed to the Apache Software Foundation (ASF) under one or more
    contributor license agreements.  See the NOTICE file distributed with
@@ -31,26 +31,26 @@ import org.apache.derby.iapi.store.access.TransactionController;
 
 import org.apache.derby.iapi.types.DataValueDescriptor;
 
-import org.apache.derby.iapi.store.access.BackingStoreHashtable;
+import org.apache.derby.iapi.store.access.BackingStoreFastMap;
 import org.apache.derby.iapi.services.io.FormatableBitSet;
 
 import java.util.Properties;
 
 /**
 
-Extend BackingStoreHashtable with the ability to maintain the underlying 
-openScan() until the hashtable has been closed.  This is necessary for 
+Extend BackingStoreFastMap with the ability to maintain the underlying 
+openScan() until the FastMap has been closed.  This is necessary for 
 long row access.  Access to long row delays actual objectification until
 the columns are accessed, but depends on the underlying table to be still
 open when the column is accessed.  
 
 <P>
 Transactions are obtained from an AccessFactory.
-@see BackingStoreHashtable
+@see BackingStoreFastMap
 
 **/
 
-class BackingStoreHashTableFromScan extends BackingStoreHashtable
+class BackingStoreFastMapFromScan extends BackingStoreFastMap
 {
 
     /**************************************************************************
@@ -63,7 +63,7 @@ class BackingStoreHashTableFromScan extends BackingStoreHashtable
      * Constructors for This class:
      **************************************************************************
      */
-    public BackingStoreHashTableFromScan(
+    public BackingStoreFastMapFromScan(
         TransactionController   tc,
 		long                    conglomId,
 		int                     open_mode,
@@ -138,9 +138,9 @@ class BackingStoreHashTableFromScan extends BackingStoreHashtable
      */
 
     /**
-     * Close the BackingStoreHashtable.
+     * Close the BackingStoreFastMap.
      * <p>
-     * Perform any necessary cleanup after finishing with the hashtable.  Will
+     * Perform any necessary cleanup after finishing with the FastMap.  Will
      * deallocate/dereference objects as necessary.  If the table has gone
      * to disk this will drop any on disk files used to support the hash table.
      * <p>

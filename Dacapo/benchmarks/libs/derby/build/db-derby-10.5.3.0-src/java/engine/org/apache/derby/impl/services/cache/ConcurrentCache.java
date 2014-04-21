@@ -23,7 +23,7 @@ package org.apache.derby.impl.services.cache;
 
 import javolution.util.FastTable;
 import java.util.Collection;
-import java.util.concurrent.ConcurrentFastMap;
+import java.util.concurrent.ConcurrentHashMap;
 import org.apache.derby.iapi.error.StandardException;
 import org.apache.derby.iapi.reference.SQLState;
 import org.apache.derby.iapi.services.cache.CacheManager;
@@ -52,7 +52,7 @@ import org.apache.derby.iapi.util.Matchable;
 final class ConcurrentCache implements CacheManager {
 
     /** Map with all the cached objects. */
-    private final ConcurrentFastMap<Object, CacheEntry> cache;
+    private final ConcurrentHashMap<Object, CacheEntry> cache;
     /** Factory which creates <code>Cacheable</code>s. */
     private final CacheableFactory holderFactory;
     /** Name of this cache. */
@@ -87,7 +87,7 @@ final class ConcurrentCache implements CacheManager {
      */
     ConcurrentCache(CacheableFactory holderFactory, String name,
                     int initialSize, int maxSize) {
-        cache = new ConcurrentFastMap<Object, CacheEntry>(initialSize);
+        cache = new ConcurrentHashMap<Object, CacheEntry>(initialSize);
         replacementPolicy = new ClockPolicy(this, initialSize, maxSize);
         this.holderFactory = holderFactory;
         this.name = name;

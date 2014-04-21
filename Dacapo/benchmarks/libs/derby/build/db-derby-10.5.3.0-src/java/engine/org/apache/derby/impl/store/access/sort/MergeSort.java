@@ -48,7 +48,7 @@ import org.apache.derby.iapi.types.Orderable;
 
 import java.util.Enumeration;
 import java.util.Properties;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
 
@@ -150,11 +150,11 @@ class MergeSort implements Sort
 	private Scan scan = null;
 
 	/**
-	A vector of merge runs, produced by the MergeInserter.
+	A FastTable of merge runs, produced by the MergeInserter.
 	Might be null if no merge runs were produced.
-	It is a vector of container ids.
+	It is a FastTable of container ids.
 	**/
-	private Vector mergeRuns = null;
+	private FastTable mergeRuns = null;
 
 	/**
 	An ordered set of the leftover rows that didn't go
@@ -579,7 +579,7 @@ class MergeSort implements Sort
 	An inserter is closing.
 	**/
 	void doneInserting(MergeInserter inserter,
-		SortBuffer sortBuffer, Vector mergeRuns)
+		SortBuffer sortBuffer, FastTable mergeRuns)
 	{
         if (SanityManager.DEBUG)
         {
@@ -611,7 +611,7 @@ class MergeSort implements Sort
 	}
 
 	void doneScanning(Scan scan, SortBuffer sortBuffer,
-		Vector mergeRuns)
+		FastTable mergeRuns)
 	{
 		this.mergeRuns = mergeRuns;
 
@@ -682,15 +682,15 @@ class MergeSort implements Sort
 		if (maxMergeRuns > ExternalSortFactory.DEFAULT_MAX_MERGE_RUN)
 			maxMergeRuns = ExternalSortFactory.DEFAULT_MAX_MERGE_RUN;
 
-		Vector subset;
-		Vector leftovers;
+		FastTable subset;
+		FastTable leftovers;
 
 		while (mergeRuns.size() > maxMergeRuns)
 		{
 			// Move maxMergeRuns elements from the merge runs
-			// vector into a subset, leaving the rest.
-			subset = new Vector(maxMergeRuns);
-			leftovers = new Vector(mergeRuns.size() - maxMergeRuns);
+			// FastTable into a subset, leaving the rest.
+			subset = new FastTable(maxMergeRuns);
+			leftovers = new FastTable(mergeRuns.size() - maxMergeRuns);
 			e = mergeRuns.elements();
 			while (e.hasMoreElements())
 			{

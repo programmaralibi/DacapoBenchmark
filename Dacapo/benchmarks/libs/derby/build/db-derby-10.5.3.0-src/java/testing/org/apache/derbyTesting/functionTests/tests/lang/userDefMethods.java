@@ -21,7 +21,7 @@
 
 package org.apache.derbyTesting.functionTests.tests.lang;
 import java.sql.*;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 
 //This class defines miscelanious test java methods to be called from sql.
@@ -37,7 +37,7 @@ public class userDefMethods
         String delStr = null;
         Statement s = con.createStatement();
         ResultSet rs = s.executeQuery("SELECT c1 from new org.apache.derby.catalog.TriggerOldTransitionRows() AS EQ");
-        Vector keys = new Vector();
+        FastTable keys = new FastTable();
         while(rs.next()){
             keys.addElement(new Long(rs.getLong(1)));
         }

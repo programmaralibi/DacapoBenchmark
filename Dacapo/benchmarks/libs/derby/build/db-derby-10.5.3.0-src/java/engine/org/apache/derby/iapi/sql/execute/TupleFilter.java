@@ -32,7 +32,7 @@ import org.apache.derby.iapi.error.StandardException;
 public interface TupleFilter
 {
 	/**
-	  *	Initialize a Filter with a vector of parameters.
+	  *	Initialize a Filter with a FastTable of parameters.
 	  *
 	  *	@param	parameters	An ExecRow of parameter values
 	  *

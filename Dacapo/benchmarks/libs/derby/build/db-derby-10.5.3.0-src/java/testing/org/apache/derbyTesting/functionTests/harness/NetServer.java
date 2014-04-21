@@ -26,8 +26,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Locale;
 import java.util.Properties;
-import java.util.Vector;
-import java.util.Hashtable;
+import javolution.util.FastTable;
+import javolution.util.FastMap;
 import java.lang.reflect.Method;
 import java.lang.reflect.Constructor;
 import java.net.ConnectException;
@@ -60,7 +60,7 @@ public class NetServer
 
 	private static String NETWORK_SERVER_CLASS_NAME="org.apache.derby.drda.NetworkServerControl";
     
-    public static Hashtable m;
+    public static FastMap m;
     public static int PREFIX_POS = 0;
     public static int SUFFIX_POS = 1;
     public static int DRIVER_POS = 2;
@@ -72,8 +72,8 @@ public class NetServer
     
     static {
     	hostName=TestUtil.getHostName();
-	m =  new Hashtable();
-	// Hashtable is keyed on framework name and has 
+	m =  new FastMap();
+	// FastMap is keyed on framework name and has 
 	// an array of the framework prefix, suffix, driver, port  and 
 	// String[] command arguments to start the server
 	// String[] Command arguments to stop the server
@@ -168,7 +168,7 @@ public class NetServer
 		else if (javaCmd != null)
 		    jvm.setJavaCmd(javaCmd);
 		
-		Vector jvmProps = new Vector();
+		FastTable jvmProps = new FastTable();
 		if ( (clPath != null) && (clPath.length()>0) )
 		    jvm.setClasspath(clPath);
 
@@ -182,9 +182,9 @@ public class NetServer
 		jvm.setD(jvmProps);
 		jvm.setSecurityProps();
         // For some platforms (like Mac) the process exec command
-        // must be a string array; so we build this with a Vector
+        // must be a string array; so we build this with a FastTable
         // first because some strings (paths) could have spaces
-	Vector vCmd = jvm.getCommandLine();
+	FastTable vCmd = jvm.getCommandLine();
 	for (int i = 0; i < startcmd.length; i++)
 	    vCmd.addElement(startcmd[i]);
 
@@ -281,9 +281,9 @@ public class NetServer
 						 + framework);
 	jvm jvm = null; // to quiet the compiler
 	jvm = jvm.getJvm(jvmName);
-	Vector jvmCmd = jvm.getCommandLine();
+	FastTable jvmCmd = jvm.getCommandLine();
 	
-	Vector connV = new Vector();
+	FastTable connV = new FastTable();
 	for (int i = 0; i < jvmCmd.size(); i++)
 	{
 	    connV.addElement((String)jvmCmd.elementAt(i));
@@ -314,7 +314,7 @@ public class NetServer
 		}		    
 		
 		
-		Vector stopV = new Vector();
+		FastTable stopV = new FastTable();
 		for (int i = 0; i < jvmCmd.size(); i++)
 		{
 		    stopV.addElement((String)jvmCmd.elementAt(i));

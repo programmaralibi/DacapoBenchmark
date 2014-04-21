@@ -38,7 +38,7 @@ import org.apache.derby.iapi.services.sanity.SanityManager;
 
 import java.sql.Types;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * This node represents a unary extract operator, used to extract
@@ -74,7 +74,7 @@ public class ExtractOperatorNode extends UnaryOperatorNode {
 	 *
 	 * @param fromList			The query's FROM list
 	 * @param subqueryList		The subquery list being built as we find SubqueryNodes
-	 * @param aggregateVector	The aggregate vector being built as we find AggregateNodes
+	 * @param aggregateFastTable	The aggregate FastTable being built as we find AggregateNodes
 	 *
 	 * @return	The new top of the expression tree.
 	 *
@@ -84,14 +84,14 @@ public class ExtractOperatorNode extends UnaryOperatorNode {
 	public ValueNode bindExpression(
 		FromList		fromList, 
 		SubqueryList	subqueryList,
-		Vector	aggregateVector)
+		FastTable	aggregateFastTable)
 			throws StandardException 
 	{
 		int	operandType;
 		TypeId opTypeId;
 
 		bindOperand(fromList, subqueryList,
-				aggregateVector);
+				aggregateFastTable);
 
 		opTypeId = operand.getTypeId();
 		operandType = opTypeId.getJDBCTypeId();

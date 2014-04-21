@@ -75,7 +75,7 @@
       verbose="${verbose}" 
       srcdir="${derby.testing.src.dir}"
       destdir="${out.dir}">
-      <classpath>
+      <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
         <pathelement path="${java15compile.classpath}"/>
       </classpath>
       <include name="${derby.testing.functest.dir}/testData/serializedDataSources/*.java"/>

@@ -43,7 +43,7 @@ import org.apache.derby.iapi.reference.ClassName;
 
 import java.sql.Types;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * This node represents a concatenation comparison operator
@@ -73,13 +73,13 @@ public class ConcatenationOperatorNode extends BinaryOperatorNode {
 	 *                thrown on failure
 	 */
 	public ValueNode bindExpression(FromList fromList,
-			SubqueryList subqueryList, Vector aggregateVector)
+			SubqueryList subqueryList, FastTable aggregateFastTable)
 			throws StandardException {
 		// deal with binding operands
 		leftOperand = leftOperand.bindExpression(fromList, subqueryList,
-				aggregateVector);
+				aggregateFastTable);
 		rightOperand = rightOperand.bindExpression(fromList, subqueryList,
-				aggregateVector);
+				aggregateFastTable);
 
 		// deal with operand parameters
 		/*

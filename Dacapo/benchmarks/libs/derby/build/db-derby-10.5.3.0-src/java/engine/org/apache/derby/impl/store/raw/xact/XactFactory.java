@@ -69,7 +69,7 @@ import org.apache.derby.iapi.error.StandardException;
 
 import java.util.Enumeration;
 import java.util.Properties;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 
 public class XactFactory implements TransactionFactory, ModuleControl, ModuleSupportable
 {

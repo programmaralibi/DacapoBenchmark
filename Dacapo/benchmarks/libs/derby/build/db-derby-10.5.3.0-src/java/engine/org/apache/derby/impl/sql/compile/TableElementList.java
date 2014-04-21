@@ -59,9 +59,9 @@ import org.apache.derby.iapi.sql.dictionary.ColumnDescriptor;
 import org.apache.derby.catalog.UUID;
 
 import javolution.util.FastTable;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import java.util.HashSet;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * A TableElementList represents the list of columns and other table elements
@@ -69,7 +69,7 @@ import java.util.Vector;
  *
  */
 
-public class TableElementList extends QueryTreeNodeVector
+public class TableElementList extends QueryTreeNodeFastTable
 {
 	private int				numColumns;
 	private TableDescriptor td;
@@ -192,10 +192,10 @@ public class TableElementList extends QueryTreeNodeVector
 		int numAutoCols = 0;
 
 		int			size = size();
-		Hashtable	columnHT = new Hashtable(size + 2, (float) .999);
-		Hashtable	constraintHT = new Hashtable(size + 2, (float) .999);
+		FastMap	columnHT = new FastMap(size + 2, (float) .999);
+		FastMap	constraintHT = new FastMap(size + 2, (float) .999);
 		//all the primary key/unique key constraints for this table
-		Vector constraintsVector = new Vector();
+		FastTable constraintsFastTable = new FastTable();
 
 		//special case for alter table (td is not null in case of alter table)
 		if (td != null)
@@ -214,7 +214,7 @@ public class TableElementList extends QueryTreeNodeVector
 					//if the constraint type is not primary key or unique key, ignore it.
 					if (cd.getConstraintType() == DataDictionary.PRIMARYKEY_CONSTRAINT ||
 					cd.getConstraintType() == DataDictionary.UNIQUE_CONSTRAINT)
-						constraintsVector.addElement(cd);
+						constraintsFastTable.addElement(cd);
 				}
 			}
 		}
@@ -273,11 +273,11 @@ public class TableElementList extends QueryTreeNodeVector
 
 			cdn.bind(ddlStmt, dd);
 
-			//if constraint is primary key or unique key, add it to the vector
+			//if constraint is primary key or unique key, add it to the FastTable
 			if (cdn.getConstraintType() == DataDictionary.PRIMARYKEY_CONSTRAINT ||
 			cdn.getConstraintType() == DataDictionary.UNIQUE_CONSTRAINT)
 			{
-				/* In case of create table, the vector can have only ConstraintDefinitionNode
+				/* In case of create table, the FastTable can have only ConstraintDefinitionNode
 				* elements. In case of alter table, it can have both ConstraintDefinitionNode
 				* (for new constraints) and ConstraintDescriptor(for pre-existing constraints).
 				*/
@@ -286,10 +286,10 @@ public class TableElementList extends QueryTreeNodeVector
 				String destName = null;
 				String[] destColumnNames = null;
 
-				for (int i=0; i<constraintsVector.size();i++)
+				for (int i=0; i<constraintsFastTable.size();i++)
 				{
 
-					destConstraint = constraintsVector.elementAt(i);
+					destConstraint = constraintsFastTable.elementAt(i);
 					if (destConstraint instanceof ConstraintDefinitionNode)
 					{
 						ConstraintDefinitionNode destCDN = (ConstraintDefinitionNode)destConstraint;
@@ -308,7 +308,7 @@ public class TableElementList extends QueryTreeNodeVector
 						throw StandardException.newException(SQLState.LANG_MULTIPLE_CONSTRAINTS_WITH_SAME_COLUMNS,
 						cdn.getConstraintMoniker(), destName);
 				}
-				constraintsVector.addElement(cdn);
+				constraintsFastTable.addElement(cdn);
 			}
 
 			/* Make sure that there are no duplicate constraint names in the list */
@@ -629,7 +629,7 @@ public class TableElementList extends QueryTreeNodeVector
 
 		cc = getCompilerContext();
 
-		Vector aggregateVector = new Vector();
+		FastTable aggregateFastTable = new FastTable();
 
 		for (int index = 0; index < size; index++)
 		{
@@ -672,10 +672,10 @@ public class TableElementList extends QueryTreeNodeVector
 				// Tell the compiler context to only allow deterministic nodes
 				cc.setReliability( CompilerContext.CHECK_CONSTRAINT );
 				checkTree = checkTree.bindExpression(fromList, (SubqueryList) null,
-										 aggregateVector);
+										 aggregateFastTable);
 
 				// no aggregates, please
-				if (aggregateVector.size() != 0)
+				if (aggregateFastTable.size() != 0)
 				{
 					throw StandardException.newException(SQLState.LANG_INVALID_CHECK_CONSTRAINT, cdn.getConstraintText());
 				}
@@ -764,7 +764,7 @@ public class TableElementList extends QueryTreeNodeVector
         
 		cc = getCompilerContext();
 
-		Vector aggregateVector = new Vector();
+		FastTable aggregateFastTable = new FastTable();
 
 		for (int index = 0; index < size; index++)
 		{
@@ -808,7 +808,7 @@ public class TableElementList extends QueryTreeNodeVector
 				// non-deterministic functions.
 				cc.setReliability( CompilerContext.GENERATION_CLAUSE_RESTRICTION );
 				generationTree = generationClauseNode.bindExpression(fromList, (SubqueryList) null,
-										 aggregateVector);
+										 aggregateFastTable);
 
                 //
                 // If the user did not declare a type for this column, then the column type defaults
@@ -850,7 +850,7 @@ public class TableElementList extends QueryTreeNodeVector
                 }
 
 				// no aggregates, please
-				if (aggregateVector.size() != 0)
+				if (aggregateFastTable.size() != 0)
 				{
 					throw StandardException.newException( SQLState.LANG_AGGREGATE_IN_GENERATION_CLAUSE, cdn.getName());
 				}
@@ -951,7 +951,7 @@ public class TableElementList extends QueryTreeNodeVector
         {
             ColumnDefinitionNode    cdn = (ColumnDefinitionNode) generatedColumns.get( i );
             GenerationClauseNode    generationClauseNode = cdn.getGenerationClauseNode();
-            Vector                  referencedColumns = generationClauseNode.findReferencedColumns();
+            FastTable                  referencedColumns = generationClauseNode.findReferencedColumns();
             int                     refCount = referencedColumns.size();
             for ( int j = 0; j < refCount; j++ )
             {
@@ -1336,13 +1336,13 @@ public class TableElementList extends QueryTreeNodeVector
 	 * RESOLVE: This check will also be performed by alter table.
 	 *
 	 * @param ddlStmt	DDLStatementNode which contains this list
-	 * @param ht		Hashtable for enforcing uniqueness.
+	 * @param ht		FastMap for enforcing uniqueness.
 	 * @param colName	Column name to check for.
 	 *
 	 * @exception StandardException		Thrown on error
 	 */
 	private void checkForDuplicateColumns(DDLStatementNode ddlStmt,
-									Hashtable ht,
+									FastMap ht,
 									String colName)
 			throws StandardException
 	{
@@ -1369,7 +1369,7 @@ public class TableElementList extends QueryTreeNodeVector
 	 * @exception StandardException		Thrown on error
 	 */
 	private void checkForDuplicateConstraintNames(DDLStatementNode ddlStmt,
-									Hashtable ht,
+									FastMap ht,
 									String constraintName)
 			throws StandardException
 	{

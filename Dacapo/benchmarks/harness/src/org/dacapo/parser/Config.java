@@ -19,7 +19,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Set;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 import javolution.util.FastMap;
 
@@ -121,7 +121,7 @@ public class Config {
 
     FastMap<String, OutputFile> outputFiles = new FastMap<String, OutputFile>();
 
-    Size(String name, Vector<String> args) {
+    Size(String name, FastTable<String> args) {
       this.args = (String[]) args.toArray(new String[0]);
       this.name = name;
     }
@@ -338,7 +338,7 @@ public class Config {
    * @param name
    * @param args
    */
-  void addSize(String name, Vector<String> args) {
+  void addSize(String name, FastTable<String> args) {
     sizes.put(name, new Size(name, args));
   }
 

@@ -29,7 +29,7 @@ package org.apache.derbyTesting.functionTests.harness;
  ***/
 
 import java.io.*;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 public class SysInfoLog
 {
@@ -69,9 +69,9 @@ public class SysInfoLog
                     javavm.setClasspath(classpath);
                 }
 
-				Vector v = javavm.getCommandLine();
+				FastTable v = javavm.getCommandLine();
                 v.addElement("org.apache.derby.tools.sysinfo");
-                // Now convert the vector into a string array
+                // Now convert the FastTable into a string array
                 String[] sCmd = new String[v.size()];
                 for (int i = 0; i < v.size(); i++)
                 {

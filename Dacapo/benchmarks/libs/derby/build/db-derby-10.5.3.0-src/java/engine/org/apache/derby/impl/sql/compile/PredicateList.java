@@ -72,17 +72,17 @@ import java.sql.Types;
 import javolution.util.FastTable;
 import java.util.Enumeration;
 import java.util.Properties;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * A PredicateList represents the list of top level predicates.
  * Each top level predicate consists of an AndNode whose leftOperand is the
  * top level predicate and whose rightOperand is true.  It extends 
- * QueryTreeNodeVector.
+ * QueryTreeNodeFastTable.
  *
  */
 
-public class PredicateList extends QueryTreeNodeVector implements OptimizablePredicateList
+public class PredicateList extends QueryTreeNodeFastTable implements OptimizablePredicateList
 {
 	private int	numberOfStartPredicates;
 	private int numberOfStopPredicates;
@@ -555,7 +555,7 @@ public class PredicateList extends QueryTreeNodeVector implements OptimizablePre
 			** they don't have to be in any order.
 			**
 			** NOTE: We can logically delete the current element when
-			** traversing the Vector in the next loop,
+			** traversing the FastTable in the next loop,
 			** so we must build an array of elements to
 			** delete while looping and then delete them
 			** in reverse order after completing the loop.
@@ -1492,7 +1492,7 @@ public class PredicateList extends QueryTreeNodeVector implements OptimizablePre
                 new CollectNodesVisitor(ColumnReference.class);
 
 			predicate.getAndNode().accept(getCRs);
-			Vector colRefs = getCRs.getList();
+			FastTable colRefs = getCRs.getList();
 
 			/* state doesn't become true until we find the 1st
 			 * ColumnReference.  (We probably will always find
@@ -1657,7 +1657,7 @@ public class PredicateList extends QueryTreeNodeVector implements OptimizablePre
 			predicate.getAndNode().accept(collectCRs);
 		}
 
-		Vector colRefs = collectCRs.getList();
+		FastTable colRefs = collectCRs.getList();
 		for (Enumeration e = colRefs.elements(); e.hasMoreElements(); )
 		{
 			ColumnReference ref = (ColumnReference)e.nextElement();
@@ -1964,7 +1964,7 @@ public class PredicateList extends QueryTreeNodeVector implements OptimizablePre
 			/* Put all of the join clauses that already have an equivalence 
              * class at the head of the outer list to optimize search.
 			 */
-			Vector movePreds = new Vector();
+			FastTable movePreds = new FastTable();
 			for (int jcIndex = outerJCL.size() - 1; jcIndex >= 0; jcIndex--)
 			{
 				Predicate predicate = (Predicate) outerJCL.elementAt(jcIndex);
@@ -3883,11 +3883,11 @@ public class PredicateList extends QueryTreeNodeVector implements OptimizablePre
 		 * loop until we can't find any more statistics or we have exhausted all
 		 * the predicates for which we are trying to find statistics.
 		 *--------------------------------------------------------------------*/
-		Vector statistics = new Vector(numWorkingPredicates);
+		FastTable statistics = new FastTable(numWorkingPredicates);
 
 		double selectivity = 1.0;
 
-		Vector maxPreds = new Vector();
+		FastTable maxPreds = new FastTable();
 
 		while (true)
 		{
@@ -3961,7 +3961,7 @@ public class PredicateList extends QueryTreeNodeVector implements OptimizablePre
 	 * choose the statistic which has the maximum match with the predicates.
 	 * value is returned in ret.
 	 */
-	private int chooseLongestMatch(PredicateWrapperList[] predArray, Vector ret,
+	private int chooseLongestMatch(PredicateWrapperList[] predArray, FastTable ret,
 								   int numWorkingPredicates)
 	{
 		int max = 0, maxWeight = 0;
@@ -4007,9 +4007,9 @@ public class PredicateList extends QueryTreeNodeVector implements OptimizablePre
 		 * [p2] shuld be considered again later.
 		*/
 		PredicateWrapperList pwl = predArray[position];
-		Vector uniquepreds = pwl.createLeadingUnique();
+		FastTable uniquepreds = pwl.createLeadingUnique();
 		
-		/* uniqueprds is a vector of predicate (along with wrapper) that I'm
+		/* uniqueprds is a FastTable of predicate (along with wrapper) that I'm
 		   going  to use to get statistics from-- we now have to delete these
 		   predicates from all the predicateWrapperLists!
 		*/
@@ -4114,14 +4114,14 @@ public class PredicateList extends QueryTreeNodeVector implements OptimizablePre
 	 */
 	private class PredicateWrapperList
 	{
-		Vector pwList;
+		FastTable pwList;
 		int numPreds;
 		int numDuplicates;
 		int weight;
 
 		PredicateWrapperList(int maxValue)
 		{
-			pwList = new Vector(maxValue);
+			pwList = new FastTable(maxValue);
 		}
 		
 		void removeElement(PredicateWrapper pw)
@@ -4237,9 +4237,9 @@ public class PredicateList extends QueryTreeNodeVector implements OptimizablePre
 		 * I need to extract out 0 1 2 3.
 		 * leaving 0 2 3 in there.
 		 */
-		Vector createLeadingUnique()
+		FastTable createLeadingUnique()
 		{
-			Vector scratch = new Vector();
+			FastTable scratch = new FastTable();
 
 			if (numPreds == 0)
 				return null;

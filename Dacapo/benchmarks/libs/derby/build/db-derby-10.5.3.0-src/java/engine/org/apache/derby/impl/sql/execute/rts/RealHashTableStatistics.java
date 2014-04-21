@@ -1,6 +1,6 @@
 /*
 
-   Derby - Class org.apache.derby.impl.sql.execute.rts.RealHashTableStatistics
+   Derby - Class org.apache.derby.impl.sql.execute.rts.RealFastMapStatistics
 
    Licensed to the Apache Software Foundation (ASF) under one or more
    contributor license agreements.  See the NOTICE file distributed with
@@ -26,7 +26,7 @@ import org.apache.derby.iapi.services.io.StoredFormatIds;
 import org.apache.derby.iapi.services.i18n.MessageService;
 import org.apache.derby.iapi.reference.SQLState;
 
-import org.apache.derby.iapi.services.io.FormatableHashtable;
+import org.apache.derby.iapi.services.io.FormatableFastMap;
 import org.apache.derby.iapi.services.io.FormatableProperties;
 
 import java.io.ObjectOutput;
@@ -38,16 +38,16 @@ import java.util.Properties;
 
 
 /**
-  ResultSetStatistics implemenation for HashTableResultSet.
+  ResultSetStatistics implemenation for FastMapResultSet.
 
 
 */
-public class RealHashTableStatistics
+public class RealFastMapStatistics
 	extends RealNoPutResultSetStatistics
 {
 
 	/* Leave these fields public for object inspectors */
-	public int hashtableSize;
+	public int FastMapSize;
 	public int[] hashKeyColumns;
 	public String isolationLevel;
 	public String nextQualifiers;
@@ -61,7 +61,7 @@ public class RealHashTableStatistics
 	 * 
 	 *
 	 */
-    public	RealHashTableStatistics(
+    public	RealFastMapStatistics(
 									int numOpens,
 									int rowsSeen,
 									int rowsFiltered,
@@ -70,7 +70,7 @@ public class RealHashTableStatistics
 									long nextTime,
 									long closeTime,
 									int resultSetNumber,
-									int hashtableSize,
+									int FastMapSize,
 									int[] hashKeyColumns,
 									String nextQualifiers,
 									Properties scanProperties,
@@ -92,7 +92,7 @@ public class RealHashTableStatistics
 			optimizerEstimatedRowCount,
 			optimizerEstimatedCost
 			);
-		this.hashtableSize = hashtableSize;
+		this.FastMapSize = FastMapSize;
 		this.hashKeyColumns = hashKeyColumns;
 		this.nextQualifiers = nextQualifiers;
 		this.scanProperties = new FormatableProperties();
@@ -179,7 +179,7 @@ public class RealHashTableStatistics
 										" = " + numOpens + "\n" +
 			indent + MessageService.getTextMessage(
 												SQLState.RTS_HASH_TABLE_SIZE) +
-										" = " + hashtableSize + "\n" +
+										" = " + FastMapSize + "\n" +
 			indent + hashKeyColumnString + "\n" +
 			indent + MessageService.getTextMessage(
 												SQLState.RTS_ROWS_SEEN) +

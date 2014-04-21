@@ -163,7 +163,7 @@ public interface C_NodeNames
 
 	static final String HALF_OUTER_JOIN_NODE_NAME = "org.apache.derby.impl.sql.compile.HalfOuterJoinNode";
 
-	static final String HASH_TABLE_NODE_NAME = "org.apache.derby.impl.sql.compile.HashTableNode";
+	static final String HASH_TABLE_NODE_NAME = "org.apache.derby.impl.sql.compile.FastMapNode";
 
 	static final String IN_LIST_OPERATOR_NODE_NAME = "org.apache.derby.impl.sql.compile.InListOperatorNode";
 

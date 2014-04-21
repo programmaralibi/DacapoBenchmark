@@ -29,7 +29,7 @@ import java.io.ObjectOutput;
 import java.io.ObjectInput;
 import java.io.IOException;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
   ResultSetStatistics implemenation for NoPutResultSetImpl.
@@ -110,10 +110,10 @@ abstract class RealNoRowsResultSetStatistics
 	 * <P>
 	 * The objects returned can be of any type, including addtional Inspectables.
    *
-	 * @return java.util.Vector	A vector of objects.
+	 * @return javolution.util.FastTable	A FastTable of objects.
 	 */
-  public Vector getChildren(){
-    Vector children = new Vector();
+  public FastTable getChildren(){
+    FastTable children = new FastTable();
     children.addElement(sourceResultSetStatistics);
     return children;
   }

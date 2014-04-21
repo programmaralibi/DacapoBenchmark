@@ -44,7 +44,7 @@ import org.apache.derby.iapi.util.JBitSet;
 import java.lang.reflect.Member;
 import java.lang.reflect.Modifier;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * A StaticClassFieldReferenceNode represents a Java static field reference from 
@@ -89,7 +89,7 @@ public final class StaticClassFieldReferenceNode extends JavaValueNode
 	 * @param fromList		The FROM list for the query this
 	 *				expression is in, for binding columns.
 	 * @param subqueryList		The subquery list being built as we find SubqueryNodes
-	 * @param aggregateVector	The aggregate vector being built as we find AggregateNodes
+	 * @param aggregateFastTable	The aggregate FastTable being built as we find AggregateNodes
 	 *
 	 * @return	Nothing
 	 *
@@ -97,7 +97,7 @@ public final class StaticClassFieldReferenceNode extends JavaValueNode
 	 */
 
 	public JavaValueNode bindExpression(FromList fromList, SubqueryList subqueryList,
-		Vector aggregateVector) 
+		FastTable aggregateFastTable) 
 			throws StandardException
 	{
 		ClassInspector classInspector = getClassFactory().getClassInspector();

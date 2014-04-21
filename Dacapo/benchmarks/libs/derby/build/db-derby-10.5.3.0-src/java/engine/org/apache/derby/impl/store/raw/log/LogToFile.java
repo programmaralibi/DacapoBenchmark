@@ -104,7 +104,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import java.util.Properties;
-import java.util.Vector;
+import javolution.util.FastTable;
 import java.util.zip.CRC32;
 
 /**

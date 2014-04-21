@@ -24,7 +24,7 @@ package org.apache.derbyTesting.functionTests.harness;
 
 import java.io.IOException;
 import java.io.BufferedInputStream;
-import java.util.Vector;
+import javolution.util.FastTable;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.BufferedReader;
@@ -75,7 +75,7 @@ public class SimpleDiff
     public String[] readFile(BufferedReader input) throws IOException
     {
 
-        Vector vec = new Vector();
+        FastTable vec = new FastTable();
 
         String aLine = "";
         //int count = 0;
@@ -122,7 +122,7 @@ public class SimpleDiff
 
         int currentLine1 = 0;
         int currentLine2 = 0;
-        Vector returnVec = new Vector();
+        FastTable returnVec = new FastTable();
 
         while ( file1.isValidOffset(currentLine1) &&
                 file2.isValidOffset(currentLine2))
@@ -366,7 +366,7 @@ public class SimpleDiff
         }
     }
 
-    class DiffBuffer extends Vector
+    class DiffBuffer extends FastTable
     {
 
 

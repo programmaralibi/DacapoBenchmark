@@ -23,7 +23,7 @@ package org.apache.derby.impl.store.access.sort;
 
 import org.apache.derby.iapi.reference.SQLState;
 
-import org.apache.derby.iapi.store.access.BackingStoreHashtable;
+import org.apache.derby.iapi.store.access.BackingStoreFastMap;
 import org.apache.derby.iapi.services.io.FormatableBitSet;
 import org.apache.derby.iapi.services.i18n.MessageService;
 
@@ -117,7 +117,7 @@ public abstract class Scan implements ScanManager, ScanInfo
     public void fetchSet(
     long                    max_rowcnt,
     int[]                   key_column_numbers,
-    BackingStoreHashtable   hash_table)
+    BackingStoreFastMap   hash_table)
         throws StandardException
     {
         throw StandardException.newException(

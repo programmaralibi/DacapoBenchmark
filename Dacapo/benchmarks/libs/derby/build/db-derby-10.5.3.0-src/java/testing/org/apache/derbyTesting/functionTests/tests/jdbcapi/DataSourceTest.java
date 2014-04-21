@@ -29,7 +29,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javolution.util.FastMap;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import javax.sql.DataSource;
 
 import junit.framework.Test;
@@ -64,12 +64,12 @@ public class DataSourceTest extends BaseJDBCTestCase {
         TestConfiguration.getCurrent().getDefaultDatabaseName();
     
     /**
-     * A hashtable of opened connections.  This is used when checking to
+     * A FastMap of opened connections.  This is used when checking to
      * make sure connection strings are unique; we need to make sure all
      * the connections are closed when we are done, so they are stored
-     * in this hashtable
+     * in this FastMap
      */
-    protected static Hashtable conns = new Hashtable();
+    protected static FastMap conns = new FastMap();
     
     /** The expected format of a connection string. In English:
      * "<classname>@<hashcode> (XID=<xid>), (SESSION = <sessionid>),
@@ -769,7 +769,7 @@ public class DataSourceTest extends BaseJDBCTestCase {
 
     /**
      * Clear out and close connections in the connections
-     * hashtable. 
+     * FastMap. 
      */
     private static void clearConnections() throws SQLException
     {

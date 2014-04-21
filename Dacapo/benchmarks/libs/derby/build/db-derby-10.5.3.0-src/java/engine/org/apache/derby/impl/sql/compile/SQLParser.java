@@ -142,10 +142,10 @@ import org.apache.derby.iapi.util.IdUtil;
 import java.sql.Types;
 import java.util.List;
 import javolution.util.FastTable;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import java.util.Properties;
 import java.util.StringTokenizer;
-import java.util.Vector;
+import javolution.util.FastTable;
 import java.lang.Character;
 
 public class SQLParser implements SQLParserConstants {
@@ -197,7 +197,7 @@ public class SQLParser implements SQLParserConstants {
         private int                     parameterNumber;
 
         /* The list of ? parameters */
-        private Vector                  parameterList;
+        private FastTable                  parameterList;
 
         /* Remember if the last identifier or keyword was a
 	 * delimited identifier.  This is used for remembering
@@ -227,10 +227,10 @@ public class SQLParser implements SQLParserConstants {
         boolean explicitNotNull = false;
         boolean explicitNull = false;
 
-        //this vector keeps a list of explicitly nullable columns, so that if they
+        //this FastTable keeps a list of explicitly nullable columns, so that if they
         //get used in the table level primary key constraint, it will result in an
         //exception.	
-        Vector explicitlyNullableColumnsList = new Vector();
+        FastTable explicitlyNullableColumnsList = new FastTable();
 
 
         final void setCompilerContext(CompilerContext cc) {
@@ -507,7 +507,7 @@ public class SQLParser implements SQLParserConstants {
 	 */
         void    initUnnamedParameterList()
         {
-                parameterList = new Vector();
+                parameterList = new FastTable();
         }
 
         /**
@@ -1726,7 +1726,7 @@ public class SQLParser implements SQLParserConstants {
         //over values from previously failed sql will affect the next sql. 
         explicitNotNull = false;
         explicitNull = false;
-        explicitlyNullableColumnsList = new Vector();
+        explicitlyNullableColumnsList = new FastTable();
 
         /*
 	** Grab the token preceding this production
@@ -2192,7 +2192,7 @@ public class SQLParser implements SQLParserConstants {
  */
   final public CursorNode preparableSelectStatement(boolean checkParams) throws ParseException, StandardException {
         ResultSetNode     queryExpression;
-        Vector  updateColumns = new Vector();
+        FastTable  updateColumns = new FastTable();
         int               forUpdateState = CursorNode.UNSPECIFIED;
         int                               isolationLevel = ExecutionContext.UNSPECIFIED_ISOLATION_LEVEL;
         CursorNode                retval;
@@ -4010,7 +4010,7 @@ public class SQLParser implements SQLParserConstants {
 /*
  * <A NAME="timePrecision">timePrecision</A>
  */
-  final public void qualifiedNameList(Vector list, int id_length_limit) throws ParseException, StandardException {
+  final public void qualifiedNameList(FastTable list, int id_length_limit) throws ParseException, StandardException {
     qualifiedNameElement(list, id_length_limit);
     label_8:
     while (true) {
@@ -4027,7 +4027,7 @@ public class SQLParser implements SQLParserConstants {
     }
   }
 
-  final public void qualifiedNameElement(Vector list, int id_length_limit) throws ParseException, StandardException {
+  final public void qualifiedNameElement(FastTable list, int id_length_limit) throws ParseException, StandardException {
         TableName qualifiedName = null;
     qualifiedName = qualifiedName(id_length_limit);
                 list.addElement(qualifiedName);
@@ -5240,7 +5240,7 @@ public class SQLParser implements SQLParserConstants {
  * <A NAME="nonStaticMethodInvocation">nonStaticMethodInvocation</A>
  */
   final public ValueNode nonStaticMethodInvocation(ValueNode receiver) throws ParseException, StandardException {
-        Vector                                  parameterList = new Vector();
+        FastTable                                  parameterList = new FastTable();
         MethodCallNode                  methodNode;
         ParameterNode                   parameterNode;
     if (getToken(3).kind == LEFT_PAREN) {
@@ -5360,7 +5360,7 @@ public class SQLParser implements SQLParserConstants {
 /*
  * <A NAME="methodParameter">methodParameter</A>
  */
-  final public void methodParameter(Vector parameterList) throws ParseException, StandardException {
+  final public void methodParameter(FastTable parameterList) throws ParseException, StandardException {
         ValueNode       parameter;
     if (jj_2_31(1)) {
       parameter = additiveExpression(null,0, false);
@@ -5580,7 +5580,7 @@ public class SQLParser implements SQLParserConstants {
  * <A NAME="numericValueFunction">numericValueFunction</A>
  */
   final public ValueNode escapedSYSFUNFunction() throws ParseException, StandardException {
-    Vector      parameterList = new Vector();
+    FastTable      parameterList = new FastTable();
         Token tok;
     tok = jj_consume_token(IDENTIFIER);
     methodCallParameterList(parameterList);
@@ -7180,7 +7180,7 @@ public class SQLParser implements SQLParserConstants {
  */
   final public JavaToSQLValueNode newInvocation() throws ParseException, StandardException {
         QueryTreeNode   newNode;
-        Vector  parameterList = new Vector();
+        FastTable  parameterList = new FastTable();
         String  javaClassName;
     jj_consume_token(NEW);
     javaClassName = javaClassName();
@@ -7234,7 +7234,7 @@ public class SQLParser implements SQLParserConstants {
   final public JavaToSQLValueNode vtiTableConstruct() throws ParseException, StandardException {
     NewInvocationNode newNode = null;
     QueryTreeNode invocationNode = null;
-    Vector parameterList = new Vector();
+    FastTable parameterList = new FastTable();
     TableName vtiTableName = null;
     TableDescriptor td;
     MethodCallNode      methodNode;
@@ -7289,7 +7289,7 @@ public class SQLParser implements SQLParserConstants {
  * <A NAME="staticMethodInvocation">staticMethodInvocation</A>
  */
   final public ValueNode staticMethodInvocation(String javaClassName) throws ParseException, StandardException {
-        Vector  parameterList = new Vector();
+        FastTable  parameterList = new FastTable();
         MethodCallNode  methodNode;
     methodNode = staticMethodName(javaClassName);
     methodCallParameterList(parameterList);
@@ -7310,7 +7310,7 @@ public class SQLParser implements SQLParserConstants {
 /**
  * <A NAME="methodCallParameterList">methodCallParameterList</A>
 */
-  final public void methodCallParameterList(Vector parameterList) throws ParseException, StandardException {
+  final public void methodCallParameterList(FastTable parameterList) throws ParseException, StandardException {
     jj_consume_token(LEFT_PAREN);
     if (jj_2_47(1)) {
       methodParameter(parameterList);
@@ -7337,7 +7337,7 @@ public class SQLParser implements SQLParserConstants {
  * <A NAME="routineInvocation">routineInvocation</A>
  */
   final public ValueNode routineInvocation() throws ParseException, StandardException {
-        Vector  parameterList = new Vector();
+        FastTable  parameterList = new FastTable();
         TableName       routineName;
         MethodCallNode  methodNode;
     routineName = qualifiedName(Limits.MAX_IDENTIFIER_LENGTH);
@@ -7756,7 +7756,7 @@ columnReference() throws StandardException :
 /*
  * <A NAME="forUpdateClause">forUpdateClause</A>
  */
-  final public int forUpdateClause(Vector columnList) throws ParseException, StandardException {
+  final public int forUpdateClause(FastTable columnList) throws ParseException, StandardException {
         int     retval;
     switch (jj_nt.kind) {
     case UPDATE:
@@ -7793,7 +7793,7 @@ columnReference() throws StandardException :
 /*
  * <A NAME="forUpdateColumnList">forUpdateColumnList</A>
  */
-  final public void forUpdateColumnList(Vector columnList) throws ParseException, StandardException {
+  final public void forUpdateColumnList(FastTable columnList) throws ParseException, StandardException {
     forUpdateColumn(columnList);
     label_20:
     while (true) {
@@ -7813,7 +7813,7 @@ columnReference() throws StandardException :
 /*
  * <A NAME="forUpdateColumn">forUpdateColumn</A>
  */
-  final public void forUpdateColumn(Vector columnList) throws ParseException, StandardException {
+  final public void forUpdateColumn(FastTable columnList) throws ParseException, StandardException {
         String           columnName;
     /* identifier() used to be columnName() */
             columnName = identifier(Limits.MAX_IDENTIFIER_LENGTH, true);
@@ -8871,7 +8871,7 @@ columnReference() throws StandardException :
 /*
  * <A NAME="indexColumnList">indexColumnList</A>
  */
-  final public void indexColumnList(Vector columnList) throws ParseException, StandardException {
+  final public void indexColumnList(FastTable columnList) throws ParseException, StandardException {
     indexColumnItem(columnList);
     label_31:
     while (true) {
@@ -8891,7 +8891,7 @@ columnReference() throws StandardException :
 /*
  * <A NAME="indexColumnItem">indexColumnItem</A>
  */
-  final public void indexColumnItem(Vector columnList) throws ParseException, StandardException {
+  final public void indexColumnItem(FastTable columnList) throws ParseException, StandardException {
         String          columnName;
     /* identifier never ends with a space; appending a space meaning desc */
             columnName = identifier(Limits.MAX_IDENTIFIER_LENGTH, true);
@@ -9769,7 +9769,7 @@ columnReference() throws StandardException :
         Properties      properties = null;
         TableName       indexName;
         TableName       tableName;
-        Vector  indexColumnList = new Vector();
+        FastTable  indexColumnList = new FastTable();
     switch (jj_nt.kind) {
     case UNIQUE:
       unique = unique();
@@ -10056,10 +10056,10 @@ columnReference() throws StandardException :
   }
 
   final public Object[] procedureParameterList() throws ParseException, StandardException {
-        Vector[] list = new Vector[3];
-        list[0] = new Vector(); // name
-        list[1] = new Vector(); // type
-        list[2] = new Vector();
+        FastTable[] list = new FastTable[3];
+        list[0] = new FastTable(); // name
+        list[1] = new FastTable(); // type
+        list[2] = new FastTable();
     jj_consume_token(LEFT_PAREN);
     if (jj_2_61(1)) {
       procedureParameterDefinition(list);
@@ -10087,7 +10087,7 @@ columnReference() throws StandardException :
 /*
  * <A NAME="Definition">procedureParameterDefinition</A>
  */
-  final public void procedureParameterDefinition(Vector[] list) throws ParseException, StandardException {
+  final public void procedureParameterDefinition(FastTable[] list) throws ParseException, StandardException {
         DataTypeDescriptor      typeDescriptor;
         String                          parameterName = "";
         Integer                         inout;
@@ -10198,10 +10198,10 @@ columnReference() throws StandardException :
   }
 
   final public Object[] functionParameterList() throws ParseException, StandardException {
-        Vector[] list = new Vector[3];
-        list[0] = new Vector(); // name
-        list[1] = new Vector(); // type
-        list[2] = new Vector();
+        FastTable[] list = new FastTable[3];
+        list[0] = new FastTable(); // name
+        list[1] = new FastTable(); // type
+        list[2] = new FastTable();
     jj_consume_token(LEFT_PAREN);
     if (jj_2_62(1)) {
       functionParameterDefinition(list);
@@ -10229,7 +10229,7 @@ columnReference() throws StandardException :
 /*
  * <A NAME="Definition">functionParameterDefinition</A>
  */
-  final public void functionParameterDefinition(Vector[] list) throws ParseException, StandardException {
+  final public void functionParameterDefinition(FastTable[] list) throws ParseException, StandardException {
         DataTypeDescriptor      typeDescriptor;
         String                          parameterName = "";
     if (commonDatatypeName(2, false)) {
@@ -10396,7 +10396,7 @@ columnReference() throws StandardException :
         ResultColumnList        triggerColumns = (ResultColumnList) nodeFactory.getNode(
                                                                                         C_NodeTypes.RESULT_COLUMN_LIST,
                                                                                         getContextManager());
-        Vector                          refClause = null;
+        FastTable                          refClause = null;
     jj_consume_token(TRIGGER);
     triggerName = qualifiedName(Limits.MAX_IDENTIFIER_LENGTH);
     isBefore = beforeOrAfter();
@@ -10565,10 +10565,10 @@ columnReference() throws StandardException :
     throw new Error("Missing return statement in function");
   }
 
-  final public Vector triggerReferencingClause() throws ParseException, StandardException {
-        Vector vector = new Vector();
+  final public FastTable triggerReferencingClause() throws ParseException, StandardException {
+        FastTable FastTable = new FastTable();
     jj_consume_token(REFERENCING);
-    triggerReferencingExpression(vector);
+    triggerReferencingExpression(FastTable);
     label_39:
     while (true) {
       switch (jj_nt.kind) {
@@ -10582,13 +10582,13 @@ columnReference() throws StandardException :
         jj_la1[236] = jj_gen;
         break label_39;
       }
-      triggerReferencingExpression(vector);
+      triggerReferencingExpression(FastTable);
     }
-                {if (true) return vector;}
+                {if (true) return FastTable;}
     throw new Error("Missing return statement in function");
   }
 
-  final public void triggerReferencingExpression(Vector vector) throws ParseException, StandardException {
+  final public void triggerReferencingExpression(FastTable FastTable) throws ParseException, StandardException {
         String  identifier;
         boolean isNew = true;
         boolean isRow = true;
@@ -10657,7 +10657,7 @@ columnReference() throws StandardException :
     }
     jj_consume_token(AS);
     identifier = identifier(Limits.MAX_IDENTIFIER_LENGTH, true);
-                vector.addElement(new TriggerReferencingStruct(isRow, isNew, identifier));
+                FastTable.addElement(new TriggerReferencingStruct(isRow, isNew, identifier));
   }
 
 /*
@@ -20249,7 +20249,7 @@ ReuseFactory.getInteger(StatementType.RENAME_COLUMN),
     return t;
   }
 
-  private java.util.Vector jj_expentries = new java.util.Vector();
+  private javolution.util.FastTable jj_expentries = new javolution.util.FastTable();
   private int[] jj_expentry;
   private int jj_kind = -1;
   private int[] jj_lasttokens = new int[100];

@@ -38,7 +38,7 @@ import org.apache.derby.iapi.services.classfile.VMOpcode;
 
 import java.lang.reflect.Modifier;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 public class IsNode extends BinaryLogicalOperatorNode
 {
@@ -69,7 +69,7 @@ public class IsNode extends BinaryLogicalOperatorNode
 	 *
 	 * @param fromList			The query's FROM list
 	 * @param subqueryList		The subquery list being built as we find SubqueryNodes
-	 * @param aggregateVector	The aggregate vector being built as we find AggregateNodes
+	 * @param aggregateFastTable	The aggregate FastTable being built as we find AggregateNodes
 	 *
 	 * @return	The new top of the expression tree.
 	 *
@@ -78,10 +78,10 @@ public class IsNode extends BinaryLogicalOperatorNode
 
 	public ValueNode bindExpression(
 		FromList fromList, SubqueryList subqueryList,
-		Vector aggregateVector)
+		FastTable aggregateFastTable)
 			throws StandardException
 	{
-		super.bindExpression(fromList, subqueryList, aggregateVector);
+		super.bindExpression(fromList, subqueryList, aggregateFastTable);
 
 		leftOperand.checkIsBoolean();
 		rightOperand.checkIsBoolean();

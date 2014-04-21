@@ -39,7 +39,7 @@ import java.util.zip.ZipFile;
 import java.io.IOException;
 import java.util.zip.ZipEntry;
 import java.io.FileInputStream;
-import java.util.Vector;
+import javolution.util.FastTable;
 import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.net.URL;
@@ -795,7 +795,7 @@ public static void getMainInfo (java.io.PrintWriter aw, boolean pause) {
         {
 			if (classpath != null) {
 				String cp [] = parseClasspath(classpath);
-				Vector v = new Vector();
+				FastTable v = new FastTable();
 				for (int i = 0; i < cp.length; i++)
 				{
 					ZipInfoProperties zip = null;
@@ -1184,7 +1184,7 @@ public static void getMainInfo (java.io.PrintWriter aw, boolean pause) {
     private static ZipInfoProperties[] mergeZips(ZipInfoProperties[] zip1,
                                                  ZipInfoProperties[] zip2)
     {
-        Vector v = new Vector();
+        FastTable v = new FastTable();
         boolean foundDup = false;
   
         // remove duplicates from first array

@@ -228,10 +228,10 @@ public class GenericResultSetFactory implements ResultSetFactory
 	}
 
 	/**
-		@see ResultSetFactory#getHashTableResultSet
+		@see ResultSetFactory#getFastMapResultSet
 		@exception StandardException thrown on error
 	 */
-	public NoPutResultSet getHashTableResultSet(NoPutResultSet source,
+	public NoPutResultSet getFastMapResultSet(NoPutResultSet source,
 		GeneratedMethod singleTableRestriction, 
 		Qualifier[][] equijoinQualifiers,
 		GeneratedMethod projection, int resultSetNumber,
@@ -246,7 +246,7 @@ public class GenericResultSetFactory implements ResultSetFactory
 		double optimizerEstimatedCost)
 			throws StandardException
 	{
-		return new HashTableResultSet(source, source.getActivation(), 
+		return new FastMapResultSet(source, source.getActivation(), 
 			singleTableRestriction, 
             equijoinQualifiers,
 			projection, resultSetNumber, 

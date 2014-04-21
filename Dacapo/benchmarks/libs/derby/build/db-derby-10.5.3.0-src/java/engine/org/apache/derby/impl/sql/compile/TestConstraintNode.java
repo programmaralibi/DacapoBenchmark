@@ -35,7 +35,7 @@ import org.apache.derby.iapi.types.DataTypeDescriptor;
 import org.apache.derby.impl.sql.compile.ExpressionClassBuilder;
 import org.apache.derby.iapi.services.classfile.VMOpcode;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * A TestConstraintNode is used to determine when a constraint
@@ -77,7 +77,7 @@ public class TestConstraintNode extends UnaryLogicalOperatorNode
 	 *
 	 * @param fromList			The query's FROM list
 	 * @param subqueryList		The subquery list being built as we find SubqueryNodes
-	 * @param aggregateVector	The aggregate vector being built as we find AggregateNodes
+	 * @param aggregateFastTable	The aggregate FastTable being built as we find AggregateNodes
 	 *
 	 * @return	The new top of the expression tree.
 	 *
@@ -86,10 +86,10 @@ public class TestConstraintNode extends UnaryLogicalOperatorNode
 
 	public ValueNode bindExpression(
 		FromList fromList, SubqueryList subqueryList,
-		Vector	aggregateVector)
+		FastTable	aggregateFastTable)
 			throws StandardException
 	{
-		bindOperand(fromList, subqueryList, aggregateVector);
+		bindOperand(fromList, subqueryList, aggregateFastTable);
 
 		/*
 		** If the operand is not boolean, cast it.

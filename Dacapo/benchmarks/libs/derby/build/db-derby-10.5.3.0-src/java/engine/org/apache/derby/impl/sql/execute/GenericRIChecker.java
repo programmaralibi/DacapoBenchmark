@@ -39,7 +39,7 @@ import org.apache.derby.iapi.store.access.TransactionController;
 
 import org.apache.derby.iapi.services.io.FormatableBitSet;
 import java.util.Enumeration;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 
 /**
  * Generic implementation of a Referential Integrity
@@ -54,7 +54,7 @@ public abstract class GenericRIChecker
 	protected StaticCompiledOpenConglomInfo refScoci;
 	protected TransactionController		tc;
 
-	private Hashtable 		scanControllers;
+	private FastMap 		scanControllers;
 	private int				numColumns;
 	private	IndexRow		indexQualifierRow;
 
@@ -69,7 +69,7 @@ public abstract class GenericRIChecker
 	{
 		this.fkInfo = fkinfo;
 		this.tc = tc;
-		scanControllers = new Hashtable();
+		scanControllers = new FastMap();
 		numColumns = fkInfo.colArray.length;
 		indexQualifierRow = new IndexRow(numColumns);
 

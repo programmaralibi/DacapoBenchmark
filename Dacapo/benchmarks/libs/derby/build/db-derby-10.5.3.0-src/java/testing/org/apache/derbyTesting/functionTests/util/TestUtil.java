@@ -26,7 +26,7 @@ import java.sql.*;
 import java.io.*;
 import java.lang.reflect.*;
 import java.util.Enumeration;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.StringTokenizer;
@@ -411,8 +411,8 @@ public class TestUtil {
 	static private Class[] STRING_ARG_TYPE = {String.class};
 	static private Class[] INT_ARG_TYPE = {Integer.TYPE};
 	static private Class[] BOOLEAN_ARG_TYPE = { Boolean.TYPE };
-	// A hashtable of special non-string attributes.
-	private static Hashtable specialAttributes = null;
+	// A FastMap of special non-string attributes.
+	private static FastMap specialAttributes = null;
 	
 
 	private static Object getDataSourceWithReflection(String classname, Properties attrs)
@@ -424,7 +424,7 @@ public class TestUtil {
 		
 		if (specialAttributes == null)
 		{
-			specialAttributes = new Hashtable();
+			specialAttributes = new FastMap();
 			specialAttributes.put("portNumber",INT_ARG_TYPE);
 			specialAttributes.put("driverType",INT_ARG_TYPE);
 			specialAttributes.put("retrieveMessagesFromServerOnGetMessage",

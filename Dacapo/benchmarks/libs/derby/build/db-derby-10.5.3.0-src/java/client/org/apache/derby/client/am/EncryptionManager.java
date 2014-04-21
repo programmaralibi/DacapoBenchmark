@@ -83,7 +83,7 @@ public class EncryptionManager {
     private java.security.KeyPair keyPair_;
     private javax.crypto.KeyAgreement keyAgreement_;
 
-    private byte[] token_; // init vector
+    private byte[] token_; // init FastTable
     private byte[] secKey_; // security key
     private javax.crypto.SecretKeyFactory secretKeyFactory_ = null;
     private String providerName; // security provider name
@@ -217,21 +217,21 @@ public class EncryptionManager {
     // @param  int     securityMechanism
     // @param  byte[]  userid or server's connection key
     // @return byte[]  the encryption token
-    private byte[] calculateEncryptionToken(int securityMechanism, byte[] initVector) {
+    private byte[] calculateEncryptionToken(int securityMechanism, byte[] initFastTable) {
         byte[] token = new byte[8];
 
         //USRENCPWD, the userid is used as token
         if (securityMechanism == 7) {
-            if (initVector.length < 8) { //shorter than 8 bytes, zero padded to 8 bytes
-                for (int i = 0; i < initVector.length; i++) {
-                    token[i] = initVector[i];
+            if (initFastTable.length < 8) { //shorter than 8 bytes, zero padded to 8 bytes
+                for (int i = 0; i < initFastTable.length; i++) {
+                    token[i] = initFastTable[i];
                 }
-                for (int i = initVector.length; i < 8; i++) {
+                for (int i = initFastTable.length; i < 8; i++) {
                     token[i] = 0;
                 }
             } else {  //longer than 8 bytes, truncated to 8 bytes
                 for (int i = 0; i < 8; i++) {
-                    token[i] = initVector[i];
+                    token[i] = initFastTable[i];
                 }
             }
         }
@@ -239,7 +239,7 @@ public class EncryptionManager {
         //the token.
         else if (securityMechanism == 9) {
             for (int i = 0; i < 8; i++) {
-                token[i] = initVector[i + 12];
+                token[i] = initFastTable[i + 12];
             }
         }
         return token;
@@ -358,20 +358,20 @@ public class EncryptionManager {
     // the generated secret key and an encryption token. Then it returns the
     // encrypted data in a byte array.
     // plainText   The byte array form userid/password to encrypt.
-    // initVector  The byte array which is used to calculate the
+    // initFastTable  The byte array which is used to calculate the
     //                             encryption token.
     // targetPublicKey   DERBY' public key.
     // Returns the encrypted data in a byte array.
     public byte[] encryptData(byte[] plainText,
                               int securityMechanism,
-                              byte[] initVector,
+                              byte[] initFastTable,
                               byte[] targetPublicKey) throws SqlException {
 
         byte[] cipherText = null;
         java.security.Key key = null;
 
         if (token_ == null) {
-            token_ = calculateEncryptionToken(securityMechanism, initVector);
+            token_ = calculateEncryptionToken(securityMechanism, initFastTable);
         }
 
         try {
@@ -391,7 +391,7 @@ public class EncryptionManager {
 
             //We use DES in CBC mode because this is the mode used in PROTOCOL. The
             //encryption mode has to be consistent for encryption and decryption.
-            //CBC mode requires an initialization vector(IV) parameter. In CBC mode
+            //CBC mode requires an initialization FastTable(IV) parameter. In CBC mode
             //we need to initialize the Cipher object with an IV, which can be supplied
             // using the javax.crypto.spec.IvParameterSpec class.
             javax.crypto.Cipher cipher = javax.crypto.Cipher.getInstance("DES/CBC/PKCS5Padding", providerName);
@@ -428,20 +428,20 @@ public class EncryptionManager {
     // the generated secret key and an encryption token. Then it returns the
     // decrypted data in a byte array.
     // plainText   The byte array form userid/password to encrypt.
-    // initVector  The byte array which is used to calculate the
+    // initFastTable  The byte array which is used to calculate the
     //                             encryption token.
     // targetPublicKey   DERBY' public key.
     // Returns the decrypted data in a byte array.
     public byte[] decryptData(byte[] cipherText,
                               int securityMechanism,
-                              byte[] initVector,
+                              byte[] initFastTable,
                               byte[] targetPublicKey) throws SqlException {
 
         byte[] plainText = null;
         java.security.Key key = null;
 
         if (token_ == null) {
-            token_ = calculateEncryptionToken(securityMechanism, initVector);
+            token_ = calculateEncryptionToken(securityMechanism, initFastTable);
         }
 
         try {
@@ -461,7 +461,7 @@ public class EncryptionManager {
 
             //We use DES in CBC mode because this is the mode used in PROTOCOL. The
             //encryption mode has to be consistent for encryption and decryption.
-            //CBC mode requires an initialization vector(IV) parameter. In CBC mode
+            //CBC mode requires an initialization FastTable(IV) parameter. In CBC mode
             //we need to initialize the Cipher object with an IV, which can be supplied
             // using the javax.crypto.spec.IvParameterSpec class.
             javax.crypto.Cipher cipher = javax.crypto.Cipher.getInstance("DES/CBC/PKCS5Padding", providerName);
@@ -492,8 +492,8 @@ public class EncryptionManager {
         return plainText;
     }
 
-    public void setInitVector(byte[] initVector) {
-        token_ = initVector;
+    public void setInitFastTable(byte[] initFastTable) {
+        token_ = initFastTable;
     }
 
     public void setSecKey(byte[] secKey) {

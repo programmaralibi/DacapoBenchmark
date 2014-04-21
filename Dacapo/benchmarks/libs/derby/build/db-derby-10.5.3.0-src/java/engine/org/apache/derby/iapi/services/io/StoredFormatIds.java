@@ -570,9 +570,9 @@ public interface StoredFormatIds {
             (MIN_ID_2 + 329);
 
     /**
-    class org.apache.derby.iapi.services.io.FormatableHashtable
+    class org.apache.derby.iapi.services.io.FormatableFastMap
      */
-    static public final int FORMATABLE_HASHTABLE_V01_ID =
+    static public final int FORMATABLE_FastMap_V01_ID =
             (MIN_ID_2 + 313);
     
     /**
@@ -1187,7 +1187,7 @@ public interface StoredFormatIds {
             (MIN_ID_2 + 334);
 
     /**
-        class org.apache.derby.impl.sql.execute.RealHashTableStatistics
+        class org.apache.derby.impl.sql.execute.RealFastMapStatistics
      */
     static public final int REAL_HASH_TABLE_STATISTICS_IMPL_V01_ID =
             (MIN_ID_2 + 306);

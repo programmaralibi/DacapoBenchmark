@@ -46,7 +46,7 @@ import org.apache.derby.impl.sql.compile.ExpressionClassBuilder;
 
 import org.apache.derby.catalog.types.DefaultInfoImpl;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * DefaultNode represents a column/parameter default.
@@ -128,14 +128,14 @@ public  class DefaultNode extends ValueNode
 	 * @param fromList		The FROM list for the query this
 	 *				expression is in, for binding columns.
 	 * @param subqueryList		The subquery list being built as we find SubqueryNodes
-	 * @param aggregateVector	The aggregate vector being built as we find AggregateNodes
+	 * @param aggregateFastTable	The aggregate FastTable being built as we find AggregateNodes
 	 *
 	 * @return	The new top of the expression tree.
 	 *
 	 * @exception StandardException		Thrown on failure
 	 */
 	public ValueNode bindExpression(FromList fromList, SubqueryList subqueryList,
-			Vector	aggregateVector)
+			FastTable	aggregateFastTable)
 		throws StandardException
 	{
 		ColumnDescriptor	cd;
@@ -182,7 +182,7 @@ public  class DefaultNode extends ValueNode
 			return defaultTree.bindExpression(
 									fromList, 
 									subqueryList,
-									aggregateVector);
+									aggregateFastTable);
 		}
 		else
 		{

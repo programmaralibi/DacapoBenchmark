@@ -2450,7 +2450,7 @@ public class NetConnectionReply extends Reply
         return null;
     }
 
-    protected java.util.Hashtable parseIndoubtList() throws DisconnectException {
+    protected javolution.util.FastMap parseIndoubtList() throws DisconnectException {
         return null;
     }
 

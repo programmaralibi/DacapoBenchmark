@@ -37,7 +37,7 @@ import org.apache.derby.iapi.reference.ClassName;
 
 import java.sql.Types;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * This node represents a unary XXX_length operator
@@ -79,7 +79,7 @@ public final class LengthOperatorNode extends UnaryOperatorNode
 	 *
 	 * @param fromList			The query's FROM list
 	 * @param subqueryList		The subquery list being built as we find SubqueryNodes
-	 * @param aggregateVector	The aggregate vector being built as we find AggregateNodes
+	 * @param aggregateFastTable	The aggregate FastTable being built as we find AggregateNodes
 	 *
 	 * @return	The new top of the expression tree.
 	 *
@@ -88,13 +88,13 @@ public final class LengthOperatorNode extends UnaryOperatorNode
 
 	public ValueNode bindExpression(
 		FromList	fromList, SubqueryList subqueryList,
-		Vector	aggregateVector)
+		FastTable	aggregateFastTable)
 			throws StandardException
 	{
 		TypeId	operandType;
 
 		bindOperand(fromList, subqueryList,
-				aggregateVector);
+				aggregateFastTable);
 
 		/*
 		** Check the type of the operand - this function is allowed only on

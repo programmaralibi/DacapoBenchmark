@@ -24,18 +24,21 @@ package org.apache.derby.iapi.services.classfile;
 
 import java.io.InputStream;
 import java.util.Enumeration;
-
 import java.io.IOException;
-import java.util.Vector;
+
+import javolution.util.FastTable;
 
 import org.apache.derby.iapi.services.classfile.VMDescriptor;
 import org.apache.derby.iapi.services.classfile.VMDescriptor;
+
 import java.util.HashSet;
 
-import java.util.Hashtable;
-import java.util.Vector;
+import javolution.util.FastMap;
+import javolution.util.FastTable;
+
 import java.util.Enumeration;
 import java.util.Collections;
+import java.util.Iterator;
 
 
 /** 
@@ -141,16 +144,16 @@ public class ClassInvestigator extends ClassHolder {
 	*/
 
 
-	public Enumeration implementedInterfaces()
+	public Iterator implementedInterfaces()
 	{
 		int interfaceCount = interfaces == null ? 0 : interfaces.length;
-		Vector implemented = new Vector(interfaceCount);
+		FastTable implemented = new FastTable();
 
         for (int i = 0; i < interfaceCount; i++)
         {
-            implemented.addElement(className(interfaces[i]));
+            implemented.add(className(interfaces[i]));
         }
-        return implemented.elements();
+        return implemented.iterator();
 	}
     public Enumeration getFields() {
 		if (field_info == null)
@@ -229,10 +232,10 @@ public class ClassInvestigator extends ClassHolder {
 		if (attribute_info != null) {
 			for (int i = attribute_info.size() - 1; i >= 0 ; i--) {
 
-				AttributeEntry ae = (AttributeEntry) attribute_info.elementAt(i);
+				AttributeEntry ae = (AttributeEntry) attribute_info.get(i);
 				String name = nameIndexToString(ae.getNameIndex());
 				if (name.equals("SourceFile"))
-					attribute_info.removeElementAt(i);
+					attribute_info.remove(i);
 				else if (name.equals("InnerClasses"))
 					; // leave in
 				else
@@ -254,7 +257,7 @@ public class ClassInvestigator extends ClassHolder {
 
 				for (int i = attrs.size() - 1; i >= 0 ; i--) {
 
-					AttributeEntry ae = (AttributeEntry) attrs.elementAt(i);
+					AttributeEntry ae = (AttributeEntry) attrs.get(i);
 					String name = nameIndexToString(ae.getNameIndex());
 					if (name.equals("ConstantValue"))
 						; // leave in
@@ -280,7 +283,7 @@ public class ClassInvestigator extends ClassHolder {
 
 				for (int i = attrs.size() - 1; i >= 0 ; i--) {
 
-					AttributeEntry ae = (AttributeEntry) attrs.elementAt(i);
+					AttributeEntry ae = (AttributeEntry) attrs.get(i);
 					String name = nameIndexToString(ae.getNameIndex());
 					if (name.equals("Code"))
 						processCodeAttribute(member, ae);
@@ -348,7 +351,7 @@ public class ClassInvestigator extends ClassHolder {
 		ae.infoIn = newInfo;
 	}
 
-	public void renameClassElements(Hashtable classNameMap, Hashtable memberNameMap) {
+	public void renameClassElements(FastMap classNameMap, FastMap memberNameMap) {
 
 		// this & super class
 		renameString(classNameMap, (CONSTANT_Index_info) getEntry(this_class));
@@ -398,7 +401,7 @@ public class ClassInvestigator extends ClassHolder {
 		renameMembers(getMethods(), classNameMap, memberNameMap);
 	}
 
-	private void renameMembers(Enumeration e, Hashtable classNameMap, Hashtable memberNameMap) {
+	private void renameMembers(Enumeration e, FastMap classNameMap, FastMap memberNameMap) {
 
 		for (; e.hasMoreElements(); ) {
 			ClassMember member = (ClassMember) e.nextElement();
@@ -416,7 +419,7 @@ public class ClassInvestigator extends ClassHolder {
 
 	}
 
-	private void renameString(Hashtable classNameMap, CONSTANT_Index_info cii) {
+	private void renameString(FastMap classNameMap, CONSTANT_Index_info cii) {
 
 		int index = cii.getI1();
 
@@ -459,12 +462,12 @@ public class ClassInvestigator extends ClassHolder {
 
 		CONSTANT_Utf8_info newCpe = new CONSTANT_Utf8_info(newName);
 
-		cptHashTable.remove(cpe.getKey());
-		cptHashTable.put(newCpe.getKey(), newCpe);
+		cptFastMap.remove(cpe.getKey());
+		cptFastMap.put(newCpe.getKey(), newCpe);
 
 		newCpe.index = index;
 
-		cptEntries.setElementAt(newCpe, index);
+		cptEntries.add(index, newCpe);
 	}
 
 	private static ConstantPoolEntry getConstant(ClassInput in)
@@ -512,7 +515,7 @@ public class ClassInvestigator extends ClassHolder {
 
 		return item;
 	}
-	public static String newDescriptor(Hashtable classNameMap, String descriptor) {
+	public static String newDescriptor(FastMap classNameMap, String descriptor) {
 
 		String newDescriptor = null;
 

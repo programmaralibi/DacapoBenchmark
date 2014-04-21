@@ -25,7 +25,7 @@ import org.apache.derby.iapi.error.StandardException;
 
 import org.apache.derby.iapi.sql.ResultSet;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
 	A pre-compiled activation that supports a single ResultSet with
@@ -46,8 +46,8 @@ public final class ConstantActionActivation extends BaseActivation
 	public int getExecutionCount() { return 0;}
 	public void setExecutionCount(int count) {}
 
-	public Vector getRowCountCheckVector() {return null;}
-	public void setRowCountCheckVector(Vector v) {}
+	public FastTable getRowCountCheckFastTable() {return null;}
+	public void setRowCountCheckFastTable(FastTable v) {}
 
 	public int getStalePlanCheckInterval() { return Integer.MAX_VALUE; }
 	public void setStalePlanCheckInterval(int count) {}

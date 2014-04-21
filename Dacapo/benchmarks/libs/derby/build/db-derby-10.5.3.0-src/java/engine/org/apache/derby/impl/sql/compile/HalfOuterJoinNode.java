@@ -634,7 +634,7 @@ public class HalfOuterJoinNode extends JoinNode
 												getContextManager());
 						ij.setTableNumber(tableNumber);
 						ij.setSubqueryList(subqueryList);
-						ij.setAggregateVector(aggregateVector);
+						ij.setAggregateFastTable(aggregateFastTable);
 						return ij;
 					}
 				}

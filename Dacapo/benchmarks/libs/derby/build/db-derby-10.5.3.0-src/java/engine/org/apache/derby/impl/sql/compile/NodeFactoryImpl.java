@@ -22,7 +22,7 @@
 package	org.apache.derby.impl.sql.compile;
 
 import java.util.Properties;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 import org.apache.derby.iapi.services.context.ContextManager;
 
@@ -75,7 +75,7 @@ public class NodeFactoryImpl extends NodeFactory implements ModuleControl, Modul
 	private final ClassInfo[]	nodeCi =
 		new ClassInfo[C_NodeTypes.FINAL_VALUE+1];
 	
-	private static final Vector emptyVector = new Vector(0);
+	private static final FastTable emptyFastTable = new FastTable(0);
 
 	//////////////////////////////////////////////////////////////////////
 	//
@@ -734,7 +734,7 @@ public class NodeFactoryImpl extends NodeFactory implements ModuleControl, Modul
 			getNode(C_NodeTypes.NEW_INVOCATION_NODE, 
 				null,	// TableName
 				td,     // TableDescriptor
-				emptyVector,
+				emptyFastTable,
 				Boolean.FALSE,
 				cm);
 		

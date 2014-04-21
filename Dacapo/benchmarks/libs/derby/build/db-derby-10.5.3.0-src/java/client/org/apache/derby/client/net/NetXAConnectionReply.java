@@ -138,7 +138,7 @@ public class NetXAConnectionReply extends NetResultSetReply {
         int svrcod = CodePoint.SVRCOD_INFO;
         int xaretval = 0;
         int synctype = 0;
-        java.util.Hashtable indoubtTransactions = null;
+        javolution.util.FastMap indoubtTransactions = null;
         NetConnection conn = netAgent_.netConnection_;
 
         parseLengthAndMatchCodePoint(CodePoint.SYNCCRD);
@@ -281,7 +281,7 @@ public class NetXAConnectionReply extends NetResultSetReply {
         return new org.apache.derby.client.ClientXid(formatId, gtrid, bqual);
     }
 
-    protected java.util.Hashtable parseIndoubtList() throws DisconnectException {
+    protected javolution.util.FastMap parseIndoubtList() throws DisconnectException {
         boolean found = false;
         int port = 0;
         int numXid = 0;
@@ -295,7 +295,7 @@ public class NetXAConnectionReply extends NetResultSetReply {
             peekCP = peekCodePoint();
         }
 
-        java.util.Hashtable indoubtTransactions = new java.util.Hashtable();
+        javolution.util.FastMap indoubtTransactions = new javolution.util.FastMap();
         while (peekCP == CodePoint.XID) {
             Xid xid = parseXID();
             indoubtTransactions.put(xid, new NetIndoubtTransaction(xid, null, null, null, sIpAddr, port));

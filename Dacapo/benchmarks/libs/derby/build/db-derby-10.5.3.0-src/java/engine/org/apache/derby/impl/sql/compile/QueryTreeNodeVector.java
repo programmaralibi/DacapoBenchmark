@@ -1,6 +1,6 @@
 /*
 
-   Derby - Class org.apache.derby.impl.sql.compile.QueryTreeNodeVector
+   Derby - Class org.apache.derby.impl.sql.compile.QueryTreeNodeFastTable
 
    Licensed to the Apache Software Foundation (ASF) under one or more
    contributor license agreements.  See the NOTICE file distributed with
@@ -28,18 +28,18 @@ import org.apache.derby.iapi.sql.compile.Visitable;
 import org.apache.derby.iapi.error.StandardException;
 
 import java.util.Enumeration;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
- * QueryTreeNodeVector is the root class for all lists of query tree nodes.
- * It provides a wrapper for java.util.Vector. All
- * lists of query tree nodes inherit from QueryTreeNodeVector.
+ * QueryTreeNodeFastTable is the root class for all lists of query tree nodes.
+ * It provides a wrapper for javolution.util.FastTable. All
+ * lists of query tree nodes inherit from QueryTreeNodeFastTable.
  *
  */
 
-abstract class QueryTreeNodeVector extends QueryTreeNode
+abstract class QueryTreeNodeFastTable extends QueryTreeNode
 {
-	private Vector			v = new Vector();
+	private FastTable			v = new FastTable();
 
 	public final int size()
 	{
@@ -81,13 +81,13 @@ abstract class QueryTreeNodeVector extends QueryTreeNode
 		v.setElementAt(qt, index);
 	}
 
-	void destructiveAppend(QueryTreeNodeVector qtnv)
+	void destructiveAppend(QueryTreeNodeFastTable qtnv)
 	{
 		nondestructiveAppend(qtnv);
 		qtnv.removeAllElements();
 	}
 
-	void nondestructiveAppend(QueryTreeNodeVector qtnv)
+	void nondestructiveAppend(QueryTreeNodeFastTable qtnv)
 	{
 		int qtnvSize = qtnv.size();
 		for (int index = 0; index < qtnvSize; index++)

@@ -2,7 +2,7 @@
 package org.dacapo.parser;
 
 import java.io.*;
-import java.util.Vector;
+import javolution.util.FastTable;
 import javolution.util.FastTable;
 
 class ConfigFile implements ConfigFileConstants {
@@ -160,7 +160,7 @@ class ConfigFile implements ConfigFileConstants {
   }
 
   final public void sizeClause(Config config, String size) throws ParseException {
-    Vector args = new Vector();
+    FastTable args = new FastTable();
   String arg;
   String description;
   int thread_limit;

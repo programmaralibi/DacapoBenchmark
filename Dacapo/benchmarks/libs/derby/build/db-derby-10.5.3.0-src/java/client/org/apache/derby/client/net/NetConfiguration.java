@@ -26,7 +26,7 @@ import org.apache.derby.client.am.Version;
 public class NetConfiguration {
     // ---------------------------------------------------------------------------
 
-    static final int INITIAL_CAPACITY = 10; // initial size of the Vector for the input parameters
+    static final int INITIAL_CAPACITY = 10; // initial size of the FastTable for the input parameters
 
     // Value to use when padding non-character data in ddm objects.
     public static final byte NON_CHAR_DDM_DATA_PAD_BYTE = 0x00;

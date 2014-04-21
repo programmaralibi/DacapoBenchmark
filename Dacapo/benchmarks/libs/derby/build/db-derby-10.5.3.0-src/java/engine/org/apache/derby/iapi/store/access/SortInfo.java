@@ -70,7 +70,7 @@ public interface SortInfo
      *           Applicable to external sorts only.
      *           e.g. [3,3,2] indicates 3 merge runs, where the first two runs
      *           have 3 rows each, and the last run has 2 rows.
-     *           Note: when a SortController is closed, this vector may get an
+     *           Note: when a SortController is closed, this FastTable may get an
      *           additional element, to reflect the additional merge run that
      *           may be created for any data still in the sort buffer.
      *     NOTE - this list will be expanded as more information about the sort

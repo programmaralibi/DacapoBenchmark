@@ -52,7 +52,7 @@ import org.apache.derby.iapi.services.io.FormatableBitSet;
 import org.apache.derby.iapi.services.i18n.MessageService;
 import java.io.File;
 import java.io.Serializable;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import java.util.Properties;
 import org.apache.derby.iapi.types.SQLInteger;
 
@@ -290,7 +290,7 @@ public class T_AccessFactory extends T_Generic
 		cc.insertAndFetchLocation(r1.getRowArray(), rowloc);
 
         // quick test to make sure we can hash insert and find row location.
-        Hashtable test_rowloc_hash = new Hashtable();
+        FastMap test_rowloc_hash = new FastMap();
         test_rowloc_hash.put(rowloc, rowloc);
 
         RowLocation hash_find = (RowLocation) test_rowloc_hash.get(rowloc);

@@ -45,7 +45,7 @@ import org.apache.derby.iapi.error.StandardException;
 
 import org.apache.derby.catalog.TypeDescriptor;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * The CurrentRowLocation operator is used by DELETE and UPDATE to get the
@@ -63,7 +63,7 @@ public class CurrentRowLocationNode extends ValueNode
 	 * @param fromList			The FROM list for the statement.  This parameter
 	 *							is not used in this case.
 	 * @param subqueryList		The subquery list being built as we find SubqueryNodes
-	 * @param aggregateVector	The aggregate vector being built as we find AggregateNodes
+	 * @param aggregateFastTable	The aggregate FastTable being built as we find AggregateNodes
 	 *
 	 * @return	The new top of the expression tree.
 	 *
@@ -71,7 +71,7 @@ public class CurrentRowLocationNode extends ValueNode
 	 */
 
 	public ValueNode bindExpression(FromList fromList, SubqueryList subqueryList,
-							Vector aggregateVector)
+							FastTable aggregateFastTable)
 					throws StandardException
 	{
 		setType(new DataTypeDescriptor(TypeId.getBuiltInTypeId(TypeId.REF_NAME),

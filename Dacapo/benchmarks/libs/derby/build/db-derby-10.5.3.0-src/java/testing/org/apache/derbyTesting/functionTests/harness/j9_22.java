@@ -21,7 +21,7 @@
 
 package org.apache.derbyTesting.functionTests.harness;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 import java.util.StringTokenizer;
 import java.util.Properties;
 
@@ -35,16 +35,16 @@ public class j9_22 extends jvm {
 	public String getName(){return "j9_22";}
     public j9_22(boolean noasyncgc, boolean verbosegc, boolean noclassgc,
     long ss, long oss, long ms, long mx, String classpath, String prof,
-    boolean verify, boolean noverify, boolean nojit, Vector D) {
+    boolean verify, boolean noverify, boolean nojit, FastTable D) {
         super(noasyncgc,verbosegc,noclassgc,ss,oss,ms,mx,classpath,prof,
 		verify,noverify,nojit,D);
     }
     // more typical use:
-    public j9_22(String classpath, Vector D) {
+    public j9_22(String classpath, FastTable D) {
         super(classpath,D);
     }
     // more typical use:
-    public j9_22(long ms, long mx, String classpath, Vector D) {
+    public j9_22(long ms, long mx, String classpath, FastTable D) {
         super(ms,mx,classpath,D);
     }
     // actual use
@@ -63,11 +63,11 @@ public class j9_22 extends jvm {
 
     // return the command line to invoke this VM.  The caller then adds
     // the class and program arguments.
-    public Vector getCommandLine() 
+    public FastTable getCommandLine() 
     {
 
         StringBuffer sb = new StringBuffer();
-        Vector v = super.getCommandLine();
+        FastTable v = super.getCommandLine();
 
         appendOtherFlags(sb);
         String s = sb.toString();

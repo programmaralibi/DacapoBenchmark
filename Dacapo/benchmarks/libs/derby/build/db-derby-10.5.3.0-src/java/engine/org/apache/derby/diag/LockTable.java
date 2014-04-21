@@ -39,7 +39,7 @@ import org.apache.derby.iapi.error.PublicAPI;
 import org.apache.derby.iapi.sql.ResultColumnDescriptor;
 import org.apache.derby.impl.jdbc.EmbedResultSetMetaData;
 
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import java.util.Enumeration;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -97,7 +97,7 @@ public class LockTable extends VTITemplate implements VTICosting  {
 	** private 
 	*/
 	private TransactionController tc;
-	private Hashtable currentRow;		// an entry in the lock table
+	private FastMap currentRow;		// an entry in the lock table
 	private Enumeration lockTable;	
 	private boolean wasNull;
 	private boolean initialized;
@@ -230,13 +230,13 @@ public class LockTable extends VTITemplate implements VTICosting  {
 	*/
 
 	/**
-		Convert the lock information into a hashtable.
+		Convert the lock information into a FastMap.
 	*/
-    private Hashtable dumpLock(
+    private FastMap dumpLock(
     Latch                   lock)
         throws StandardException
     {
-		Hashtable	attributes = new Hashtable(17);
+		FastMap	attributes = new FastMap(17);
         Object      lock_type =  lock.getQualifier();
 
 

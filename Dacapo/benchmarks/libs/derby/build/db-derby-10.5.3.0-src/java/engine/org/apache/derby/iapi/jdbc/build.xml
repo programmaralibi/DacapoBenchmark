@@ -53,7 +53,7 @@
       verbose="${verbose}"
       srcdir="${derby.engine.src.dir}"
       destdir="${out.dir}">
-      <classpath>
+      <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
         <pathelement path="${compile.classpath}"/>
       </classpath>
       <include name="${derby.dir}/${cur.dir}/*.java"/>
@@ -87,7 +87,7 @@
       verbose="${verbose}"
       srcdir="${derby.engine.src.dir}"
       destdir="${out.dir}">
-      <classpath>
+      <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
         <pathelement path="${java14compile.classpath}"/>
       </classpath>
 	  <include name="${derby.dir}/${cur.dir}/BrokeredConnection.java"/>
@@ -110,7 +110,7 @@
       verbose="${verbose}"
       srcdir="${derby.engine.src.dir}"
       destdir="${out.dir}">
-      <classpath>
+      <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
         <pathelement path="${java14compile.classpath}"/>
       </classpath>
 	  <include name="${derby.dir}/${cur.dir}/BrokeredStatement.java"/>
@@ -131,7 +131,7 @@
       verbose="${verbose}"
       srcdir="${derby.engine.src.dir}"
       destdir="${out.dir}">
-      <classpath>
+      <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
         <pathelement path="${java14compile.classpath}"/>
       </classpath>
 	  <include name="${derby.dir}/${cur.dir}/BrokeredConnection30.java"/>
@@ -156,7 +156,7 @@
           verbose="${verbose}"
           srcdir="${derby.engine.src.dir}"
           destdir="${out.dir}">
-          <classpath>
+          <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
               <pathelement path="${java16compile.classpath}"/>
           </classpath>
           <include name="${derby.dir}/${cur.dir}/BrokeredConnection40.java"/>

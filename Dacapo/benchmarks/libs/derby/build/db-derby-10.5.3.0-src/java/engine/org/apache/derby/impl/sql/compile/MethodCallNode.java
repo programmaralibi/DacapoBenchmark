@@ -60,7 +60,7 @@ import java.lang.reflect.Member;
 
 import java.util.Enumeration;
 import java.util.StringTokenizer;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * A MethodCallNode represents a Java method call.  Method calls can be done
@@ -151,11 +151,11 @@ abstract class MethodCallNode extends JavaValueNode
 	/**
 	 * Add the parameter list
 	 *
-	 * @param parameterList		A Vector of the parameters
+	 * @param parameterList		A FastTable of the parameters
 	 *
 	 * @exception StandardException		Thrown on error
 	 */
-	public void addParms(Vector parameterList) throws StandardException
+	public void addParms(FastTable parameterList) throws StandardException
 	{
 		methodParms = new JavaValueNode[parameterList.size()];
 
@@ -228,7 +228,7 @@ abstract class MethodCallNode extends JavaValueNode
 	{
 		CollectNodesVisitor getCRs = new CollectNodesVisitor(ColumnReference.class);
 		accept(getCRs);
-		Vector colRefs = getCRs.getList();
+		FastTable colRefs = getCRs.getList();
 		for (Enumeration e = colRefs.elements(); e.hasMoreElements(); )
 		{
 			ColumnReference ref = (ColumnReference)e.nextElement();
@@ -295,14 +295,14 @@ abstract class MethodCallNode extends JavaValueNode
 	 * @param fromList		The FROM list for the query this
 	 *				expression is in, for binding columns.
 	 * @param subqueryList		The subquery list being built as we find SubqueryNodes
-	 * @param aggregateVector	The aggregate vector being built as we find AggregateNodes
+	 * @param aggregateFastTable	The aggregate FastTable being built as we find AggregateNodes
 	 *
 	 * @exception StandardException		Thrown on error
 	 */
 
 	final void bindParameters(
 		FromList fromList, SubqueryList subqueryList,
-		Vector	aggregateVector) 
+		FastTable	aggregateFastTable) 
 			throws StandardException
 	{
 		/* Bind the parameters */
@@ -322,7 +322,7 @@ abstract class MethodCallNode extends JavaValueNode
 				{
 					methodParms[parm] =
 						methodParms[parm].bindExpression(
-							fromList, subqueryList, aggregateVector);
+							fromList, subqueryList, aggregateFastTable);
 
 					if (routineInfo == null)
 						signature[ parm ] = methodParms[ parm ].getJSQLType();

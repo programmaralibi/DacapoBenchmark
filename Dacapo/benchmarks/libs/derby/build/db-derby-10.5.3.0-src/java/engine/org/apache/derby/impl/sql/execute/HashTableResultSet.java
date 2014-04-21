@@ -1,6 +1,6 @@
 /*
 
-   Derby - Class org.apache.derby.impl.sql.execute.HashTableResultSet
+   Derby - Class org.apache.derby.impl.sql.execute.FastMapResultSet
 
    Licensed to the Apache Software Foundation (ASF) under one or more
    contributor license agreements.  See the NOTICE file distributed with
@@ -44,7 +44,7 @@ import org.apache.derby.iapi.store.access.TransactionController;
 
 import org.apache.derby.iapi.types.RowLocation;
 
-import org.apache.derby.iapi.store.access.BackingStoreHashtable;
+import org.apache.derby.iapi.store.access.BackingStoreFastMap;
 import org.apache.derby.iapi.services.io.FormatableArrayHolder;
 import org.apache.derby.iapi.services.io.FormatableIntHolder;
 import org.apache.derby.iapi.store.access.KeyHasher;
@@ -58,13 +58,13 @@ import java.util.Properties;
  * Builds a hash table on the underlying result set tree.
  *
  */
-class HashTableResultSet extends NoPutResultSetImpl
+class FastMapResultSet extends NoPutResultSetImpl
 	implements CursorResultSet 
 {
 	/* Run time statistics variables */
 	public long restrictionTime;
 	public long projectionTime;
-	public int  hashtableSize;
+	public int  FastMapSize;
 	public Properties scanProperties;
 
     // set in constructor and not altered during
@@ -87,21 +87,21 @@ class HashTableResultSet extends NoPutResultSetImpl
 	// Variable for managing next() logic on hash entry
 	private boolean		firstNext = true;
 	private int			numFetchedOnNext;
-	private int			entryVectorSize;
-	private List		entryVector;
+	private int			entryFastTableSize;
+	private List		entryFastTable;
 
-	private boolean hashTableBuilt;
-	private boolean firstIntoHashtable = true;
+	private boolean FastMapBuilt;
+	private boolean firstIntoFastMap = true;
 
 	private ExecRow nextCandidate;
 	private ExecRow projRow;
 
-	private BackingStoreHashtable ht;
+	private BackingStoreFastMap ht;
 
     //
     // class interface
     //
-    HashTableResultSet(NoPutResultSet s,
+    FastMapResultSet(NoPutResultSet s,
 					Activation a,
 					GeneratedMethod str,
 					Qualifier[][] nextQualifiers,
@@ -188,12 +188,12 @@ class HashTableResultSet extends NoPutResultSetImpl
 		// error, not an ASSERT; users can open twice. Only through JDBC
 		// is access to open controlled and ensured valid.
 		if (SanityManager.DEBUG)
-		    SanityManager.ASSERT( ! isOpen, "HashTableResultSet already open");
+		    SanityManager.ASSERT( ! isOpen, "FastMapResultSet already open");
 
         // Get the current transaction controller
         tc = activation.getTransactionController();
 
-		if (! hashTableBuilt)
+		if (! FastMapBuilt)
 		{
 	        source.openCore();
 
@@ -203,7 +203,7 @@ class HashTableResultSet extends NoPutResultSetImpl
 			 * rows coming from our child as we build the
 			 * hash table.
 			 */
-			ht = new BackingStoreHashtable(tc,
+			ht = new BackingStoreFastMap(tc,
 										   this,
 										   keyColumns,
 										   removeDuplicates,
@@ -216,7 +216,7 @@ class HashTableResultSet extends NoPutResultSetImpl
 
 			if (runTimeStatsOn)
 			{
-				hashtableSize = ht.size();
+				FastMapSize = ht.size();
 
 				if (scanProperties == null)
 				{
@@ -237,7 +237,7 @@ class HashTableResultSet extends NoPutResultSetImpl
 			}
 
 			isOpen = true;
-			hashTableBuilt = true;
+			FastMapBuilt = true;
 		}
 
 		resetProbeVariables();
@@ -260,7 +260,7 @@ class HashTableResultSet extends NoPutResultSetImpl
 		if (SanityManager.DEBUG)
 		{
 			SanityManager.ASSERT(isOpen,
-					"HashTableResultSet already open");
+					"FastMapResultSet already open");
 		}
 
 		beginTime = getCurrentTimeMillis();
@@ -275,8 +275,8 @@ class HashTableResultSet extends NoPutResultSetImpl
 	{
 		firstNext = true;
 		numFetchedOnNext = 0;
-		entryVector = null;
-		entryVectorSize = 0;
+		entryFastTable = null;
+		entryFastTableSize = 0;
 
 		if (nextQualifiers != null)
 		{
@@ -341,23 +341,23 @@ class HashTableResultSet extends NoPutResultSetImpl
 
 					if (hashEntry instanceof List)
 					{
-						entryVector = (List) hashEntry;
-						entryVectorSize = entryVector.size();
+						entryFastTable = (List) hashEntry;
+						entryFastTableSize = entryFastTable.size();
 						columns = 
-                            (DataValueDescriptor[]) entryVector.get(0);
+                            (DataValueDescriptor[]) entryFastTable.get(0);
 					}
 					else
 					{
-						entryVector = null;
-						entryVectorSize = 0;
+						entryFastTable = null;
+						entryFastTableSize = 0;
 						columns = (DataValueDescriptor[]) hashEntry;
 					}
 				}
-				else if (numFetchedOnNext < entryVectorSize)
+				else if (numFetchedOnNext < entryFastTableSize)
 				{
 					// We are walking a list and there are more rows left.
 					columns = (DataValueDescriptor[]) 
-                        entryVector.get(numFetchedOnNext);
+                        entryFastTable.get(numFetchedOnNext);
 				}
 
 				if (columns != null)
@@ -442,7 +442,7 @@ class HashTableResultSet extends NoPutResultSetImpl
 					result = null;
 				}
 			}
-			while (result == null && numFetchedOnNext < entryVectorSize);
+			while (result == null && numFetchedOnNext < entryFastTableSize);
 		}
 
 		setCurrentRow(result);
@@ -508,12 +508,12 @@ class HashTableResultSet extends NoPutResultSetImpl
 
 			super.close();
 
-			if (hashTableBuilt)
+			if (FastMapBuilt)
 			{
 				// close the hash table, eating any exception
 				ht.close();
 				ht = null;
-				hashTableBuilt = false;
+				FastMapBuilt = false;
 			}
 	    }
 		else
@@ -706,10 +706,10 @@ class HashTableResultSet extends NoPutResultSetImpl
 			 * on the way in so that we have a row
 			 * to use on the way out.
 			 */
-			if (firstIntoHashtable)
+			if (firstIntoFastMap)
 			{
 				nextCandidate = activation.getExecutionFactory().getValueRow(execRow.nColumns());
-				firstIntoHashtable = false;
+				firstIntoFastMap = false;
 			}
 
 			return execRow.getRowArray();

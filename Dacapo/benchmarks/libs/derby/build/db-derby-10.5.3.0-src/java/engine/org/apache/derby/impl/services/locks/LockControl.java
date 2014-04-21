@@ -527,7 +527,7 @@ final class LockControl implements Control {
 	/**
 		Add the waiters of this lock into this Map object.
 		<BR>
-		Each waiting thread gets two entries in the hashtable
+		Each waiting thread gets two entries in the FastMap
 		<OL>
 		<LI>key=compatibility space - value=ActiveLock
 		<LI>key=ActiveLock - value={LockControl for first waiter|ActiveLock of previosue waiter}

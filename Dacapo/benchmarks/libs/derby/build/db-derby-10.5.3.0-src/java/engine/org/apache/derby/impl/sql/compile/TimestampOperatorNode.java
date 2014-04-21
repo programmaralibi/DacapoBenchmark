@@ -37,7 +37,7 @@ import org.apache.derby.iapi.services.classfile.VMOpcode;
 
 import java.sql.Types;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * The TimestampOperatorNode class implements the timestamp( date, time) function.
@@ -70,7 +70,7 @@ public class TimestampOperatorNode extends BinaryOperatorNode
 	 * @param fromList		The FROM list for the query this
 	 *				expression is in, for binding columns.
 	 * @param subqueryList		The subquery list being built as we find SubqueryNodes
-	 * @param aggregateVector	The aggregate vector being built as we find AggregateNodes
+	 * @param aggregateFastTable	The aggregate FastTable being built as we find AggregateNodes
 	 *
 	 * @return	The new top of the expression tree.
 	 *
@@ -79,13 +79,13 @@ public class TimestampOperatorNode extends BinaryOperatorNode
 
 	public ValueNode bindExpression(
 		FromList fromList, SubqueryList subqueryList,
-		Vector	aggregateVector) 
+		FastTable	aggregateFastTable) 
 			throws StandardException
 	{
 		leftOperand = leftOperand.bindExpression(fromList, subqueryList, 
-			aggregateVector);
+			aggregateFastTable);
 		rightOperand = rightOperand.bindExpression(fromList, subqueryList, 
-			aggregateVector);
+			aggregateFastTable);
 
 		//Set the type if there is a parameter involved here 
 		if (leftOperand.requiresTypeFromContext()) {

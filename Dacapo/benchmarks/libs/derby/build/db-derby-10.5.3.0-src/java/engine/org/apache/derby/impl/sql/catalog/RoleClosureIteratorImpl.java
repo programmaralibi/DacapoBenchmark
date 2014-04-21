@@ -21,14 +21,15 @@
 
 package org.apache.derby.impl.sql.catalog;
 
+import java.util.Iterator;
 import java.util.List;
+
 import javolution.util.FastMap;
 import javolution.util.FastTable;
-import java.util.Iterator;
-import org.apache.derby.iapi.sql.dictionary.RoleGrantDescriptor;
-import org.apache.derby.iapi.sql.dictionary.RoleClosureIterator;
+
 import org.apache.derby.iapi.error.StandardException;
-import org.apache.derby.iapi.services.sanity.SanityManager;
+import org.apache.derby.iapi.sql.dictionary.RoleClosureIterator;
+import org.apache.derby.iapi.sql.dictionary.RoleGrantDescriptor;
 import org.apache.derby.iapi.store.access.TransactionController;
 
 /**

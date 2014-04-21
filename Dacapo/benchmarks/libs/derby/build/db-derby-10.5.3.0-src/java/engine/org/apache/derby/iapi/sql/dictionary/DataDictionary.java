@@ -46,9 +46,9 @@ import org.apache.derby.iapi.services.uuid.UUIDFactory;
 
 import java.sql.Types;
 import java.util.List;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import java.util.Properties;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * The DataDictionary interface is used with the data dictionary to get
@@ -1063,7 +1063,7 @@ public interface DataDictionary
 	 *
 	 * @exception StandardException		Thrown on error
 	 */
-	public DataTypeDescriptor[] getSPSParams(SPSDescriptor spsd, Vector defaults)
+	public DataTypeDescriptor[] getSPSParams(SPSDescriptor spsd, FastTable defaults)
 		throws StandardException;
 
 	/**
@@ -1223,12 +1223,12 @@ public interface DataDictionary
 	 *
 	 * @param tc		TransactionController for the transaction
 	 *
-	 * @return	A Hashtable with all of the ConglomerateDescriptors
+	 * @return	A FastMap with all of the ConglomerateDescriptors
 	 *		in the database hashed by conglomerate number.
 	 *
 	 * @exception StandardException		Thrown on failure
 	 */
-	public Hashtable hashAllConglomerateDescriptorsByNumber(TransactionController tc)
+	public FastMap hashAllConglomerateDescriptorsByNumber(TransactionController tc)
 		throws StandardException;
 
 	/**
@@ -1240,13 +1240,13 @@ public interface DataDictionary
 	 *
 	 * @param tc		TransactionController for the transaction
 	 *
-	 * @return	A Hashtable with all of the Table descriptors in the database
+	 * @return	A FastMap with all of the Table descriptors in the database
 	 *			hashed by TableId
 	 *
 	 *
 	 * @exception StandardException		Thrown on failure
 	 */
-	public Hashtable hashAllTableDescriptorsByTableId(TransactionController tc)
+	public FastMap hashAllTableDescriptorsByTableId(TransactionController tc)
 		throws StandardException;
 
 	/**

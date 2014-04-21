@@ -59,12 +59,12 @@ public class ClassSize
      * compile it. This may fail because ClassSizeCatalog.java is not created
      * until everything else has been compiled. Bury ClassSizeCatalog in a string.
      */
-    private static java.util.Hashtable catalog;
+    private static javolution.util.FastMap catalog;
     static
     {
         try
         {
-            catalog = (java.util.Hashtable)
+            catalog = (javolution.util.FastMap)
               Class.forName( "org.apache.derby.iapi.services.cache.ClassSizeCatalog").newInstance();
         }
         catch( Exception e){}
@@ -284,7 +284,7 @@ public class ClassSize
     }
     
     /**
-     * Estimate the size of a Hashtable entry. In Java 1.2 we can use Map.entry, but this is not
+     * Estimate the size of a FastMap entry. In Java 1.2 we can use Map.entry, but this is not
      * available in earlier versions of Java.
      *
      * @return the estimate, in bytes

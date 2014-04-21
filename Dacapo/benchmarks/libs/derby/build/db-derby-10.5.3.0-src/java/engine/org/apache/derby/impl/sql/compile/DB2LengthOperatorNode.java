@@ -43,7 +43,7 @@ import java.lang.reflect.Modifier;
 
 import java.sql.Types;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * This node represents a unary DB2 compatible length operator
@@ -69,7 +69,7 @@ public final class DB2LengthOperatorNode extends UnaryOperatorNode
 	 *
 	 * @param fromList			The query's FROM list
 	 * @param subqueryList		The subquery list being built as we find SubqueryNodes
-	 * @param aggregateVector	The aggregate vector being built as we find AggregateNodes
+	 * @param aggregateFastTable	The aggregate FastTable being built as we find AggregateNodes
 	 *
 	 * @return	The new top of the expression tree.
 	 *
@@ -78,10 +78,10 @@ public final class DB2LengthOperatorNode extends UnaryOperatorNode
 
 	public ValueNode bindExpression(
 		FromList	fromList, SubqueryList subqueryList,
-		Vector	aggregateVector)
+		FastTable	aggregateFastTable)
 			throws StandardException
 	{
-        bindOperand( fromList, subqueryList, aggregateVector);
+        bindOperand( fromList, subqueryList, aggregateFastTable);
 
         // This operator is not allowed on XML types.
         TypeId operandType = operand.getTypeId();

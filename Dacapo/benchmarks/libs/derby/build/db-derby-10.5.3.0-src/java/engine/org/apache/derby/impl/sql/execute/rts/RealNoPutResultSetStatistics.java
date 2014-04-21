@@ -23,7 +23,7 @@ package org.apache.derby.impl.sql.execute.rts;
 
 import org.apache.derby.iapi.services.io.Formatable;
 
-import org.apache.derby.iapi.services.io.FormatableHashtable;
+import org.apache.derby.iapi.services.io.FormatableFastMap;
 
 import java.io.ObjectOutput;
 import java.io.ObjectInput;

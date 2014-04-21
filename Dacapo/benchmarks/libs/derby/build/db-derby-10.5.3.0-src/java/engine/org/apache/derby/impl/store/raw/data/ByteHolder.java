@@ -26,7 +26,7 @@ import org.apache.derby.iapi.services.sanity.SanityManager;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
   Holder for a growing sequence of bytes. The ByteHolder supports a

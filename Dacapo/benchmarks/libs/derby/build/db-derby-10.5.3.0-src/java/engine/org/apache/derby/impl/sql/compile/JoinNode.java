@@ -63,7 +63,7 @@ import org.apache.derby.iapi.util.PropertyUtil;
 import org.apache.derby.iapi.services.classfile.VMOpcode;
 
 import java.util.Properties;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * A JoinNode represents a join result set for either of the basic DML
@@ -91,7 +91,7 @@ public class JoinNode extends TableOperatorNode
 	private PredicateList rightPredicateList;
 
 	protected boolean flattenableJoin = true;
-	Vector				aggregateVector;
+	FastTable				aggregateFastTable;
 	SubqueryList		subqueryList;
 	ValueNode			joinClause;
 	boolean	            joinClauseNormalized;
@@ -762,7 +762,7 @@ public class JoinNode extends TableOperatorNode
 		subqueryList = (SubqueryList) getNodeFactory().getNode(
 											C_NodeTypes.SUBQUERY_LIST,
 											getContextManager());
-		aggregateVector = new Vector();
+		aggregateFastTable = new FastTable();
 
 		/* ON clause */
 		if (joinClause != null)
@@ -790,7 +790,7 @@ public class JoinNode extends TableOperatorNode
 			fromListParam.insertElementAt(leftResultSet, 0);
 			joinClause = joinClause.bindExpression(
 									  fromListParam, subqueryList,
-									  aggregateVector);
+									  aggregateFastTable);
 
 			/* Now bind with two tables being joined. If this raises column not found exception,
 			 * then we have a reference to other tables in the from clause. Raise invalid
@@ -799,7 +799,7 @@ public class JoinNode extends TableOperatorNode
 			try {
 				joinClause = joinClause.bindExpression(
 									  fromList, subqueryList,
-									  aggregateVector);
+									  aggregateFastTable);
 			} catch (StandardException se) {
 				if (se.getSQLState().equals(SQLState.LANG_COLUMN_NOT_FOUND))
 					throw StandardException.newException(SQLState.LANG_DB2_ON_CLAUSE_INVALID); 
@@ -812,10 +812,10 @@ public class JoinNode extends TableOperatorNode
 			/*
 			** We cannot have aggregates in the ON clause.
 			** In the future, if we relax this, we'll need
-			** to be able to pass the aggregateVector up
+			** to be able to pass the aggregateFastTable up
 			** the tree.
 			*/
-			if (aggregateVector.size() > 0)
+			if (aggregateFastTable.size() > 0)
 			{
 				throw StandardException.newException(SQLState.LANG_NO_AGGREGATES_IN_ON_CLAUSE);
 			}
@@ -878,7 +878,7 @@ public class JoinNode extends TableOperatorNode
 							getContextManager()); 
 				leftCR = (ColumnReference) leftCR.bindExpression(
 									  fromListParam, subqueryList,
-									  aggregateVector);
+									  aggregateFastTable);
 				fromListParam.removeElementAt(0);
 
 				/* Create and bind the right CR */
@@ -890,7 +890,7 @@ public class JoinNode extends TableOperatorNode
 							getContextManager()); 
 				rightCR = (ColumnReference) rightCR.bindExpression(
 									  fromListParam, subqueryList,
-									  aggregateVector);
+									  aggregateFastTable);
 				fromListParam.removeElementAt(0);
 
 				/* Create and insert the new = condition */
@@ -1822,18 +1822,18 @@ public class JoinNode extends TableOperatorNode
 	 *
 	 * @param	crs					The specified ColumnReference[]
 	 * @param	permuteOrdering		Whether or not the order of the CRs in the array can be permuted
-	 * @param	fbtVector			Vector that is to be filled with the FromBaseTable	
+	 * @param	fbtFastTable			FastTable that is to be filled with the FromBaseTable	
 	 *
 	 * @return	Whether the underlying ResultSet tree
 	 * is ordered on the specified column.
 	 *
 	 * @exception StandardException		Thrown on error
 	 */
-	boolean isOrderedOn(ColumnReference[] crs, boolean permuteOrdering, Vector fbtVector)
+	boolean isOrderedOn(ColumnReference[] crs, boolean permuteOrdering, FastTable fbtFastTable)
 				throws StandardException
 	{
 		/* RESOLVE - easiest thing for now is to only consider the leftmost child */
-		return leftResultSet.isOrderedOn(crs, permuteOrdering, fbtVector);
+		return leftResultSet.isOrderedOn(crs, permuteOrdering, fbtFastTable);
 	}
 
 	/**
@@ -1880,9 +1880,9 @@ public class JoinNode extends TableOperatorNode
 		this.subqueryList = subqueryList;
 	}
 
-	void setAggregateVector(Vector aggregateVector)
+	void setAggregateFastTable(FastTable aggregateFastTable)
 	{
-		this.aggregateVector = aggregateVector;
+		this.aggregateFastTable = aggregateFastTable;
 	}
 
 	/**

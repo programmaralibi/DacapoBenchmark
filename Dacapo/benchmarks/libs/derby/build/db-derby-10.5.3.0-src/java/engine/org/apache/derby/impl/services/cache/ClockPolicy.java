@@ -131,7 +131,7 @@ final class ClockPolicy implements ReplacementPolicy {
     ClockPolicy(ConcurrentCache cacheManager, int initialSize, int maxSize) {
         this.cacheManager = cacheManager;
         this.maxSize = maxSize;
-        clock = new FastTable<Holder>(initialSize);
+        clock = new FastTable<Holder>();
     }
 
     /**

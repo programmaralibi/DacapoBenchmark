@@ -20,10 +20,10 @@
  */
 package org.apache.derby.impl.storeless;
 
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import java.util.List;
 import java.util.Properties;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 import org.apache.derby.catalog.UUID;
 import org.apache.derby.iapi.error.StandardException;
@@ -443,7 +443,7 @@ public class EmptyDictionary implements DataDictionary, ModuleSupportable {
 		return null;
 	}
 
-	public DataTypeDescriptor[] getSPSParams(SPSDescriptor spsd, Vector defaults)
+	public DataTypeDescriptor[] getSPSParams(SPSDescriptor spsd, FastTable defaults)
 			throws StandardException {
 		// TODO Auto-generated method stub
 		return null;
@@ -510,13 +510,13 @@ public class EmptyDictionary implements DataDictionary, ModuleSupportable {
 
 	}
 
-	public Hashtable hashAllConglomerateDescriptorsByNumber(
+	public FastMap hashAllConglomerateDescriptorsByNumber(
 			TransactionController tc) throws StandardException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Hashtable hashAllTableDescriptorsByTableId(TransactionController tc)
+	public FastMap hashAllTableDescriptorsByTableId(TransactionController tc)
 			throws StandardException {
 		// TODO Auto-generated method stub
 		return null;

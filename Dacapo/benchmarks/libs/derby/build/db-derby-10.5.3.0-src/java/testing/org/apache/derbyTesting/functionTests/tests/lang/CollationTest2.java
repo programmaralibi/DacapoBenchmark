@@ -65,7 +65,7 @@ T3: (DONE) order by on heap using in memory sorter
 T4: (TODO) order by on heap using disk based sorter
 T5: (TODO) system catalogs should not be collated
 T6: (DONE) test like
-T7: (TODO) test create conglomerate triggered by DiskHashtable code
+T7: (TODO) test create conglomerate triggered by DiskFastMap code
 T8: (TODO) test create conglomerate triggered by DataDictionaryImpl
 T9: (TODO) test create conglomerate triggered by java/engine/org/apache/derby/impl/sql/conn/GenericLanguageConnectionContext.java
 T10: (DONE) alter table compress with indexes

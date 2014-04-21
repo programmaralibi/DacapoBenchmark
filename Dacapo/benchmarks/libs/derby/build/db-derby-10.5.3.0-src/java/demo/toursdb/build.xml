@@ -49,7 +49,7 @@
       verbose="${verbose}"
       srcdir="${derby.demo.src.dir}"
       destdir="${out.dir}">
-      <classpath>
+      <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
         <pathelement path="${java14compile.classpath}"/>
       </classpath>
       <include name="toursdb/insertMaps.java"/>
@@ -62,7 +62,7 @@
           output="toursdb.out"
           failonerror="true"
           dir="${derby.demo.src.dir}/toursdb" fork="true">
-      <classpath>
+      <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
         <pathelement path="${out.dir}"/>
         <pathelement path="${compile.classpath}"/>
       </classpath>
@@ -77,7 +77,7 @@
           output="toursdb.out" append="true"
           failonerror="true"
           dir="${derby.demo.src.dir}/toursdb" fork="true">
-      <classpath>
+      <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
         <pathelement path="${out.dir}"/>
         <pathelement path="${compile.classpath}"/>
       </classpath>
@@ -89,7 +89,7 @@
           output="toursdb.out" append="true"
           failonerror="true"
           dir="${derby.demo.src.dir}/toursdb" fork="true">
-      <classpath>
+      <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
         <pathelement path="${out.dir}"/>
         <pathelement path="${compile.classpath}"/>
       </classpath>
@@ -98,7 +98,7 @@
           output="toursdb.out" append="true"
           failonerror="true"
           dir="${derby.demo.src.dir}/toursdb" fork="true">
-      <classpath>
+      <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
         <pathelement path="${out.dir}"/>
         <pathelement path="${compile.classpath}"/>
       </classpath>

@@ -24,8 +24,8 @@ package	org.apache.derby.impl.sql.compile;
 import java.lang.reflect.Modifier;
 import java.sql.ResultSetMetaData;
 import java.sql.Types;
-import java.util.Hashtable;
-import java.util.Vector;
+import javolution.util.FastMap;
+import javolution.util.FastTable;
 
 import org.apache.derby.catalog.types.DefaultInfoImpl;
 import org.apache.derby.iapi.error.StandardException;
@@ -67,7 +67,7 @@ import org.apache.derby.iapi.util.ReuseFactory;
  * @see ResultColumn
  */
 
-public class ResultColumnList extends QueryTreeNodeVector
+public class ResultColumnList extends QueryTreeNodeFastTable
 {
 	/* Is this the ResultColumnList for an index row? */
 	protected boolean indexRow;
@@ -121,7 +121,7 @@ public class ResultColumnList extends QueryTreeNodeVector
 
 	public void addResultColumn(ResultColumn resultColumn)
 	{
-		/* Vectors are 0-based, ResultColumns are 1-based */
+		/* FastTables are 0-based, ResultColumns are 1-based */
 		resultColumn.setVirtualColumnId(size() + 1);
 		addElement(resultColumn);
 	}
@@ -142,7 +142,7 @@ public class ResultColumnList extends QueryTreeNodeVector
 
 		/*
 		** Set the virtual column ids in the list being appended.
-		** Vectors are zero-based, and virtual column ids are one-based,
+		** FastTables are zero-based, and virtual column ids are one-based,
 		** so the new virtual column ids start at the original size
 		** of this list, plus one.
 		*/
@@ -181,7 +181,7 @@ public class ResultColumnList extends QueryTreeNodeVector
 		if (position <= size()) 
 		{
 			// this wraps the cast needed, 
-			// and the 0-based nature of the Vectors.
+			// and the 0-based nature of the FastTables.
 			ResultColumn rc = (ResultColumn)elementAt(position-1);
 			if (rc.getColumnPosition() == position)
 			{
@@ -260,7 +260,7 @@ public class ResultColumnList extends QueryTreeNodeVector
 	 */
 	public ResultColumn getOrderByColumn(int position)
 	{
-		// this wraps the cast needed, and the 0-based nature of the Vectors.
+		// this wraps the cast needed, and the 0-based nature of the FastTables.
 		if (position == 0) 
 			return null;
 
@@ -691,13 +691,13 @@ public class ResultColumnList extends QueryTreeNodeVector
 	 * @param fromList		The FROM list for the query this
 	 *				expression is in, for binding columns.
 	 * @param subqueryList		The subquery list being built as we find SubqueryNodes
-	 * @param aggregateVector	The aggregate vector being built as we find AggregateNodes
+	 * @param aggregateFastTable	The aggregate FastTable being built as we find AggregateNodes
 	 *
 	 * @exception StandardException		Thrown on error
 	 */
 	public void bindExpressions(
 					FromList fromList, SubqueryList subqueryList,
-					Vector	aggregateVector)
+					FastTable	aggregateFastTable)
 				throws StandardException
 	{
 		/* First we expand the *'s in the result column list */
@@ -710,7 +710,7 @@ public class ResultColumnList extends QueryTreeNodeVector
 			ValueNode vn = (ValueNode) elementAt(index);
 			vn = ((ResultColumn) vn ).bindExpression(
 												fromList, subqueryList, 
-												aggregateVector);
+												aggregateFastTable);
 			setElementAt(vn, index);
 		}
 	}
@@ -831,7 +831,7 @@ public class ResultColumnList extends QueryTreeNodeVector
 					throws StandardException
 	{
 		int			size = size();
-		Hashtable	ht = new Hashtable(size + 2, (float) .999);
+		FastMap	ht = new FastMap(size + 2, (float) .999);
 
 		for (int index = 0; index < size; index++)
 		{
@@ -1138,7 +1138,7 @@ public class ResultColumnList extends QueryTreeNodeVector
 					SanityManager.THROWASSERT(
 						"VirtualColumnId (" +
 						rc.getVirtualColumnId() +
-						") does not agree with position within Vector (" +
+						") does not agree with position within FastTable (" +
 						(index + 1) +
 						")");
 				}
@@ -1650,7 +1650,7 @@ public class ResultColumnList extends QueryTreeNodeVector
 
 			for (int index = 0; index < size; index++)
 			{
-				/* Vectors are 0-based, VirtualColumnIds are 1-based. */
+				/* FastTables are 0-based, VirtualColumnIds are 1-based. */
 				((ResultColumn) elementAt(index)).setVirtualColumnId(index + 1);
 			}
 		}
@@ -1907,7 +1907,7 @@ public class ResultColumnList extends QueryTreeNodeVector
 			/* dts = resultColumn.getExpression().getTypeServices(); */
 			DataTypeDescriptor dts = resultColumn.getTypeServices();
 
-			/* Vectors are 0-based, VirtualColumnIds are 1-based */
+			/* FastTables are 0-based, VirtualColumnIds are 1-based */
 			resultColumn.expression = (ValueNode) getNodeFactory().getNode(
 							C_NodeTypes.VIRTUAL_COLUMN_NODE,
 							sourceResultSet,
@@ -2019,7 +2019,7 @@ public class ResultColumnList extends QueryTreeNodeVector
 					throws StandardException
 	{
 		int size = size();
-		Hashtable	ht = new Hashtable(size + 2, (float) .999);
+		FastMap	ht = new FastMap(size + 2, (float) .999);
 		ResultColumn rc;
 
 		for (int index = 0; index < size; index++)
@@ -2776,10 +2776,10 @@ public class ResultColumnList extends QueryTreeNodeVector
 	 * Mark all the columns in the select sql that this result column list represents
 	 * as updatable if they match the columns in the given update column list.
 	 *
-	 * @param updateColumns		A Vector representing the columns
+	 * @param updateColumns		A FastTable representing the columns
 	 *							to be updated.
 	 */
-	void markColumnsInSelectListUpdatableByCursor(Vector updateColumns)
+	void markColumnsInSelectListUpdatableByCursor(FastTable updateColumns)
 	{
 		commonCodeForUpdatableByCursor(updateColumns, true);
 	}
@@ -2795,7 +2795,7 @@ public class ResultColumnList extends QueryTreeNodeVector
 	 * In the eg above, we will find updatable column c11 in the select column
 	 * list but we will not find updatable column c12 in the select column list
 	 */
-	private void commonCodeForUpdatableByCursor(Vector updateColumns, boolean dealingWithSelectResultColumnList)
+	private void commonCodeForUpdatableByCursor(FastTable updateColumns, boolean dealingWithSelectResultColumnList)
 	{
 		/*
 		** If there is no update column list, or the list is empty, then it means that
@@ -2837,10 +2837,10 @@ public class ResultColumnList extends QueryTreeNodeVector
 	 * Mark as updatable all the columns in this result column list
 	 * that match the columns in the given update column list
 	 *
-	 * @param updateColumns		A Vector representing the columns
+	 * @param updateColumns		A FastTable representing the columns
 	 *							to be updated.
 	 */
-	void markUpdatableByCursor(Vector updateColumns)
+	void markUpdatableByCursor(FastTable updateColumns)
 	{
 		commonCodeForUpdatableByCursor(updateColumns, false);
 	}

@@ -21,7 +21,7 @@
 
 package org.apache.derby.impl.sql.compile;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 import org.apache.derby.iapi.error.StandardException;
 import org.apache.derby.iapi.services.compiler.MethodBuilder;
 import org.apache.derby.iapi.services.sanity.SanityManager;

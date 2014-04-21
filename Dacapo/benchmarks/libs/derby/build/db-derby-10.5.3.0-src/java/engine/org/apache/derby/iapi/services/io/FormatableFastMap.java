@@ -1,6 +1,6 @@
 /*
 
-   Derby - Class org.apache.derby.iapi.services.io.FormatableHashtable
+   Derby - Class org.apache.derby.iapi.services.io.FormatableFastMap
 
    Licensed to the Apache Software Foundation (ASF) under one or more
    contributor license agreements.  See the NOTICE file distributed with
@@ -22,24 +22,25 @@
 package org.apache.derby.iapi.services.io;
 
 import org.apache.derby.iapi.services.io.ArrayInputStream;
-
 import org.apache.derby.iapi.services.io.StoredFormatIds;
 import org.apache.derby.iapi.services.io.FormatIdUtil;
 import org.apache.derby.iapi.services.io.Formatable;
 import org.apache.derby.iapi.services.sanity.SanityManager;
 
-import java.util.Hashtable;
+import javolution.util.FastMap;
+
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.io.ObjectOutput;
 import java.io.ObjectInput;
 import java.io.IOException;
 
 
 /**
- * A formatable holder for a java.util.Hashtable.
+ * A formatable holder for a javolution.util.FastMap.
  * Used to avoid serializing Properties.
  */
-public class FormatableHashtable extends Hashtable implements Formatable
+public class FormatableFastMap extends FastMap implements Formatable
 {
 	/********************************************************
 	**
@@ -58,7 +59,7 @@ public class FormatableHashtable extends Hashtable implements Formatable
 	/**
 	 * Niladic constructor for formatable
 	 */
-	public FormatableHashtable() 
+	public FormatableFastMap() 
 	{
 	}
 
@@ -66,7 +67,7 @@ public class FormatableHashtable extends Hashtable implements Formatable
 	/**
 	 * Our special put method that wont barf
 	 * on a null value.
-	 * @see java.util.Hashtable
+	 * @see javolution.util.FastMap
 	 */
 	public Object put(Object key, Object value)
 	{
@@ -139,9 +140,9 @@ public class FormatableHashtable extends Hashtable implements Formatable
 	public void writeExternal(ObjectOutput out) throws IOException
 	{
 		out.writeInt(size());
-		for (Enumeration e = keys(); e.hasMoreElements(); )
+		for (Iterator e = keySet().iterator(); e.hasNext(); )
 		{
-			Object key = e.nextElement();
+			Object key = e.next();
 			out.writeObject(key);
 			out.writeObject(get(key));
 			
@@ -188,5 +189,5 @@ public class FormatableHashtable extends Hashtable implements Formatable
 	 *
 	 *	@return	the formatID of this class
 	 */
-	public	int	getTypeFormatId()	{ return StoredFormatIds.FORMATABLE_HASHTABLE_V01_ID; }
+	public	int	getTypeFormatId()	{ return StoredFormatIds.FORMATABLE_FastMap_V01_ID; }
 }

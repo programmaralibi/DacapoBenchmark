@@ -27,7 +27,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.SQLException;
 import java.sql.SQLWarning;
-import java.util.Vector;
+import javolution.util.FastTable;
 import java.util.List;
 
 /**
@@ -40,7 +40,7 @@ abstract class ijResultImpl implements ijResult {
 	public boolean isResultSet() throws SQLException { return false; }
 	public boolean isUpdateCount() throws SQLException { return false; }
 	public boolean isNextRowOfResultSet() { return false; }
-	public boolean isVector() { return false; }
+	public boolean isFastTable() { return false; }
 	public boolean isMulti() { return false; }
 	public boolean isException() { return false; }
 	public boolean isMultipleResultSetResult(){ return false; }
@@ -52,7 +52,7 @@ abstract class ijResultImpl implements ijResult {
 	public ResultSet getResultSet() throws SQLException { return null; }
 	public List getMultipleResultSets() { return null; }
 	public ResultSet getNextRowOfResultSet() { return null; }
-	public Vector getVector() { return null; }
+	public FastTable getFastTable() { return null; }
 	public SQLException getException() { return null; }
 
 	public int[] getColumnDisplayList() { return null; }
@@ -68,8 +68,8 @@ abstract class ijResultImpl implements ijResult {
 		if (isConnection()) return LocalizedResource.getMessage("IJ_Con0",getConnection().toString());
 		if (isStatement()) return LocalizedResource.getMessage("IJ_Stm0",getStatement().toString());
 		if (isNextRowOfResultSet()) return LocalizedResource.getMessage("IJ_Row0",getNextRowOfResultSet().toString());
-		if (isVector()) return LocalizedResource.getMessage("IJ_Vec0",getVector().toString());
-		if (isMulti()) return LocalizedResource.getMessage("IJ_Mul0",getVector().toString());
+		if (isFastTable()) return LocalizedResource.getMessage("IJ_Vec0",getFastTable().toString());
+		if (isMulti()) return LocalizedResource.getMessage("IJ_Mul0",getFastTable().toString());
 		if (isException()) return LocalizedResource.getMessage("IJ_Exc0",getException().toString());
 		if (isMultipleResultSetResult())
 			return LocalizedResource.getMessage("IJ_MRS0",

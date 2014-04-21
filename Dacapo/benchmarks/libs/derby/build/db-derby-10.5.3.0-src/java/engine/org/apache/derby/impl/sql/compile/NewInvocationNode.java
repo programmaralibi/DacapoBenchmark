@@ -52,7 +52,7 @@ import org.apache.derby.catalog.TypeDescriptor;
 import java.lang.reflect.Member;
 import java.lang.reflect.Modifier;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 import java.util.Enumeration;
 
 /**
@@ -85,7 +85,7 @@ public class NewInvocationNode extends MethodCallNode
 		throws StandardException
 	{
 		super.init("<init>");
-		addParms((Vector) params);
+		addParms((FastTable) params);
 
 		this.javaClassName = (String) javaClassName;
 		this.delimitedIdentifier =
@@ -132,7 +132,7 @@ public class NewInvocationNode extends MethodCallNode
 		throws StandardException
 	{
 		super.init("<init>");
-		addParms((Vector) params);
+		addParms((FastTable) params);
 
 		if (SanityManager.DEBUG)
 		{
@@ -219,7 +219,7 @@ public class NewInvocationNode extends MethodCallNode
 	 * @param fromList		The FROM list for the query this
 	 *				expression is in, for binding columns.
 	 * @param subqueryList		The subquery list being built as we find SubqueryNodes
-	 * @param aggregateVector	The aggregate vector being built as we find AggregateNodes
+	 * @param aggregateFastTable	The aggregate FastTable being built as we find AggregateNodes
 	 *
 	 * @return	Nothing
 	 *
@@ -228,10 +228,10 @@ public class NewInvocationNode extends MethodCallNode
 
 	public JavaValueNode bindExpression(
 		FromList fromList, SubqueryList subqueryList,
-		Vector aggregateVector) 
+		FastTable aggregateFastTable) 
 			throws StandardException
 	{
-		bindParameters(fromList, subqueryList, aggregateVector);
+		bindParameters(fromList, subqueryList, aggregateFastTable);
 
 		verifyClassExist(javaClassName);
 		/*

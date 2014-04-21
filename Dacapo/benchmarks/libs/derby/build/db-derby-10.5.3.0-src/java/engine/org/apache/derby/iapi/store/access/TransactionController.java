@@ -37,7 +37,7 @@ import org.apache.derby.iapi.store.raw.Transaction;
 
 import org.apache.derby.iapi.types.DataValueDescriptor;
 
-import org.apache.derby.iapi.store.access.BackingStoreHashtable;
+import org.apache.derby.iapi.store.access.BackingStoreFastMap;
 import org.apache.derby.iapi.services.io.FormatableBitSet;
 
 import org.apache.derby.iapi.store.access.DatabaseInstant;
@@ -857,7 +857,7 @@ public interface TransactionController
      * parameters see openScan().
      * <p>
      *
-	 * @return the BackingStoreHashtable which was created.
+	 * @return the BackingStoreFastMap which was created.
      *
 	 * @param conglomId             see openScan()
      * @param open_mode             see openScan()
@@ -875,12 +875,12 @@ public interface TransactionController
      *                              maximum.
      * @param key_column_numbers    The column numbers of the columns in the
      *                              scan result row to be the key to the 
-     *                              Hashtable.  "0" is the first column in the 
+     *                              FastMap.  "0" is the first column in the 
      *                              scan result row (which may be different 
      *                              than the first row in the table of the 
      *                              scan).
      * @param remove_duplicates     Should the HashSet automatically remove
-     *                              duplicates, or should it create the Vector 
+     *                              duplicates, or should it create the FastTable 
      *                              of duplicates?
      * @param estimated_rowcnt      The number of rows that the caller 
      *                              estimates will be inserted into the sort. 
@@ -889,26 +889,26 @@ public interface TransactionController
      *                              in-memory vs. external sorting, and to size
      *                              merge runs.
      * @param max_inmemory_rowcnt   The number of rows at which the underlying
-     *                              Hashtable implementation should cut over
+     *                              FastMap implementation should cut over
      *                              from an in-memory hash to a disk based
      *                              access method.
      * @param initialCapacity       If not "-1" used to initialize the java
-     *                              Hashtable.
+     *                              FastMap.
      * @param loadFactor            If not "-1" used to initialize the java
-     *                              Hashtable.
+     *                              FastMap.
      * @param collect_runtimestats  If true will collect up runtime stats during
      *                              scan processing for retrieval by
-     *                              BackingStoreHashtable.getRuntimeStats().
+     *                              BackingStoreFastMap.getRuntimeStats().
 	 * @param skipNullKeyColumns	Whether or not to skip rows with 1 or more null key columns
      *
      * @param keepAfterCommit       If true then the hash table is kept after a
      *                              commit
-     * @see BackingStoreHashtable
+     * @see BackingStoreFastMap
      * @see TransactionController#openScan
      *
 	 * @exception  StandardException  Standard exception policy.
      **/
-    BackingStoreHashtable createBackingStoreHashtableFromScan(
+    BackingStoreFastMap createBackingStoreFastMapFromScan(
     long                    conglomId,
     int                     open_mode,
     int                     lock_level,

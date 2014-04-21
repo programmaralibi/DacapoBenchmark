@@ -22,7 +22,7 @@ package org.apache.derbyTesting.functionTests.util;
 
 import org.apache.derbyTesting.functionTests.harness.ProcessStreamResult;
 import org.apache.derbyTesting.functionTests.harness.TimedProcess;
-import java.util.Vector;
+import javolution.util.FastTable;
 import java.io.BufferedOutputStream;
 /**
  * Utility class to hold helper methods to exec new processes
@@ -51,7 +51,7 @@ public class ExecProcUtil {
      * @param bos  buffered stream (System.out) to dump results to.
      * @exception Exception
      */
-    public static void execCmdDumpResults(String[] args, Vector vCmd,
+    public static void execCmdDumpResults(String[] args, FastTable vCmd,
             BufferedOutputStream bos) throws Exception {
         // We need the process inputstream and errorstream
         ProcessStreamResult prout = null;

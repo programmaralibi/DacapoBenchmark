@@ -329,7 +329,7 @@ class DistinctScalarAggregateResultSet extends ScalarAggregateResultSet
 
 	/**
 	 * Load up the sorter.  Feed it every row from the
-	 * source scan.  If we have a vector aggregate, initialize
+	 * source scan.  If we have a FastTable aggregate, initialize
 	 * the aggregator for each source row.  When done, close
 	 * the source scan and open the sort.  Return the sort
 	 * scan controller.

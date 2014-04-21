@@ -25,7 +25,7 @@ package org.apache.derbyTesting.unitTests.util;
 /**
  * This class provides utility methods for 
  * converting byte arrays to hexidecimal Strings and manipulating BIT/BIT VARYING values as a
- * packed vector of booleans.
+ * packed FastTable of booleans.
  * 
  * <P> The BIT/BIT VARYING methods are modeled after
  * some methods in the <I>java.util.BitSet</I> class. 

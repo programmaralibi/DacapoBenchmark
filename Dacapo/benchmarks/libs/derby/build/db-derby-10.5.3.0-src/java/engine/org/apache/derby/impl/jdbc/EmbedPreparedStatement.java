@@ -41,7 +41,7 @@ import org.apache.derby.iapi.reference.SQLState;
 import org.apache.derby.iapi.reference.JDBC40Translation;
 
 import java.util.Calendar;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /*
  We would import these, but have name-overlap
@@ -1006,14 +1006,14 @@ public abstract class EmbedPreparedStatement
 	  checkStatus();
 
 	  // need to synchronized to ensure that two threads
-	  // don't both create a Vector at the same time. This
+	  // don't both create a FastTable at the same time. This
 	  // would lead to one of the set of parameters being thrown
 	  // away
   	  synchronized (getConnectionSynchronization()) {
   			if (batchStatements == null)
-  				batchStatements = new Vector();
+  				batchStatements = new FastTable();
 
-          //get a clone of the parameterValueSet and save it in the vector
+          //get a clone of the parameterValueSet and save it in the FastTable
           //which will be used later on at the time of batch execution.
           //This way we will get a copy of the current statement's parameter
           //values rather than a pointer to the statement's parameter value

@@ -32,7 +32,7 @@ import org.apache.derby.iapi.types.DataTypeDescriptor;
 
 import org.apache.derby.impl.sql.compile.ExpressionClassBuilder;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 /**
  * An UntypedNullConstantNode represents a SQL NULL before it has
  * been bound.  The bind() operation will replace the UntypedNullConstantNodes
@@ -96,12 +96,12 @@ public final class UntypedNullConstantNode extends ConstantNode
 		return typeDescriptor.getNull();
 	}
 	
-	/** @see ValueNode#bindExpression(FromList, SubqueryList, Vector)
+	/** @see ValueNode#bindExpression(FromList, SubqueryList, FastTable)
 	 * @see ResultColumnList#bindUntypedNullsToResultColumns
 	 * This does nothing-- the node is actually bound when
 	 * bindUntypedNullsToResultColumns is called.
 	 */
-	public ValueNode bindExpression(FromList fromList, SubqueryList	subqueryList, Vector aggregateVector)
+	public ValueNode bindExpression(FromList fromList, SubqueryList	subqueryList, FastTable aggregateFastTable)
 	{
 		return this;
 	}

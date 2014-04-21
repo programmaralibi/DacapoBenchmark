@@ -67,7 +67,7 @@ import java.io.*;
 public class classlister {
 
 	protected String[] sets;
-	protected Hashtable foundClasses;
+	protected FastMap foundClasses;
 	//protected ClassUtilitiesFactory cuf;
 
 	protected boolean cloudscapeOnly = false;
@@ -84,10 +84,10 @@ public class classlister {
 	protected boolean showAll = false;
 	protected boolean keepRolling = false;
 	protected boolean showOne = false;
-	protected Hashtable masterClassList = new Hashtable();
+	protected FastMap masterClassList = new FastMap();
     protected String classpath[] = null;
     protected String outputfile;
-    protected Hashtable classpathHash;
+    protected FastMap classpathHash;
 	protected int indent = 0;
 	protected int errorCount = 0;
 	protected PrintWriter pwOut;
@@ -154,7 +154,7 @@ public class classlister {
 		loadClasspath();
 		//cuf = new ModifyClasses();
 
-		foundClasses = new Hashtable(3000, 0.8f);  
+		foundClasses = new FastMap(3000, 0.8f);  
 		
 		for (int i = 0; i < sets.length; i++) 
 		{
@@ -259,7 +259,7 @@ public class classlister {
 
     protected void loadClasspath()
     {
-        classpathHash = new Hashtable();
+        classpathHash = new FastMap();
             try
             {
                 String classpathString = System.getProperty("java.class.path");
@@ -531,14 +531,14 @@ public class classlister {
 
         try
         {
-			Hashtable localHashtable = null;
+			FastMap localFastMap = null;
 			
 			if (keepDependencyHistory) {
-				localHashtable = (Hashtable) masterClassList.get(className);
-				if (localHashtable == null)
+				localFastMap = (FastMap) masterClassList.get(className);
+				if (localFastMap == null)
 				{
-					localHashtable = new Hashtable();
-					masterClassList.put(className, localHashtable);
+					localFastMap = new FastMap();
+					masterClassList.put(className, localFastMap);
 				}
 			}
 
@@ -600,10 +600,10 @@ public class classlister {
 					}
 				}
 
-				if (keepDependencyHistory && (localHashtable.get(x) == null))
+				if (keepDependencyHistory && (localFastMap.get(x) == null))
 				{
 						
-					localHashtable.put(x, "class");
+					localFastMap.put(x, "class");
 				}
 			    findDependencies(x);
             }
@@ -668,9 +668,9 @@ public class classlister {
 		{
 			String kid = (String) e.nextElement();
 			pwOut.println(kid );
-			Hashtable scoreboard = new Hashtable();
-			Hashtable grandkids = (Hashtable) masterClassList.get(kid);
-			unrollHashtable("", grandkids, scoreboard, 1);
+			FastMap scoreboard = new FastMap();
+			FastMap grandkids = (FastMap) masterClassList.get(kid);
+			unrollFastMap("", grandkids, scoreboard, 1);
 		}
 	}
 
@@ -686,9 +686,9 @@ public class classlister {
 		{
 			String key = (String) e.nextElement();
 			pwOut.println(key);
-			Hashtable h = (Hashtable) masterClassList.get(key);
+			FastMap h = (FastMap) masterClassList.get(key);
 			Enumeration e2 = h.keys();
-			Hashtable h2 = new Hashtable();
+			FastMap h2 = new FastMap();
 			while (e2.hasMoreElements())
 			{
 				String key2 = (String) e2.nextElement();
@@ -698,7 +698,7 @@ public class classlister {
 	}
 
 
-	protected void unrollHashtable( String parent, Hashtable current, Hashtable scoreboard, int indentLevel)
+	protected void unrollFastMap( String parent, FastMap current, FastMap scoreboard, int indentLevel)
 	{
 		String indentString = "  ";
 		Enumeration e = current.keys();
@@ -729,9 +729,9 @@ public class classlister {
 			}
 			pwOut.println(key);
 
-			Hashtable currentsChildren = (Hashtable) masterClassList.get(key);
+			FastMap currentsChildren = (FastMap) masterClassList.get(key);
 	scoreboard.put(key, new Integer(indentLevel));
-			unrollHashtable(key, currentsChildren, scoreboard, (indentLevel+1));
+			unrollFastMap(key, currentsChildren, scoreboard, (indentLevel+1));
 			scoreboard.put(key, new Integer(indentLevel));
 			
 		}

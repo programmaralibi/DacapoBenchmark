@@ -25,7 +25,7 @@
             sourcepath="${bm-src-dir}"
             source="1.5"
             debug="true" debuglevel="lines,vars,source">
-			      <classpath>
+			      <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
         <pathelement path="/home/amber/git/Dacapo/Dacapo/benchmarks/libJavolution/javolution-core-java-6.1.0-SNAPSHOT.jar"></pathelement>
 
 				<!-- note that the jars build are either in the jars/sane or jars/insane

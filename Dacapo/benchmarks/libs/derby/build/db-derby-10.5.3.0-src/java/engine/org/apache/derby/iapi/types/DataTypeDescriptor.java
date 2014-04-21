@@ -1445,7 +1445,7 @@ public final class DataTypeDescriptor implements Formatable
 	 *
 	 *	or
 	 *
-	 *			 java.util.Hashtable 
+	 *			 javolution.util.FastMap 
 	 *
 	 * @return	String version of datatype, suitable for running through
 	 *			the Parser.

@@ -44,7 +44,7 @@ import org.apache.derby.impl.store.raw.xact.TransactionTableEntry;
 import org.apache.derby.impl.store.raw.xact.Xact;
 
 import java.util.Enumeration;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 
 import javax.transaction.xa.Xid;
 import javax.transaction.xa.XAResource;
@@ -250,16 +250,16 @@ public class XactXAResourceManager implements XAResourceManager
 
         if ((flags & XAResource.TMSTARTRSCAN) != 0)
         {
-            Hashtable   trans_hashtable = transaction_table.getTableForXA();
-            XAXactId[]  xid_list        = new XAXactId[trans_hashtable.size()];
+            FastMap   trans_FastMap = transaction_table.getTableForXA();
+            XAXactId[]  xid_list        = new XAXactId[trans_FastMap.size()];
             int         num_prepared    = 0;
 
             // Need to hold sync while linear searching the hash table.
-            synchronized (trans_hashtable)
+            synchronized (trans_FastMap)
             {
                 int i = 0;
 
-                for (Enumeration e = trans_hashtable.elements(); 
+                for (Enumeration e = trans_FastMap.elements(); 
                      e.hasMoreElements(); i++) 
                 {
                     Xact xact = 

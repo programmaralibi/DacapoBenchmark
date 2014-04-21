@@ -39,7 +39,7 @@ import org.apache.derby.iapi.sql.compile.Visitor;
 
 import java.lang.reflect.Modifier;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * This node represents coalesce/value function which returns the first argument that is not null.
@@ -130,18 +130,18 @@ public class CoalesceFunctionNode extends ValueNode
 	 *
 	 * @param fromList			The FROM list for the statement.
 	 * @param subqueryList		The subquery list being built as we find SubqueryNodes.
-	 * @param aggregateVector	The aggregate vector being built as we find AggregateNodes.
+	 * @param aggregateFastTable	The aggregate FastTable being built as we find AggregateNodes.
 	 *
 	 * @return	The new top of the expression tree.
 	 *
 	 * @exception StandardException		Thrown on error
 	 */
 	public ValueNode bindExpression(FromList fromList, SubqueryList subqueryList,
-							Vector	aggregateVector)
+							FastTable	aggregateFastTable)
 					throws StandardException
 	{
 		//bind all the arguments
-		argumentsList.bindExpression(fromList, subqueryList, aggregateVector);
+		argumentsList.bindExpression(fromList, subqueryList, aggregateFastTable);
 
 		//There should be more than one argument
 		if (argumentsList.size() < 2)

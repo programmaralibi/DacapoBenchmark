@@ -39,7 +39,7 @@ import java.sql.Types;
 
 import java.util.Properties;
 import java.util.Enumeration;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 
 import org.apache.derby.impl.tools.ij.ijException;

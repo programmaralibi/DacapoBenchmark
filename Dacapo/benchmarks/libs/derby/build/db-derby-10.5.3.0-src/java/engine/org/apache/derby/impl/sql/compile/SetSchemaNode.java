@@ -36,7 +36,7 @@ import org.apache.derby.iapi.sql.StatementType;
 
 import org.apache.derby.impl.sql.compile.ActivationClassBuilder;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 
 /**
@@ -142,7 +142,7 @@ public class SetSchemaNode extends MiscellaneousStatementNode
 	void generateParameterValueSet(ActivationClassBuilder acb)
 		throws StandardException
 	{
-		Vector parameterList = getCompilerContext().getParameterList();
+		FastTable parameterList = getCompilerContext().getParameterList();
 		// parameter list size should be 1
 		if (SanityManager.DEBUG)
 			SanityManager.ASSERT(parameterList != null && parameterList.size() == 1);
@@ -160,7 +160,7 @@ public class SetSchemaNode extends MiscellaneousStatementNode
 	 */
 	int activationKind()
 	{
-		Vector parameterList = getCompilerContext().getParameterList();
+		FastTable parameterList = getCompilerContext().getParameterList();
 		/*
 		** We need parameters 
 		** only for those that have parameters.

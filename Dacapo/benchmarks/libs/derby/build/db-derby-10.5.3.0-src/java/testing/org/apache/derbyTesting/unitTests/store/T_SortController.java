@@ -47,7 +47,7 @@ import org.apache.derby.iapi.types.SQLInteger;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.Properties;
-import java.util.Vector;
+import javolution.util.FastTable;
 import java.util.StringTokenizer;
 import java.io.File;
 
@@ -728,7 +728,7 @@ public class T_SortController extends T_Generic
         {
             int numMergeRuns = Integer.parseInt(sortprop.getProperty(
 			 MessageService.getTextMessage(SQLState.STORE_RTS_NUM_MERGE_RUNS)));
-            Vector mergeRuns = new Vector();
+            FastTable mergeRuns = new FastTable();
             StringTokenizer st = new StringTokenizer(sortprop.getProperty(
 			 MessageService.getTextMessage(SQLState.STORE_RTS_MERGE_RUNS_SIZE)),
 			 "[],",false);
@@ -736,7 +736,7 @@ public class T_SortController extends T_Generic
                 mergeRuns.addElement(Integer.valueOf(st.nextToken().trim()));
 
             if (mergeRuns.size() != numMergeRuns)
-                FAIL("(testSort) the number of elements in vector SortInfo.mergeRunsSize (value: " +
+                FAIL("(testSort) the number of elements in FastTable SortInfo.mergeRunsSize (value: " +
                 mergeRuns.size() + " ) is not equal to SortInfo.numMergeRuns (value: " +
                 numMergeRuns + " )");
 
@@ -744,7 +744,7 @@ public class T_SortController extends T_Generic
             for (int i = 0; i < mergeRuns.size(); i++)
                 totRunSize += ((Integer) mergeRuns.elementAt(i)).intValue();
             if (totRunSize != numRowsInput)
-               FAIL("(testSort) the sum of the elements of the vector SortInfo.mergeRunsSize (value: " +
+               FAIL("(testSort) the sum of the elements of the FastTable SortInfo.mergeRunsSize (value: " +
                 totRunSize + " ) is not equal to SortInfo.numRowsInput (value: " +
                 numRowsInput + " )");
         }
@@ -843,12 +843,12 @@ public class T_SortController extends T_Generic
 class T_DummySortObserver implements SortObserver
 {
 	T_AccessRow  template;
-	Vector vector;
+	FastTable FastTable;
 
 	T_DummySortObserver(T_AccessRow template)
 	{
 		this.template = template;
-		vector = new Vector();
+		FastTable = new FastTable();
 	}
 
 	/*
@@ -871,22 +871,22 @@ class T_DummySortObserver implements SortObserver
     DataValueDescriptor[]   objectArray, 
     int                     maxFreeListSize)
 	{
-		if (vector.size() < maxFreeListSize)
+		if (FastTable.size() < maxFreeListSize)
 		{
-			vector.addElement(objectArray);
+			FastTable.addElement(objectArray);
 		}
 	}
 
 	public DataValueDescriptor[] getArrayClone()
 		throws StandardException
 	{
-		int lastElement = vector.size();
+		int lastElement = FastTable.size();
 
 		if (lastElement > 0)
 		{
 			DataValueDescriptor[] retval = 
-                (DataValueDescriptor[]) vector.elementAt(lastElement - 1);
-			vector.removeElementAt(lastElement - 1);
+                (DataValueDescriptor[]) FastTable.elementAt(lastElement - 1);
+			FastTable.removeElementAt(lastElement - 1);
 			return retval;
 		}
 		return template.getRowArrayClone();

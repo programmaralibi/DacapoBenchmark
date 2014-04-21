@@ -32,7 +32,7 @@ import java.sql.SQLWarning;
 import java.io.*;
 import java.util.*;
 import java.lang.Long;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 import org.apache.derby.tools.JDBCDisplayUtil;
 
@@ -122,8 +122,8 @@ public class dbcleanup {
 
 		Enumeration schemalist = null;
 		Enumeration list = null;
-		Vector schemavec = new Vector();
-		Vector tablevec = null;
+		FastTable schemavec = new FastTable();
+		FastTable tablevec = null;
 		// get a list of the user schemas
 		try {
 			s = conn.createStatement();
@@ -148,7 +148,7 @@ public class dbcleanup {
 		String n = null;
 		boolean viewdependencyFound = false;
 		boolean tabledependencyFound = false;
-		Vector viewvec = null;
+		FastTable viewvec = null;
 		int count = 0;
 		for (schemalist = schemavec.elements(); schemalist.hasMoreElements();) {
 			schema = (String)schemalist.nextElement();
@@ -173,7 +173,7 @@ public class dbcleanup {
 				}
 			}
 
-			Vector stmtvec = new Vector();
+			FastTable stmtvec = new FastTable();
 			try {
 				rs = s.executeQuery( " select stmtname " +
 					" from sys.sysstatements t, sys.sysschemas  s " +
@@ -270,7 +270,7 @@ public class dbcleanup {
 		}
 	}
 
-	static boolean dropTables(Connection conn, Statement s, Vector tablevec,
+	static boolean dropTables(Connection conn, Statement s, FastTable tablevec,
 		String tabletype) throws Exception {
 
 		boolean dependencyFound = false;
@@ -307,10 +307,10 @@ public class dbcleanup {
 		return(dependencyFound);
 	}
 
-	static  Vector findTables(Connection conn, Statement s, char c, String schema) throws Exception {
+	static  FastTable findTables(Connection conn, Statement s, char c, String schema) throws Exception {
 
 		ResultSet rs = null;
-		Vector tableviewvec = new Vector();
+		FastTable tableviewvec = new FastTable();
 
 		try {
 			rs = s.executeQuery( " select t.tablename " +
@@ -337,7 +337,7 @@ public class dbcleanup {
 		ResultSet rs = null;
 		Statement s = null;
 		String typestring = null;
-		Vector aliasvec = new Vector();
+		FastTable aliasvec = new FastTable();
 		String n = null;
 		int count = 0;
 

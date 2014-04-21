@@ -42,7 +42,7 @@ import org.apache.derby.impl.sql.compile.ExpressionClassBuilder;
 import org.apache.derby.impl.sql.compile.ActivationClassBuilder;
 import org.apache.derby.iapi.services.classfile.VMOpcode;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 abstract class BinaryLogicalOperatorNode extends BinaryOperatorNode
 {
@@ -75,7 +75,7 @@ abstract class BinaryLogicalOperatorNode extends BinaryOperatorNode
 	 *
 	 * @param fromList			The query's FROM list
 	 * @param subqueryList		The subquery list being built as we find SubqueryNodes
-	 * @param aggregateVector	The aggregate vector being built as we find AggregateNodes
+	 * @param aggregateFastTable	The aggregate FastTable being built as we find AggregateNodes
 	 *
 	 * @return	The new top of the expression tree.
 	 *
@@ -84,14 +84,14 @@ abstract class BinaryLogicalOperatorNode extends BinaryOperatorNode
 
 	public ValueNode bindExpression(
 		FromList fromList, SubqueryList subqueryList,
-		Vector aggregateVector)
+		FastTable aggregateFastTable)
 			throws StandardException
 	{
 		//following is to check if we have something like "? AND 1=1" or "2>1 OR ?" 
 		if (leftOperand.isParameterNode() || rightOperand.isParameterNode())
 			throw StandardException.newException(SQLState.LANG_NON_BOOLEAN_WHERE_CLAUSE, "PARAMETER" );
 
-		super.bindExpression(fromList, subqueryList, aggregateVector);
+		super.bindExpression(fromList, subqueryList, aggregateFastTable);
 
 		return this;
 	}

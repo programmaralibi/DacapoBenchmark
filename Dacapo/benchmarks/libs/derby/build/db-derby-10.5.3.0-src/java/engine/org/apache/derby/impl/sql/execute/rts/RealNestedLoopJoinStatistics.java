@@ -26,7 +26,7 @@ import org.apache.derby.iapi.services.io.StoredFormatIds;
 import org.apache.derby.iapi.services.i18n.MessageService;
 import org.apache.derby.iapi.reference.SQLState;
 
-import org.apache.derby.iapi.services.io.FormatableHashtable;
+import org.apache.derby.iapi.services.io.FormatableFastMap;
 
 import java.io.ObjectOutput;
 import java.io.ObjectInput;
@@ -180,9 +180,9 @@ public class RealNestedLoopJoinStatistics
 		return getStatementExecutionPlanText(0);
 	}
 
-	public java.util.Vector getChildren()
+	public javolution.util.FastTable getChildren()
 	{
-		java.util.Vector children = new java.util.Vector();
+		javolution.util.FastTable children = new javolution.util.FastTable();
 	    children.addElement(leftResultSetStatistics);
 		children.addElement(rightResultSetStatistics);
 	    return children;

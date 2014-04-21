@@ -28,7 +28,7 @@ import org.apache.derby.iapi.services.sanity.SanityManager;
 import org.apache.derby.iapi.error.StandardException;
 import org.apache.derby.iapi.sql.execute.ConstantAction;
 import org.apache.derby.iapi.sql.StatementType;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 
 /**
@@ -132,7 +132,7 @@ public class SetRoleNode extends MiscellaneousStatementNode
     private void generateParameterValueSet(ActivationClassBuilder acb)
         throws StandardException
     {
-        Vector parameterList = getCompilerContext().getParameterList();
+        FastTable parameterList = getCompilerContext().getParameterList();
         // parameter list size should be 1
         if (SanityManager.DEBUG) {
             SanityManager.ASSERT(parameterList != null &&
@@ -151,7 +151,7 @@ public class SetRoleNode extends MiscellaneousStatementNode
      */
     int activationKind()
     {
-        Vector parameterList = getCompilerContext().getParameterList();
+        FastTable parameterList = getCompilerContext().getParameterList();
         /*
         ** We need parameters only for those that have parameters.
         */

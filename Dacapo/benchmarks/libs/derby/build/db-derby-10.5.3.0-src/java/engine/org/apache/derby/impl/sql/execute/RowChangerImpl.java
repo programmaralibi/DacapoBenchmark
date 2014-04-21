@@ -47,7 +47,7 @@ import org.apache.derby.iapi.types.DataValueDescriptor;
 
 import org.apache.derby.iapi.types.RowLocation;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
   Perform row at a time DML operations of tables and maintain indexes.

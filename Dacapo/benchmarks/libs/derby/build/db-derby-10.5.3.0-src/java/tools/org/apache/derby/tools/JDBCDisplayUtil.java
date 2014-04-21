@@ -41,7 +41,7 @@ import java.util.Properties;
 import java.util.Enumeration;
 import javolution.util.FastTable;
 import java.util.List;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 import org.apache.derby.iapi.tools.i18n.LocalizedResource;
 
@@ -351,13 +351,13 @@ public class JDBCDisplayUtil {
             rsmd = ((ResultSet)resultSets.get(0)).getMetaData();
 
         checkNotNull(rsmd, "ResultSetMetaData");
-        Vector nestedResults;
+        FastTable nestedResults;
         int numberOfRowsSelected = 0;
 
         // autocommit must be off or the nested cursors
         // are closed when the outer statement completes.
         if (!conn.getAutoCommit())
-            nestedResults = new Vector();
+            nestedResults = new FastTable();
         else
             nestedResults = null;
 
@@ -418,13 +418,13 @@ public class JDBCDisplayUtil {
 
 	/**
 		@param out the place to write to
-		@param nr the vector of results
+		@param nr the FastTable of results
 		@param conn the Connection against which the ResultSet was retrieved
 		@param indentLevel number of tab stops to indent line
 
 		@exception SQLException thrown on access error
 	 */
-	static private void DisplayNestedResults(PrintWriter out, Vector nr, Connection conn, int indentLevel )
+	static private void DisplayNestedResults(PrintWriter out, FastTable nr, Connection conn, int indentLevel )
 		throws SQLException {
 
 		if (nr == null) return;
@@ -471,12 +471,12 @@ public class JDBCDisplayUtil {
 											  int[] displayColumns, int[] displayColumnWidths )
 		throws SQLException {
 
-		Vector nestedResults;
+		FastTable nestedResults;
 
 		// autocommit must be off or the nested cursors
 		// are closed when the outer statement completes.
 		if (!conn.getAutoCommit())
-			nestedResults = new Vector();
+			nestedResults = new FastTable();
 		else
 			nestedResults = null;
 
@@ -523,7 +523,7 @@ public class JDBCDisplayUtil {
 												 int indentLevel, int[] displayColumns, int[] displayColumnWidths )
 		throws SQLException {
 
-		Vector nestedResults;
+		FastTable nestedResults;
 
 		if (rs == null) {
 			indentedPrintLine( out, indentLevel, LocalizedResource.getMessage("UT_NoCurreRow_19"));
@@ -533,7 +533,7 @@ public class JDBCDisplayUtil {
 		// autocommit must be off or the nested cursors
 		// are closed when the outer statement completes.
 		if (!conn.getAutoCommit())
-			nestedResults = new Vector();
+			nestedResults = new FastTable();
 		else
 			nestedResults = null;
 
@@ -654,7 +654,7 @@ public class JDBCDisplayUtil {
 
 		@exception SQLException thrown on JDBC access failure
 	 */
-	static private void DisplayRow(PrintWriter out, ResultSet rs, ResultSetMetaData rsmd, int rowLen, Vector nestedResults, Connection conn, int indentLevel,
+	static private void DisplayRow(PrintWriter out, ResultSet rs, ResultSetMetaData rsmd, int rowLen, FastTable nestedResults, Connection conn, int indentLevel,
 								   int[] displayColumns, int[] displayColumnWidths )
 		throws SQLException
 	{
@@ -921,13 +921,13 @@ public class JDBCDisplayUtil {
 		throws SQLException {
 		ResultSetMetaData rsmd = rs.getMetaData();
 		checkNotNull(rsmd, "ResultSetMetaData");
-		Vector nestedResults;
+		FastTable nestedResults;
     int numberOfRowsSelected = 0;
 
 		// autocommit must be off or the nested cursors
 		// are closed when the outer statement completes.
 		if (!conn.getAutoCommit())
-			nestedResults = new Vector();
+			nestedResults = new FastTable();
 		else
 			nestedResults = null;
 
@@ -975,7 +975,7 @@ public class JDBCDisplayUtil {
 		nestedResults = null;
 	}
 
-	static private void DisplayNestedResults(PrintStream out, Vector nr, Connection conn, int indentLevel )
+	static private void DisplayNestedResults(PrintStream out, FastTable nr, Connection conn, int indentLevel )
 		throws SQLException {
 
 		if (nr == null) return;
@@ -1013,12 +1013,12 @@ public class JDBCDisplayUtil {
 											  int[] displayColumns, int[] displayColumnWidths )
 		throws SQLException {
 
-		Vector nestedResults;
+		FastTable nestedResults;
 
 		// autocommit must be off or the nested cursors
 		// are closed when the outer statement completes.
 		if (!conn.getAutoCommit())
-			nestedResults = new Vector();
+			nestedResults = new FastTable();
 		else
 			nestedResults = null;
 
@@ -1055,7 +1055,7 @@ public class JDBCDisplayUtil {
 												 int indentLevel, int[] displayColumns, int[] displayColumnWidths )
 		throws SQLException {
 
-		Vector nestedResults;
+		FastTable nestedResults;
 
 		if (rs == null) {
 			indentedPrintLine( out, indentLevel, LocalizedResource.getMessage("UT_NoCurreRow_19"));
@@ -1065,7 +1065,7 @@ public class JDBCDisplayUtil {
 		// autocommit must be off or the nested cursors
 		// are closed when the outer statement completes.
 		if (!conn.getAutoCommit())
-			nestedResults = new Vector();
+			nestedResults = new FastTable();
 		else
 			nestedResults = null;
 
@@ -1164,7 +1164,7 @@ public class JDBCDisplayUtil {
 		return rowLen;
 	} // DisplayBanner
 
-	static private void DisplayRow(PrintStream out, ResultSet rs, ResultSetMetaData rsmd, int rowLen, Vector nestedResults, Connection conn, int indentLevel,
+	static private void DisplayRow(PrintStream out, ResultSet rs, ResultSetMetaData rsmd, int rowLen, FastTable nestedResults, Connection conn, int indentLevel,
 								   int[] displayColumns, int[] displayColumnWidths)
 		throws SQLException
 	{

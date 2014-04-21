@@ -37,7 +37,7 @@ import org.apache.derby.iapi.reference.ClassName;
 
 import java.sql.Types;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * This node represents a unary upper or lower operator
@@ -63,7 +63,7 @@ public class SimpleStringOperatorNode extends UnaryOperatorNode
 	 *
 	 * @param fromList			The query's FROM list
 	 * @param subqueryList		The subquery list being built as we find SubqueryNodes
-	 * @param aggregateVector	The aggregate vector being built as we find AggregateNodes
+	 * @param aggregateFastTable	The aggregate FastTable being built as we find AggregateNodes
 	 *
 	 * @return	The new top of the expression tree.
 	 *
@@ -72,13 +72,13 @@ public class SimpleStringOperatorNode extends UnaryOperatorNode
 
 	public ValueNode bindExpression(
 		FromList	fromList, SubqueryList subqueryList,
-		Vector	aggregateVector)
+		FastTable	aggregateFastTable)
 			throws StandardException
 	{
 		TypeId	operandType;
 
 		bindOperand(fromList, subqueryList, 
-				aggregateVector);
+				aggregateFastTable);
 
 		/*
 		** Check the type of the operand - this function is allowed only on

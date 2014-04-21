@@ -21,18 +21,18 @@
 
 package org.apache.derby.impl.services.locks;
 
-import org.apache.derby.iapi.services.locks.CompatibilitySpace;
-import org.apache.derby.iapi.services.locks.Lockable;
-import org.apache.derby.iapi.services.locks.Limit;
-
-import org.apache.derby.iapi.util.Matchable;
-import org.apache.derby.iapi.services.sanity.SanityManager;
-import org.apache.derby.iapi.error.StandardException;
-
 import java.util.Enumeration;
-import javolution.util.FastMap;
 import java.util.Iterator;
+
+import javolution.util.FastMap;
+
+import org.apache.derby.iapi.error.StandardException;
+import org.apache.derby.iapi.services.locks.CompatibilitySpace;
+import org.apache.derby.iapi.services.locks.Limit;
 import org.apache.derby.iapi.services.locks.LockOwner;
+import org.apache.derby.iapi.services.locks.Lockable;
+import org.apache.derby.iapi.services.sanity.SanityManager;
+import org.apache.derby.iapi.util.Matchable;
 
 /**
 
@@ -166,7 +166,7 @@ final class LockSpace implements CompatibilitySpace {
 		}
 
 		if (dl == null)
-			dl = new FastMap(5, 0.8f);
+			dl = new FastMap();
 
 		groups.put(group, dl);
 		return dl;

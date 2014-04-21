@@ -22,7 +22,7 @@
 package org.apache.derby.impl.sql.depend;
 
 import java.util.Enumeration;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -72,7 +72,7 @@ public class BasicDependencyManager implements DependencyManager {
      * Dependency objects in the List are unique.
      * 
      */
-    private final Hashtable dependents = new Hashtable();
+    private final FastMap dependents = new FastMap();
     
     /**
      * Map of in-memory dependencies for Providers.
@@ -85,7 +85,7 @@ public class BasicDependencyManager implements DependencyManager {
      * Dependency objects in the List are unique.
      * 
      */    
-    private final Hashtable providers = new Hashtable();
+    private final FastMap providers = new FastMap();
 
 
 	//
@@ -1121,7 +1121,7 @@ public class BasicDependencyManager implements DependencyManager {
 	 *
 	 * @return boolean		Whether or not the dependency get added.
 	 */
-	private boolean addDependencyToTable(Hashtable table, 
+	private boolean addDependencyToTable(FastMap table, 
 		Object key, Dependency dy) {
 
 		List deps = (List) table.get(key);

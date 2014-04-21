@@ -21,7 +21,7 @@
 
 package org.apache.derby.impl.sql.execute;
 
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import java.util.Properties;
 
 import org.apache.derby.iapi.db.TriggerExecutionContext;
@@ -692,10 +692,10 @@ class UpdateResultSet extends DMLWriteResultSet
 				if (maxCapacity < initCapacity)
 					initCapacity = maxCapacity;
 
-				tableScan.past2FutureTbl = new Hashtable(initCapacity);
+				tableScan.past2FutureTbl = new FastMap(initCapacity);
 			}
 
-			Hashtable past2FutureTbl = tableScan.past2FutureTbl;
+			FastMap past2FutureTbl = tableScan.past2FutureTbl;
 			/* If hash table is not full, we add it in.  The key of the hash entry
 			 * is the string value of the RowLocation.  If the hash table is full,
 			 * as the comments above this function say, we scan forward.

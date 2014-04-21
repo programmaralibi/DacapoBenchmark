@@ -46,7 +46,7 @@ import org.apache.derby.iapi.types.RowLocation;
 
 import org.apache.derby.iapi.types.SQLLongint;
 
-import org.apache.derby.iapi.store.access.BackingStoreHashtable;
+import org.apache.derby.iapi.store.access.BackingStoreFastMap;
 import org.apache.derby.iapi.services.io.FormatableBitSet;
 import java.util.Enumeration;
 
@@ -163,8 +163,8 @@ public class T_QualifierTest
         if (!ret_val)
             return(ret_val);
 
-        // call scan which does createBackingStoreHashtable()
-        ret_val = t_scanFetchHashtable(tc, conglomid,
+        // call scan which does createBackingStoreFastMap()
+        ret_val = t_scanFetchFastMap(tc, conglomid,
                 fetch_template, 
                 start_key, start_op, qualifier, stop_key, stop_op, 
                 expect_numrows, lowest_expect_key, order);
@@ -973,7 +973,7 @@ public class T_QualifierTest
      *
 	 * @exception  StandardException  Standard exception policy.
      **/
-    public static boolean t_scanFetchHashtable(
+    public static boolean t_scanFetchFastMap(
     TransactionController   tc,
     long                    conglomid,
     DataValueDescriptor[]	fetch_template,
@@ -998,8 +998,8 @@ public class T_QualifierTest
 		int[] keyColumns = new int[1];
 		keyColumns[0] = 0;
 
-        BackingStoreHashtable result_set = 
-            tc.createBackingStoreHashtableFromScan(
+        BackingStoreFastMap result_set = 
+            tc.createBackingStoreFastMapFromScan(
                 conglomid, 
                 0,
                 TransactionController.MODE_TABLE,
@@ -1037,7 +1037,7 @@ public class T_QualifierTest
                 if (!set.remove(new Long(key)))
                 {
                     return(
-                        fail("(t_scanFetchHashtable-obj) wrong key, expected (" + 
+                        fail("(t_scanFetchFastMap-obj) wrong key, expected (" + 
                               input_expect_key + ")" + 
                               "but got (" + key + ")."));
                 }
@@ -1056,7 +1056,7 @@ public class T_QualifierTest
                     if (!set.remove(new Long(key)))
                     {
                         return(fail(
-                            "(t_scanFetchHashtable-vector) wrong key, expected (" + 
+                            "(t_scanFetchFastMap-FastTable) wrong key, expected (" + 
                              input_expect_key + ")" + 
                              "but got (" + key + ")."));
                     }
@@ -1066,7 +1066,7 @@ public class T_QualifierTest
             else
             {
                 return(fail(
-                    "(t_scanFetchHashtable) got bad type for data: " + obj));
+                    "(t_scanFetchFastMap) got bad type for data: " + obj));
             }
         }
 
@@ -1074,7 +1074,7 @@ public class T_QualifierTest
         {
             return(
                 fail(
-                    "(t_scanFetchHashtable) wrong number of rows. Expected " +
+                    "(t_scanFetchFastMap) wrong number of rows. Expected " +
                      expect_numrows + " rows, but got " + numrows + "rows."));
         }
 
@@ -1088,7 +1088,7 @@ public class T_QualifierTest
 		keyColumns[0] = 2;
 
         result_set = 
-            tc.createBackingStoreHashtableFromScan(
+            tc.createBackingStoreFastMapFromScan(
                 conglomid,
                 0,
                 TransactionController.MODE_TABLE,
@@ -1120,7 +1120,7 @@ public class T_QualifierTest
                     result_set.remove(
                         new SQLLongint(exp_key))) == null)
             {
-                fail("(t_scanFetchHashtable-2-vector) wrong key, expected (" + 
+                fail("(t_scanFetchFastMap-2-FastTable) wrong key, expected (" + 
                       (exp_key) + ")" + 
                       "but did not find it.");
             }
@@ -1128,7 +1128,7 @@ public class T_QualifierTest
 
         if (numrows != expect_numrows)
         {
-            return(fail("(t_scanFetchHashtable-2) wrong number of rows. Expected " +
+            return(fail("(t_scanFetchFastMap-2) wrong number of rows. Expected " +
                  expect_numrows + " rows, but got " + numrows + "rows."));
         }
 

@@ -126,10 +126,10 @@ import org.apache.derby.iapi.util.IdUtil;
 import java.sql.Types;
 import java.util.List;
 import javolution.util.FastTable;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import java.util.Properties;
 import java.util.StringTokenizer;
-import java.util.Vector;
+import javolution.util.FastTable;
 import java.lang.Character;
 
 public class SQLParserTokenManager implements SQLParserConstants

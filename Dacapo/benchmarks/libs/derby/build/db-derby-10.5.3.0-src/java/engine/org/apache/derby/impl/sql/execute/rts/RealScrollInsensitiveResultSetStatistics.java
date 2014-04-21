@@ -26,7 +26,7 @@ import org.apache.derby.iapi.services.io.StoredFormatIds;
 import org.apache.derby.iapi.services.i18n.MessageService;
 import org.apache.derby.iapi.reference.SQLState;
 
-import org.apache.derby.iapi.services.io.FormatableHashtable;
+import org.apache.derby.iapi.services.io.FormatableFastMap;
 
 import java.io.ObjectOutput;
 import java.io.ObjectInput;
@@ -43,8 +43,8 @@ public class RealScrollInsensitiveResultSetStatistics
 
 	/* Leave these fields public for object inspectors */
 	public ResultSetStatistics childResultSetStatistics;
-	public int numFromHashTable;
-	public int numToHashTable;
+	public int numFromFastMap;
+	public int numToFastMap;
 
 	// CONSTRUCTORS
 
@@ -60,8 +60,8 @@ public class RealScrollInsensitiveResultSetStatistics
 								long openTime,
 								long nextTime,
 								long closeTime,
-								int numFromHashTable,
-								int numToHashTable,
+								int numFromFastMap,
+								int numToFastMap,
 								int resultSetNumber,
 								double optimizerEstimatedRowCount,
 								double optimizerEstimatedCost,
@@ -80,8 +80,8 @@ public class RealScrollInsensitiveResultSetStatistics
 			optimizerEstimatedRowCount,
 			optimizerEstimatedCost
 			);
-		this.numFromHashTable = numFromHashTable;
-		this.numToHashTable = numToHashTable;
+		this.numFromFastMap = numFromFastMap;
+		this.numToFastMap = numToFastMap;
 		this.childResultSetStatistics = childResultSetStatistics;
 	}
 
@@ -108,10 +108,10 @@ public class RealScrollInsensitiveResultSetStatistics
 				" = " + rowsSeen + "\n" +
 			indent + MessageService.getTextMessage(
 												SQLState.RTS_READS_FROM_HASH) +
-				" = " + numFromHashTable + "\n" +
+				" = " + numFromFastMap + "\n" +
 			indent + MessageService.getTextMessage(
 												SQLState.RTS_WRITES_TO_HASH) +
-				" = " + numToHashTable + "\n" +
+				" = " + numToFastMap + "\n" +
 			dumpTimeStats(indent, subIndent) + "\n" +
 			dumpEstimatedCosts(subIndent) + "\n" +
 			indent + MessageService.getTextMessage(SQLState.RTS_SOURCE_RS) +
@@ -142,8 +142,8 @@ public class RealScrollInsensitiveResultSetStatistics
 	{
 		return getStatementExecutionPlanText(0);
 	}
-  public java.util.Vector getChildren(){
-    java.util.Vector children = new java.util.Vector();
+  public javolution.util.FastTable getChildren(){
+    javolution.util.FastTable children = new javolution.util.FastTable();
     children.addElement(childResultSetStatistics);
     return children;
   }

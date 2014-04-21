@@ -35,7 +35,7 @@ import org.apache.derby.iapi.sql.compile.C_NodeTypes;
 import org.apache.derby.impl.sql.compile.ExpressionClassBuilder;
 
 import java.sql.Types;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * This node represents a unary arithmetic operator
@@ -144,7 +144,7 @@ public class UnaryArithmeticOperatorNode extends UnaryOperatorNode
 	 *
 	 * @param fromList			The query's FROM list
 	 * @param subqueryList		The subquery list being built as we find SubqueryNodes
-	 * @param aggregateVector	The aggregate vector being built as we find AggregateNodes
+	 * @param aggregateFastTable	The aggregate FastTable being built as we find AggregateNodes
 	 *
 	 * @return	The new top of the expression tree.
 	 *
@@ -153,7 +153,7 @@ public class UnaryArithmeticOperatorNode extends UnaryOperatorNode
 
 	public ValueNode bindExpression(
 		FromList	fromList, SubqueryList subqueryList,
-		Vector	aggregateVector)
+		FastTable	aggregateFastTable)
 			throws StandardException
 	{
 		//Return with no binding, if the type of unary minus/plus parameter is not set yet.
@@ -162,7 +162,7 @@ public class UnaryArithmeticOperatorNode extends UnaryOperatorNode
 				return this;
 
 		bindOperand(fromList, subqueryList,
-				aggregateVector);
+				aggregateFastTable);
 
 		if (operatorType == SQRT || operatorType == ABSOLUTE)
 		{

@@ -51,7 +51,7 @@ import org.apache.derby.iapi.types.Like;
 import java.sql.Types;
 import org.apache.derby.iapi.reference.ClassName;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
   
 /**
@@ -150,10 +150,10 @@ public final class LikeEscapeOperatorNode extends TernaryOperatorNode
     public ValueNode bindExpression(
     FromList        fromList, 
     SubqueryList    subqueryList,
-    Vector          aggregateVector) 
+    FastTable          aggregateFastTable) 
         throws StandardException
     {
-        super.bindExpression(fromList, subqueryList, aggregateVector);
+        super.bindExpression(fromList, subqueryList, aggregateFastTable);
 
         String pattern = null;
 
@@ -412,7 +412,7 @@ public final class LikeEscapeOperatorNode extends TernaryOperatorNode
 
                     equals = (BinaryComparisonOperatorNode) 
                         equals.bindExpression(
-                            fromList, subqueryList, aggregateVector);
+                            fromList, subqueryList, aggregateFastTable);
 
                     // create new and node and hook in "equals" the new "=' node
                     //
@@ -875,16 +875,16 @@ public final class LikeEscapeOperatorNode extends TernaryOperatorNode
         throws StandardException 
     {
 
-        Vector param;
+        FastTable param;
 
         if (escapeNode != null)
         {
-            param = new Vector(2);
+            param = new FastTable(2);
             methodName += "WithEsc";
         }
         else
         {
-            param = new Vector(1);
+            param = new FastTable(1);
         }
 
         StaticMethodCallNode methodCall = (StaticMethodCallNode)

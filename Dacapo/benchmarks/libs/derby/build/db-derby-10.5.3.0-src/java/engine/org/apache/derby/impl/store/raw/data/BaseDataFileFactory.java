@@ -86,7 +86,7 @@ import org.apache.derby.iapi.util.ReuseFactory;
 import org.apache.derby.iapi.services.property.PropertyUtil;
 
 import java.util.Properties;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import java.util.Enumeration;
 
 import java.io.File;
@@ -193,9 +193,9 @@ public class BaseDataFileFactory
 
 
 	//hash table to keep track of information about dropped containers stubs
-	private Hashtable droppedTableStubInfo;
+	private FastMap droppedTableStubInfo;
 
-	private Hashtable postRecoveryRemovedFiles;
+	private FastMap postRecoveryRemovedFiles;
 
     private EncryptData containerEncrypter;
 
@@ -405,7 +405,7 @@ public class BaseDataFileFactory
 
 		freezeSemaphore = new Object();
 
-		droppedTableStubInfo = new Hashtable();
+		droppedTableStubInfo = new FastMap();
 
         // If derby.system.durability=test then set flags to disable sync of
         // data pages at allocation when file is grown, disable sync of data
@@ -1603,7 +1603,7 @@ public class BaseDataFileFactory
 	 * container; which helps to remove entry in the cache and the log instant
 	 * when the stub was created, which helps us to figure out whether we
 	 * require the stub file for the crash recovery.
-	 * We maintain the information in a hashtable:
+	 * We maintain the information in a FastMap:
 	 * key(LOG INSTANT) Values: File handle , and ContainerIdentity.
 	 **/
 	public void stubFileToRemoveAfterCheckPoint(
@@ -2181,7 +2181,7 @@ public class BaseDataFileFactory
 	void fileToRemove( StorageFile file, boolean remove) 
     {
 		if (postRecoveryRemovedFiles == null)
-			postRecoveryRemovedFiles = new Hashtable();
+			postRecoveryRemovedFiles = new FastMap();
         String path = null;
         synchronized( this)
         {

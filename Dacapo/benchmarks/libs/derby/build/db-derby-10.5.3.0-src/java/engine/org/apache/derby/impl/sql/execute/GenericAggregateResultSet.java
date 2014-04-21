@@ -21,7 +21,7 @@
 
 package org.apache.derby.impl.sql.execute;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 import org.apache.derby.iapi.error.SQLWarningFactory;
 import org.apache.derby.iapi.error.StandardException;
@@ -106,7 +106,7 @@ abstract class GenericAggregateResultSet extends NoPutResultSetImpl
 	) throws StandardException
 	{
 		GenericAggregator 	aggregators[]; 
-		Vector tmpAggregators = new Vector();
+		FastTable tmpAggregators = new FastTable();
 		ClassFactory		cf = lcc.getLanguageConnectionFactory().getClassFactory();
 
 		int count = list.size();
@@ -132,7 +132,7 @@ abstract class GenericAggregateResultSet extends NoPutResultSetImpl
 	/**
 	 * Finish the aggregation for the current row.  
 	 * Basically call finish() on each aggregator on
-	 * this row.  Called once per grouping on a vector
+	 * this row.  Called once per grouping on a FastTable
 	 * aggregate or once per table on a scalar aggregate.
 	 *
 	 * If the input row is null, then rowAllocator is

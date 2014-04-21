@@ -82,7 +82,7 @@ public final class JCECipherFactory implements CipherFactory, java.security.Priv
     private final static int BLOCK_LENGTH = 8;
 
     /**
-	AES encryption takes in an default Initialization vector length (IV) length of 16 bytes
+	AES encryption takes in an default Initialization FastTable length (IV) length of 16 bytes
 	This is needed to generate an IV to use for encryption and decryption process 
 	@see CipherProvider
      */

@@ -49,7 +49,7 @@ import org.apache.derby.impl.sql.execute.GroupedAggregateResultSet;
 import org.apache.derby.impl.sql.execute.HashJoinResultSet;
 import org.apache.derby.impl.sql.execute.HashLeftOuterJoinResultSet;
 import org.apache.derby.impl.sql.execute.HashScanResultSet;
-import org.apache.derby.impl.sql.execute.HashTableResultSet;
+import org.apache.derby.impl.sql.execute.FastMapResultSet;
 import org.apache.derby.impl.sql.execute.IndexRowToBaseRowResultSet;
 import org.apache.derby.impl.sql.execute.InsertResultSet;
 import org.apache.derby.impl.sql.execute.InsertVTIResultSet;
@@ -84,7 +84,7 @@ import org.apache.derby.impl.sql.execute.rts.RealGroupedAggregateStatistics;
 import org.apache.derby.impl.sql.execute.rts.RealHashJoinStatistics;
 import org.apache.derby.impl.sql.execute.rts.RealHashLeftOuterJoinStatistics;
 import org.apache.derby.impl.sql.execute.rts.RealHashScanStatistics;
-import org.apache.derby.impl.sql.execute.rts.RealHashTableStatistics;
+import org.apache.derby.impl.sql.execute.rts.RealFastMapStatistics;
 import org.apache.derby.impl.sql.execute.rts.RealIndexRowToBaseRowStatistics;
 import org.apache.derby.impl.sql.execute.rts.RealInsertResultSetStatistics;
 import org.apache.derby.impl.sql.execute.rts.RealInsertVTIResultSetStatistics;
@@ -991,8 +991,8 @@ public class RealResultSetStatisticsFactory
 											sirs.openTime,
 											sirs.nextTime,
 											sirs.closeTime,
-											sirs.numFromHashTable,
-											sirs.numToHashTable,
+											sirs.numFromFastMap,
+											sirs.numToFastMap,
 											sirs.resultSetNumber,
 											sirs.optimizerEstimatedRowCount,
 											sirs.optimizerEstimatedCost,
@@ -1121,7 +1121,7 @@ public class RealResultSetStatisticsFactory
 											hsrs.tableName,
 											hsrs.indexName,
 											hsrs.isConstraint,
-											hsrs.hashtableSize,
+											hsrs.FastMapSize,
 											hsrs.keyColumns,
 											hsrs.printQualifiers(
 												hsrs.scanQualifiers),
@@ -1150,7 +1150,7 @@ public class RealResultSetStatisticsFactory
 											hsrs.tableName,
 											hsrs.indexName,
 											hsrs.isConstraint,
-											hsrs.hashtableSize,
+											hsrs.FastMapSize,
 											hsrs.keyColumns,
 											hsrs.printQualifiers(
 												hsrs.scanQualifiers),
@@ -1166,9 +1166,9 @@ public class RealResultSetStatisticsFactory
 											);
 			}
 		}
-		else if (rs instanceof HashTableResultSet)
+		else if (rs instanceof FastMapResultSet)
 		{
-			HashTableResultSet htrs = (HashTableResultSet) rs;
+			FastMapResultSet htrs = (FastMapResultSet) rs;
 			int subqueryTrackingArrayLength =
 				(htrs.subqueryTrackingArray == null) ? 0 :
 					htrs.subqueryTrackingArray.length;
@@ -1193,7 +1193,7 @@ public class RealResultSetStatisticsFactory
 			}
 
 			return new 
-                RealHashTableStatistics(
+                RealFastMapStatistics(
                     htrs.numOpens,
                     htrs.rowsSeen,
                     htrs.rowsFiltered,
@@ -1202,7 +1202,7 @@ public class RealResultSetStatisticsFactory
                     htrs.nextTime,
                     htrs.closeTime,
                     htrs.resultSetNumber,
-                    htrs.hashtableSize,
+                    htrs.FastMapSize,
                     htrs.keyColumns,
                     HashScanResultSet.printQualifiers(
                         htrs.nextQualifiers),

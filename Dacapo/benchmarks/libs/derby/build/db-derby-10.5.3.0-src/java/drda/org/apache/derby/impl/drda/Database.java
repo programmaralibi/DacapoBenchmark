@@ -27,7 +27,7 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import java.util.Enumeration;
 import java.util.Properties;
 
@@ -77,7 +77,7 @@ class Database
 	DRDAStatement defaultStatement;    // default statement used 
 													   // for execute imm
 	private DRDAStatement currentStatement; // current statement we are working on
-	private Hashtable stmtTable;		// Hash table for storing statements
+	private FastMap stmtTable;		// Hash table for storing statements
 
 	// constructor
 	/**
@@ -88,7 +88,7 @@ class Database
 	Database (String dbName)
 	{
 		setDatabaseName(dbName);
-		this.stmtTable = new Hashtable();
+		this.stmtTable = new FastMap();
 		initializeDefaultStatement();
 	}
 

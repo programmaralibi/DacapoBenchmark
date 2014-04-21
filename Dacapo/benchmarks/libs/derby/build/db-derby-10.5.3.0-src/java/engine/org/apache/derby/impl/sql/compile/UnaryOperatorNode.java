@@ -49,7 +49,7 @@ import org.apache.derby.iapi.util.JBitSet;
 import org.apache.derby.iapi.services.classfile.VMOpcode;
 
 import java.sql.Types;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * A UnaryOperatorNode represents a built-in unary operator as defined by
@@ -299,7 +299,7 @@ public class UnaryOperatorNode extends ValueNode
 	 * @param fromList		The FROM list for the query this
 	 *				expression is in, for binding columns.
 	 * @param subqueryList		The subquery list being built as we find SubqueryNodes
-	 * @param aggregateVector	The aggregate vector being built as we find AggregateNodes
+	 * @param aggregateFastTable	The aggregate FastTable being built as we find AggregateNodes
 	 *
 	 * @return	The new top of the expression tree.
 	 *
@@ -308,10 +308,10 @@ public class UnaryOperatorNode extends ValueNode
 
 	public ValueNode bindExpression(
 					FromList fromList, SubqueryList subqueryList,
-					Vector	aggregateVector)
+					FastTable	aggregateFastTable)
 				throws StandardException
 	{
-		bindOperand(fromList, subqueryList, aggregateVector);
+		bindOperand(fromList, subqueryList, aggregateFastTable);
         if (operatorType == XMLPARSE_OP)
             bindXMLParse();
         else if (operatorType == XMLSERIALIZE_OP)
@@ -327,11 +327,11 @@ public class UnaryOperatorNode extends ValueNode
 	 */
 	protected void bindOperand(
 					FromList fromList, SubqueryList subqueryList,
-					Vector	aggregateVector)
+					FastTable	aggregateFastTable)
 				throws StandardException
 	{
 		operand = operand.bindExpression(fromList, subqueryList,
-								aggregateVector);
+								aggregateFastTable);
 
 		if (operand.requiresTypeFromContext()) {
 			bindParameter();

@@ -75,7 +75,7 @@ public interface ExecAggregator extends Formatable
 	 * Merges two partial aggregates results into a single result.
 	 * Needed for: <UL>
 	 *	<LI> parallel aggregation </LI>
-	 *	<LI> vector aggregation (GROUP BY) </LI>
+	 *	<LI> FastTable aggregation (GROUP BY) </LI>
 	 *  <LI> distinct aggregates (e.g. MAX(DISTINCT Col)) </LI></UL><p>
 	 *
 	 * An example of a merge would be: given two COUNT() 

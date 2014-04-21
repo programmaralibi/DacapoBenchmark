@@ -63,7 +63,7 @@ import org.apache.derby.iapi.reference.Attribute;
 
 import java.util.Dictionary;
 import java.util.Enumeration;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import java.util.Properties;
 
 import java.io.Serializable;
@@ -88,12 +88,12 @@ public abstract class RAMAccessManager
     /**
     Hash table on primary implementation type.
     **/
-    private Hashtable implhash;
+    private FastMap implhash;
 
     /**
     Hash table on primary format.
     **/
-    private Hashtable formathash;
+    private FastMap formathash;
 
 	/**
 	Service properties.  These are supplied from ModuleControl.boot(),
@@ -157,8 +157,8 @@ public abstract class RAMAccessManager
     {
         // Intialize the hash tables that hold the access methods that
         // this access manager knows about.
-        implhash   = new Hashtable();
-        formathash = new Hashtable();
+        implhash   = new FastMap();
+        formathash = new FastMap();
     }
 
     /**************************************************************************
@@ -895,7 +895,7 @@ public abstract class RAMAccessManager
 		// set up the initial values by calling the validate and apply methods.
 		// the map methods are not called as they will have been called
 		// at runtime when the user set the property.
-		Dictionary d = new Hashtable();
+		Dictionary d = new FastMap();
 		try {
 			xactProperties.getProperties(tc,d,false/*!stringsOnly*/,false/*!defaultsOnly*/);
 		} catch (StandardException se) {

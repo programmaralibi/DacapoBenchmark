@@ -639,7 +639,7 @@
       verbose="${verbose}"
       srcdir="${derby.jsr169.src.dir}"
       destdir="${out.jsr169.dir}">
-      <classpath>
+      <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
         <pathelement path="${compile.classpath}"/>
       </classpath>
      </javac>
@@ -666,7 +666,7 @@
       verbose="${verbose}"
       srcdir="${derby.jdbc3.src.dir}"
       destdir="${out.jdbc3.dir}">
-      <classpath>
+      <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
         <pathelement path="${java14compile.classpath}"/>
       </classpath>
      </javac>
@@ -693,7 +693,7 @@
       verbose="${verbose}"
       srcdir="${derby.jdbc4.src.dir}"
       destdir="${out.jdbc4.dir}">
-      <classpath>
+      <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
         <pathelement path="${java16compile.classpath}"/>
       </classpath>
      </javac>
@@ -720,7 +720,7 @@
       verbose="${verbose}"
       srcdir="${derby.felix.src.dir}"
       destdir="${out.felix.dir}">
-      <classpath>
+      <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
         <pathelement path="${java14compile.classpath}"/>
       </classpath>
      </javac>
@@ -753,7 +753,7 @@
     <java classname="org.apache.derbyBuild.ClassSizeCrawler"
           fork="yes"
           failonerror="yes">
-      <classpath>
+      <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
         <pathelement path="${out.dir}"/>
         <pathelement path="${compile.classpath}"/>
       </classpath>
@@ -787,7 +787,7 @@
       verbose="${verbose}"
       srcdir="${derby.engine.src.dir}"
       destdir="${out.dir}">
-      <classpath>
+      <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
         <pathelement path="${compile.classpath}"/>
       </classpath>
       <include name="${derby.dir}/iapi/services/cache/ClassSizeCatalog.java"/>
@@ -1160,7 +1160,7 @@
 
        <java classname="org.apache.derbyBuild.eclipse.DerbyEclipsePlugin">
                <arg value="${derby.jar.dir}/${plugin.tmp.dir}"/>
-               <classpath>
+               <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
                        <pathelement path="${out.dir}"/>
                </classpath>
        </java>
@@ -1240,7 +1240,7 @@
       <arg value="${out.dir}/org/apache/derby/modules.properties"/>
       <arg value="derby"/>
       <arg value="${derby.jar.dir}/lists/org/apache/derby/modules.properties"/>
-      <classpath>
+      <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
         <pathelement path="${out.dir}"/>
       </classpath>
     </java>
@@ -1251,7 +1251,7 @@
       <jvmarg value="-Doutputfile=${derby.jar.dir}/lists/derby.list"/>
       <arg value="${derby.jar.dir}/lists/otherDerbyClasses.properties"/> 
       <arg value="${derby.jar.dir}/lists/org/apache/derby/modules.properties"/>
-      <classpath>
+      <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
         <pathelement path="${out.dir}"/> 
       </classpath>
     </java>
@@ -1395,7 +1395,7 @@
       <jvmarg value="-Ddb2jtools=true"/>
       <jvmarg value="-Doutputfile=${derby.jar.dir}/lists/derbytools.list"/>
       <arg value="${basedir}/tools/jar/tools.properties"/>
-      <classpath>
+      <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
         <pathelement path="${out.dir}"/>
       </classpath>
     </java>
@@ -1454,7 +1454,7 @@
       <jvmarg value="-Ddb2jdrda=true"/>
       <jvmarg value="-Doutputfile=${derby.jar.dir}/lists/derbynet.list"/>
       <arg value="${basedir}/tools/jar/net.properties"/>
-      <classpath>
+      <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
         <pathelement path="${out.dir}"/>
       </classpath>
     </java>
@@ -1528,7 +1528,7 @@
     <java classname="org.apache.derbyBuild.classlister" fork="yes">
       <jvmarg value="-Doutputfile=${derby.jar.dir}/lists/dnc.list"/>
       <arg value="${derby.jar.dir}/lists/dnc.properties"/>
-      <classpath>
+      <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
         <pathelement path="${out.dir}"/> 
       </classpath>
     </java>
@@ -1959,7 +1959,7 @@
 <test name="org.apache.derbyTesting.functionTests.suites.EncryptionSuite"
 	todir="junit_${derby.junit.timestamp}"/>
 
-      <classpath>
+      <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
      	    <pathelement path="${derby.junit.classpath}"/>
             <!-- ant 1.7 finds junit.jar if it is on the classpath of the <junit> task -->
             <pathelement location="${javatools.dir}/junit.jar"/>
@@ -1996,7 +1996,7 @@
 
     <test name="org.apache.derbyTesting.system.oe.test.OETest"
         todir="junit_${derby.junit.timestamp}"/>
-          <classpath>
+          <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
                <pathelement path="${derby.junit.classpath}"/>
                <pathelement location="${javatools.dir}/junit.jar"/>
           </classpath>
@@ -2028,7 +2028,7 @@
   	 	
       <test name="org.apache.derbyTesting.functionTests.tests.jdbc4._Suite"
       	todir="junit_${derby.junit.timestamp}"/>
-        <classpath>
+        <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
        	    <pathelement path="${derby.junit.classpath}"/>
             <pathelement location="${javatools.dir}/junit.jar"/>
         </classpath>
@@ -2055,7 +2055,7 @@
   	 	
       <test name="org.apache.derbyTesting.functionTests.tests.memory._Suite"
       	todir="junit_${derby.junit.timestamp}"/>
-        <classpath>
+        <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
        	    <pathelement path="${derby.junit.classpath}"/>
             <pathelement location="${javatools.dir}/junit.jar"/>
         </classpath>
@@ -2076,7 +2076,7 @@
         <test name="org.apache.derbyTesting.functionTests.tests.management._Suite"
               todir="junit_${derby.junit.timestamp}"/>
 
-        <classpath>
+        <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
             <pathelement path="${derby.junit.classpath}"/>
             <pathelement location="${javatools.dir}/junit.jar"/>
         </classpath>
@@ -2097,7 +2097,7 @@
         <test name="org.apache.derby.PackagePrivateTestSuite"
                 todir="junit_${derby.junit.timestamp}"/>
 
-        <classpath>
+        <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
             <pathelement location="${out.pptesting.dir}"/>
             <pathelement location="${out.dir}"/>
             <pathelement location="${javatools.dir}/junit.jar"/>
@@ -2132,7 +2132,7 @@
       
       <test name="${derby.junit.testclass}" todir="junit_${derby.junit.timestamp}"/>
 
-      <classpath>
+      <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
      	    <pathelement path="${derby.junit.classpath}"/>
             <pathelement location="${javatools.dir}/junit.jar"/>
       </classpath>

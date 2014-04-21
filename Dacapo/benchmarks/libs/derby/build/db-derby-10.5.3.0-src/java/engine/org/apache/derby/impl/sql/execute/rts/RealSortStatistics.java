@@ -26,7 +26,7 @@ import org.apache.derby.iapi.services.io.StoredFormatIds;
 import org.apache.derby.iapi.services.i18n.MessageService;
 import org.apache.derby.iapi.reference.SQLState;
 
-import org.apache.derby.iapi.services.io.FormatableHashtable;
+import org.apache.derby.iapi.services.io.FormatableFastMap;
 import org.apache.derby.iapi.services.io.FormatableProperties;
 import org.apache.derby.iapi.util.PropertyUtil;
 
@@ -168,8 +168,8 @@ public class RealSortStatistics
 	{
 		return getStatementExecutionPlanText(0);
 	}
-  public java.util.Vector getChildren(){
-    java.util.Vector children = new java.util.Vector();
+  public javolution.util.FastTable getChildren(){
+    javolution.util.FastTable children = new javolution.util.FastTable();
     children.addElement(childResultSetStatistics);
     return children;
   }

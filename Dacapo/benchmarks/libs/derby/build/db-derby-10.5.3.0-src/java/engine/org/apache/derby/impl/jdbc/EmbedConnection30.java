@@ -37,7 +37,7 @@ import java.sql.Savepoint;
 import java.sql.SQLException;
 
 import java.util.Properties;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 
 /**

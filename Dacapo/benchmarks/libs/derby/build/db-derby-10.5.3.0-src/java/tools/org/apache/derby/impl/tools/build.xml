@@ -69,7 +69,7 @@
       verbose="${verbose}"
       srcdir="${derby.tools.src.dir}"
       destdir="${out.dir}">
-      <classpath>
+      <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
         <pathelement path="${java14compile.classpath}"/>
       </classpath>
       <include name="${derby.dir}/impl/tools/**"/>

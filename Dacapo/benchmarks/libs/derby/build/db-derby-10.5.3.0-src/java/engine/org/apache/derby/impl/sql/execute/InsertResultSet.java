@@ -22,10 +22,11 @@
 package org.apache.derby.impl.sql.execute;
 
 import java.util.Enumeration;
-import javolution.util.FastMap;
 import java.util.Hashtable;
 import java.util.Properties;
-import java.util.Vector;
+
+import javolution.util.FastMap;
+import javolution.util.FastTable;
 
 import org.apache.derby.catalog.types.StatisticsImpl;
 import org.apache.derby.iapi.db.TriggerExecutionContext;
@@ -530,9 +531,9 @@ class InsertResultSet extends DMLWriteResultSet implements TargetResultSet
 			InternalTriggerExecutionContext itec =
 				(InternalTriggerExecutionContext)lcc.getTriggerExecutionContext();
 			if (itec == null)
-				lcc.copyHashtableToAIHT(aiHashtable);
+				lcc.copyFastMapToAIHT(aiHashtable);
 			else
-				itec.copyHashtableToAIHT(aiHashtable);
+				itec.copyFastMapToAIHT(aiHashtable);
 		}	
 
 		endTime = getCurrentTimeMillis();
@@ -1067,10 +1068,10 @@ class InsertResultSet extends DMLWriteResultSet implements TargetResultSet
 		{
 			if (triggerInfo != null)
 			{
-				Vector v = null;
+				FastTable v = null;
 				if (aiCache != null)
 				{
-					v = new Vector();
+					v = new FastTable();
 					for (int i = 0; i < aiCache.length; i++)
 					{
 						String s, t, c;
@@ -1090,7 +1091,7 @@ class InsertResultSet extends DMLWriteResultSet implements TargetResultSet
 											 constants.getAutoincIncrement(i),
 											 aiCache[i].getLong(),
 											 s, t, c, i + 1);
-						v.addElement(aic);
+						v.add(aic);
 					}
 				}
 

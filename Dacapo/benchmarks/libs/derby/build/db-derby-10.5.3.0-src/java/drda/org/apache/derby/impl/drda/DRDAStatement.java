@@ -34,9 +34,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javolution.util.FastTable;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import java.util.StringTokenizer;
-import java.util.Vector;
+import javolution.util.FastTable;
 import java.lang.reflect.Array;
 
 import org.apache.derby.iapi.jdbc.BrokeredConnection;
@@ -98,7 +98,7 @@ class DRDAStatement
 
 
 	private DRDAResultSet currentDrdaRs;  // Current ResultSet
-	private Hashtable resultSetTable;     // Hashtable with resultsets            
+	private FastMap resultSetTable;     // FastMap with resultsets            
 	private FastTable resultSetKeyList;  // ordered list of hash keys
 	private int numResultSets = 0;  
 
@@ -928,10 +928,10 @@ class DRDAStatement
 			// Multiple resultSets we neeed to setup the hash table
 			if (resultSetTable == null)
 			{
-				// If hashtable doesn't exist, create it and store resultSet 0
+				// If FastMap doesn't exist, create it and store resultSet 0
 				// before we store our new resultSet.
-				// For just a single resultSet we don't ever create the Hashtable.
-				resultSetTable = new Hashtable();
+				// For just a single resultSet we don't ever create the FastMap.
+				resultSetTable = new FastMap();
 				resultSetTable.put(pkgcnstkn, currentDrdaRs);
 				resultSetKeyList = new FastTable();
 				resultSetKeyList.add(0, pkgcnstkn);

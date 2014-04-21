@@ -27,7 +27,7 @@ import org.apache.derby.iapi.sql.dictionary.DataDictionary;
 import org.apache.derby.iapi.sql.dictionary.TableDescriptor;
 import org.apache.derby.iapi.error.StandardException;
 
-import org.apache.derby.iapi.services.io.FormatableHashtable;
+import org.apache.derby.iapi.services.io.FormatableFastMap;
 import org.apache.derby.iapi.services.io.FormatableBitSet;
 
 import java.io.ObjectOutput;
@@ -138,7 +138,7 @@ public class DDColumnDependableFinder extends DDdependableFinder
 			throws IOException, ClassNotFoundException
 	{
 		super.readExternal(in);
-		FormatableHashtable fh = (FormatableHashtable)in.readObject();
+		FormatableFastMap fh = (FormatableFastMap)in.readObject();
 		columnBitMap = (byte[])fh.get("columnBitMap");
 	}
 
@@ -152,7 +152,7 @@ public class DDColumnDependableFinder extends DDdependableFinder
 			throws IOException
 	{
 		super.writeExternal(out);
-		FormatableHashtable fh = new FormatableHashtable();
+		FormatableFastMap fh = new FormatableFastMap();
 		fh.put("columnBitMap", columnBitMap);
 		out.writeObject(fh);
 	}

@@ -54,7 +54,7 @@ import org.apache.derby.iapi.services.io.FormatableIntHolder;
 
 import org.apache.derby.iapi.util.JBitSet;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 public class HashJoinStrategy extends BaseJoinStrategy {
 	public HashJoinStrategy() {
@@ -505,14 +505,14 @@ public class HashJoinStrategy extends BaseJoinStrategy {
 		 * a predicate is in storeRestrictionList that can be pushed down.
 		 * Beetle 3458.
 		 */
-		Optimizable hashTableFor = innerTable;
+		Optimizable FastMapFor = innerTable;
 		if (innerTable instanceof ProjectRestrictNode)
 		{
 			ProjectRestrictNode prn = (ProjectRestrictNode) innerTable;
 			if (prn.getChildResult() instanceof Optimizable)
-				hashTableFor = (Optimizable) (prn.getChildResult());
+				FastMapFor = (Optimizable) (prn.getChildResult());
 		}
-		int[] hashKeyColumns = findHashKeyColumns(hashTableFor,
+		int[] hashKeyColumns = findHashKeyColumns(FastMapFor,
 												cd,
 												nonStoreRestrictionList);
 		if (hashKeyColumns != null)
@@ -643,25 +643,25 @@ public class HashJoinStrategy extends BaseJoinStrategy {
 			}
 		}
 
-		// Build a Vector of all the hash key columns
+		// Build a FastTable of all the hash key columns
 		int colCtr;
-		Vector hashKeyVector = new Vector();
+		FastTable hashKeyFastTable = new FastTable();
 		for (colCtr = 0; colCtr < columns.length; colCtr++)
 		{
 			// Is there an equijoin condition on this column?
 			if (predList.hasOptimizableEquijoin(innerTable, columns[colCtr]))
 			{
-				hashKeyVector.addElement(new Integer(colCtr));
+				hashKeyFastTable.addElement(new Integer(colCtr));
 			}
 		}
 
-		// Convert the Vector into an int[], if there are hash key columns
-		if (hashKeyVector.size() > 0)
+		// Convert the FastTable into an int[], if there are hash key columns
+		if (hashKeyFastTable.size() > 0)
 		{
-			int[] keyCols = new int[hashKeyVector.size()];
+			int[] keyCols = new int[hashKeyFastTable.size()];
 			for (int index = 0; index < keyCols.length; index++)
 			{
-				keyCols[index] = ((Integer) hashKeyVector.elementAt(index)).intValue();
+				keyCols[index] = ((Integer) hashKeyFastTable.elementAt(index)).intValue();
 			}
 			return keyCols;
 		}

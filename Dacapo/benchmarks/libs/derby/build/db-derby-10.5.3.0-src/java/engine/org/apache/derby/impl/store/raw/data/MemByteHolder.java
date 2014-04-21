@@ -26,7 +26,7 @@ import org.apache.derby.iapi.services.sanity.SanityManager;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
   A ByteHolder that stores all its bytes in memory.
@@ -38,7 +38,7 @@ implements ByteHolder
 
 	boolean writing = true;
 	
-	Vector bufV;
+	FastTable bufV;
 	int curBufVEleAt;
 
 	byte[] curBuf;
@@ -69,7 +69,7 @@ implements ByteHolder
 		this.curBuf = new byte[bufSize];
 		this.curBufPos = 0;
 
-		this.bufV = new Vector(128);
+		this.bufV = new FastTable(128);
 		bufV.addElement(curBuf);
 		this.curBufVEleAt = 0;
 	}

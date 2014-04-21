@@ -27,7 +27,7 @@ import org.apache.derby.iapi.reference.SQLState;
 
 import org.apache.derby.iapi.types.UserType;
 import org.apache.derby.iapi.services.io.FormatableBitSet;
-import org.apache.derby.iapi.services.io.FormatableHashtable; 
+import org.apache.derby.iapi.services.io.FormatableFastMap; 
 import org.apache.derby.iapi.services.locks.CompatibilitySpace;
 import org.apache.derby.iapi.services.locks.ShExLockable;
 import org.apache.derby.iapi.services.locks.ShExQual;
@@ -55,7 +55,7 @@ import org.apache.derby.iapi.types.DataValueDescriptor;
 import java.io.Serializable;
 import java.util.Dictionary;
 import java.util.Enumeration;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import java.util.Properties;
 
 /**
@@ -271,7 +271,7 @@ class PropertyConglomerate
 		else
 		{
 			synchronized (this) {
-				Hashtable defaults = new Hashtable();
+				FastMap defaults = new FastMap();
 				getProperties(tc,defaults,false/*!stringsOnly*/,true/*defaultsOnly*/);
 				validate(key,value,defaults);
 				valueToSave = map(key,value,defaults);
@@ -366,7 +366,7 @@ class PropertyConglomerate
 		if (saveServiceProperty(key,value)) return;
 
 		Dictionary defaults = (Dictionary)readProperty(tc,AccessFactoryGlobals.DEFAULT_PROPERTY_NAME);
-		if (defaults == null) defaults = new FormatableHashtable();
+		if (defaults == null) defaults = new FormatableFastMap();
 		if (value==null)
 			defaults.remove(key);
 		else
@@ -379,7 +379,7 @@ class PropertyConglomerate
 											 String key, Serializable value, boolean dbOnlyProperty)
 		 throws StandardException
 	{
-		Dictionary d = new Hashtable();
+		Dictionary d = new FastMap();
 		getProperties(tc,d,false/*!stringsOnly*/,false/*!defaultsOnly*/);
 		Serializable mappedValue = pf.doValidateApplyAndMap(tc, key,
 																   value, d, dbOnlyProperty);
@@ -706,7 +706,7 @@ class PropertyConglomerate
 	private Dictionary readDbProperties(TransactionController tc)
 		 throws StandardException
 	{
-		Dictionary set = new Hashtable();
+		Dictionary set = new FastMap();
 
         // scan the table for a row with no matching "key"
 		ScanController scan = openScan(tc, (String) null, 0);

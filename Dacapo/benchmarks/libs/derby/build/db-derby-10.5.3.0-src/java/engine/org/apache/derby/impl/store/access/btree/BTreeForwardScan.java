@@ -34,7 +34,7 @@ import org.apache.derby.iapi.store.raw.RecordHandle;
 import org.apache.derby.iapi.types.DataValueDescriptor;
 import org.apache.derby.iapi.types.RowLocation;
 
-import org.apache.derby.iapi.store.access.BackingStoreHashtable;
+import org.apache.derby.iapi.store.access.BackingStoreFastMap;
 
 /**
 
@@ -81,7 +81,7 @@ public class BTreeForwardScan extends BTreeScan
     BTreeRowPosition        pos,
     DataValueDescriptor[][] row_array,
     RowLocation[]           rowloc_array,
-    BackingStoreHashtable   hash_table,
+    BackingStoreFastMap   hash_table,
     long                    max_rowcnt,
     int[]                   key_column_numbers)
         throws StandardException

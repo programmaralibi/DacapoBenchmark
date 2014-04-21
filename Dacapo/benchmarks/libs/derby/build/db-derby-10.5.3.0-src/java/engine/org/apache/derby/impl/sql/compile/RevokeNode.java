@@ -21,14 +21,14 @@
 
 package	org.apache.derby.impl.sql.compile;
 
-import org.apache.derby.iapi.sql.execute.ConstantAction;
-import org.apache.derby.impl.sql.execute.PrivilegeInfo;
-import org.apache.derby.iapi.services.sanity.SanityManager;
-import org.apache.derby.iapi.error.StandardException;
-
-import javolution.util.FastMap;
 import java.util.Iterator;
 import java.util.List;
+
+import javolution.util.FastMap;
+
+import org.apache.derby.iapi.error.StandardException;
+import org.apache.derby.iapi.services.sanity.SanityManager;
+import org.apache.derby.iapi.sql.execute.ConstantAction;
 
 /**
  * This class represents a REVOKE statement.

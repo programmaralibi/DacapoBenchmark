@@ -337,9 +337,9 @@ public class UnsupportedVetter	extends BaseJDBCTestCase
 		};
 
 	//
-	// This is the Hashtable where we keep the exclusions.
+	// This is the FastMap where we keep the exclusions.
 	//
-	private	static	Hashtable< Class, HashSet<Method> >	excludableMap;
+	private	static	FastMap< Class, HashSet<Method> >	excludableMap;
 	
 	/////////////////////////////////////////////////////////////
 	//
@@ -547,13 +547,13 @@ public class UnsupportedVetter	extends BaseJDBCTestCase
 	/////////////////////////////////////////////////////////////
 
 	//
-	// Initialize the hashtable of methods which are allowed to raise
+	// Initialize the FastMap of methods which are allowed to raise
 	// SQLFeatureNotSupportedException.
 	//
 	private	void	initializeExcludableMap( HashSet<String> vanishedMethodList )
 		throws Exception
 	{
-		excludableMap = new Hashtable< Class, HashSet<Method> >();
+		excludableMap = new FastMap< Class, HashSet<Method> >();
 		
 		int		count = rawExcludables.length;
 

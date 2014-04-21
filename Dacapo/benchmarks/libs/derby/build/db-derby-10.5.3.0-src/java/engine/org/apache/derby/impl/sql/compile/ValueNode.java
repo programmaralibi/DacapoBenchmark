@@ -21,7 +21,7 @@
 
 package	org.apache.derby.impl.sql.compile;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 import org.apache.derby.iapi.error.StandardException;
 import org.apache.derby.iapi.reference.SQLState;
@@ -360,10 +360,10 @@ public abstract class ValueNode extends QueryTreeNode
 	
 	public ValueNode bindExpression(
 									FromList fromList, SubqueryList subqueryList,
-									Vector	aggregateVector)
+									FastTable	aggregateFastTable)
 		throws StandardException
 	{
-		return bindExpression(fromList, subqueryList, aggregateVector,false);
+		return bindExpression(fromList, subqueryList, aggregateFastTable,false);
 	}
 	
 
@@ -374,7 +374,7 @@ public abstract class ValueNode extends QueryTreeNode
 	 * @param fromList			The FROM list to use for binding
 	 * @param subqueryList		The SubqueryList we are building as we hit
 	 *							SubqueryNodes.
-	 * @param aggregateVector	The aggregate vector being built as we find AggregateNodes
+	 * @param aggregateFastTable	The aggregate FastTable being built as we find AggregateNodes
 	 *
 	 * @return	The new top of the expression tree.
 	 *
@@ -383,7 +383,7 @@ public abstract class ValueNode extends QueryTreeNode
 
 	public ValueNode bindExpression(
 			FromList fromList, SubqueryList subqueryList,
-			Vector aggregateVector, boolean forQueryRewrite) 
+			FastTable aggregateFastTable, boolean forQueryRewrite) 
 				throws StandardException
 	{
 		/* There are a bizillion classes which extend ValueNode.  Here is info

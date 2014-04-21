@@ -34,7 +34,7 @@ import org.apache.derby.iapi.services.classfile.VMDescriptor;
 import org.apache.derby.iapi.services.classfile.VMOpcode;
 
 import java.lang.reflect.Modifier;
-import java.util.Vector;
+import javolution.util.FastTable;
 import java.io.IOException;
 
 /**
@@ -98,7 +98,7 @@ class BCMethod implements MethodBuilder {
     private final String[] parameterTypes;
     
     
-	Vector thrownExceptions; // expected to be names of Classes under Throwable
+	FastTable thrownExceptions; // expected to be names of Classes under Throwable
 
 	CodeChunk myCode;
 	protected ClassMember myEntry;
@@ -210,8 +210,8 @@ class BCMethod implements MethodBuilder {
 		}
 
 		if (thrownExceptions == null)
-			thrownExceptions = new Vector();
-		thrownExceptions.addElement(exceptionClass);
+			thrownExceptions = new FastTable();
+		thrownExceptions.add(exceptionClass);
 	}
 
 	/**
@@ -358,7 +358,7 @@ class BCMethod implements MethodBuilder {
 
 				for (int i = 0; i < numExc; i++) {
 					// put each exception into the constant pool
-					String e = thrownExceptions.elementAt(i).toString();
+					String e = thrownExceptions.get(i).toString();
 					int ei2 = modClass.addClassReference(e);
 
 					// add constant pool index to exception attribute_info

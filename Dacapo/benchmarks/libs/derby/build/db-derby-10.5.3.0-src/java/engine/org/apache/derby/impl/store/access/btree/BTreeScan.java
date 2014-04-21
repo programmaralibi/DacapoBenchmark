@@ -53,7 +53,7 @@ import org.apache.derby.iapi.types.RowLocation;
 import org.apache.derby.impl.store.access.conglomerate.TemplateRow;
 
 import org.apache.derby.iapi.services.io.FormatableBitSet;
-import org.apache.derby.iapi.store.access.BackingStoreHashtable;
+import org.apache.derby.iapi.store.access.BackingStoreFastMap;
 
 /**
 
@@ -211,7 +211,7 @@ public abstract class BTreeScan extends OpenBTree implements ScanManager
     BTreeRowPosition        pos,
     DataValueDescriptor[][] row_array,
     RowLocation[]           rowloc_array,
-    BackingStoreHashtable   hash_table,
+    BackingStoreFastMap   hash_table,
     long                    max_rowcnt,
     int[]                   key_column_numbers)
         throws StandardException;
@@ -1459,7 +1459,7 @@ public abstract class BTreeScan extends OpenBTree implements ScanManager
                 scan_position,
                 fetchNext_one_slot_array, 
                 (RowLocation[]) null,
-                (BackingStoreHashtable) null,
+                (BackingStoreFastMap) null,
                 1,
                 (int[]) null) == 1;
 
@@ -1505,7 +1505,7 @@ public abstract class BTreeScan extends OpenBTree implements ScanManager
                 scan_position,
                 fetchNext_one_slot_array, 
                 (RowLocation[]) null,
-                (BackingStoreHashtable) null,
+                (BackingStoreFastMap) null,
                 1,
                 (int[]) null) == 1;
 
@@ -1587,7 +1587,7 @@ public abstract class BTreeScan extends OpenBTree implements ScanManager
                 scan_position,
                 row_array, 
                 rowloc_array,
-                (BackingStoreHashtable) null,
+                (BackingStoreFastMap) null,
                 row_array.length,
                 (int[]) null));
     }
@@ -1611,14 +1611,14 @@ public abstract class BTreeScan extends OpenBTree implements ScanManager
      * <p>
      * This routine scans executes the entire scan as described in the 
      * openScan call.  For every qualifying unique row value an entry is
-     * placed into the HashTable. For unique row values the entry in the
-     * BackingStoreHashtable has a key value of the object stored in 
+     * placed into the FastMap. For unique row values the entry in the
+     * BackingStoreFastMap has a key value of the object stored in 
      * row[key_column_number], and the value of the data is row.  For row 
      * values with duplicates, the key value is also row[key_column_number], 
-     * but the value of the data is a Vector of
+     * but the value of the data is a FastTable of
      * rows.  The caller will have to call "instanceof" on the data value
      * object if duplicates are expected, to determine if the data value
-     * of the Hashtable entry is a row or is a Vector of rows.
+     * of the FastMap entry is a row or is a FastTable of rows.
      * <p>
      * Note, that for this routine to work efficiently the caller must 
      * ensure that the object in row[key_column_number] implements 
@@ -1629,9 +1629,9 @@ public abstract class BTreeScan extends OpenBTree implements ScanManager
      * just as in a normal scan.  This call is logically equivalent to the 
      * caller performing the following:
      *
-     * import java.util.Hashtable;
+     * import javolution.util.FastMap;
      *
-     * hash_table = new Hashtable();
+     * hash_table = new FastMap();
      *
      * while (next())
      * {
@@ -1640,26 +1640,26 @@ public abstract class BTreeScan extends OpenBTree implements ScanManager
      *     if ((duplicate_value = 
      *         hash_table.put(row[key_column_number], row)) != null)
      *     {
-     *         Vector row_vec;
+     *         FastTable row_vec;
      *
      *         // inserted a duplicate
-     *         if ((duplicate_value instanceof vector))
+     *         if ((duplicate_value instanceof FastTable))
      *         {
-     *             row_vec = (Vector) duplicate_value;
+     *             row_vec = (FastTable) duplicate_value;
      *         }
      *         else
      *         {
-     *             // allocate vector to hold duplicates
-     *             row_vec = new Vector(2);
+     *             // allocate FastTable to hold duplicates
+     *             row_vec = new FastTable(2);
      *
-     *             // insert original row into vector
+     *             // insert original row into FastTable
      *             row_vec.addElement(duplicate_value);
      *
-     *             // put the vector as the data rather than the row
+     *             // put the FastTable as the data rather than the row
      *             hash_table.put(row[key_column_number], row_vec);
      *         }
      *         
-     *         // insert new row into vector
+     *         // insert new row into FastTable
      *         row_vec.addElement(row);
      *     }
      * }
@@ -1679,7 +1679,7 @@ public abstract class BTreeScan extends OpenBTree implements ScanManager
      * on a 1 gigabyte conglomerate will incur at least 1 gigabyte of memory
      * (probably failing with a java out of memory condition).  If this
      * routine gets an out of memory condition, or if "max_rowcnt" is 
-     * exceeded then then the routine will give up, empty the Hashtable, 
+     * exceeded then then the routine will give up, empty the FastMap, 
      * and return "false."
      * <p>
      * On exit from this routine, whether the fetchSet() succeeded or not
@@ -1691,7 +1691,7 @@ public abstract class BTreeScan extends OpenBTree implements ScanManager
      *
      * RESOLVE - until we get row counts what should we do for sizing the
      *           the size, capasity, and load factor of the hash table.
-     *           For now it is up to the caller to create the Hashtable,
+     *           For now it is up to the caller to create the FastMap,
      *           Access does not reset any parameters.
      * <p>
      * RESOLVE - I am not sure if access should be in charge of allocating
@@ -1704,18 +1704,18 @@ public abstract class BTreeScan extends OpenBTree implements ScanManager
      * @param max_rowcnt        The maximum number of rows to insert into the 
      *                          Hash table.  Pass in -1 if there is no maximum.
      * @param key_column_numbers The column numbers of the columns in the
-     *                          scan result row to be the key to the Hashtable.
+     *                          scan result row to be the key to the FastMap.
      *                          "0" is the first column in the scan result
      *                          row (which may be different than the first
      *                          column in the row in the table of the scan).
-     * @param hash_table        The java HashTable to load into.
+     * @param hash_table        The java FastMap to load into.
      *
 	 * @exception  StandardException  Standard exception policy.
      **/
     public void fetchSet(
     long                    max_rowcnt,
     int[]                   key_column_numbers,
-    BackingStoreHashtable   hash_table)
+    BackingStoreFastMap   hash_table)
         throws StandardException
     {
         // System.out.println("fetchSet");
@@ -1724,7 +1724,7 @@ public abstract class BTreeScan extends OpenBTree implements ScanManager
             scan_position,
             (DataValueDescriptor[][]) null,
             (RowLocation[]) null,
-            (BackingStoreHashtable) hash_table,
+            (BackingStoreFastMap) hash_table,
             max_rowcnt,
             key_column_numbers);
 

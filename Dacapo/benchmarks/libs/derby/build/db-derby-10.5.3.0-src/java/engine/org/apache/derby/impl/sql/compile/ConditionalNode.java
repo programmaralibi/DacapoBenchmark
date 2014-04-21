@@ -55,7 +55,7 @@ import org.apache.derby.iapi.reference.ClassName;
 import org.apache.derby.iapi.util.JBitSet;
 import org.apache.derby.iapi.services.classfile.VMOpcode;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * A ConditionalNode represents an if/then/else operator with a single
@@ -206,7 +206,7 @@ public class ConditionalNode extends ValueNode
 	 * @exception             StandardException Thrown on error.
 	 */
 	private DataTypeDescriptor findType(ValueNodeList thenElseList,
-		FromList fromList, SubqueryList subqueryList, Vector aggregateVector)
+		FromList fromList, SubqueryList subqueryList, FastTable aggregateFastTable)
 		throws StandardException
 	{
 		/* We need to "prebind" because we want the Types.  Provide
@@ -215,11 +215,11 @@ public class ConditionalNode extends ValueNode
 
 		ValueNode thenNode =
 			((ValueNode)thenElseList.elementAt(0)).bindExpression(
-				fromList, subqueryList, aggregateVector);
+				fromList, subqueryList, aggregateFastTable);
 
 		ValueNode elseNode =
 			((ValueNode)thenElseList.elementAt(1)).bindExpression(
-				fromList, subqueryList, aggregateVector);
+				fromList, subqueryList, aggregateFastTable);
 
 		DataTypeDescriptor thenType = thenNode.getTypeServices();
 		DataTypeDescriptor elseType = elseNode.getTypeServices();
@@ -259,7 +259,7 @@ public class ConditionalNode extends ValueNode
 		{
 			theType =
 				findType(((ConditionalNode)thenNode).thenElseList, fromList,
-					subqueryList, aggregateVector);
+					subqueryList, aggregateFastTable);
 		}
 
 		if (theType != null) return theType;
@@ -269,7 +269,7 @@ public class ConditionalNode extends ValueNode
 		{
 			theType =
 				findType(((ConditionalNode)elseNode).thenElseList, fromList,
-					subqueryList, aggregateVector);
+					subqueryList, aggregateFastTable);
 		}
 
 		if (theType != null) return theType;
@@ -284,13 +284,13 @@ public class ConditionalNode extends ValueNode
 	 * @param castType        The type to cast SQL parsed NULL's too.
 	 * @param fromList        FromList to pass on to bindExpression if recast is performed
 	 * @param subqueryList    SubqueryList to pass on to bindExpression if recast is performed
-	 * @param aggregateVector AggregateVector to pass on to bindExpression if recast is performed
+	 * @param aggregateFastTable AggregateFastTable to pass on to bindExpression if recast is performed
 	 *
 	 * @exception             StandardException Thrown on error.
 	 */
 	private void recastNullNodes(ValueNodeList thenElseList,
 	                           DataTypeDescriptor castType, FromList fromList,
-	                           SubqueryList subqueryList, Vector aggregateVector)
+	                           SubqueryList subqueryList, FastTable aggregateFastTable)
 	 throws StandardException {
 
 		// Don't do anything if we couldn't find a castType.
@@ -308,12 +308,12 @@ public class ConditionalNode extends ValueNode
 			// recast and rebind. findTypes would have bound as SQL CHAR.
 			// need to rebind here. (DERBY-3032)
 			thenElseList.setElementAt(recastNullNode(thenNode, castType), 0);
-			((ValueNode) thenElseList.elementAt(0)).bindExpression(fromList, subqueryList, aggregateVector);
+			((ValueNode) thenElseList.elementAt(0)).bindExpression(fromList, subqueryList, aggregateFastTable);
 			
 		// otherwise recurse on thenNode, but only if it's a conditional
 		} else if (isConditionalNode(thenNode)) {
 			recastNullNodes(((ConditionalNode)thenNode).thenElseList,
-			                castType,fromList, subqueryList, aggregateVector);
+			                castType,fromList, subqueryList, aggregateFastTable);
 		}
 
 		// lastly, check if the "else" node is NULL
@@ -323,11 +323,11 @@ public class ConditionalNode extends ValueNode
 			// recast and rebind. findTypes would have bound as SQL CHAR.
 			// need to rebind here. (DERBY-3032)
 			thenElseList.setElementAt(recastNullNode(elseNode, castType), 1);
-			((ValueNode) thenElseList.elementAt(1)).bindExpression(fromList, subqueryList, aggregateVector);
+			((ValueNode) thenElseList.elementAt(1)).bindExpression(fromList, subqueryList, aggregateFastTable);
 		// otherwise recurse on elseNode, but only if it's a conditional
 		} else if (isConditionalNode(elseNode)) {
 			recastNullNodes(((ConditionalNode)elseNode).thenElseList,
-			                castType,fromList,subqueryList,aggregateVector);
+			                castType,fromList,subqueryList,aggregateFastTable);
 		}
 	}
 
@@ -368,7 +368,7 @@ public class ConditionalNode extends ValueNode
 	 * @param fromList		The FROM list for the query this
 	 *				expression is in, for binding columns.
 	 * @param subqueryList		The subquery list being built as we find SubqueryNodes
-	 * @param aggregateVector	The aggregate vector being built as we find AggregateNodes
+	 * @param aggregateFastTable	The aggregate FastTable being built as we find AggregateNodes
 	 *
 	 * @return	The new top of the expression tree.
 	 *
@@ -376,12 +376,12 @@ public class ConditionalNode extends ValueNode
 	 */
 
 	public ValueNode bindExpression(FromList fromList, SubqueryList subqueryList,
-		Vector	aggregateVector) 
+		FastTable	aggregateFastTable) 
 			throws StandardException
 	{
 		testCondition = testCondition.bindExpression(fromList,
 			subqueryList,
-			aggregateVector);
+			aggregateFastTable);
 
 		if (thisIsNullIfNode) {
 			//for NULLIF(V1,V2), parser binds thenElseList.elementAt(0) to untyped NULL
@@ -406,7 +406,7 @@ public class ConditionalNode extends ValueNode
 			thenElseList.setElementAt(cast,0);
 			thenElseList.bindExpression(fromList,
 				subqueryList,
-				aggregateVector);
+				aggregateFastTable);
 
 		} else {
 			/* Following call to "findType()"  and "recastNullNodes" will indirectly bind the
@@ -415,9 +415,9 @@ public class ConditionalNode extends ValueNode
 			 * DERBY-2986.
 			 */
 			recastNullNodes(thenElseList,
-				findType(thenElseList, fromList, subqueryList, aggregateVector),fromList,
+				findType(thenElseList, fromList, subqueryList, aggregateFastTable),fromList,
 					subqueryList,
-					aggregateVector);
+					aggregateFastTable);
 			
  		}
 		
@@ -526,7 +526,7 @@ public class ConditionalNode extends ValueNode
 								getContextManager());
 			cast = cast.bindExpression(fromList, 
 											subqueryList,
-											aggregateVector);
+											aggregateFastTable);
 			
 			thenElseList.setElementAt(cast, 0);
 		}
@@ -540,7 +540,7 @@ public class ConditionalNode extends ValueNode
 								getContextManager());
 			cast = cast.bindExpression(fromList, 
 											subqueryList,
-											aggregateVector);
+											aggregateFastTable);
 			
 			thenElseList.setElementAt(cast, 1);
 		}

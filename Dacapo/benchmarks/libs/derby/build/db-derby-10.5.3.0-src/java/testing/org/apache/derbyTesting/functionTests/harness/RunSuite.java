@@ -39,7 +39,7 @@ import java.lang.ClassNotFoundException;
 import java.sql.Timestamp;
 import java.util.Enumeration;
 import java.util.Properties;
-import java.util.Vector;
+import javolution.util.FastTable;
 import java.util.StringTokenizer;
 
 public class RunSuite
@@ -48,7 +48,7 @@ public class RunSuite
     static final boolean verbose=true;
 
     static String suites; // list of subsuites in this suite
-    static Vector suitesToRun; // Vector of suites to run
+    static FastTable suitesToRun; // FastTable of suites to run
 
     // Properties which may be specified
 	static String jvmName = "";
@@ -116,7 +116,7 @@ public class RunSuite
 	    System.out.println("Top suite: " + suiteName);
 
 	    // suiteName may be one suite or a list of suites
-        suitesToRun = new Vector();
+        suitesToRun = new FastTable();
 
         // Get properties set in the suite's properties file
 		suiteProperties = getSuiteProperties(suiteName, true);
@@ -195,7 +195,7 @@ public class RunSuite
         else
         {
             isTop = false;
-            // Build the Vector from suites string
+            // Build the FastTable from suites string
 	        StringTokenizer st = new StringTokenizer(suites);
 	        String subparent = "";
             while (st.hasMoreTokens())
@@ -217,7 +217,7 @@ public class RunSuite
                 {
                     String sublist = p.getProperty("suites");
                     //System.out.println("list for this SubSuite= " + sublist);
-                    BuildSuitesVector(subparent, sublist);
+                    BuildSuitesFastTable(subparent, sublist);
                     // Use RunList class to issue the RunTest commands
                     if (verbose) System.out.println("Now do RunList");
                     //System.out.println("skipsed: " + skipsed);
@@ -229,7 +229,7 @@ public class RunSuite
         }
     }
     
-    static void BuildSuitesVector(String parent, String subsuites)
+    static void BuildSuitesFastTable(String parent, String subsuites)
         throws ClassNotFoundException, IOException
     {
         Properties p;
@@ -254,7 +254,7 @@ public class RunSuite
                 else
                 {
                     String moresuites = p.getProperty("suites");
-                    BuildSuitesVector(child, moresuites);
+                    BuildSuitesFastTable(child, moresuites);
                 }
             }
         }

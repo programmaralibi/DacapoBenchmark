@@ -21,7 +21,7 @@
 
 package org.apache.derby.impl.sql.execute;
 
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import java.util.Properties;
 
 import org.apache.derby.iapi.error.StandardException;
@@ -104,7 +104,7 @@ class TableScanResultSet extends ScanResultSet
 	 * is full, we scan forward and have a virtual memory style temp heap holding future row
 	 * id's.
 	 */
-	protected Hashtable past2FutureTbl;
+	protected FastMap past2FutureTbl;
 	protected TemporaryRowHolder futureForUpdateRows;  //tmp table for materialized rids
 	protected TemporaryRowHolderResultSet futureRowResultSet;	//result set for reading from above
 	protected boolean skipFutureRowHolder;		//skip reading rows from above

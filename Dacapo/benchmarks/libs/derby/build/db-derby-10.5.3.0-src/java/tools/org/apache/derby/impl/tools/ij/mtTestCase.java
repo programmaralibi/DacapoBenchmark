@@ -21,7 +21,7 @@
 
 package org.apache.derby.impl.tools.ij;
 
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import java.util.Properties;
 import java.lang.Math;
 import java.io.FileNotFoundException;
@@ -40,7 +40,7 @@ public class mtTestCase
 	public String file = null;
 	public String propFile = null;
 	public float weight = (float).5;
-	public Hashtable ignoreErrors = null;
+	public FastMap ignoreErrors = null;
 	public String description = null;
 
 
@@ -89,7 +89,7 @@ public class mtTestCase
 		this.weight = (float)(weight/100.0);
 	}
 	
-	public void setIgnoreErrors(Hashtable t)
+	public void setIgnoreErrors(FastMap t)
 	{
 		this.ignoreErrors = t;
 	}

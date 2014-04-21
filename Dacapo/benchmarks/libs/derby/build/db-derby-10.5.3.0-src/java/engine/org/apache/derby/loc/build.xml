@@ -161,7 +161,7 @@
   <target name="verifysplit">
     <available classname="org.apache.derbyBuild.splitmessages"
                property="splitmsgs.available">
-      <classpath>
+      <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
         <pathelement path="${out.dir}"/>
       </classpath>
     </available>

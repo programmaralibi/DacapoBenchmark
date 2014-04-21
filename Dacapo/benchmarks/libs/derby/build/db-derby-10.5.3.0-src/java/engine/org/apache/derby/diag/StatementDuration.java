@@ -27,7 +27,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.FileInputStream;
 
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import java.util.Enumeration;
 import java.util.Properties;
 import java.sql.ResultSetMetaData;
@@ -82,7 +82,7 @@ public class StatementDuration extends VTITemplate
 	private InputStream inputStream;
 	private BufferedReader bufferedReader;
 	private String inputFileName;
-	private Hashtable hashTable;
+	private FastMap FastMap;
 
 	// Variables for current row
 	private String line;
@@ -151,7 +151,7 @@ public class StatementDuration extends VTITemplate
 				throw new SQLException(ex.getMessage());
 			}
 
-			hashTable = new Hashtable();
+			FastMap = new FastMap();
 		}
 
 		while (true)
@@ -188,7 +188,7 @@ public class StatementDuration extends VTITemplate
 
 				/* NOTE: We need to use the LCCID as the key
 				 */
-				Object previousRow = hashTable.put(newRow[3],
+				Object previousRow = FastMap.put(newRow[3],
 												   newRow);
 				if (previousRow == null)
 				{

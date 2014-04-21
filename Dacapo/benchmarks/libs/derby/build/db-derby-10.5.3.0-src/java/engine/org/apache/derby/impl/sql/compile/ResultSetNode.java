@@ -73,7 +73,7 @@ import org.apache.derby.iapi.services.classfile.VMOpcode;
 import org.apache.derby.catalog.types.DefaultInfoImpl;
 
 import java.util.Properties;
-import java.util.Vector;
+import javolution.util.FastTable;
 import java.util.Set;
 
 /**
@@ -1158,7 +1158,7 @@ public abstract class ResultSetNode extends QueryTreeNode
                         String defaultText = defaultInfo.getDefaultText();
                         ValueNode defaultTree = parseDefault(defaultText);
                         defaultTree = defaultTree.bindExpression
-                            (getFromList(), (SubqueryList) null, (Vector) null);
+                            (getFromList(), (SubqueryList) null, (FastTable) null);
                         newResultColumn = (ResultColumn) getNodeFactory().getNode
                             ( C_NodeTypes.RESULT_COLUMN, defaultTree.getTypeServices(), defaultTree, getContextManager());
                     }
@@ -1753,14 +1753,14 @@ public abstract class ResultSetNode extends QueryTreeNode
 	 *
 	 * @param	crs					The specified ColumnReference[]
 	 * @param	permuteOrdering		Whether or not the order of the CRs in the array can be permuted
-	 * @param	fbtVector			Vector that is to be filled with the FromBaseTable	
+	 * @param	fbtFastTable			FastTable that is to be filled with the FromBaseTable	
 	 *
 	 * @return	Whether the underlying ResultSet tree
 	 * is ordered on the specified column.
 	 *
 	 * @exception StandardException		Thrown on error
 	 */
-	boolean isOrderedOn(ColumnReference[] crs, boolean permuteOrdering, Vector fbtVector)
+	boolean isOrderedOn(ColumnReference[] crs, boolean permuteOrdering, FastTable fbtFastTable)
 				throws StandardException
 	{
 		return false;
@@ -1876,14 +1876,14 @@ public abstract class ResultSetNode extends QueryTreeNode
 	 *
 	 * @return number of aggregates
 	 */
-	protected static final int numDistinctAggregates(Vector aggregateVector)
+	protected static final int numDistinctAggregates(FastTable aggregateFastTable)
 	{
 		int		count = 0;
-		int		size = aggregateVector.size();
+		int		size = aggregateFastTable.size();
 
 		for (int index = 0; index < size; index++)
 		{
-			count += (((AggregateNode) aggregateVector.elementAt(index)).isDistinct() == true) ?
+			count += (((AggregateNode) aggregateFastTable.elementAt(index)).isDistinct() == true) ?
 						1 : 0;
 		}
 		

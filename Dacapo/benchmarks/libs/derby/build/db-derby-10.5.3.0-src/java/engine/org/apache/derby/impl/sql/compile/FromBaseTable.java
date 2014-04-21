@@ -82,7 +82,7 @@ import org.apache.derby.impl.sql.compile.FromSubquery;
 
 import java.util.Enumeration;
 import java.util.Properties;
-import java.util.Vector;
+import javolution.util.FastTable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -2136,9 +2136,9 @@ public class FromBaseTable extends FromTable
 	/**
 	 * Clear the bits from the dependency map when join nodes are flattened
 	 *
-	 * @param locations	vector of bit numbers to be cleared
+	 * @param locations	FastTable of bit numbers to be cleared
 	 */
-	void clearDependency(Vector locations)
+	void clearDependency(FastTable locations)
 	{
 		if (this.dependencyMap != null)
 		{
@@ -4048,14 +4048,14 @@ public class FromBaseTable extends FromTable
 	 *
 	 * @param	crs					The specified ColumnReference[]
 	 * @param	permuteOrdering		Whether or not the order of the CRs in the array can be permuted
-	 * @param	fbtVector			Vector that is to be filled with the FromBaseTable	
+	 * @param	fbtFastTable			FastTable that is to be filled with the FromBaseTable	
 	 *
 	 * @return	Whether the underlying ResultSet tree
 	 * is ordered on the specified column.
 	 *
 	 * @exception StandardException		Thrown on error
 	 */
-	boolean isOrderedOn(ColumnReference[] crs, boolean permuteOrdering, Vector fbtVector)
+	boolean isOrderedOn(ColumnReference[] crs, boolean permuteOrdering, FastTable fbtFastTable)
 				throws StandardException
 	{
 		/* The following conditions must be met, regardless of the value of permuteOrdering,
@@ -4089,9 +4089,9 @@ public class FromBaseTable extends FromTable
 			isOrdered = isStrictlyOrdered(crs, cd);
 		}
 
-		if (fbtVector != null)
+		if (fbtFastTable != null)
 		{
-			fbtVector.addElement(this);
+			fbtFastTable.addElement(this);
 		}
 
 		return isOrdered;

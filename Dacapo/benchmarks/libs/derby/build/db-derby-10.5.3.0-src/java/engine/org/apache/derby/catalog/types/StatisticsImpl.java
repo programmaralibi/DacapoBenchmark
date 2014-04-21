@@ -24,7 +24,7 @@ package org.apache.derby.catalog.types;
 import org.apache.derby.catalog.Statistics;
 import org.apache.derby.iapi.services.io.Formatable;
 import org.apache.derby.iapi.services.io.StoredFormatIds;
-import org.apache.derby.iapi.services.io.FormatableHashtable;
+import org.apache.derby.iapi.services.io.FormatableFastMap;
 import org.apache.derby.iapi.services.io.FormatableLongHolder;
 
 import java.io.ObjectOutput;
@@ -83,7 +83,7 @@ public class StatisticsImpl	implements Statistics, Formatable
 	public void readExternal(ObjectInput in) 
 		throws IOException, ClassNotFoundException
 	{
-		FormatableHashtable fh = (FormatableHashtable)in.readObject();
+		FormatableFastMap fh = (FormatableFastMap)in.readObject();
 		numRows = fh.getLong("numRows");
 		numUnique = fh.getLong("numUnique");
 	}
@@ -98,7 +98,7 @@ public class StatisticsImpl	implements Statistics, Formatable
 	public void writeExternal(ObjectOutput out)
 		 throws IOException
 	{
-		FormatableHashtable fh = new FormatableHashtable();
+		FormatableFastMap fh = new FormatableFastMap();
 		fh.putLong("numRows", numRows);
 		fh.putLong("numUnique", numUnique);
 		out.writeObject(fh);

@@ -26,21 +26,21 @@ import org.apache.derby.iapi.sql.compile.Optimizable;
 
 import org.apache.derby.iapi.services.sanity.SanityManager;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 class ColumnOrdering {
 
 	/* See RowOrdering for possible values */
 	int	myDirection;
 
-	/* A vector of column numbers (Integers) */
-	Vector columns = new Vector();
+	/* A FastTable of column numbers (Integers) */
+	FastTable columns = new FastTable();
 
 	/*
-	** A vector of table numbers (Integers), corresponding to the column
-	** vector by position.
+	** A FastTable of table numbers (Integers), corresponding to the column
+	** FastTable by position.
 	*/
-	Vector tables = new Vector();
+	FastTable tables = new FastTable();
 
 	/**
 	 * @param direction	See RowOrdering for possible values

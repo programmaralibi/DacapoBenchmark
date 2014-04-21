@@ -63,7 +63,7 @@
       srcdir="${derby.client.src.dir}"
       excludes="**/*40.java" 
       destdir="${out.dir}">
-      <classpath>
+      <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
           <pathelement path="${java14compile.classpath}"/>
       </classpath>
     </javac>
@@ -84,7 +84,7 @@
       srcdir="${derby.client.src.dir}"
       includes="**/*40.java" 
       destdir="${out.dir}">
-      <classpath>
+      <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
         <pathelement path="${java16compile.classpath}"/>
       </classpath>
       <compilerarg value="-Xlint"/>

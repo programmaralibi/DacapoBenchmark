@@ -46,7 +46,7 @@ import org.apache.derby.io.WritableStorageFactory;
 import org.apache.derby.io.StorageFile;
 import org.apache.derby.io.StorageRandomAccessFile;
 import org.apache.derby.iapi.services.io.FileUtil;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 import java.io.DataInput;
 import java.io.IOException;

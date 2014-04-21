@@ -31,11 +31,11 @@ import org.apache.derby.iapi.reference.SQLState;
 import org.apache.derby.iapi.services.context.Context;
 
 import java.lang.reflect.Method;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 
 public final class ReflectGeneratedClass extends LoadedGeneratedClass {
 
-	private final Hashtable methodCache;
+	private final FastMap methodCache;
 	private static final GeneratedMethod[] directs;
 
 
@@ -51,7 +51,7 @@ public final class ReflectGeneratedClass extends LoadedGeneratedClass {
 
 	public ReflectGeneratedClass(ClassFactory cf, Class jvmClass, Class factoryClass) {
 		super(cf, jvmClass);
-		methodCache = new Hashtable();
+		methodCache = new FastMap();
 		this.factoryClass = factoryClass;
 	}
 

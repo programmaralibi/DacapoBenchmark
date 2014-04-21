@@ -52,7 +52,7 @@ import org.apache.derby.impl.sql.execute.OnceResultSet;
 import org.apache.derby.iapi.util.JBitSet;
 import org.apache.derby.iapi.services.classfile.VMOpcode;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * A SubqueryNode represents a subquery.  Subqueries return values to their
@@ -411,14 +411,14 @@ public class SubqueryNode extends ValueNode
 	 *							NOTE: fromList will be null if the subquery appears
 	 *							in a VALUES clause.
 	 * @param subqueryList		The subquery list being built as we find SubqueryNodes
-	 * @param aggregateVector	The aggregate vector being built as we find AggregateNodes
+	 * @param aggregateFastTable	The aggregate FastTable being built as we find AggregateNodes
 	 *
 	 * @return	The new top of the expression tree.
 	 *
 	 * @exception StandardException		Thrown on error
 	 */
 	public ValueNode bindExpression(FromList fromList, SubqueryList subqueryList,
-					Vector	aggregateVector)
+					FastTable	aggregateFastTable)
 				throws StandardException
 	{
 		ResultColumnList	resultColumns;
@@ -501,7 +501,7 @@ public class SubqueryNode extends ValueNode
 		if (leftOperand != null)
 		{
 			leftOperand = leftOperand.bindExpression(fromList, subqueryList,
-									   aggregateVector);
+									   aggregateFastTable);
 		}
 
 		/* bind the expressions in the underlying subquery */

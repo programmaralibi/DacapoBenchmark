@@ -59,12 +59,12 @@ import org.apache.derby.iapi.services.context.ContextManager;
 import org.apache.derby.catalog.UUID;
 import org.apache.derby.iapi.services.io.FormatableBitSet;
 import org.apache.derby.iapi.services.io.FormatableArrayHolder;
-import org.apache.derby.iapi.services.io.FormatableHashtable;
+import org.apache.derby.iapi.services.io.FormatableFastMap;
 import org.apache.derby.iapi.services.io.FormatableIntHolder;
 import org.apache.derby.iapi.services.io.FormatableProperties;
 import org.apache.derby.catalog.TypeDescriptor;
 import java.util.Properties;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
 	This Factory is for creating the execution items needed
@@ -324,7 +324,7 @@ public class GenericExecutionFactory
 		String[]					changedColNames,
 		UUID						targetTableId,
 		String						targetTableName,
-		Vector						aiCounters
+		FastTable						aiCounters
 	) throws StandardException
 	{
 		return new InternalTriggerExecutionContext(lcc, cc,

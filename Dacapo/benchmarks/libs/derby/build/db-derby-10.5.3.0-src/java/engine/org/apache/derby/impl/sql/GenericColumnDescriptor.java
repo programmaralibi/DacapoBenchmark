@@ -30,7 +30,7 @@ import org.apache.derby.iapi.services.io.StoredFormatIds;
 import org.apache.derby.iapi.services.io.FormatIdUtil;
 import org.apache.derby.iapi.services.io.Formatable;
 
-import org.apache.derby.iapi.services.io.FormatableHashtable;
+import org.apache.derby.iapi.services.io.FormatableFastMap;
 import org.apache.derby.iapi.services.io.FormatableIntHolder;
 
 import java.io.ObjectOutput;
@@ -192,7 +192,7 @@ public final class GenericColumnDescriptor
 	 */
 	public void writeExternal(ObjectOutput out) throws IOException
 	{
-		FormatableHashtable fh = new FormatableHashtable();
+		FormatableFastMap fh = new FormatableFastMap();
 		fh.put("name", name);
 		fh.put("tableName", tableName);
 		fh.put("schemaName", schemaName);
@@ -215,7 +215,7 @@ public final class GenericColumnDescriptor
 	public void readExternal(ObjectInput in) 
 		throws IOException, ClassNotFoundException
 	{
-		FormatableHashtable fh = (FormatableHashtable)in.readObject();		
+		FormatableFastMap fh = (FormatableFastMap)in.readObject();		
 		name = (String)fh.get("name");
 		tableName = (String)fh.get("tableName");
 		schemaName = (String)fh.get("schemaName");

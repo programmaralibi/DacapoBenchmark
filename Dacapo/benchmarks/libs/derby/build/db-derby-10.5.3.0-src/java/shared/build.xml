@@ -65,7 +65,7 @@
       srcdir="${derby.shared.src.dir}"
       includes="org/apache/derby/shared/**"
       destdir="${out.dir}">
-      <classpath>
+      <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
           <pathelement path="${java14compile.classpath}"/>
       </classpath>
       <include name="org/apache/derby/shared/**"/>
@@ -85,7 +85,7 @@
   	      verbose="${verbose}"
   	      srcdir="${derby.shared.src.dir}"
   	      destdir="${out.dir}">
-  	      <classpath>
+  	      <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
   	        <pathelement path="${java15compile.classpath}"/>
   	      </classpath>
   	    <include name="org/apache/derby/shared/common/sanity/ThreadDump.java"/>

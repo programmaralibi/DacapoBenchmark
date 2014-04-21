@@ -37,7 +37,7 @@ public class ProducerConsumer {
   /**
    * The data structure where the tokens are stored.
    */
-  private java.util.Vector queue = new java.util.Vector();
+  private javolution.util.FastTable queue = new javolution.util.FastTable();
 
   /**
    * The producer calls this method to add a new token

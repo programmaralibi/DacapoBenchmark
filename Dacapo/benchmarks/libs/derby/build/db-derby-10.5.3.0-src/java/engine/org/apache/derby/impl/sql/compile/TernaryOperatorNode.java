@@ -45,7 +45,7 @@ import org.apache.derby.iapi.util.ReuseFactory;
 import java.lang.reflect.Modifier;
 
 import java.sql.Types;
-import java.util.Vector;
+import javolution.util.FastTable;
 /**
  * A TernaryOperatorNode represents a built-in ternary operators.
  * This covers  built-in functions like substr().
@@ -188,7 +188,7 @@ public class TernaryOperatorNode extends ValueNode
 	 * @param fromList		The FROM list for the query this
 	 *				expression is in, for binding columns.
 	 * @param subqueryList		The subquery list being built as we find SubqueryNodes
-	 * @param aggregateVector	The aggregate vector being built as we find AggregateNodes
+	 * @param aggregateFastTable	The aggregate FastTable being built as we find AggregateNodes
 	 *
 	 * @return	The new top of the expression tree.
 	 *
@@ -196,19 +196,19 @@ public class TernaryOperatorNode extends ValueNode
 	 */
 
 	public ValueNode bindExpression(FromList fromList, SubqueryList subqueryList,
-		Vector	aggregateVector) 
+		FastTable	aggregateFastTable) 
 			throws StandardException
 	{
 		receiver = receiver.bindExpression(fromList, subqueryList, 
-			aggregateVector);
+			aggregateFastTable);
 
 		leftOperand = leftOperand.bindExpression(fromList, subqueryList,
-			    aggregateVector);
+			    aggregateFastTable);
 
 		if (rightOperand != null)
 		{
 			rightOperand = rightOperand.bindExpression(fromList, subqueryList, 
-				aggregateVector);
+				aggregateFastTable);
 		}
 		if (operatorType == TRIM)
 			trimBind();

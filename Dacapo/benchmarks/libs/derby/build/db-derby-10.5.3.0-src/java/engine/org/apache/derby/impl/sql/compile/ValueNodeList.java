@@ -38,16 +38,16 @@ import org.apache.derby.iapi.store.access.Qualifier;
 
 import org.apache.derby.iapi.util.JBitSet;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * A ValueNodeList represents a list of ValueNodes within a specific predicate 
  * (eg, IN list, NOT IN list or BETWEEN) in a DML statement.  
- * It extends QueryTreeNodeVector.
+ * It extends QueryTreeNodeFastTable.
  *
  */
 
-public class ValueNodeList extends QueryTreeNodeVector
+public class ValueNodeList extends QueryTreeNodeFastTable
 {
 
 	/**
@@ -93,13 +93,13 @@ public class ValueNodeList extends QueryTreeNodeVector
 	 * @param fromList		The FROM list for the query this
 	 *				expression is in, for binding columns.
 	 * @param subqueryList		The subquery list being built as we find SubqueryNodes
-	 * @param aggregateVector	The aggregate vector being built as we find AggregateNodes
+	 * @param aggregateFastTable	The aggregate FastTable being built as we find AggregateNodes
 	 *
 	 * @exception StandardException		Thrown on error
 	 */
 	public void	bindExpression(FromList fromList, 
 							   SubqueryList subqueryList,
-							   Vector aggregateVector)
+							   FastTable aggregateFastTable)
 			throws StandardException
 	{
 		int size = size();
@@ -108,7 +108,7 @@ public class ValueNodeList extends QueryTreeNodeVector
 		{
 			ValueNode vn = (ValueNode) elementAt(index);
 			vn = vn.bindExpression(fromList, subqueryList,
-								   aggregateVector);
+								   aggregateFastTable);
 
 			setElementAt(vn, index);
 		}

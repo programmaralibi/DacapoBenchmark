@@ -32,7 +32,7 @@ import org.apache.derby.iapi.sql.ResultSet;
 
 import org.apache.derby.iapi.error.ExceptionSeverity;
 import java.sql.SQLException;
-import java.util.Vector;
+import javolution.util.FastTable;
 import java.util.Enumeration;
 /**
  */

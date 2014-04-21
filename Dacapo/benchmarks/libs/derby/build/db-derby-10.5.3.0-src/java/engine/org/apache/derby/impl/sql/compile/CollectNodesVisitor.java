@@ -27,11 +27,11 @@ import org.apache.derby.iapi.sql.compile.Visitor;
 
 import org.apache.derby.iapi.error.StandardException;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * Collect all nodes of the designated type to be returned
- * in a vector.
+ * in a FastTable.
  * <p>
  * Can find any type of node -- the class or class name
  * of the target node is passed in as a constructor
@@ -40,7 +40,7 @@ import java.util.Vector;
  */
 public class CollectNodesVisitor implements Visitor
 {
-	private Vector	nodeList;
+	private FastTable	nodeList;
 	private Class 	nodeClass;
 	private Class	skipOverClass;
 	/**
@@ -52,7 +52,7 @@ public class CollectNodesVisitor implements Visitor
 	public CollectNodesVisitor(Class nodeClass)
 	{
 		this.nodeClass = nodeClass;
-		nodeList = new Vector();
+		nodeList = new FastTable();
 	}
 
 	/**
@@ -117,7 +117,7 @@ public class CollectNodesVisitor implements Visitor
 	 * Reset the status so it can be run again.
 	 *
 	 */
-	public Vector getList()
+	public FastTable getList()
 	{
 		return nodeList;
 	}

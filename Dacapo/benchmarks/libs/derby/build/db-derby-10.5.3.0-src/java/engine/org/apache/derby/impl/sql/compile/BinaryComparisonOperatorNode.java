@@ -37,7 +37,7 @@ import org.apache.derby.iapi.services.sanity.SanityManager;
 
 import org.apache.derby.impl.sql.compile.ActivationClassBuilder;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 import java.sql.Types;
 
 /**
@@ -118,7 +118,7 @@ public abstract class BinaryComparisonOperatorNode extends BinaryOperatorNode
 	 *
 	 * @param fromList			The query's FROM list
 	 * @param subqueryList		The subquery list being built as we find SubqueryNodes
-	 * @param aggregateVector	The aggregate vector being built as we find AggregateNodes
+	 * @param aggregateFastTable	The aggregate FastTable being built as we find AggregateNodes
 	 *
 	 * @return	The new top of the expression tree.
 	 *
@@ -127,10 +127,10 @@ public abstract class BinaryComparisonOperatorNode extends BinaryOperatorNode
 
 	public ValueNode bindExpression(
 		FromList fromList, SubqueryList subqueryList,
-		Vector	aggregateVector)
+		FastTable	aggregateFastTable)
 			throws StandardException
 	{
-		super.bindExpression(fromList, subqueryList, aggregateVector);
+		super.bindExpression(fromList, subqueryList, aggregateFastTable);
 
 		TypeCompiler leftTC = leftOperand.getTypeCompiler();
 		TypeCompiler rightTC = rightOperand.getTypeCompiler();

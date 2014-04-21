@@ -22,7 +22,7 @@
 package org.apache.derby.impl.sql.execute;
 
 import java.util.Enumeration;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 
 import org.apache.derby.catalog.UUID;
 import org.apache.derby.iapi.error.StandardException;
@@ -166,7 +166,7 @@ class SetConstraintsConstantAction extends DDLConstantAction
 			tmpCdl = dd.getConstraintDescriptors((TableDescriptor)null);
 		}
 	
-		Hashtable checkConstraintTables = null;
+		FastMap checkConstraintTables = null;
 		int cdlSize = tmpCdl.size();
 		for (int index = 0; index < cdlSize; index++)
 		{
@@ -204,7 +204,7 @@ class SetConstraintsConstantAction extends DDLConstantAction
 
 					if (checkConstraintTables == null)
 					{
-						checkConstraintTables = new Hashtable(10);
+						checkConstraintTables = new FastMap(10);
 					}
 
 					ConstraintDescriptorList tabCdl = (ConstraintDescriptorList)
@@ -291,7 +291,7 @@ class SetConstraintsConstantAction extends DDLConstantAction
 		validateAllCheckConstraints(lcc, checkConstraintTables);
 	}
 
-	private void validateAllCheckConstraints(LanguageConnectionContext lcc, Hashtable ht)
+	private void validateAllCheckConstraints(LanguageConnectionContext lcc, FastMap ht)
 		throws StandardException
 	{
 		ConstraintDescriptorList	cdl;

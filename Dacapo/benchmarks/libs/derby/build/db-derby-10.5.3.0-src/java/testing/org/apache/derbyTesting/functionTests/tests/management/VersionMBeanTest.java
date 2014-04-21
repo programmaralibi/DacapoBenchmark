@@ -21,7 +21,7 @@
 
 package org.apache.derbyTesting.functionTests.tests.management;
 
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import javax.management.ObjectName;
 import junit.framework.Test;
 
@@ -76,7 +76,7 @@ public class VersionMBeanTest extends MBeanTest {
             throws Exception {
         
         // get a reference to the VersionMBean instance for derby.jar
-        Hashtable<String, String> keyProps = new Hashtable<String, String>();
+        FastMap<String, String> keyProps = new FastMap<String, String>();
         keyProps.put("type", "Version");
         keyProps.put("jar", "derby.jar");
         return getDerbyMBeanName(keyProps);
@@ -102,7 +102,7 @@ public class VersionMBeanTest extends MBeanTest {
             throws Exception {
         
         // get a reference to the VersionMBean instance for derbynet.jar
-        Hashtable<String, String> keyProps = new Hashtable<String, String>();
+        FastMap<String, String> keyProps = new FastMap<String, String>();
         keyProps.put("type", "Version");
         keyProps.put("jar", "derbynet.jar");
         return getDerbyMBeanName(keyProps);

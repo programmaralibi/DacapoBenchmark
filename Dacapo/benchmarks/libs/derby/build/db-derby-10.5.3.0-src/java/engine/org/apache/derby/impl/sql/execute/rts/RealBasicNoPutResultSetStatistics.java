@@ -27,9 +27,9 @@ import org.apache.derby.iapi.services.io.Formatable;
 import org.apache.derby.iapi.services.i18n.MessageService;
 import org.apache.derby.iapi.reference.SQLState;
 
-import org.apache.derby.iapi.services.io.FormatableHashtable;
+import org.apache.derby.iapi.services.io.FormatableFastMap;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 import java.io.ObjectOutput;
 import java.io.ObjectInput;
@@ -170,10 +170,10 @@ abstract class RealBasicNoPutResultSetStatistics
 	 * <P>
 	 * The objects returned can be of any type, including addtional Inspectables.
    *
-	 * @return java.util.Vector	A vector of objects.
+	 * @return javolution.util.FastTable	A FastTable of objects.
 	 */
-  public Vector getChildren(){
-    return new Vector();
+  public FastTable getChildren(){
+    return new FastTable();
   }
 	/**
    * Return the time for all operations performed by this node, and the children

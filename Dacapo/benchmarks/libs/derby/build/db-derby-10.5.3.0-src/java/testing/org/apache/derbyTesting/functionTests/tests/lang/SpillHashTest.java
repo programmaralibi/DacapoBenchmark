@@ -36,8 +36,8 @@ import org.apache.derbyTesting.junit.BaseJDBCTestSetup;
 import org.apache.derbyTesting.junit.CleanDatabaseTestSetup;
 
 /**
- * Test BackingStoreHashtable spilling to disk.
- * BackingStoreHashtable is used to implement hash joins, distinct, scroll insensitive cursors,
+ * Test BackingStoreFastMap spilling to disk.
+ * BackingStoreFastMap is used to implement hash joins, distinct, scroll insensitive cursors,
  * outer joins, and the HAVING clause.
  */
 public class SpillHashTest extends BaseJDBCTestCase {

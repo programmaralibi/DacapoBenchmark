@@ -23,7 +23,7 @@ package org.apache.derby.client.am.stmtcache;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.FastMap;
+import javolution.util.FastMap;
 import java.util.Map;
 import org.apache.derby.shared.common.sanity.SanityManager;
 

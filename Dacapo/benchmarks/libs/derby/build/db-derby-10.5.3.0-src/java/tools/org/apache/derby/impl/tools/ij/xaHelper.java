@@ -27,7 +27,7 @@ import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Locale;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 import javax.transaction.xa.Xid;
 import javax.transaction.xa.XAResource;
@@ -296,14 +296,14 @@ class xaHelper implements xaAbstractHelper
 			handleException(t);
 		}
 
-		Vector v = new Vector();
+		FastTable v = new FastTable();
 		v.addElement("");
 		v.addElement(LocalizedResource.getMessage("IJ_Reco0InDoubT", LocalizedResource.getNumber(val.length)));
 		v.addElement("");
 		for (int i = 0; i < val.length; i++)
 			v.addElement(LocalizedResource.getMessage("IJ_Tran01", LocalizedResource.getNumber(i+1), val[i].toString()));
 
-		return new ijVectorResult(v,null);
+		return new ijFastTableResult(v,null);
 
 	}
 

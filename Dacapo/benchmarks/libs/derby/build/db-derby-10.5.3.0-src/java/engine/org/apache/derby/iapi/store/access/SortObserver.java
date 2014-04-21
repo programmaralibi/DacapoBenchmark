@@ -55,7 +55,7 @@ import org.apache.derby.iapi.error.StandardException;
  * </LI>
  *
  * <LI>
- * <I>Aggregates</I>: Vector (grouped) aggregates typically require
+ * <I>Aggregates</I>: FastTable (grouped) aggregates typically require
  * a sort.  Language can use a SortObserver to perform aggregations
  * as duplicate elements are encountered.  Scalar aggregates
  * can also be computed using a SortObserver.

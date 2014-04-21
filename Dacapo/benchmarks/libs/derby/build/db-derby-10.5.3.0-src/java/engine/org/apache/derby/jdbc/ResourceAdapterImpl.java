@@ -37,7 +37,7 @@ import org.apache.derby.iapi.store.access.xa.XAXactId;
 
 
 import java.util.Properties;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import java.util.Enumeration;
 import javax.transaction.xa.XAException;
 
@@ -51,7 +51,7 @@ public class ResourceAdapterImpl
 	private XAResourceManager rm;	
 
 	// maps Xid to XATransationResource for run time transactions
-	private Hashtable connectionTable;
+	private FastMap connectionTable;
 
 	/*
 	 * Module control
@@ -63,7 +63,7 @@ public class ResourceAdapterImpl
 		// we can only run on jdk1.2 or beyond with JTA and JAVA 20 extension
 		// loaded.
 
-		connectionTable = new Hashtable();
+		connectionTable = new FastMap();
 
 		AccessFactory af = 
 			(AccessFactory)Monitor.findServiceModule(this, AccessFactory.MODULE);

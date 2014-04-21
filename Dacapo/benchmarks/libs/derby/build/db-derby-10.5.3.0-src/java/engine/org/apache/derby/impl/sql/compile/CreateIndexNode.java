@@ -21,9 +21,9 @@
 
 package	org.apache.derby.impl.sql.compile;
 
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import java.util.Properties;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 import org.apache.derby.catalog.UUID;
 import org.apache.derby.iapi.error.StandardException;
@@ -54,7 +54,7 @@ public class CreateIndexNode extends DDLStatementNode
 	String				indexType;
 	TableName			indexName;
 	TableName			tableName;
-	Vector				columnNameList;
+	FastTable				columnNameList;
 	String[]			columnNames = null;
 	boolean[]			isAscending;
 	int[]				boundColumnIDs;
@@ -88,7 +88,7 @@ public class CreateIndexNode extends DDLStatementNode
 		this.indexType = (String) indexType;
 		this.indexName = (TableName) indexName;
 		this.tableName = (TableName) tableName;
-		this.columnNameList = (Vector) columnNameList;
+		this.columnNameList = (FastTable) columnNameList;
 		this.properties = (Properties) properties;
 	}
 
@@ -314,7 +314,7 @@ public class CreateIndexNode extends DDLStatementNode
 				throws StandardException
 	{
 		int size = columnNameList.size();
-		Hashtable	ht = new Hashtable(size + 2, (float) .999);
+		FastMap	ht = new FastMap(size + 2, (float) .999);
 		columnNames = new String[size];
 		isAscending = new boolean[size];
 

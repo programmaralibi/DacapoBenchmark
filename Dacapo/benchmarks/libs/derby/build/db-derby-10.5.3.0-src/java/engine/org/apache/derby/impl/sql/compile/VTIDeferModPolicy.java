@@ -29,7 +29,7 @@ import org.apache.derby.iapi.sql.compile.Visitable;
 import org.apache.derby.vti.DeferModification;
 
 import java.util.Enumeration;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -113,7 +113,7 @@ class VTIDeferModPolicy implements Visitor
     private DeferModification deferralControl;
     private int statementType;
     private int tableNumber;
-    private Hashtable columns = new Hashtable();
+    private FastMap columns = new FastMap();
 
     private VTIDeferModPolicy( FromVTI targetVTI,
                                String[] columnNames,

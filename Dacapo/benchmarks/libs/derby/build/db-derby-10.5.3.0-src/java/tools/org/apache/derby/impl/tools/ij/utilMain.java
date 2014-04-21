@@ -29,7 +29,7 @@ import org.apache.derby.iapi.services.info.ProductGenusNames;
 
 import java.util.List;
 import java.util.Stack;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import java.util.Properties;
 
 import java.io.InputStream;
@@ -65,7 +65,7 @@ public class utilMain implements java.security.PrivilegedAction {
 	private boolean mtUse;
 	private boolean firstRun = true;
 	private LocalizedOutput out = null;
-	private Hashtable ignoreErrors;
+	private FastMap ignoreErrors;
 	/**
 	 * True if to display the error code when
 	 * displaying a SQLException.
@@ -97,7 +97,7 @@ public class utilMain implements java.security.PrivilegedAction {
 	utilMain(int numConnections, LocalizedOutput out)
 		throws ijFatalException
 	{
-		this(numConnections, out, (Hashtable)null);
+		this(numConnections, out, (FastMap)null);
 	}
 
 	/**
@@ -112,7 +112,7 @@ public class utilMain implements java.security.PrivilegedAction {
 	 *							thrown.  ignoreErrors is used for stress
 	 *							tests.
 	 */
-	public utilMain(int numConnections, LocalizedOutput out, Hashtable ignoreErrors)
+	public utilMain(int numConnections, LocalizedOutput out, FastMap ignoreErrors)
 		throws ijFatalException
 	{
 		/* init the parser; give it no input to start with.
@@ -438,8 +438,8 @@ public class utilMain implements java.security.PrivilegedAction {
 			} else if (result.isNextRowOfResultSet()) {
 				ResultSet r = result.getNextRowOfResultSet();
 				JDBCDisplayUtil.DisplayCurrentRow(out,r,connEnv[currCE].getConnection());
-			} else if (result.isVector()) {
-				util.DisplayVector(out,result.getVector());
+			} else if (result.isFastTable()) {
+				util.DisplayFastTable(out,result.getFastTable());
 				if (result.hasWarnings()) {
 					JDBCDisplayUtil.ShowWarnings(out,result.getSQLWarnings());
 					result.clearSQLWarnings();

@@ -80,10 +80,10 @@ class ColumnInfo {
 		throws SQLException 
 	{
 
-		vtiColumnNames = new FastTable(1);
-		insertColumnNames = new FastTable(1);
-		columnTypes = new FastTable(1);
-        jdbcColumnTypes = new FastTable(1);
+		vtiColumnNames = new FastTable();
+		insertColumnNames = new FastTable();
+		columnTypes = new FastTable();
+        jdbcColumnTypes = new FastTable();
 		noOfColumns = 0;
 		this.conn = conn;
 

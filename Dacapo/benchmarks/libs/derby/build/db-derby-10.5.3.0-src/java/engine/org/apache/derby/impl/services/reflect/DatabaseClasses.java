@@ -50,7 +50,7 @@ import org.apache.derby.iapi.reference.MessageId;
 import org.apache.derby.iapi.reference.ClassName;
 
 import java.util.Properties;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 
 import java.io.ObjectStreamClass;
 import java.io.File;

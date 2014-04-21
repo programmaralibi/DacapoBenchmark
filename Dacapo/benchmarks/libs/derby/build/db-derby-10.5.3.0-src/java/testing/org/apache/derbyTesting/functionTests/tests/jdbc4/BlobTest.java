@@ -235,7 +235,7 @@ public class BlobTest
         boolean valid = true;
         
         //create a list of the methods that fail the test
-        Vector<Method> methodList = new Vector<Method>();
+        FastTable<Method> methodList = new FastTable<Method>();
         
         //The class whose methods are to be verified
         Class clazz = Blob.class;

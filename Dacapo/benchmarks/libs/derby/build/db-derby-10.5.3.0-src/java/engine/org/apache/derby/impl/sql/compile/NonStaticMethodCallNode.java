@@ -54,7 +54,7 @@ import org.apache.derby.catalog.AliasInfo;
 
 import java.lang.reflect.Modifier;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * A NonStaticMethodCallNode is really a node to represent a (static or non-static)
@@ -118,7 +118,7 @@ public class NonStaticMethodCallNode extends MethodCallNode
 	 * @param fromList		The FROM list for the query this
 	 *				expression is in, for binding columns.
 	 * @param subqueryList		The subquery list being built as we find SubqueryNodes
-	 * @param aggregateVector	The aggregate vector being built as we find AggregateNodes
+	 * @param aggregateFastTable	The aggregate FastTable being built as we find AggregateNodes
 	 *
 	 * @return	this
 	 *
@@ -127,7 +127,7 @@ public class NonStaticMethodCallNode extends MethodCallNode
 
 	public JavaValueNode bindExpression(
 		FromList fromList, SubqueryList subqueryList,
-		Vector	aggregateVector) 
+		FastTable	aggregateFastTable) 
 			throws StandardException
 	{
 		boolean		nullParameter = false;
@@ -160,13 +160,13 @@ public class NonStaticMethodCallNode extends MethodCallNode
 			}
 		}
 
-		bindParameters(fromList, subqueryList, aggregateVector);
+		bindParameters(fromList, subqueryList, aggregateFastTable);
 
 		/* Now we don't allow an alias static method call here (that has to
 		 * use :: sign for any static call).  If it gets here, it can't be
 		 * alias static method call.
 		 */
-		receiver = receiver.bindExpression(fromList, subqueryList, aggregateVector);
+		receiver = receiver.bindExpression(fromList, subqueryList, aggregateFastTable);
 
         // Don't allow LOB types to be used as a method receiver
         String type = receiver.getJSQLType().getSQLType().getTypeId().getSQLTypeName();

@@ -97,7 +97,7 @@ public class DropDependencyFilter implements TupleFilter
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	  *	Initialize a Filter with a vector of parameters. This is a NOP.
+	  *	Initialize a Filter with a FastTable of parameters. This is a NOP.
 	  * We initialize this filter at Constructor time.
 	  *
 	  *	@param	parameters	An ExecRow of parameter values

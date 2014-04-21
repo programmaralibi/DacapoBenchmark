@@ -24,7 +24,7 @@ package org.apache.derby.impl.tools.ij;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import java.util.Enumeration;
 import java.util.Properties;
 
@@ -42,7 +42,7 @@ import org.apache.derby.iapi.tools.i18n.LocalizedOutput;
 
  */
 class ConnectionEnv {
-	Hashtable sessions = new Hashtable();
+	FastMap sessions = new FastMap();
 	private Session currSession;
 	private String tag;
 	private boolean only;
@@ -140,7 +140,7 @@ class ConnectionEnv {
 		return currSession;
 	}
 
-	Hashtable getSessions() {
+	FastMap getSessions() {
 		return sessions;
 	}
 

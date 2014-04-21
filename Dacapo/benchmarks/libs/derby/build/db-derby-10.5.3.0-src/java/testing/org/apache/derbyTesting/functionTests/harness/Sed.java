@@ -31,7 +31,7 @@ package org.apache.derbyTesting.functionTests.harness;
  ***/
 
 import java.io.*;
-import java.util.Vector;
+import javolution.util.FastTable;
 import org.apache.oro.text.regex.*;
 import java.util.Enumeration;
 import java.util.Properties;
@@ -64,8 +64,8 @@ public class Sed
     {
     	String hostName = TestUtil.getHostName();
     	
-        // Vector for storing lines to be deleted
-        Vector deleteLines = new Vector();
+        // FastTable for storing lines to be deleted
+        FastTable deleteLines = new FastTable();
         deleteLines.addElement("^ij version.*$");
         deleteLines.addElement("^\\*\\*\\*\\* Test Run Started .* \\*\\*\\*\\*$");
         deleteLines.addElement("^\\*\\*\\*\\* Test Run Completed .* \\*\\*\\*\\*$");
@@ -111,8 +111,8 @@ public class Sed
         deleteLines.addElement("^Time: [0-9].*$");
         deleteLines.addElement("^OK \\(.*$");
 
-        // Vectors for substitutions
-        Vector searchStrings = new Vector();
+        // FastTables for substitutions
+        FastTable searchStrings = new FastTable();
         searchStrings.addElement("^Transaction:\\(.*\\) *\\|"); 
         searchStrings.addElement("^Read [0-9]* of [0-9]* bytes$");
         searchStrings.addElement("Directory .*connect.wombat.seg0");
@@ -204,7 +204,7 @@ public class Sed
 			searchStrings.addElement("\\[\\.fffffffff\\]");			
 		}
 		
-        Vector subStrings = new Vector();
+        FastTable subStrings = new FastTable();
         subStrings.addElement("Transaction:(XXX)|");
         subStrings.addElement("Read ... bytes");
         subStrings.addElement("Directory DBLOCATION/seg0");
@@ -276,15 +276,15 @@ public class Sed
     public void execJCC(InputStream is, File dstFile)
         throws IOException
     {
-        // Vector for storing lines to be deleted
-        Vector deleteLines = new Vector();
+        // FastTable for storing lines to be deleted
+        FastTable deleteLines = new FastTable();
 
-        // Vectors for substitutions
-        Vector searchStrings = new Vector();
+        // FastTables for substitutions
+        FastTable searchStrings = new FastTable();
         searchStrings.addElement("[ ]*\\|");
         searchStrings.addElement("^--*");
 
-        Vector subStrings = new Vector();
+        FastTable subStrings = new FastTable();
         // true and false show up as 1 and 0 in JCC. 
         //because they have no boolean support
         subStrings.addElement(" |");
@@ -294,16 +294,16 @@ public class Sed
 
     }
 
-    private void doWork(File srcFile, File dstFile, InputStream is, Vector deleteLines, 
-        Vector searchStrings, Vector subStrings, InputStream isSed)
+    private void doWork(File srcFile, File dstFile, InputStream is, FastTable deleteLines, 
+        FastTable searchStrings, FastTable subStrings, InputStream isSed)
         throws IOException
     {
         doWork(srcFile, dstFile, is, deleteLines, searchStrings, subStrings, isSed, false);
     }
 		
 
-    private void doWork(File srcFile, File dstFile, InputStream is, Vector deleteLines, 
-        Vector searchStrings, Vector subStrings, InputStream isSed, boolean isI18N)
+    private void doWork(File srcFile, File dstFile, InputStream is, FastTable deleteLines, 
+        FastTable searchStrings, FastTable subStrings, InputStream isSed, boolean isI18N)
         throws IOException
     {
 		
@@ -315,8 +315,8 @@ public class Sed
         PrintWriter outFile;
         String result = "";
         String regex;
-        Vector delPatternVector = new Vector();
-        Vector subPatternVector = new Vector();
+        FastTable delPatternFastTable = new FastTable();
+        FastTable subPatternFastTable = new FastTable();
 
         // ---------------------------------
         // Try loading the sed properties if they exist (see jdbc_sed.properties as an example)
@@ -395,7 +395,7 @@ public class Sed
                 Pattern pattern = pcompiler.compile(regex);
                 if (pattern == null)
                     System.out.println("pattern is null");
-                delPatternVector.addElement(pattern);
+                delPatternFastTable.addElement(pattern);
             }
             catch(MalformedPatternException e)
             {
@@ -414,7 +414,7 @@ public class Sed
                 Pattern pattern = pcompiler.compile(regex);
                 if (pattern == null)
                     System.out.println("pattern is null");
-                subPatternVector.addElement(pattern);
+                subPatternFastTable.addElement(pattern);
             }
             catch(MalformedPatternException e)
             {
@@ -488,12 +488,12 @@ public class Sed
             // Determine if this line should be deleted for delete pattern match
             if ( lineDeleted == false )
             {
-                for (j = 0; j < delPatternVector.size(); j++)
+                for (j = 0; j < delPatternFastTable.size(); j++)
                 {
-                    if ( matcher.contains( str, (Pattern)delPatternVector.elementAt(j) ) )
+                    if ( matcher.contains( str, (Pattern)delPatternFastTable.elementAt(j) ) )
                     {
                         //System.out.println("***Match found to delete line***");
-                        String tmpp = ((Pattern)delPatternVector.elementAt(j)).getPattern();
+                        String tmpp = ((Pattern)delPatternFastTable.elementAt(j)).getPattern();
                         //System.out.println("***Pattern is: " + tmpp);
 
                         // In this case we are removing the line, so don't write it out
@@ -510,10 +510,10 @@ public class Sed
                 StringSubstitution strsub = new StringSubstitution("");
                 Perl5Substitution perlsub = new Perl5Substitution("");
                 boolean subDone = false;
-                for (j = 0; j < subPatternVector.size(); j++)
+                for (j = 0; j < subPatternFastTable.size(); j++)
                 {
                     input = new PatternMatcherInput(str);
-                    Pattern patt = (Pattern)subPatternVector.elementAt(j);
+                    Pattern patt = (Pattern)subPatternFastTable.elementAt(j);
                     String pstr = patt.getPattern();
                     //System.out.println("Pattern string is " + pstr);
                     String sub = (String)subStrings.elementAt(j);

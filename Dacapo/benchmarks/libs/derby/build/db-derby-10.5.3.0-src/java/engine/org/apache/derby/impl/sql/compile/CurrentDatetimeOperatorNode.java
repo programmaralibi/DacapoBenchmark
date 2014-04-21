@@ -42,7 +42,7 @@ import org.apache.derby.iapi.error.StandardException;
 
 import java.sql.Types;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
  * The CurrentDatetimeOperator operator is for the builtin CURRENT_DATE,
@@ -87,7 +87,7 @@ public class CurrentDatetimeOperatorNode extends ValueNode {
 	 *							is not used in this case.
 	 * @param subqueryList		The subquery list being built as we find 
 	 *							SubqueryNodes. Not used in this case.
-	 * @param aggregateVector	The aggregate vector being built as we find 
+	 * @param aggregateFastTable	The aggregate FastTable being built as we find 
 	 *							AggregateNodes. Not used in this case.
 	 *
 	 * @return	The new top of the expression tree.
@@ -95,7 +95,7 @@ public class CurrentDatetimeOperatorNode extends ValueNode {
 	 * @exception StandardException		Thrown on error
 	 */
 	public ValueNode bindExpression(FromList fromList, SubqueryList subqueryList,
-							Vector	aggregateVector)
+							FastTable	aggregateFastTable)
 					throws StandardException
 	{
 		checkReliability( methodName[whichType], CompilerContext.DATETIME_ILLEGAL );

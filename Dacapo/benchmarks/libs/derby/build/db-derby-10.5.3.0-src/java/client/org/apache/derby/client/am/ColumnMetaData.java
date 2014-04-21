@@ -83,7 +83,7 @@ public class ColumnMetaData implements java.sql.ResultSetMetaData {
 
     // For performance only, not part of logical model.
     public transient int[][] protocolTypesCache_ = null;
-    public transient java.util.Hashtable protocolTypeToOverrideLidMapping_ = null;
+    public transient javolution.util.FastMap protocolTypeToOverrideLidMapping_ = null;
     public transient javolution.util.FastTable mddOverrideArray_ = null;
 
     public transient int[] types_;
@@ -96,7 +96,7 @@ public class ColumnMetaData implements java.sql.ResultSetMetaData {
 
     public transient int resultSetConcurrency_;
 
-    transient private java.util.Hashtable columnNameToIndexCache_ = null;
+    transient private javolution.util.FastMap columnNameToIndexCache_ = null;
 
     transient private boolean statementClosed_ = false;
 
@@ -889,11 +889,11 @@ public class ColumnMetaData implements java.sql.ResultSetMetaData {
         return false;
     }
 
-    // Cache the hashtable in ColumnMetaData.
+    // Cache the FastMap in ColumnMetaData.
     int findColumnX(String columnName) throws SqlException {
         // Create cache if it doesn't exist
         if (columnNameToIndexCache_ == null) {
-            columnNameToIndexCache_ = new java.util.Hashtable();
+            columnNameToIndexCache_ = new javolution.util.FastMap();
         } else { // Check cache for mapping
             Integer index = (Integer) columnNameToIndexCache_.get(columnName);
             if (index != null) {
@@ -918,7 +918,7 @@ public class ColumnMetaData implements java.sql.ResultSetMetaData {
     // assign ordinal position as the column name if null.
     void assignColumnName(int column) {
         if (columnNameToIndexCache_ == null) {
-            columnNameToIndexCache_ = new java.util.Hashtable();
+            columnNameToIndexCache_ = new javolution.util.FastMap();
         }
         String columnName = (new Integer(column)).toString();
         columnNameToIndexCache_.put(columnName, new Integer(column));

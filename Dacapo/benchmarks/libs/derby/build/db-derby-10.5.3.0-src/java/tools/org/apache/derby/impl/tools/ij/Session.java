@@ -28,7 +28,7 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 
 /**
 	Session holds the objects local to a particular database session,
@@ -46,10 +46,10 @@ class Session {
 	boolean singleSession = true;
 	Connection conn = null;
 	String tag, name;
-	Hashtable prepStmts = new Hashtable();
-	Hashtable cursorStmts = new Hashtable();
-	Hashtable cursors = new Hashtable();
-	Hashtable asyncStmts = new Hashtable();
+	FastMap prepStmts = new FastMap();
+	FastMap cursorStmts = new FastMap();
+	FastMap cursors = new FastMap();
+	FastMap asyncStmts = new FastMap();
 	boolean isJCC= false;      // Is this the IBM UNIVERSAL DRIVER.
 	boolean isDNC = false;     // Is this the Derby Network Client JDBC Driver
 	boolean isEmbeddedDerby = false; // Is this the Derby Embedded JDBC Driver

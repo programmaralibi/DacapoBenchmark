@@ -54,10 +54,10 @@ import java.sql.SQLException;
 import java.sql.SQLWarning;
 import javolution.util.FastTable;
 import java.util.Enumeration;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import java.util.Properties;
 import java.util.StringTokenizer;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 import org.apache.derby.drda.NetworkServerControl;
 import org.apache.derby.security.SystemPermission;
@@ -219,7 +219,7 @@ public final class NetworkServerControlImpl {
 	private final static int ERRTYPE_UNKNOWN = -1;
 
 	// command argument information
-	private Vector commandArgs = new Vector();
+	private FastTable commandArgs = new FastTable();
 	private String databaseArg;
 	// DERBY-2109: Note that derby JDBC clients have a default user name
     // "APP" (= Property.DEFAULT_USER_NAME) assigned if they don't provide
@@ -301,22 +301,22 @@ public final class NetworkServerControlImpl {
 	                              // commands. 
 
 	// open sessions
-	private Hashtable sessionTable = new Hashtable();
+	private FastMap sessionTable = new FastMap();
 
 	// current session
 	private Session currentSession;
 	// DRDAConnThreads
-	private Vector threadList = new Vector();
+	private FastTable threadList = new FastTable();
 
 	// queue of sessions waiting for a free thread - the queue is managed
 	// in a simple first come, first serve manner - no priorities
-	private Vector runQueue = new Vector();
+	private FastTable runQueue = new FastTable();
 
 	// number of DRDAConnThreads waiting for something to do
 	private int freeThreads;
 
 	// known application requesters
-	private Hashtable appRequesterTable = new Hashtable();
+	private FastMap appRequesterTable = new FastMap();
 
 	// accessed by inner classes for privileged action
 	private String propertyFileName;

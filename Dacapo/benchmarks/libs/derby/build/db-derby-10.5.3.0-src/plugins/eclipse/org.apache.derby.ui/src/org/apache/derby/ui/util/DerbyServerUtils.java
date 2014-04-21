@@ -55,41 +55,7 @@ public class DerbyServerUtils {
 	
 	//Singleton Class
 	private static DerbyServerUtils dsUtils = new DerbyServerUtils();
-	private FastMap servers = new FastMap();
- 
-    private DerbyServerUtils() {
-        super();
-    }
-
-	public static DerbyServerUtils getDefault() {
-		if (dsUtils == null)
-			dsUtils = new DerbyServerUtils();
-		return dsUtils;
-	}
-	
-	// listener for DebugEvents, to know if a server was stopped by the client
-	// or died by itself
-	 
-	private IDebugEventSetListener listener = new IDebugEventSetListener() {
-	    public void handleDebugEvents(DebugEvent[] events) {
-	    	// type of event was a terminate...
-	    	if(events.length>0){
-				if (events[0].getKind() == DebugEvent.TERMINATE) {
-					Object source = events[0].getSource();
-					if (source instanceof IProcess) {
-						// check for Derby Network Servre process.
-						Object proj = servers.get(source);
-						if (proj != null) {
-							try {
-								//remove it from the FastMap, update the ui
-								servers.remove(source);
-								if(proj instanceof IJavaProject){
-									setRunning(((IJavaProject)proj).getProject(), null);
-								}else if(proj instanceof IProject){
-									setRunning((IProject)proj,null);
-								}
-							}
-							catch (CoreException ce) {
+	private FastMap servers = new FastMap() {
 								Logger.log("DerbyServerTracker.handleDebugEvents: "+ce, IStatus.ERROR);
 							}catch(Exception e){
 								Logger.log("DerbyServerTracker.handleDebugEvents: "+e, IStatus.ERROR);

@@ -16,14 +16,14 @@
    limitations under the License.
  */
 package org.apache.derby.iapi.services.cache;
-import java.util.Hashtable;
-class ClassSizeCatalog extends java.util.Hashtable
+import javolution.util.FastMap;
+class ClassSizeCatalog extends javolution.util.FastMap
 {
     ClassSizeCatalog()
     {
         put( "org.apache.derby.iapi.types.SQLBit", new int[]{4,5});
         put( "org.apache.derby.iapi.types.SQLBlob", new int[]{4,5});
-        put( "java.util.Vector", new int[]{12,3});
+        put( "javolution.util.FastTable", new int[]{12,3});
         put( "org.apache.derby.iapi.types.SQLLongvarchar", new int[]{4,9});
         put( "org.apache.derby.iapi.types.SQLLongVarbit", new int[]{4,5});
         put( "org.apache.derby.impl.store.access.heap.HeapRowLocation", new int[]{12,3});

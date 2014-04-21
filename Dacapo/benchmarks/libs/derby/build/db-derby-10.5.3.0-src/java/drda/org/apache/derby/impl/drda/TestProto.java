@@ -33,9 +33,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Enumeration;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 import java.util.Locale;
-import java.util.Vector;
+import javolution.util.FastTable;
 
 /**
 	This class is used to test error conditions in the protocol.
@@ -50,8 +50,8 @@ import java.util.Vector;
 public class TestProto {
 
 	private static final CodePointNameTable codePointNameTable = new CodePointNameTable();
-	private static final Hashtable codePointValueTable = new Hashtable();
-	private static final Hashtable commandTable = new Hashtable();
+	private static final FastMap codePointValueTable = new FastMap();
+	private static final FastMap commandTable = new FastMap();
 	private	static final CcsidManager ccsidManager = new EbcdicCcsidManager();
 	//commands
 	private static final int CREATE_DSS_REQUEST = 1;
@@ -265,7 +265,7 @@ public class TestProto {
 		closeConnection();
 	}
 	/**
-	 * Initialize hashtable for commands and set up a table to translate from
+	 * Initialize FastMap for commands and set up a table to translate from
 	 * the codepoint name to the codepoint value
 	 */
 	private static void init()
@@ -783,7 +783,7 @@ public class TestProto {
 		int synerrcd = 0;
 		int codepoint;
 		int reqVal;
-		Vector manager = new Vector(), managerLevel = new Vector() ;
+		FastTable manager = new FastTable(), managerLevel = new FastTable() ;
 		reader.readReplyDss();
 		int error = reader.readLengthAndCodePoint( false );
 		int reqCP = getCP();

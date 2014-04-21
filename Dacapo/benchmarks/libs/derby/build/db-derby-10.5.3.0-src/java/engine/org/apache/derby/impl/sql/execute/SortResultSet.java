@@ -55,7 +55,7 @@ import org.apache.derby.iapi.types.RowLocation;
 import org.apache.derby.iapi.services.io.FormatableArrayHolder;
 
 import java.util.Properties;
-import java.util.Vector;
+import javolution.util.FastTable;
 import java.util.Enumeration;
 
 /**

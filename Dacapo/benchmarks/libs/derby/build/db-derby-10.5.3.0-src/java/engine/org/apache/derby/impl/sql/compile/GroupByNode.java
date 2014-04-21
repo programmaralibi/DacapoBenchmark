@@ -22,7 +22,7 @@
 package	org.apache.derby.impl.sql.compile;
 
 import java.util.Iterator;
-import java.util.Vector;
+import javolution.util.FastTable;
 import javolution.util.FastTable;
 import java.util.Comparator;
 import java.util.Collections;
@@ -84,7 +84,7 @@ public class GroupByNode extends SingleChildResultSetNode
 	 * The list of all aggregates in the query block
 	 * that contains this group by.
 	 */
-	Vector	aggregateVector;
+	FastTable	aggregateFastTable;
 
 	/**
 	 * Information that is used at execution time to
@@ -116,7 +116,7 @@ public class GroupByNode extends SingleChildResultSetNode
 	 *
 	 * @param bottomPR	The child FromTable
 	 * @param groupingList	The groupingList
-	 * @param aggregateVector	The vector of aggregates from
+	 * @param aggregateFastTable	The FastTable of aggregates from
 	 *		the query block.  Since aggregation is done
 	 *		at the same time as grouping, we need them
 	 *		here.
@@ -130,7 +130,7 @@ public class GroupByNode extends SingleChildResultSetNode
 	public void init(
 						Object bottomPR,
 						Object groupingList,
-						Object aggregateVector,
+						Object aggregateFastTable,
 						Object havingClause,
 						Object havingSubquerys,
 						Object tableProperties,
@@ -144,10 +144,10 @@ public class GroupByNode extends SingleChildResultSetNode
 		/* Group by without aggregates gets xformed into distinct */
 		if (SanityManager.DEBUG)
 		{
-//			Aggregage vector can be null if we have a having clause.
+//			Aggregage FastTable can be null if we have a having clause.
 //          select c1 from t1 group by c1 having c1 > 1;			
-//			SanityManager.ASSERT(((Vector) aggregateVector).size() > 0,
-//			"aggregateVector expected to be non-empty");
+//			SanityManager.ASSERT(((FastTable) aggregateFastTable).size() > 0,
+//			"aggregateFastTable expected to be non-empty");
 			if (!(childResult instanceof Optimizable))
 			{
 				SanityManager.THROWASSERT("childResult, " + childResult.getClass().getName() +
@@ -162,7 +162,7 @@ public class GroupByNode extends SingleChildResultSetNode
 
 		ResultColumnList newBottomRCL;
 		this.groupingList = (GroupByList) groupingList;
-		this.aggregateVector = (Vector) aggregateVector;
+		this.aggregateFastTable = (FastTable) aggregateFastTable;
 		this.parent = this;
 
 		/*
@@ -212,7 +212,7 @@ public class GroupByNode extends SingleChildResultSetNode
 				
 			}
 			if (index == glSize) {
-				isInSortedOrder = childResult.isOrderedOn(crs, true, (Vector)null);
+				isInSortedOrder = childResult.isOrderedOn(crs, true, (FastTable)null);
 			}
 		}
 	}
@@ -247,7 +247,7 @@ public class GroupByNode extends SingleChildResultSetNode
 	 */
 	private void addDistinctAggregatesToOrderBy()
 	{
-		int numDistinct = numDistinctAggregates(aggregateVector);
+		int numDistinct = numDistinctAggregates(aggregateFastTable);
 		if (numDistinct != 0)
 		{
 			if (SanityManager.DEBUG)
@@ -460,7 +460,7 @@ public class GroupByNode extends SingleChildResultSetNode
 			// DERBY-4071 Don't substitute quite yet; we need the AggrateNodes
 			// undisturbed until after we have had the chance to build the
 			// other columns.  (The AggrateNodes are shared via an alias from
-			// aggregateVector and from the expression tree under
+			// aggregateFastTable and from the expression tree under
 			// havingClause).
 		}
 		return havingRefsToSubstitute;
@@ -493,7 +493,7 @@ public class GroupByNode extends SingleChildResultSetNode
 	 *	<LI> reset the top PR ref to point to the new GROUPBY
 	 *		 RC</LI></UL>	
 	 *
-	 * For each aggregate in aggregateVector <UL>
+	 * For each aggregate in aggregateFastTable <UL>
 	 *	<LI> create RC in FROM TABLE.  Fill it with 
 	 * 		aggs Operator.
 	 *	<LI> create RC in FROM TABLE for agg result</LI>
@@ -649,10 +649,10 @@ public class GroupByNode extends SingleChildResultSetNode
 		/*
 		** For each aggregate
 		*/
-		int alSize = aggregateVector.size();
+		int alSize = aggregateFastTable.size();
 		for (int index = 0; index < alSize; index++)
 		{
-			aggregate = (AggregateNode) aggregateVector.elementAt(index);
+			aggregate = (AggregateNode) aggregateFastTable.elementAt(index);
 
 			/*
 			** AGG RESULT: Set the aggregate result to null in the
@@ -1161,7 +1161,7 @@ public class GroupByNode extends SingleChildResultSetNode
 	 *	o  max optimization for scalar aggregates
 	 *
 	 * @param selectHasPredicates true if SELECT containing this
-	 *		vector/scalar aggregate has a restriction
+	 *		FastTable/scalar aggregate has a restriction
 	 *
 	 * @exception StandardException	on error
 	 */
@@ -1182,9 +1182,9 @@ public class GroupByNode extends SingleChildResultSetNode
 		 */
 		if (groupingList == null)
 		{
-			if (aggregateVector.size() == 1)
+			if (aggregateFastTable.size() == 1)
 			{
-				AggregateNode an = (AggregateNode) aggregateVector.elementAt(0);
+				AggregateNode an = (AggregateNode) aggregateFastTable.elementAt(0);
 				AggregateDefinition ad = an.getAggregateDefinition();
 				if (ad instanceof MaxMinAggregateDefinition)
 				{
@@ -1196,11 +1196,11 @@ public class GroupByNode extends SingleChildResultSetNode
 						ColumnReference[] crs = new ColumnReference[1];
 						crs[0] = (ColumnReference) an.getOperand();
 						
-						Vector tableVector = new Vector();
-						boolean minMaxOptimizationPossible = isOrderedOn(crs, false, tableVector);
+						FastTable tableFastTable = new FastTable();
+						boolean minMaxOptimizationPossible = isOrderedOn(crs, false, tableFastTable);
 						if (SanityManager.DEBUG)
 						{
-							SanityManager.ASSERT(tableVector.size() <= 1, "bad number of FromBaseTables returned by isOrderedOn() -- "+tableVector.size());
+							SanityManager.ASSERT(tableFastTable.size() <= 1, "bad number of FromBaseTables returned by isOrderedOn() -- "+tableFastTable.size());
 						}
 
 						if (minMaxOptimizationPossible)
@@ -1237,7 +1237,7 @@ public class GroupByNode extends SingleChildResultSetNode
 									break;
 								}
 							}
-							FromBaseTable fbt = (FromBaseTable)tableVector.firstElement();
+							FromBaseTable fbt = (FromBaseTable)tableFastTable.firstElement();
 							MaxMinAggregateDefinition temp = (MaxMinAggregateDefinition)ad;
 
 							/*  MAX   ASC      NULLABLE 

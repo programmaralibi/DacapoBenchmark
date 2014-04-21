@@ -21,7 +21,7 @@
 
 package org.apache.derbyTesting.functionTests.harness;
 
-import java.util.Vector;
+import javolution.util.FastTable;
 import java.util.StringTokenizer;
 
 
@@ -30,25 +30,25 @@ public class jdk16 extends jvm {
     public String getName(){return "jdk16";}
     public jdk16(boolean noasyncgc, boolean verbosegc, boolean noclassgc,
         long ss, long oss, long ms, long mx, String classpath, String prof,
-        boolean verify, boolean noverify, boolean nojit, Vector D) {
+        boolean verify, boolean noverify, boolean nojit, FastTable D) {
         super(noasyncgc,verbosegc,noclassgc,ss,oss,ms,mx,classpath,prof,
             verify,noverify,nojit,D);
     }
     
-    public jdk16(String classpath, Vector D) {
+    public jdk16(String classpath, FastTable D) {
         super(classpath,D);
     }
     
-    public jdk16(long ms, long mx, String classpath, Vector D) {
+    public jdk16(long ms, long mx, String classpath, FastTable D) {
         super(ms,mx,classpath,D);
     }
     
     public jdk16() { }
     
     
-    public Vector getCommandLine() {
+    public FastTable getCommandLine() {
         StringBuffer sb = new StringBuffer();
-        Vector v = super.getCommandLine();
+        FastTable v = super.getCommandLine();
         appendOtherFlags(sb);
         String s = sb.toString();
         StringTokenizer st = new StringTokenizer(s);

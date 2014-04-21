@@ -22,11 +22,11 @@
 package org.apache.derby.impl.io.vfmem;
 
 import java.io.File;
-
-import javolution.util.FastTable;
-import javolution.util.FastMap;
-import java.util.Map;
 import java.util.Iterator;
+import java.util.Map;
+
+import javolution.util.FastMap;
+import javolution.util.FastTable;
 
 import org.apache.derby.io.StorageFile;
 
@@ -54,7 +54,7 @@ public final class DataStore {
      * The initial size is set to the number of initial files of a Derby
      * database, pluss a few more.
      */
-    private final Map files = new FastMap(80);
+    private final Map files = new FastMap();
 
     /** The name of the database this store serves. */
     private final String databaseName;

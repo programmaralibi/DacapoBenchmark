@@ -43,7 +43,7 @@ import org.apache.derby.iapi.services.sanity.SanityManager;
 import org.apache.derby.iapi.services.classfile.VMDescriptor;
 
 import java.util.Properties;
-import java.util.Hashtable;
+import javolution.util.FastMap;
 
 /**
 	<p>

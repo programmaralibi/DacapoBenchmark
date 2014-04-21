@@ -23,7 +23,9 @@ package org.apache.derby.iapi.sql.dictionary;
 
 import java.sql.Timestamp;
 import java.util.Enumeration;
-import java.util.Vector;
+import java.util.Iterator;
+
+import javolution.util.FastTable;
 
 import org.apache.derby.catalog.Dependable;
 import org.apache.derby.catalog.DependableFinder;
@@ -563,13 +565,13 @@ public class SPSDescriptor extends TupleDescriptor
 	{
 		if (params == null && !lookedUpParams)
 		{
-			Vector v = new Vector();
+			FastTable v = new FastTable();
 			params = getDataDictionary().getSPSParams(this, v);
 			paramDefaults = new Object[v.size()];	
-			Enumeration iterator = v.elements();
-			for (int i = 0; iterator.hasMoreElements(); i++)
+			Iterator iterator = v.iterator();
+			for (int i = 0; iterator.hasNext(); i++)
 			{
-				paramDefaults[i] = iterator.nextElement();
+				paramDefaults[i] = iterator.next();
 			}
 
 			lookedUpParams = true;

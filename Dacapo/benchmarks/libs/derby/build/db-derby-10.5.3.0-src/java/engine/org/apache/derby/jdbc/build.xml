@@ -51,7 +51,7 @@
       verbose="${verbose}"
       srcdir="${derby.engine.src.dir}"
       destdir="${out.dir}">
-      <classpath>
+      <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
         <pathelement path="${compile.classpath}"/>
       </classpath>
       <include name="${derby.dir}/jdbc/InternalDriver.java"/>
@@ -73,7 +73,7 @@
 	      verbose="${verbose}"
 	      srcdir="${derby.engine.src.dir}"
 	      destdir="${out.dir}">
-	      <classpath>
+	      <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
 	        <pathelement path="${jsr169compile.classpath}"/>
 	      </classpath>
 	      <include name="${derby.dir}/jdbc/Driver169.java"/>
@@ -94,7 +94,7 @@
       verbose="${verbose}"
       srcdir="${derby.engine.src.dir}"
       destdir="${out.dir}">
-      <classpath>
+      <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
         <pathelement path="${java14compile.classpath}"/>
       </classpath>
       <include name="${derby.dir}/jdbc/AutoloadedDriver.java"/>
@@ -121,7 +121,7 @@
       verbose="${verbose}"
       srcdir="${derby.engine.src.dir}"
       destdir="${out.dir}">
-      <classpath>
+      <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
         <pathelement path="${java14compile.classpath}"/>
       </classpath>
       <include name="${derby.dir}/jdbc/Driver30.java"/>
@@ -147,7 +147,7 @@
         verbose="${verbose}"
         srcdir="${derby.engine.src.dir}"
         destdir="${out.dir}">
-        <classpath>
+        <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
             <pathelement path="${java16compile.classpath}"/>
         </classpath>
         <include name="${derby.dir}/jdbc/*40.java"/>

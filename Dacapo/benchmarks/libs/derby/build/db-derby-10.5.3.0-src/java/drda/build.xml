@@ -99,7 +99,7 @@
   <target name="verifyodbcgen">
     <available classname="org.apache.derbyBuild.ODBCMetadataGenerator"
                property="odbcgen.available">
-      <classpath>
+      <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
         <pathelement path="${out.dir}"/>
       </classpath>
     </available>
