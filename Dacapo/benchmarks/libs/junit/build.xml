@@ -29,7 +29,7 @@
 	</target>
 
 	<target name="jar" depends="junit-jar-check" unless="junit-build-done">
-		<copy file="${lib-build-dir}/junit${lib-version}/junit-${lib-version}.jar" tofile="${junit-jar}"/>
+		<copy file="./libs/junit-4.7.jar" tofile="${junit-jar}"/>
 	</target>
 
 	<target name="junit-jar-check">
