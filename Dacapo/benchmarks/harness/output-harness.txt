@@ -1,0 +1,43 @@
+Buildfile: /home/amber/git/Dacapo/Dacapo/benchmarks/harness/build.xml
+
+clean:
+   [delete] Deleting directory /home/amber/git/Dacapo/Dacapo/benchmarks/harness/dist
+   [delete] Deleting directory /home/amber/git/Dacapo/Dacapo/benchmarks/harness/build
+
+init:
+    [mkdir] Created dir: /home/amber/git/Dacapo/Dacapo/benchmarks/harness/dist
+    [mkdir] Created dir: /home/amber/git/Dacapo/Dacapo/benchmarks/harness/build
+
+cli:
+
+check-source:
+
+get-source:
+
+get-source-fix-checksum:
+
+get-source-verify-checksum:
+    [untar] Expanding: /home/amber/git/Dacapo/Dacapo/benchmarks/harness/downloads/commons-cli-1.2-bin.tar.gz into /home/amber/git/Dacapo/Dacapo/benchmarks/harness/build
+    [unjar] Expanding: /home/amber/git/Dacapo/Dacapo/benchmarks/harness/build/commons-cli-1.2/commons-cli-1.2.jar into /home/amber/git/Dacapo/Dacapo/benchmarks/harness/dist
+
+parser:
+
+manifest:
+     [copy] Copying 1 file to /home/amber/git/Dacapo/Dacapo/benchmarks/harness/dist
+
+harness:
+    [javac] /home/amber/git/Dacapo/Dacapo/benchmarks/harness/build.xml:62: warning: 'includeantruntime' was not set, defaulting to build.sysclasspath=last; set to false for repeatable builds
+    [javac] Compiling 25 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/harness/dist
+    [javac] Note: /home/amber/git/Dacapo/Dacapo/benchmarks/harness/src/org/dacapo/harness/DacapoClassLoader.java uses or overrides a deprecated API.
+    [javac] Note: Recompile with -Xlint:deprecation for details.
+    [javac] Note: Some input files use unchecked or unsafe operations.
+    [javac] Note: Recompile with -Xlint:unchecked for details.
+     [copy] Copying 1 file to /home/amber/git/Dacapo/Dacapo/benchmarks/harness/dist
+
+jar:
+      [jar] Building jar: /home/amber/git/Dacapo/Dacapo/benchmarks/${jar-target}
+
+all:
+
+BUILD SUCCESSFUL
+Total time: 4 seconds
