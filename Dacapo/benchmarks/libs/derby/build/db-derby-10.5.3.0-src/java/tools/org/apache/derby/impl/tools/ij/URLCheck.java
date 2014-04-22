@@ -21,14 +21,16 @@
 
 package org.apache.derby.impl.tools.ij;
 
+import java.lang.reflect.Field;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.Properties;
+import java.util.StringTokenizer;
+
+import javolution.util.FastTable;
+
 import org.apache.derby.iapi.reference.Attribute;
 import org.apache.derby.iapi.tools.i18n.LocalizedResource;
-import javolution.util.FastTable;
-import java.util.Properties;
-import java.util.Enumeration;
-import java.util.StringTokenizer;
-import java.lang.reflect.Field;
-import java.sql.SQLException;
 
 /**
  * This class takes a string used for a connection URL and checks for
@@ -70,9 +72,9 @@ public class URLCheck {
     }
   }
   public void check(){
-    Enumeration e = attributes.elements();
-    while (e.hasMoreElements()) {
-      AttributeHolder anAttribute = (AttributeHolder)e.nextElement();
+    Iterator e = attributes.iterator();
+    while (e.hasNext()) {
+      AttributeHolder anAttribute = (AttributeHolder)e.next();
       //The check for duplicate must be done at the URLCheck level
       //and not by each specific attribute.  Only URLCheck knowns about
       //all of the attributes and names.
@@ -82,9 +84,9 @@ public class URLCheck {
     }
   }
   public void checkForDuplicate(AttributeHolder anAttribute){
-    Enumeration e = attributes.elements();
-    while (e.hasMoreElements()) {
-      AttributeHolder aHolder = (AttributeHolder)e.nextElement();
+    Iterator e = attributes.iterator();
+    while (e.hasNext()) {
+      AttributeHolder aHolder = (AttributeHolder)e.next();
       //If a duplicate is found, make sure that the message is only shown
       //once for each attribute.
       if (anAttribute != aHolder && anAttribute.getName().equals(aHolder.getName())) {
@@ -133,7 +135,7 @@ public class URLCheck {
       anAttribute.setName(anAtt);
       anAttribute.setValue(aValue);
       anAttribute.setToken(aToken);
-      attributes.addElement(anAttribute);
+      attributes.add(anAttribute);
       props.put(anAtt, aToken);
 	}
 		return props;
@@ -142,10 +144,10 @@ public class URLCheck {
   public static FastTable getBooleanAttributes(){
     if (booleanAttributes == null) {
       booleanAttributes = new FastTable();
-		  booleanAttributes.addElement(Attribute.DATA_ENCRYPTION);
-		  booleanAttributes.addElement(Attribute.CREATE_ATTR);
-		  booleanAttributes.addElement(Attribute.SHUTDOWN_ATTR);
-		  booleanAttributes.addElement(Attribute.UPGRADE_ATTR);
+		  booleanAttributes.add(Attribute.DATA_ENCRYPTION);
+		  booleanAttributes.add(Attribute.CREATE_ATTR);
+		  booleanAttributes.add(Attribute.SHUTDOWN_ATTR);
+		  booleanAttributes.add(Attribute.UPGRADE_ATTR);
     }
     return booleanAttributes;
   }
@@ -166,7 +168,7 @@ public class URLCheck {
                 for (int i = 0; i < fields.length; i++)
                 {
                     Field aField = (Field)fields[i];
-                    props.addElement(aField.get(att));
+                    props.add(aField.get(att));
                 }
                 validDerbyProps = props;
             }

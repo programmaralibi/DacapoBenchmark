@@ -23,6 +23,7 @@ package org.apache.derby.client;
 
 import java.lang.reflect.Method;
 import java.util.Enumeration;
+import java.util.Hashtable;
 
 import javax.naming.RefAddr;
 import javax.naming.Reference;
@@ -86,7 +87,7 @@ public class ClientDataSourceFactory implements javax.naming.spi.ObjectFactory {
     public Object getObjectInstance(Object refObj,
                                     javax.naming.Name name,
                                     javax.naming.Context nameContext,
-                                    javolution.util.FastMap environment) throws java.lang.Exception {
+                                    Hashtable environment) throws java.lang.Exception {
         Object ds = null;
         if (refObj instanceof javax.naming.Reference) {
             javax.naming.Reference ref = (javax.naming.Reference) refObj;

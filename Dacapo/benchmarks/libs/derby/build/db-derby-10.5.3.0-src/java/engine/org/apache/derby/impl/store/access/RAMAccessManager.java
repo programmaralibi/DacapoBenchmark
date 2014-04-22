@@ -21,52 +21,45 @@
 
 package org.apache.derby.impl.store.access;
 
-import org.apache.derby.iapi.services.cache.Cacheable;
-import org.apache.derby.iapi.services.cache.CacheableFactory;
+import java.io.Serializable;
+import java.util.Dictionary;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Properties;
+
+import javolution.util.FastMap;
+
+import org.apache.derby.catalog.UUID;
+import org.apache.derby.iapi.error.StandardException;
+import org.apache.derby.iapi.reference.Attribute;
+import org.apache.derby.iapi.reference.SQLState;
 import org.apache.derby.iapi.services.cache.CacheFactory;
 import org.apache.derby.iapi.services.cache.CacheManager;
-
+import org.apache.derby.iapi.services.cache.Cacheable;
+import org.apache.derby.iapi.services.cache.CacheableFactory;
 import org.apache.derby.iapi.services.context.ContextManager;
 import org.apache.derby.iapi.services.context.ContextService;
 import org.apache.derby.iapi.services.daemon.Serviceable;
 import org.apache.derby.iapi.services.locks.LockFactory;
 import org.apache.derby.iapi.services.monitor.ModuleControl;
 import org.apache.derby.iapi.services.monitor.Monitor;
+import org.apache.derby.iapi.services.property.PropertyFactory;
 import org.apache.derby.iapi.services.property.PropertySetCallback;
-
+import org.apache.derby.iapi.services.property.PropertyUtil;
 import org.apache.derby.iapi.services.sanity.SanityManager;
-
-import org.apache.derby.iapi.error.StandardException;
-
+import org.apache.derby.iapi.store.access.AccessFactory;
+import org.apache.derby.iapi.store.access.AccessFactoryGlobals;
+import org.apache.derby.iapi.store.access.TransactionController;
+import org.apache.derby.iapi.store.access.TransactionInfo;
 import org.apache.derby.iapi.store.access.conglomerate.Conglomerate;
 import org.apache.derby.iapi.store.access.conglomerate.ConglomerateFactory;
 import org.apache.derby.iapi.store.access.conglomerate.MethodFactory;
 import org.apache.derby.iapi.store.access.conglomerate.TransactionManager;
-import org.apache.derby.iapi.services.property.PropertyUtil;
-import org.apache.derby.iapi.store.access.AccessFactory;
-import org.apache.derby.iapi.services.property.PropertyFactory;
-
-import org.apache.derby.iapi.store.access.AccessFactoryGlobals;
-import org.apache.derby.iapi.store.access.TransactionController;
-import org.apache.derby.iapi.store.access.TransactionInfo;
-
 import org.apache.derby.iapi.store.raw.ContainerHandle;
 import org.apache.derby.iapi.store.raw.ContainerKey;
 import org.apache.derby.iapi.store.raw.LockingPolicy;
 import org.apache.derby.iapi.store.raw.RawStoreFactory;
 import org.apache.derby.iapi.store.raw.Transaction;
-
-import org.apache.derby.catalog.UUID;
-
-import org.apache.derby.iapi.reference.SQLState;
-import org.apache.derby.iapi.reference.Attribute;
-
-import java.util.Dictionary;
-import java.util.Enumeration;
-import javolution.util.FastMap;
-import java.util.Properties;
-
-import java.io.Serializable;
 
 
 public abstract class RAMAccessManager
@@ -634,10 +627,10 @@ public abstract class RAMAccessManager
 
         // No primary format.  See if one of the access methods
         // supports it as a secondary format.
-        Enumeration e = formathash.elements();
-        while (e.hasMoreElements())
+        Iterator e = formathash.keySet().iterator();
+        while (e.hasNext())
         {
-            factory = (MethodFactory) e.nextElement();
+            factory = (MethodFactory) e.next();
             if (factory.supportsFormat(format))
                 return factory;
         }
@@ -661,10 +654,10 @@ public abstract class RAMAccessManager
 
         // No primary implementation.  See if one of the access methods
         // supports the implementation type as a secondary.
-        Enumeration e = implhash.elements();
-        while (e.hasMoreElements())
+        Iterator e = implhash.keySet().iterator();
+        while (e.hasNext())
         {
-            factory = (MethodFactory) e.nextElement();
+            factory = (MethodFactory) e.next();
             if (factory.supportsImplementation(impltype))
                 return factory;
         }
@@ -895,7 +888,7 @@ public abstract class RAMAccessManager
 		// set up the initial values by calling the validate and apply methods.
 		// the map methods are not called as they will have been called
 		// at runtime when the user set the property.
-		Dictionary d = new FastMap();
+		Dictionary d = new Hashtable();
 		try {
 			xactProperties.getProperties(tc,d,false/*!stringsOnly*/,false/*!defaultsOnly*/);
 		} catch (StandardException se) {

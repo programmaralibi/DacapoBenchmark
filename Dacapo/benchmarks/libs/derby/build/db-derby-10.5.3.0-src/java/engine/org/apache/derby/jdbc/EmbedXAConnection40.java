@@ -23,10 +23,12 @@ package org.apache.derby.jdbc;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.concurrent.CopyOnWriteFastTable;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import javax.sql.StatementEvent;
 import javax.sql.StatementEventListener;
 import javax.sql.XAConnection;
+
 import org.apache.derby.iapi.jdbc.ResourceAdapter;
 
 /**
@@ -40,9 +42,9 @@ final class EmbedXAConnection40 extends EmbedXAConnection
      * ensuring that it can be safely iterated over even if other threads or
      * the listeners fired in the same thread add or remove listeners.
      */
-    private final CopyOnWriteFastTable<StatementEventListener>
+    private final CopyOnWriteArrayList<StatementEventListener>
             statementEventListeners =
-                    new CopyOnWriteFastTable<StatementEventListener>();
+                    new CopyOnWriteArrayList<StatementEventListener>();
     
     /**
      * Creates EmbedXAConnection40.
@@ -57,7 +59,7 @@ final class EmbedXAConnection40 extends EmbedXAConnection
                 boolean requestPassword) throws SQLException {
 		super(ds, ra, user, password, requestPassword);
 	}
-    /**
+    /**	
      * Removes the specified <code>StatementEventListener</code> from the list of 
      * components that will be notified when the driver detects that a 
      * <code>PreparedStatement</code> has been closed or is invalid.

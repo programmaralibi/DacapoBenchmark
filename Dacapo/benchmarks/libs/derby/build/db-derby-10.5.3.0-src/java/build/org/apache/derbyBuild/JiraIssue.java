@@ -14,8 +14,15 @@ limitations under the License.
  */
 package org.apache.derbyBuild;
 
-import org.w3c.dom.*;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+
+import javolution.util.FastTable;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 
 /**

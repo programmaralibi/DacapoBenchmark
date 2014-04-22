@@ -84,7 +84,7 @@ public class ByteArrayCombinerStream
             // Copy references to the byte arrays to a new FastTable.
             int arrayCount = arraysIn.size();
             byte[] tmpArray;
-            arrays = new FastTable(arrayCount);
+            arrays = new FastTable();
             // Truncate data if there are more bytes then specified.
             // Done to simplify boundary checking in the read-methods.
             for (int i=0; i < arrayCount && tmpRemaining > 0; i++) {

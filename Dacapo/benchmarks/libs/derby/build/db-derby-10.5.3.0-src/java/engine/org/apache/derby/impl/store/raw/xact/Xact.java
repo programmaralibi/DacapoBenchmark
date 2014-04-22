@@ -22,14 +22,11 @@
 package org.apache.derby.impl.store.raw.xact;
 
 import org.apache.derby.iapi.reference.SQLState;
-
 import org.apache.derby.iapi.store.raw.ContainerKey;
-
 import org.apache.derby.iapi.services.context.ContextManager;
 import org.apache.derby.iapi.services.daemon.Serviceable;
 import org.apache.derby.iapi.services.locks.LockFactory;
 import org.apache.derby.iapi.services.locks.Limit;
-
 import org.apache.derby.iapi.store.raw.ContainerHandle;
 import org.apache.derby.iapi.store.raw.Compensation;
 import org.apache.derby.iapi.store.raw.GlobalTransactionId;
@@ -38,44 +35,38 @@ import org.apache.derby.iapi.store.raw.Loggable;
 import org.apache.derby.iapi.store.raw.RecordHandle;
 import org.apache.derby.iapi.store.raw.StreamContainerHandle;
 import org.apache.derby.iapi.store.raw.Transaction;
-
 import org.apache.derby.iapi.store.raw.data.DataFactory;
 import org.apache.derby.iapi.store.raw.data.RawContainerHandle;
-
 import org.apache.derby.iapi.store.raw.xact.RawTransaction; 
 import org.apache.derby.iapi.store.raw.xact.TransactionId;
-
 import org.apache.derby.iapi.store.raw.log.LogFactory;
 import org.apache.derby.iapi.store.raw.log.LogInstant;
 import org.apache.derby.iapi.store.raw.log.Logger;
-
 import org.apache.derby.iapi.store.access.FileResource;
 import org.apache.derby.iapi.store.access.RowSource;
 import org.apache.derby.iapi.store.access.TransactionController;
 import org.apache.derby.iapi.error.ExceptionSeverity;
-
 import org.apache.derby.iapi.types.DataValueFactory;
-
 import org.apache.derby.iapi.services.property.PersistentSet;
 
+import java.util.Hashtable;
 import java.util.Stack;
 import java.util.Enumeration;
 import java.util.Properties;
+
 import javolution.util.FastTable;
+
 import java.util.List;
 import java.util.Dictionary;
 
 import org.apache.derby.iapi.error.StandardException;
-
 import org.apache.derby.iapi.services.sanity.SanityManager;
 import org.apache.derby.iapi.services.io.DynamicByteArrayOutputStream;
 import org.apache.derby.iapi.util.ByteArray;
 import org.apache.derby.iapi.services.locks.CompatibilitySpace;
 import org.apache.derby.iapi.services.property.PropertyUtil;
 import org.apache.derby.iapi.reference.Property;
-
 import org.apache.derby.iapi.services.io.LimitObjectInput;
-
 import org.apache.derby.iapi.services.locks.LockOwner;
 
 /**
@@ -1263,7 +1254,7 @@ public class Xact extends RawTransaction implements Limit, LockOwner {
 			return;
 
 		if (postTerminationWorks == null)
-			postTerminationWorks = new FastTable(2);
+			postTerminationWorks = new FastTable();
 		postTerminationWorks.add(work);
 	}
 
@@ -2412,7 +2403,7 @@ public class Xact extends RawTransaction implements Limit, LockOwner {
 		throws StandardException {
 
 		// Count row locks by table
-		Dictionary containers = new javolution.util.FastMap();
+		Dictionary containers = new Hashtable();
 
 		for (; lockList.hasMoreElements(); ) {
 

@@ -21,17 +21,15 @@
 
 package org.apache.derbyBuild;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
-import java.io.FileWriter;
-
 import java.util.Properties;
+
 import javolution.util.FastMap;
 import javolution.util.FastTable;
-
-import org.apache.derby.iapi.services.sanity.SanityManager;
 
 /* ****
  * This class is used at COMPILE TIME ONLY.  It is responsible for generating

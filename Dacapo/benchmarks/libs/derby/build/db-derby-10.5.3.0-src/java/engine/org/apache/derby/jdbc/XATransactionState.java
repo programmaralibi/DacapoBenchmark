@@ -25,18 +25,21 @@ package org.apache.derby.jdbc;
 import java.sql.SQLException;
 import java.util.Timer;
 import java.util.TimerTask;
-import org.apache.derby.iapi.services.monitor.Monitor;
-import org.apache.derby.iapi.services.timer.TimerFactory;
-import org.apache.derby.impl.jdbc.EmbedConnection;
+
+import javax.transaction.xa.XAException;
 import javax.transaction.xa.XAResource;
-import org.apache.derby.iapi.services.context.ContextImpl;
-import org.apache.derby.iapi.services.context.ContextManager;
+
+import javolution.util.FastMap;
+
 import org.apache.derby.iapi.error.ExceptionSeverity;
 import org.apache.derby.iapi.error.StandardException;
-import org.apache.derby.iapi.store.access.xa.XAXactId;
 import org.apache.derby.iapi.reference.SQLState;
-import javolution.util.FastMap;
-import javax.transaction.xa.XAException;
+import org.apache.derby.iapi.services.context.ContextImpl;
+import org.apache.derby.iapi.services.context.ContextManager;
+import org.apache.derby.iapi.services.monitor.Monitor;
+import org.apache.derby.iapi.services.timer.TimerFactory;
+import org.apache.derby.iapi.store.access.xa.XAXactId;
+import org.apache.derby.impl.jdbc.EmbedConnection;
 import org.apache.derby.shared.common.reference.MessageId;
 
 /** 
@@ -280,6 +283,120 @@ final class XATransactionState extends ContextImpl {
 
 				if (suspendedList == null)
 					suspendedList = new FastMap();
+				suspendedList.put(resource, this);
+
+				associationState = XATransactionState.T0_NOT_ASSOCIATED;
+				associatedResource = null;
+				conn.setApplicationConnection(null);
+				notify = true;
+
+				break;
+
+			default:
+				throw new XAException(XAException.XAER_INVAL);
+			}
+
+			if (notify)
+				notifyAll();
+
+			return rollbackOnly;
+		}
+	}
+
+   /**
+    * Schedule a timeout task wich will rollback the global transaction
+    * after the specified time will elapse.
+    *
+    * @param timeoutMillis The number of milliseconds to be elapsed before
+    *                      the transaction will be rolled back.
+    */
+    synchronized void scheduleTimeoutTask(long timeoutMillis) {
+        // Mark the transaction to be rolled back bby timeout
+        performTimeoutRollback = true;
+        // schedule a time out task if the timeout was specified
+        if (timeoutMillis > 0) {
+            // take care of the transaction timeout
+            TimerTask cancelTask = new CancelXATransactionTask();
+            TimerFactory timerFactory = Monitor.getMonitor().getTimerFactory();
+            Timer timer = timerFactory.getCancellationTimer();
+            timer.schedule(cancelTask, timeoutMillis);
+        } else {
+            timeoutTask = null;
+        }
+    }
+
+   /**
+     * Rollback the global transaction and cancel the timeout task.
+     */
+    synchronized void xa_rollback() throws SQLException {
+        conn.xa_rollback();
+        xa_finalize();
+    }
+
+   /**
+     * Commit the global transaction and cancel the timeout task.
+     * @param onePhase Indicates whether to use one phase commit protocol.
+     *                Otherwise two phase commit protocol will be used.
+     */
+    synchronized void xa_commit(boolean onePhase) throws SQLException {
+        conn.xa_commit(onePhase);
+        xa_finalize();
+    }
+
+   /**
+     * Prepare the global transaction for commit.
+     */
+    synchronized int xa_prepare() throws SQLException {
+        int retVal = conn.xa_prepare();
+        return retVal;
+    }
+
+    /** This method cancels timeoutTask and assigns
+      * 'performTimeoutRollback = false'.
+      */
+    synchronized void xa_finalize() {
+        if (timeoutTask != null) {
+            timeoutTask.cancel();
+        }
+        performTimeoutRollback = false;
+    }
+
+    /**
+     * This function is called from the timer task when the transaction
+     * times out.
+     *
+     * @see CancelXATransactionTask
+     */
+    synchronized void cancel(String messageId) throws XAException {
+        // Check performTimeoutRollback just to be sure that
+        // the cancellation task was not started
+        // just before the xa_commit/rollback
+        // obtained this object's monitor.
+        if (performTimeoutRollback) {
+
+            // Log the message about the transaction cancelled
+            if (messageId != null)
+                Monitor.logTextMessage(messageId, xid.toString());
+
+            // Check whether the transaction is associated
+            // with any EmbedXAResource instance.
+            if (associationState == XATransactionState.T1_ASSOCIATED) {
+                conn.cancelRunningStatement();
+                EmbedXAResource assocRes = associatedResource;
+                end(assocRes, XAResource.TMFAIL, true);
+            }
+
+            // Rollback the global transaction
+            try {
+                conn.xa_rollback();
+            } catch (SQLException sqle) {
+                XAException ex = new XAException(XAException.XAER_RMERR);
+                ex.initCause(sqle);
+                throw ex;
+            }
+
+            // Do the cleanup on the resource
+            creatingResource.returnConnectionToResource(this, xid);
         }
     }
 }

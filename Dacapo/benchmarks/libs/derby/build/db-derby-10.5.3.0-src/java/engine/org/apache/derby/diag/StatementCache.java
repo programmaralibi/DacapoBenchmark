@@ -82,12 +82,12 @@ public final class StatementCache extends VTITemplate {
 
 		if (statementCache != null) {
 			final Collection values = statementCache.values();
-			data = new FastTable(values.size());
+			data = new FastTable();
 			for (Iterator i = values.iterator(); i.hasNext(); ) {
 				final CachedStatement cs = (CachedStatement) i.next();
 				final GenericPreparedStatement ps =
 					(GenericPreparedStatement) cs.getPreparedStatement();
-				data.addElement(ps);
+				data.add(ps);
 			}
 		}
 	}
@@ -100,7 +100,7 @@ public final class StatementCache extends VTITemplate {
 		position++;
 
 		for (; position < data.size(); position++) {
-			currentPs = (GenericPreparedStatement) data.elementAt(position);
+			currentPs = (GenericPreparedStatement) data.get(position);
 	
 			if (currentPs != null)
 				return true;

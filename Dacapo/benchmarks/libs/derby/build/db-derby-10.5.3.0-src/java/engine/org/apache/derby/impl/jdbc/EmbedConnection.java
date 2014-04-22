@@ -21,69 +21,58 @@
 
 package org.apache.derby.impl.jdbc;
 
-import org.apache.derby.iapi.error.ExceptionSeverity;
-import org.apache.derby.jdbc.InternalDriver;
-
-import org.apache.derby.iapi.reference.Attribute;
-import org.apache.derby.iapi.reference.MessageId;
-import org.apache.derby.iapi.reference.Property;
-import org.apache.derby.iapi.reference.SQLState;
-
-import org.apache.derby.iapi.services.context.ContextManager;
-import org.apache.derby.iapi.services.memory.LowMemory;
-import org.apache.derby.iapi.services.monitor.Monitor;
-import org.apache.derby.iapi.services.sanity.SanityManager;
-import org.apache.derby.iapi.services.property.PropertyUtil;
-
-import org.apache.derby.iapi.jdbc.AuthenticationService;
-import org.apache.derby.iapi.jdbc.EngineConnection;
-import org.apache.derby.security.DatabasePermission;
-
-import org.apache.derby.iapi.db.Database;
-import org.apache.derby.impl.db.SlaveDatabase;
-import org.apache.derby.iapi.error.ExceptionSeverity;
-import org.apache.derby.iapi.error.SQLWarningFactory;
-import org.apache.derby.iapi.error.StandardException;
-import org.apache.derby.iapi.services.i18n.MessageService;
-import org.apache.derby.iapi.sql.conn.LanguageConnectionContext;
-import org.apache.derby.iapi.sql.execute.ExecutionContext;
-import org.apache.derby.iapi.sql.dictionary.DataDictionary;
-import org.apache.derby.iapi.store.access.XATransactionController;
-import org.apache.derby.iapi.store.access.TransactionController;
-
-import org.apache.derby.iapi.store.replication.master.MasterFactory;
-import org.apache.derby.iapi.store.replication.slave.SlaveFactory;
-
-import org.apache.derby.iapi.util.IdUtil;
-
 import java.io.IOException;
-
-import java.security.Permission;
 import java.security.AccessControlException;
-
+import java.security.Permission;
+import java.sql.Blob;
+import java.sql.CallableStatement;
+import java.sql.Clob;
+import java.sql.DatabaseMetaData;
 /* can't import due to name overlap:
 import java.sql.Connection;
 import java.sql.ResultSet;
 */
 import java.sql.PreparedStatement;
-import java.sql.CallableStatement;
-import java.sql.Blob;
-import java.sql.Clob;
-import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLWarning;
 import java.sql.Statement;
-
 import java.util.HashSet;
-import java.util.Map;
-import javolution.util.FastMap;
-import javolution.util.FastMap;
-import java.util.Properties;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Properties;
+import java.util.WeakHashMap;
 
+import javolution.util.FastMap;
+
+import org.apache.derby.iapi.db.Database;
+import org.apache.derby.iapi.error.ExceptionSeverity;
+import org.apache.derby.iapi.error.SQLWarningFactory;
+import org.apache.derby.iapi.error.StandardException;
+import org.apache.derby.iapi.jdbc.AuthenticationService;
+import org.apache.derby.iapi.jdbc.EngineConnection;
 import org.apache.derby.iapi.jdbc.EngineLOB;
+import org.apache.derby.iapi.reference.Attribute;
+import org.apache.derby.iapi.reference.MessageId;
+import org.apache.derby.iapi.reference.Property;
+import org.apache.derby.iapi.reference.SQLState;
+import org.apache.derby.iapi.services.context.ContextManager;
+import org.apache.derby.iapi.services.i18n.MessageService;
+import org.apache.derby.iapi.services.memory.LowMemory;
+import org.apache.derby.iapi.services.monitor.Monitor;
+import org.apache.derby.iapi.services.property.PropertyUtil;
+import org.apache.derby.iapi.services.sanity.SanityManager;
+import org.apache.derby.iapi.sql.conn.LanguageConnectionContext;
+import org.apache.derby.iapi.sql.dictionary.DataDictionary;
+import org.apache.derby.iapi.sql.execute.ExecutionContext;
+import org.apache.derby.iapi.store.access.TransactionController;
+import org.apache.derby.iapi.store.access.XATransactionController;
+import org.apache.derby.iapi.store.replication.master.MasterFactory;
+import org.apache.derby.iapi.store.replication.slave.SlaveFactory;
+import org.apache.derby.impl.db.SlaveDatabase;
 import org.apache.derby.impl.jdbc.authentication.NoneAuthenticationServiceImpl;
+import org.apache.derby.jdbc.InternalDriver;
+import org.apache.derby.security.DatabasePermission;
 
 /**
  * Local implementation of Connection for a JDBC driver in 
@@ -149,11 +138,11 @@ public abstract class EmbedConnection implements EngineConnection
      * connection. These lobs will be cleared after the transaction
      * is no longer valid or when connection is closed
      */
-    private FastMap lobReferences = null;
+    private WeakHashMap lobReferences = null;
 
     // Set to keep track of the open LOBFiles, so they can be closed at the end of 
     // the transaction. This would normally happen as lobReferences are freed as they
-    // get garbage collected after being removed from the FastMap, but it is 
+    // get garbage collected after being removed from the WeakHashMap, but it is 
     // possible that finalization will not have occurred before the user tries to 
     // remove the database (DERBY-3655).  Therefore we keep this set so that we can
     // explicitly close the files.
@@ -3138,13 +3127,13 @@ public abstract class EmbedConnection implements EngineConnection
 	}
 
     /**
-     * Adds an entry of the lob in FastMap. These entries are used
+     * Adds an entry of the lob in WeakHashMap. These entries are used
      * for cleanup during commit/rollback or close.
      * @param lobReference LOB Object
      */
     void addLOBReference (Object lobReference) {
         if (rootConnection.lobReferences == null) {
-            rootConnection.lobReferences = new FastMap ();
+            rootConnection.lobReferences = new WeakHashMap ();
         }
         rootConnection.lobReferences.put (lobReference, null);
     }
@@ -3156,6 +3145,49 @@ public abstract class EmbedConnection implements EngineConnection
 	public FastMap getlobHMObj() {
 		if (rootConnection.lobFastMap == null) {
 			rootConnection.lobFastMap = new FastMap();
+		}
+		return rootConnection.lobFastMap;
+	}
+
+    /** Cancels the current running statement. */
+    public void cancelRunningStatement() {
+        getLanguageConnection().getStatementContext().cancel();
+    }
+
+    /**
+     * Obtain the name of the current schema. Not part of the
+     * java.sql.Connection interface, but is accessible through the
+     * EngineConnection interface, so that the NetworkServer can get at the
+     * current schema for piggy-backing
+     * @return the current schema name
+     */
+    public String getCurrentSchemaName() {
+        return getLanguageConnection().getCurrentSchemaName();
+    }
+    
+    
+	/**
+	 * Add a temporary lob file to the lobFiles set.
+	 * This will get closed at transaction end or removed as the lob is freed.
+	 * @param lobFile  LOBFile to add
+	 */
+	void addLobFile(LOBFile lobFile) {
+		synchronized (this) {
+			if (lobFiles == null)
+				lobFiles = new HashSet();
+			lobFiles.add(lobFile);
+		}
+	}
+    
+	/**
+	 * Remove LOBFile from the lobFiles set. This will occur when the lob 
+	 * is freed or at transaction end if the lobFile was removed from the 
+	 * WeakHashMap but not finalized.
+	 * @param lobFile  LOBFile to remove.
+	 */
+	void removeLobFile(LOBFile lobFile) {
+		synchronized (this) {
+			lobFiles.remove(lobFile);
 		}
 	}
 }

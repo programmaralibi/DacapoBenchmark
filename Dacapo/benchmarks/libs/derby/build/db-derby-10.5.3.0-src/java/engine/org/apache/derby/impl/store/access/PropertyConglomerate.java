@@ -33,6 +33,7 @@ import org.apache.derby.iapi.reference.Property;
 import org.apache.derby.iapi.reference.SQLState;
 import org.apache.derby.iapi.services.io.Formatable;
 import org.apache.derby.iapi.services.io.FormatableBitSet;
+import org.apache.derby.iapi.services.io.FormatableFastMap;
 import org.apache.derby.iapi.services.locks.C_LockFactory;
 import org.apache.derby.iapi.services.locks.CompatibilitySpace;
 import org.apache.derby.iapi.services.locks.Latch;
@@ -362,8 +363,8 @@ class PropertyConglomerate
 	{
 		if (saveServiceProperty(key,value)) return;
 
-		Dictionary defaults = (Dictionary)readProperty(tc,AccessFactoryGlobals.DEFAULT_PROPERTY_NAME);
-		if (defaults == null) defaults = new FormatableHashtable();
+		FormatableFastMap defaults = (FormatableFastMap)readProperty(tc,AccessFactoryGlobals.DEFAULT_PROPERTY_NAME);
+		if (defaults == null) defaults = new FormatableFastMap();
 		if (value==null)
 			defaults.remove(key);
 		else

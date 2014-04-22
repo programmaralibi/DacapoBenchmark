@@ -236,7 +236,7 @@ public class LockTable extends VTITemplate implements VTICosting  {
     Latch                   lock)
         throws StandardException
     {
-		FastMap	attributes = new FastMap(17);
+		FastMap	attributes = new FastMap();
         Object      lock_type =  lock.getQualifier();
 
 

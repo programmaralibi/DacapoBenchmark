@@ -3158,7 +3158,7 @@ public class GenericLanguageConnectionContext
 		if (autoincrementCacheHashtable == null)
 			return;
 
-		if (auBasicDependencyManager.java= null)
+		if (autoincrementHT == null)
 			autoincrementHT = new FastMap();
 
 		DataDictionary dd = getDataDictionary();

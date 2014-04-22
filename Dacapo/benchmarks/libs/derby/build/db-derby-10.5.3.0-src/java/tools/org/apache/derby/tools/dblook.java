@@ -23,33 +23,30 @@ package org.apache.derby.tools;
 
 import java.io.BufferedReader;
 import java.io.StringReader;
-
-import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.Connection;
-import java.sql.Statement;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLWarning;
+import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.StringTokenizer;
 
 import javolution.util.FastMap;
-import java.util.StringTokenizer;
 import javolution.util.FastTable;
 
 import org.apache.derby.iapi.tools.i18n.LocalizedResource;
-
+import org.apache.derby.impl.tools.dblook.DB_Alias;
 import org.apache.derby.impl.tools.dblook.DB_Check;
+import org.apache.derby.impl.tools.dblook.DB_GrantRevoke;
 import org.apache.derby.impl.tools.dblook.DB_Index;
 import org.apache.derby.impl.tools.dblook.DB_Jar;
 import org.apache.derby.impl.tools.dblook.DB_Key;
-import org.apache.derby.impl.tools.dblook.DB_Table;
+import org.apache.derby.impl.tools.dblook.DB_Roles;
 import org.apache.derby.impl.tools.dblook.DB_Schema;
-import org.apache.derby.impl.tools.dblook.DB_Alias;
+import org.apache.derby.impl.tools.dblook.DB_Table;
 import org.apache.derby.impl.tools.dblook.DB_Trigger;
 import org.apache.derby.impl.tools.dblook.DB_View;
-import org.apache.derby.impl.tools.dblook.DB_Roles;
-import org.apache.derby.impl.tools.dblook.DB_GrantRevoke;
 import org.apache.derby.impl.tools.dblook.Logs;
 
 public final class dblook {
@@ -134,7 +131,46 @@ public final class dblook {
 			return;
 		}
 
-		schemaMap = new FastMap()
+		schemaMap = new FastMap();
+		tableIdToNameMap = new FastMap();
+
+		// Now run the utility.
+		go();
+
+	}
+
+	/* ************************************************
+	 * initState:
+	 * Initialize class variables.
+	 ****/
+
+	private void initState() {
+
+		sourceDBUrl = null;
+		ddlFileName = null;
+		stmtDelimiter = null;
+		appendLogs = false;
+		tableList = null;
+		targetSchema = null;
+		schemaParam = null;
+		skipViews = false;
+		verbose= false;
+		sourceDBName = null;
+		return;
+
+	}
+
+	/* ************************************************
+	 * parseArgs:
+	 * Parse the command-line arguments.
+	 * @param args args[0] is the url for the source database.
+	 * @return true if all parameters were loaded and the output
+	 *  files were successfully created; false otherwise.
+	 ****/
+
+	private boolean parseArgs(String[] args) {
+
+		if (args.length < 2)
 		// must have minimum of 2 args: "-d" and "<dbUrl>".
 			return false;
 

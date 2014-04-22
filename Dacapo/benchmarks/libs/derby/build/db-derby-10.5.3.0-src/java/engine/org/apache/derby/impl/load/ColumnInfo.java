@@ -21,19 +21,16 @@
 
 package org.apache.derby.impl.load;
 
-import org.apache.derby.iapi.reference.JDBC40Translation;
-import org.apache.derby.iapi.services.io.StoredFormatIds;
-
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLWarning;
-import java.sql.Statement;
-import java.sql.PreparedStatement;
-import java.sql.Connection;
-import java.sql.ResultSetMetaData;
-import java.sql.DatabaseMetaData;
-import java.util.*;
+import java.util.StringTokenizer;
+
+import javolution.util.FastTable;
+
 import org.apache.derby.iapi.jdbc.EngineConnection;
+import org.apache.derby.iapi.reference.JDBC40Translation;
 
 /**
  *	

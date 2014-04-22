@@ -25,9 +25,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 import javolution.util.FastMap;
-import java.util.Enumeration;
-import java.util.Properties;
 
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.Properties;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.sql.Connection;
@@ -122,13 +123,13 @@ class ConnectionEnv {
     int newNum = 0;
     boolean newConnectionNameOk = false;
     String newConnectionName = "";
-    Enumeration e;
+    Iterator e;
     while (!newConnectionNameOk){
       newConnectionName = Session.DEFAULT_NAME + newNum;
       newConnectionNameOk = true;
-      e = sessions.keys();
-      while (e.hasMoreElements() && newConnectionNameOk){
-        if (((String)e.nextElement()).equals(newConnectionName))
+      e = sessions.keySet().iterator();
+      while (e.hasNext() && newConnectionNameOk){
+        if (((String)e.next()).equals(newConnectionName))
            newConnectionNameOk = false;
       }
       newNum = newNum + 1;
@@ -171,8 +172,8 @@ class ConnectionEnv {
 		if (sessions == null || sessions.size() == 0)
 			return;
 		else
-			for (Enumeration e = sessions.keys(); e.hasMoreElements(); ) {
-				String n = (String)e.nextElement();
+			for (Iterator e = sessions.keySet().iterator(); e.hasNext(); ) {
+				String n = (String)e.next();
 				removeSession(n);
 			}
 	}

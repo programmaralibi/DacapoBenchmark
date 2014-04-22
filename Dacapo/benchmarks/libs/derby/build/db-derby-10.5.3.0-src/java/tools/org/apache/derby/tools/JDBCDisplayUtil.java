@@ -445,7 +445,7 @@ public class JDBCDisplayUtil {
 			LocalizedResource.OutputWriter().println(b);
 			LocalizedResource.OutputWriter().println(LocalizedResource.getMessage("UT_Resul0", LocalizedResource.getNumber(i)));
 			LocalizedResource.OutputWriter().println(b);
-			indent_DisplayResults(out, (ResultSet) nr.elementAt(i), conn,
+			indent_DisplayResults(out, (ResultSet) nr.get(i), conn,
 								  indentLevel, null, null);
 		}
 	}
@@ -685,7 +685,7 @@ public class JDBCDisplayUtil {
 				else if (o instanceof ResultSet && nestedResults != null)
 				{
 					s = LocalizedResource.getMessage("UT_Resul0_20", LocalizedResource.getNumber(nestedResults.size()));
-					nestedResults.addElement(o);
+					nestedResults.add(o);
 				}
 				else
 				{
@@ -997,7 +997,7 @@ public class JDBCDisplayUtil {
 			System.out.println(b);
 			System.out.println(s+i+" +");
 			System.out.println(b);
-			indent_DisplayResults(out, (ResultSet) nr.elementAt(i), conn, 
+			indent_DisplayResults(out, (ResultSet) nr.get(i), conn, 
 								  indentLevel, null, null);
 		}
 	}
@@ -1195,7 +1195,7 @@ public class JDBCDisplayUtil {
 				else if (o instanceof ResultSet && nestedResults != null)
 				{
 					s = "ResultSet #"+nestedResults.size();
-					nestedResults.addElement(o);
+					nestedResults.add(o);
 				}
 				else
 				{

@@ -22,7 +22,9 @@
 package org.apache.derby.impl.tools.ij;
 
 import javolution.util.FastTable;
+
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.Properties;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -74,12 +76,12 @@ public class mtTestSuite
 			return false;
 
 		boolean gotError = false;
-		Enumeration e = cases.elements();
+		Iterator e = cases.iterator();
 		mtTestCase tcase;
  
-		while (e.hasMoreElements())
+		while (e.hasNext())
 		{
-			tcase = (mtTestCase)e.nextElement();
+			tcase = (mtTestCase)e.next();
 			try
 			{
 				tcase.initialize(rootDir);
@@ -146,19 +148,19 @@ public class mtTestSuite
 		str +="\nNumber of Initializers: "+init.size()+"\n";
 		for (i = 0, len = init.size(); i < len; i++)
 		{
-			str += init.elementAt(i).toString() + "\n";
+			str += init.get(i).toString() + "\n";
 		}
 
 		str +="\nNumber of Cases: "+cases.size()+"\n";
 		for (i = 0, len = cases.size(); i < len; i++)
 		{
-			str += cases.elementAt(i).toString() + "\n";
+			str += cases.get(i).toString() + "\n";
 		}
 
 		str +="\nNumber of Final Cases: "+last.size()+"\n";
 		for (i = 0, len = last.size(); i < len; i++)
 		{
-			str += last.elementAt(i).toString() + "\n";
+			str += last.get(i).toString() + "\n";
 		}
 
 		return str;
@@ -178,7 +180,7 @@ public class mtTestSuite
 		do
 		{
 			caseNum = (int)((java.lang.Math.random() * 1311) % numCases);
-			testCase = (mtTestCase)cases.elementAt(caseNum);
+			testCase = (mtTestCase)cases.get(caseNum);
 		}
 		while (testCase.grab() == false);
 	

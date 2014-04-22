@@ -22,6 +22,8 @@
 package org.apache.derby.impl.store.access.sort;
 
 import java.util.Enumeration;
+import java.util.Iterator;
+
 import javolution.util.FastTable;
 
 import org.apache.derby.iapi.services.sanity.SanityManager;
@@ -30,7 +32,6 @@ import org.apache.derby.iapi.store.access.conglomerate.TransactionManager;
 import org.apache.derby.iapi.store.access.SortObserver;
 import org.apache.derby.iapi.store.raw.StreamContainerHandle;
 import org.apache.derby.iapi.store.raw.Transaction;
-
 import org.apache.derby.iapi.types.DataValueDescriptor;
 
 // For JavaDoc references (i.e. @see)
@@ -182,11 +183,11 @@ public class MergeScan extends SortScan
 
 		// Open a scan on each merge run.
 		int scanindex = 0;
-		Enumeration e = mergeRuns.elements();
-		while (e.hasMoreElements())
+		Iterator e = mergeRuns.iterator();
+		while (e.hasNext())
 		{
 			// get the container id
-			long id = ((Long) e.nextElement()).longValue();
+			long id = ((Long) e.next()).longValue();
 
 			Transaction rawTran = tran.getRawStoreXact();  // get raw transaction
 			int segmentId = StreamContainerHandle.TEMPORARY_SEGMENT;

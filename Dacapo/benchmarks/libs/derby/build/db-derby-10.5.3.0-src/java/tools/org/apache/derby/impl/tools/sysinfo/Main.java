@@ -810,13 +810,15 @@ public static void getMainInfo (java.io.PrintWriter aw, boolean pause) {
 					}
 					if (zip != null)
 					{
-						v.addElement(zip);
+						v.add(zip);
 					}
 				}
 				if (v.size() > 0)
 				{
 					ZipInfoProperties cpzips[] = new ZipInfoProperties[v.size()];
-					v.copyInto(cpzips);
+					for(int index=0; index<v.size(); index++) {
+						cpzips[index] = (ZipInfoProperties)v.get(index);
+					}
 					return mergeZips(zips, cpzips);
 				}
 			}
@@ -1199,7 +1201,7 @@ public static void getMainInfo (java.io.PrintWriter aw, boolean pause) {
                 }
             }
             if (zip1[i] != null)
-              v.addElement(zip1[i]);
+              v.add(zip1[i]);
         }
   
         // if provided a second array, remove any locations in second array
@@ -1216,14 +1218,16 @@ public static void getMainInfo (java.io.PrintWriter aw, boolean pause) {
             }
             if (!foundDup)
             {
-                v.addElement(zip2[j]);
+                v.add(zip2[j]);
             }
             foundDup = false;
           }
         }
   
         ZipInfoProperties[] merged = new ZipInfoProperties[v.size()];
-        v.copyInto(merged);
+        for(int index=0; index<v.size();index++) {
+        	merged[index] = (ZipInfoProperties)v.get(index);
+        }
         return merged;
     }
 

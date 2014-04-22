@@ -22,9 +22,7 @@
 package org.apache.derby.impl.store.access.sort;
 
 import org.apache.derby.iapi.reference.SQLState;
-
 import org.apache.derby.iapi.services.io.FormatableBitSet;
-
 import org.apache.derby.iapi.services.sanity.SanityManager;
 import org.apache.derby.iapi.error.StandardException;
 import org.apache.derby.iapi.store.access.conglomerate.ScanControllerRowSource;
@@ -37,17 +35,16 @@ import org.apache.derby.iapi.store.access.ScanController;
 import org.apache.derby.iapi.store.access.SortObserver;
 import org.apache.derby.iapi.store.access.SortController;
 import org.apache.derby.iapi.store.access.TransactionController;
-
 import org.apache.derby.iapi.store.raw.StreamContainerHandle;
 import org.apache.derby.iapi.store.raw.RawStoreFactory;
 import org.apache.derby.iapi.store.raw.Transaction;
-
 import org.apache.derby.iapi.types.DataValueDescriptor;
-
 import org.apache.derby.iapi.types.Orderable;
 
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.Properties;
+
 import javolution.util.FastTable;
 
 /**
@@ -245,7 +242,7 @@ class MergeSort implements Sort
 		{
 			// Dump the rows in the sort buffer to a merge run.
 			long containerId = createMergeRun(tran, sortBuffer);
-			mergeRuns.addElement(new Long(containerId));
+			mergeRuns.add(new Long(containerId));
 
 			// If there are more merge runs than we can sort
 			// at once with our sort buffer, we have to reduce
@@ -304,7 +301,7 @@ class MergeSort implements Sort
 		{
 			// Dump the rows in the sort buffer to a merge run.
 			long containerId = createMergeRun(tran, sortBuffer);
-			mergeRuns.addElement(new Long(containerId));
+			mergeRuns.add(new Long(containerId));
 
 			// If there are more merge runs than we can sort
 			// at once with our sort buffer, we have to reduce
@@ -628,16 +625,16 @@ class MergeSort implements Sort
 	{
 		if (mergeRuns != null)
 		{
-			Enumeration e = mergeRuns.elements();
+			Iterator e = mergeRuns.iterator();
 
 			try 
 			{
 				Transaction rawTran = tran.getRawStoreXact();
 				long segmentId = StreamContainerHandle.TEMPORARY_SEGMENT;
 
-				while (e.hasMoreElements())
+				while (e.hasNext())
 				{
-					long containerId = ((Long) e.nextElement()).longValue();
+					long containerId = ((Long) e.next()).longValue();
 					rawTran.dropStreamContainer(segmentId, containerId);
 				}
 			}
@@ -675,7 +672,7 @@ class MergeSort implements Sort
 	private void multiStageMerge(TransactionManager tran)
 		throws StandardException
 	{
-		Enumeration e;
+		Iterator e;
 		//int iterations = 0; // DEBUG (nat)
 		int maxMergeRuns = sortBuffer.capacity();
 
@@ -689,16 +686,16 @@ class MergeSort implements Sort
 		{
 			// Move maxMergeRuns elements from the merge runs
 			// FastTable into a subset, leaving the rest.
-			subset = new FastTable(maxMergeRuns);
-			leftovers = new FastTable(mergeRuns.size() - maxMergeRuns);
-			e = mergeRuns.elements();
-			while (e.hasMoreElements())
+			subset = new FastTable();
+			leftovers = new FastTable();
+			e = mergeRuns.iterator();
+			while (e.hasNext())
 			{
-				Long containerId = (Long) e.nextElement();
+				Long containerId = (Long) e.next();
 				if (subset.size() < maxMergeRuns)
-					subset.addElement(containerId);
+					subset.add(containerId);
 				else
-					leftovers.addElement(containerId);
+					leftovers.add(containerId);
 			}
 
 			/* DEBUG (nat)
@@ -734,13 +731,13 @@ class MergeSort implements Sort
 			long id = rawTran.addAndLoadStreamContainer(segmentId,
 				properties, msRowSource);
 
-			mergeRuns.addElement(new Long(id));
+			mergeRuns.add(new Long(id));
 
 			// Drop the conglomerates in the merge subset
-			e = subset.elements();
-			while (e.hasMoreElements())
+			e = subset.iterator();
+			while (e.hasNext())
 			{
-				Long containerId = (Long) e.nextElement();
+				Long containerId = (Long) e.next();
 				rawTran.dropStreamContainer(segmentId, containerId.longValue());
 			}
 		}

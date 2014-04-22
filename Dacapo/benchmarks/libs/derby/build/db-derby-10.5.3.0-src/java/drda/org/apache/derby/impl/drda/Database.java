@@ -27,8 +27,11 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import javolution.util.FastMap;
+
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.Properties;
 
 import org.apache.derby.iapi.jdbc.EngineConnection;
@@ -347,9 +350,9 @@ class Database
 		try {
 			if (stmtTable != null)
 			{
-				for (Enumeration e = stmtTable.elements() ; e.hasMoreElements() ;) 
+				for (Iterator e = stmtTable.keySet().iterator() ; e.hasNext() ;) 
 				{
-					((DRDAStatement) e.nextElement()).close();
+					((DRDAStatement) e.next()).close();
 				}
 			
 			}
@@ -409,9 +412,9 @@ class Database
 		localLangUtil.getTextMessage("DRDA_RuntimeInfoNumStatements.I") +
 			stmtTable.size() + "\n";
 		s += localLangUtil.getTextMessage("DRDA_RuntimeInfoPreparedStatementHeader.I");
-		for (Enumeration e = stmtTable.elements() ; e.hasMoreElements() ;) 
+		for (Iterator e = stmtTable.keySet().iterator() ; e.hasNext() ;) 
 				{
-					s += ((DRDAStatement) e.nextElement()).toDebugString(indent
+					s += ((DRDAStatement) e.next()).toDebugString(indent
 																		 +"\t") +"\n";
 				}
 		return s;

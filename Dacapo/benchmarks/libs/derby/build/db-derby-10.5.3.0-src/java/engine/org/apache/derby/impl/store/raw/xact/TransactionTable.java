@@ -22,27 +22,22 @@
 package org.apache.derby.impl.store.raw.xact;
 
 import org.apache.derby.iapi.services.context.ContextManager;
-
 import org.apache.derby.iapi.services.sanity.SanityManager;
 import org.apache.derby.iapi.services.io.Formatable;
 import org.apache.derby.iapi.services.io.FormatIdUtil;
 import org.apache.derby.iapi.services.io.StoredFormatIds;
-
 import org.apache.derby.iapi.store.access.TransactionInfo;
-
 import org.apache.derby.iapi.store.raw.GlobalTransactionId;
-
 import org.apache.derby.iapi.store.raw.log.LogInstant;
-
 import org.apache.derby.iapi.store.raw.xact.RawTransaction;
 import org.apache.derby.iapi.store.raw.xact.TransactionId;
-
 import org.apache.derby.iapi.error.StandardException;
-
 import org.apache.derby.iapi.services.io.CompressedNumber;
 
 import javolution.util.FastMap;
+
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.io.ObjectOutput;
 import java.io.ObjectInput;
 import java.io.IOException;
@@ -100,7 +95,7 @@ public class TransactionTable implements Formatable
 	*/
 	public TransactionTable()
 	{
-		trans = new FastMap(17);
+		trans = new FastMap();
 	}
 
 	/*************************************************************
@@ -355,10 +350,10 @@ public class TransactionTable implements Formatable
         // Need to hold sync while linear searching the hash table.
         synchronized (trans)
         {
-            for (Enumeration e = trans.elements(); e.hasMoreElements();) 
+            for (Iterator e = trans.keySet().iterator(); e.hasNext();) 
             {
                 TransactionTableEntry entry = 
-                    (TransactionTableEntry) e.nextElement();
+                    (TransactionTableEntry) e.next();
 
                 if (entry != null)
                 {
@@ -392,9 +387,9 @@ public class TransactionTable implements Formatable
 	{
 		synchronized (this)
 		{
-			for (Enumeration e = trans.elements(); e.hasMoreElements(); )
+			for (Iterator e = trans.keySet().iterator(); e.hasNext(); )
 			{
-				TransactionTableEntry ent = (TransactionTableEntry)e.nextElement();
+				TransactionTableEntry ent = (TransactionTableEntry)e.next();
 				if (ent != null && ent.isUpdate())
 					return true;
 			}
@@ -439,10 +434,10 @@ public class TransactionTable implements Formatable
 				int maxcount = trans.size();
 
 				// first count up the number of active update transactions 
-				for (Enumeration e = trans.elements();
-					 e.hasMoreElements(); )
+				for (Iterator e = trans.keySet().iterator();
+					 e.hasNext(); )
 				{
-					TransactionTableEntry ent = (TransactionTableEntry)e.nextElement();
+					TransactionTableEntry ent = (TransactionTableEntry)e.next();
 					if (ent != null && ent.isUpdate())
 						count++;
 				}
@@ -452,10 +447,10 @@ public class TransactionTable implements Formatable
 				// now write them out
 				if (count > 0)
 				{
-					for (Enumeration e = trans.elements();
-						 e.hasMoreElements() ; )
+					for (Iterator e = trans.keySet().iterator();
+						 e.hasNext() ; )
 					{
-						TransactionTableEntry ent = (TransactionTableEntry)e.nextElement();
+						TransactionTableEntry ent = (TransactionTableEntry)e.next();
 						if (ent != null && ent.isUpdate())
 						{
 							// only writes out update transaction
@@ -527,10 +522,10 @@ public class TransactionTable implements Formatable
 	*/
 	public boolean hasRollbackFirstTransaction()
 	{
-		for (Enumeration e = trans.elements();
-			 e.hasMoreElements() ; )
+		for (Iterator e = trans.keySet().iterator();
+			 e.hasNext() ; )
 		{
-			TransactionTableEntry ent = (TransactionTableEntry)e.nextElement();
+			TransactionTableEntry ent = (TransactionTableEntry)e.next();
 
 			if (ent != null && ent.isRecovery() && 
 				(ent.getTransactionStatus() & 
@@ -580,9 +575,9 @@ public class TransactionTable implements Formatable
 
     private boolean hasPreparedXact(boolean recovered)
     {
-        for (Enumeration e = trans.elements(); e.hasMoreElements(); )
+        for (Iterator e = trans.keySet().iterator(); e.hasNext(); )
         {
-            TransactionTableEntry ent = (TransactionTableEntry) e.nextElement();
+            TransactionTableEntry ent = (TransactionTableEntry) e.next();
 
             if (ent != null && 
                 (ent.getTransactionStatus() & Xact.END_PREPARED) != 0)
@@ -622,10 +617,10 @@ public class TransactionTable implements Formatable
 		}
 
 		TransactionId id = null;
-		for (Enumeration e = trans.elements();
-			 e.hasMoreElements() ; )
+		for (Iterator e = trans.keySet().iterator();
+			 e.hasNext() ; )
 		{
-			TransactionTableEntry ent = (TransactionTableEntry)e.nextElement();
+			TransactionTableEntry ent = (TransactionTableEntry)e.next();
 
 			if (ent != null && ent.isUpdate() && ent.isRecovery() &&
 				(ent.getTransactionStatus() & Xact.RECOVERY_ROLLBACK_FIRST) != 0)
@@ -677,11 +672,11 @@ public class TransactionTable implements Formatable
 
         if (!trans.isEmpty())
 		{
-			for (Enumeration e = trans.elements();
-				 e.hasMoreElements() ; )
+			for (Iterator e = trans.keySet().iterator();
+				 e.hasNext() ; )
 			{
 				TransactionTableEntry ent =
-					 (TransactionTableEntry)e.nextElement();
+					 (TransactionTableEntry)e.next();
 
 				if (ent != null         && 
                     ent.isUpdate()      && 
@@ -718,10 +713,10 @@ public class TransactionTable implements Formatable
                 else
                 {
                     // all transactions in the table must be prepared.
-                    for (Enumeration e = trans.elements(); e.hasMoreElements();)
+                    for (Iterator e = trans.keySet().iterator(); e.hasNext();)
                     {
                         TransactionTableEntry ent =
-                            (TransactionTableEntry)e.nextElement();
+                            (TransactionTableEntry)e.next();
                         SanityManager.ASSERT(ent.isPrepared());
                     }
                 }
@@ -776,9 +771,9 @@ public class TransactionTable implements Formatable
             GlobalTransactionId     gid         = null;
             TransactionTableEntry   ent;
 
-			for (Enumeration e = trans.elements(); e.hasMoreElements(); )
+			for (Iterator e = trans.keySet().iterator(); e.hasNext(); )
 			{
-				ent = (TransactionTableEntry)e.nextElement();
+				ent = (TransactionTableEntry)e.next();
 
 				if (ent != null         && 
                     ent.isRecovery()    && 
@@ -801,9 +796,9 @@ public class TransactionTable implements Formatable
                     // if no entry's were found then the transaction table
                     // should have the passed in idle tran, and the rest should
                     // be non-recover, prepared global transactions.
-                    for (Enumeration e = trans.elements(); e.hasMoreElements();)
+                    for (Iterator e = trans.keySet().iterator(); e.hasNext();)
                     {
-                        ent = (TransactionTableEntry)e.nextElement();
+                        ent = (TransactionTableEntry)e.next();
 
                         if (XactId.compare(ent.getXid(), tran.getId()) != 0)
                         {
@@ -870,10 +865,10 @@ public class TransactionTable implements Formatable
 
             synchronized (trans)
             {
-                for (Enumeration e = trans.elements(); e.hasMoreElements(); )
+                for (Iterator e = trans.keySet().iterator(); e.hasNext(); )
                 {
                     TransactionTableEntry ent =
-                        (TransactionTableEntry)e.nextElement();
+                        (TransactionTableEntry)e.next();
 
                     if (ent != null && ent.isUpdate())
                     {
@@ -955,11 +950,11 @@ public class TransactionTable implements Formatable
 			LogInstant logInstant = null;
 			int i = 0;
 
-			for (Enumeration e = trans.elements();
-				 e.hasMoreElements(); )
+			for (Iterator e = trans.keySet().iterator();
+				 e.hasNext(); )
 			{
 				TransactionTableEntry ent =
-					(TransactionTableEntry)e.nextElement();
+					(TransactionTableEntry)e.next();
 
 				if (ent != null)
 					tinfo[i++] = (TransactionTableEntry)ent.clone();
@@ -985,11 +980,11 @@ public class TransactionTable implements Formatable
 
 			boolean hasReadOnlyTransaction = false;
 
-			for (Enumeration e = trans.elements();
-				 e.hasMoreElements(); )
+			for (Iterator e = trans.keySet().iterator();
+				 e.hasNext(); )
 			{
 				TransactionTableEntry ent =
-					(TransactionTableEntry)e.nextElement(); 
+					(TransactionTableEntry)e.next(); 
 
 				if (ent != null && ent.isUpdate())
 					str.append(ent.toString());
@@ -1002,11 +997,11 @@ public class TransactionTable implements Formatable
 			{
 				str.append("\n READ ONLY TRANSACTIONS \n");
 
-				for (Enumeration e = trans.elements();
-					 e.hasMoreElements(); )
+				for (Iterator e = trans.keySet().iterator();
+					 e.hasNext(); )
 				{
 					TransactionTableEntry ent =
-						(TransactionTableEntry)e.nextElement(); 
+						(TransactionTableEntry)e.next(); 
 
 					if (ent != null && !ent.isUpdate())
 						str.append(ent.toString());

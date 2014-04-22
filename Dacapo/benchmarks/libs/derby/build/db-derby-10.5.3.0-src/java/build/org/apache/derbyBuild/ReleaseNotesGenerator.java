@@ -21,11 +21,18 @@
 
 package org.apache.derbyBuild;
 
-import java.io.*;
-import java.util.*;
-import org.w3c.dom.*;
+import java.io.File;
+import java.io.InputStream;
 import java.net.URL;
+import java.util.Iterator;
+
+import javolution.util.FastTable;
+
 import org.apache.tools.ant.BuildException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.Text;
 
 /**
  * <p>

@@ -33,12 +33,14 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+
 import javax.net.SocketFactory;
 import javax.net.ServerSocketFactory;
 import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.SSLServerSocketFactory;
+
 import java.net.UnknownHostException;
 import java.nio.charset.Charset;
 import java.security.Permission;
@@ -52,11 +54,17 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.SQLWarning;
+
 import javolution.util.FastTable;
+
 import java.util.Enumeration;
+
 import javolution.util.FastMap;
+
+import java.util.Iterator;
 import java.util.Properties;
 import java.util.StringTokenizer;
+
 import javolution.util.FastTable;
 
 import org.apache.derby.drda.NetworkServerControl;
@@ -820,9 +828,9 @@ public final class NetworkServerControlImpl {
 		
  		// Close out the sessions
  		synchronized(sessionTable) {
- 			for (Enumeration e = sessionTable.elements(); e.hasMoreElements(); )
+ 			for (Iterator e = sessionTable.keySet().iterator(); e.hasNext(); )
  			{	
- 				Session session = (Session) e.nextElement();
+ 				Session session = (Session) e.next();
  				session.close();
  			}
  		}
@@ -1742,8 +1750,8 @@ public final class NetworkServerControlImpl {
 					else
 						return currentSession;
 				}
-				retval = (Session) runQueue.elementAt(0);
-				runQueue.removeElementAt(0);
+				retval = (Session) runQueue.get(0);
+				runQueue.remove(0);
 				if (currentSession != null)
 					runQueueAdd(currentSession);
 			} catch (InterruptedException e) {
@@ -2154,13 +2162,13 @@ public final class NetworkServerControlImpl {
 				break;
 			case COMMAND_TRACE:
 				{
-					boolean on = isOn((String)commandArgs.elementAt(0));
+					boolean on = isOn((String)commandArgs.get(0));
 					trace(sessionArg, on);
 					consoleTraceMessage(sessionArg, on);
 					break;
 				}
 			case COMMAND_TRACEDIRECTORY:
-				String directory = (String) commandArgs.elementAt(0);
+				String directory = (String) commandArgs.get(0);
 				sendSetTraceDirectory(directory);
 				consolePropertyMessage("DRDA_TraceDirectoryChange.I", directory);
 				break;
@@ -2171,7 +2179,7 @@ public final class NetworkServerControlImpl {
 				break;
 			case COMMAND_LOGCONNECTIONS:
 				{
-					boolean on = isOn((String)commandArgs.elementAt(0));
+					boolean on = isOn((String)commandArgs.get(0));
 					logConnections(on);
 					consolePropertyMessage("DRDA_LogConnectionsChange.I", on ? "DRDA_ON.I" : "DRDA_OFF.I");
 					break;
@@ -2185,10 +2193,10 @@ public final class NetworkServerControlImpl {
 			case COMMAND_MAXTHREADS:
 				max = 0;
 				try{
-					max = Integer.parseInt((String)commandArgs.elementAt(0));
+					max = Integer.parseInt((String)commandArgs.get(0));
 				}catch(NumberFormatException e){
 					consolePropertyMessage("DRDA_InvalidValue.U", new String [] 
-						{(String)commandArgs.elementAt(0), "maxthreads"});
+						{(String)commandArgs.get(0), "maxthreads"});
 				}
 				if (max < MIN_MAXTHREADS)
 					consolePropertyMessage("DRDA_InvalidValue.U", new String [] 
@@ -2202,12 +2210,12 @@ public final class NetworkServerControlImpl {
 				break;
 			case COMMAND_TIMESLICE:
 				int timeslice = 0;
-				String timeSliceArg = (String)commandArgs.elementAt(0);
+				String timeSliceArg = (String)commandArgs.get(0);
             	try{
                 	timeslice = Integer.parseInt(timeSliceArg);
             	}catch(NumberFormatException e){
 					consolePropertyMessage("DRDA_InvalidValue.U", new String [] 
-						{(String)commandArgs.elementAt(0), "timeslice"});
+						{(String)commandArgs.get(0), "timeslice"});
             	}
 				if (timeslice < MIN_TIMESLICE)
 					consolePropertyMessage("DRDA_InvalidValue.U", new String [] 
@@ -2232,7 +2240,7 @@ public final class NetworkServerControlImpl {
 	{
 		synchronized(runQueue)
 		{
-			runQueue.addElement(clientSession);
+			runQueue.add(clientSession);
 			runQueue.notify();
 		}
 	}
@@ -2257,12 +2265,12 @@ public final class NetworkServerControlImpl {
 				{
 					newpos = processDashArg(i, args);
 					if (newpos == i)
-						commandArgs.addElement(args[i++]);
+						commandArgs.add(args[i++]);
 					else
 						i = newpos;
 				}
 				else
-					commandArgs.addElement(args[i++]);
+					commandArgs.add(args[i++]);
 			}
 					
 			// look up command
@@ -2271,16 +2279,16 @@ public final class NetworkServerControlImpl {
 				for (i = 0; i < COMMANDS.length; i++)
 				{
 					if (StringUtil.SQLEqualsIgnoreCase(COMMANDS[i], 
-													   (String)commandArgs.firstElement()))
+													   (String)commandArgs.get(0)))
 					{
-						commandArgs.removeElementAt(0);
+						commandArgs.remove(0);
 						return i;
 					}
 				}
 
 				// didn't find command
 				consolePropertyMessage("DRDA_UnknownCommand.U", 
-					(String) commandArgs.firstElement());
+					(String) commandArgs.get(0));
 			}
 		} catch (Exception e) {
 			if (e.getMessage().equals(NetworkServerControlImpl.UNEXPECTED_ERR))
@@ -2546,7 +2554,7 @@ public final class NetworkServerControlImpl {
 	 **/
 	private void buildLocalAddressList(InetAddress bindAddr) 
 	{
-			localAddresses = new FastTable(3);
+			localAddresses = new FastTable();
 			localAddresses.add(bindAddr);
 			try {
 				localAddresses.add(InetAddress.getLocalHost());
@@ -3445,9 +3453,9 @@ public final class NetworkServerControlImpl {
 		}
 		// update the value in all the threads
 		synchronized(threadList) {
-			for (Enumeration e = threadList.elements(); e.hasMoreElements(); )
+			for (Iterator e = threadList.iterator(); e.hasNext(); )
 			{
-				DRDAConnThread thread = (DRDAConnThread)e.nextElement();
+				DRDAConnThread thread = (DRDAConnThread)e.next();
 				thread.setLogConnections(value);
 			}
 		}
@@ -3503,10 +3511,10 @@ public final class NetworkServerControlImpl {
 		if (sessionArg == 0)
 		{
 			synchronized(sessionTable) {
-				for (Enumeration e = sessionTable.elements(); e.hasMoreElements(); )
+				for (Iterator e = sessionTable.keySet().iterator(); e.hasNext(); )
 				{
                    
-				    Session session = (Session) e.nextElement();
+				    Session session = (Session) e.next();
 					if (on)
 						try {
 							session.setTraceOn(traceDirectory,true);
@@ -3809,9 +3817,9 @@ public final class NetworkServerControlImpl {
 		if (!getTraceAll())
 		{
 			synchronized(sessionTable) {
-				for (Enumeration e = sessionTable.elements(); e.hasMoreElements(); )
+				for (Iterator e = sessionTable.keySet().iterator(); e.hasNext(); )
 				{	
-					Session session = (Session) e.nextElement();
+					Session session = (Session) e.next();
 					if (session.isTraceOn())
 						retval.put(Property.DRDA_PROP_TRACE+"."+session.getConnNum(), "true");
 				}

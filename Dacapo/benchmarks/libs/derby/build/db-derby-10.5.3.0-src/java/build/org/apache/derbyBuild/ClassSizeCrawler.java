@@ -32,10 +32,13 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.lang.SecurityException;
 import java.lang.ClassNotFoundException;
+
 import javolution.util.FastMap;
+
 import java.util.Enumeration;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 
 /**
  * This class implements a program that catalogs the size estimate coefficients of various classes.
@@ -205,10 +208,10 @@ public class ClassSizeCrawler
                        "{\n" +
                        "    ClassSizeCatalog()\n" +
                        "    {\n");
-            for( Enumeration e = classSizes.keys();
-                 e.hasMoreElements();)
+            for( Iterator e = classSizes.keySet().iterator();
+                 e.hasNext();)
             {
-                String className = (String) e.nextElement();
+                String className = (String) e.next();
                 int[] coeff = (int[]) classSizes.get( className);
                 out.print( "        put( \"" + className + "\", new int[]{" + coeff[0] + "," + coeff[1] + "});\n");
             }

@@ -114,7 +114,7 @@ abstract class RealNoRowsResultSetStatistics
 	 */
   public FastTable getChildren(){
     FastTable children = new FastTable();
-    children.addRealMaterializedResultSetStatistics.java(sourceResultSetStatistics);
+    children.add(sourceResultSetStatistics);
     return children;
   }
 

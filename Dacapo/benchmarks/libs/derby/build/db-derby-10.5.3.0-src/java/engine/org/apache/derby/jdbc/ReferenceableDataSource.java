@@ -20,26 +20,22 @@
  */
 package org.apache.derby.jdbc;
 
-import java.sql.SQLException;
-import java.lang.reflect.*;
-
-
-import java.io.Serializable;
 import java.io.PrintWriter;
-import java.util.Properties;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.sql.SQLException;
+import java.util.Enumeration;
+import java.util.Hashtable;
 
+import javax.naming.Context;
+import javax.naming.Name;
 /* -- JNDI -- */
 import javax.naming.NamingException;
-import javax.naming.Referenceable;
+import javax.naming.RefAddr;
 import javax.naming.Reference;
 import javax.naming.StringRefAddr;
 import javax.naming.spi.ObjectFactory;
-import javax.naming.Context;
-import javax.naming.Name;
-import javax.naming.Reference;
-import javax.naming.RefAddr;
-import javolution.util.FastMap;
-import java.util.Enumeration;
 
 /** 
 
@@ -280,7 +276,7 @@ public class ReferenceableDataSource implements
 	public Object getObjectInstance(Object obj,
 									Name name,
 									Context nameCtx,
-									FastMap environment)
+									Hashtable environment)
 		 throws Exception
 	{
 		Reference ref = (Reference)obj;

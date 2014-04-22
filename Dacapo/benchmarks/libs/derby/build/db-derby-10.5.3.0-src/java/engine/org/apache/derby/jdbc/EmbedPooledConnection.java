@@ -21,34 +21,33 @@
 
 package org.apache.derby.jdbc;
 
-import org.apache.derby.iapi.services.sanity.SanityManager;
-import org.apache.derby.iapi.reference.Property;
-import org.apache.derby.iapi.error.ExceptionSeverity;
-import org.apache.derby.iapi.sql.conn.LanguageConnectionContext;
-
-/* import impl class */
-import org.apache.derby.impl.jdbc.Util;
-import org.apache.derby.impl.jdbc.EmbedConnection;
-import org.apache.derby.iapi.jdbc.BrokeredConnection;
-import org.apache.derby.iapi.jdbc.BrokeredConnectionControl;
-import org.apache.derby.iapi.jdbc.EngineConnection;
-import org.apache.derby.impl.jdbc.EmbedPreparedStatement;
-import org.apache.derby.impl.jdbc.EmbedCallableStatement;
-
-
+import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.PreparedStatement;
-import java.sql.CallableStatement;
-
-import javolution.util.FastTable;
+import java.util.ArrayList;
 import java.util.Iterator;
 
+import javax.sql.ConnectionEvent;
 /* -- New jdbc 20 extension types --- */
 import javax.sql.ConnectionEventListener;
-import javax.sql.ConnectionEvent;
+
+import javolution.util.FastTable;
+
+import org.apache.derby.iapi.error.ExceptionSeverity;
+import org.apache.derby.iapi.jdbc.BrokeredConnection;
+import org.apache.derby.iapi.jdbc.BrokeredConnectionControl;
+import org.apache.derby.iapi.jdbc.EngineConnection;
+import org.apache.derby.iapi.reference.Property;
+import org.apache.derby.iapi.services.sanity.SanityManager;
+import org.apache.derby.iapi.sql.conn.LanguageConnectionContext;
+import org.apache.derby.impl.jdbc.EmbedCallableStatement;
+import org.apache.derby.impl.jdbc.EmbedConnection;
+import org.apache.derby.impl.jdbc.EmbedPreparedStatement;
+/* import impl class */
+import org.apache.derby.impl.jdbc.Util;
 
 /** 
 	A PooledConnection object is a connection object that provides hooks for
@@ -78,7 +77,7 @@ class EmbedPooledConnection implements javax.sql.PooledConnection, BrokeredConne
      * The list of {@code ConnectionEventListener}s. It is initially {@code
      * null} and will be initialized lazily when the first listener is added.
      */
-    private FastTable eventListener;
+    private ArrayList eventListener;
 
     /**
      * The number of iterators going through the list of connection event
@@ -203,7 +202,7 @@ class EmbedPooledConnection implements javax.sql.PooledConnection, BrokeredConne
 	private void closeCurrentConnectionHandle() throws SQLException {
 		if (currentConnectionHandle != null)
 		{
-			FastTable tmpEventListener = eventListener;
+			ArrayList tmpEventListener = eventListener;
 			eventListener = null;
 
 			try {
@@ -284,13 +283,13 @@ class EmbedPooledConnection implements javax.sql.PooledConnection, BrokeredConne
 		if (listener == null)
 			return;
         if (eventListener == null) {
-            eventListener = new FastTable();
+            eventListener = new ArrayList();
         } else if (eventIterators > 0) {
             // DERBY-3401: Someone is iterating over the FastTable, and since
             // we were able to synchronize on this, that someone is us. Clone
             // the list of listeners in order to prevent invalidation of the
             // iterator.
-            eventListener = (FastTable) eventListener.clone();
+            eventListener = (ArrayList) eventListener.clone();
         }
         eventListener.add(listener);
 	}
@@ -308,7 +307,7 @@ class EmbedPooledConnection implements javax.sql.PooledConnection, BrokeredConne
             // we were able to synchronize on this, that someone is us. Clone
             // the list of listeners in order to prevent invalidation of the
             // iterator.
-            eventListener = (FastTable) eventListener.clone();
+            eventListener = (ArrayList) eventListener.clone();
         }
         eventListener.remove(listener);
 	}

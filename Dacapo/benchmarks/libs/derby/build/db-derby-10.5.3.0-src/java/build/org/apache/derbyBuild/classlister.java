@@ -21,13 +21,26 @@
 
 package org.apache.derbyBuild;
 
-import org.apache.derby.iapi.services.classfile.*;
-import org.apache.derby.iapi.util.ByteArray;
-import java.util.*;
-import java.util.zip.*;
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedWriter;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.Properties;
+import java.util.StringTokenizer;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
-import java.io.*;
+import javolution.util.FastMap;
+
+import org.apache.derby.iapi.services.classfile.ClassInvestigator;
 
 /**
 
@@ -154,7 +167,7 @@ public class classlister {
 		loadClasspath();
 		//cuf = new ModifyClasses();
 
-		foundClasses = new FastMap(3000, 0.8f);  
+		foundClasses = new FastMap();  
 		
 		for (int i = 0; i < sets.length; i++) 
 		{
@@ -192,8 +205,8 @@ public class classlister {
             System.out.println("Need to specify an outputfile");
             System.exit(1);
         }
-		for (Enumeration e = foundClasses.keys(); e.hasMoreElements(); ) {
-			String name = (String) e.nextElement();
+		for (Iterator e = foundClasses.keySet().iterator(); e.hasNext(); ) {
+			String name = (String) e.next();
 			String type = (String) foundClasses.get(name);
 			if (type.equals("class")) {
                 if (ignoreWebLogic) {
@@ -662,11 +675,11 @@ public class classlister {
 
 	protected void showAllItems()
 	{
-		Enumeration e = masterClassList.keys();
+		Iterator e = masterClassList.keySet().iterator();
 		pwOut.println("------------Printing all dependents--------------");
-		while (e.hasMoreElements())
+		while (e.hasNext())
 		{
-			String kid = (String) e.nextElement();
+			String kid = (String) e.next();
 			pwOut.println(kid );
 			FastMap scoreboard = new FastMap();
 			FastMap grandkids = (FastMap) masterClassList.get(kid);
@@ -681,17 +694,17 @@ public class classlister {
 		pwOut.println("One level only");
 		pwOut.println("-----------------------------------");
 		
-		Enumeration e = masterClassList.keys();
-		while (e.hasMoreElements())
+		Iterator e = masterClassList.keySet().iterator();
+		while (e.hasNext())
 		{
-			String key = (String) e.nextElement();
+			String key = (String) e.next();
 			pwOut.println(key);
 			FastMap h = (FastMap) masterClassList.get(key);
-			Enumeration e2 = h.keys();
+			Iterator e2 = h.keySet().iterator();
 			FastMap h2 = new FastMap();
-			while (e2.hasMoreElements())
+			while (e2.hasNext())
 			{
-				String key2 = (String) e2.nextElement();
+				String key2 = (String) e2.next();
 				pwOut.println("\t" + key2);
 			}
 		}
@@ -701,12 +714,12 @@ public class classlister {
 	protected void unrollFastMap( String parent, FastMap current, FastMap scoreboard, int indentLevel)
 	{
 		String indentString = "  ";
-		Enumeration e = current.keys();
+		Iterator e = current.keySet().iterator();
 		String key = null;
  
-		while (e.hasMoreElements())
+		while (e.hasNext())
 		{
-			key = (String) e.nextElement();
+			key = (String) e.next();
 			if (key.equals(parent))
 			{
 				continue;

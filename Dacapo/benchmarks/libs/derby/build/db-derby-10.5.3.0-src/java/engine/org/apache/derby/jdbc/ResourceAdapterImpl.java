@@ -22,23 +22,23 @@
 package org.apache.derby.jdbc;
 
 import org.apache.derby.iapi.services.info.JVMInfo;
-
 import org.apache.derby.iapi.services.context.ContextService;
 import org.apache.derby.iapi.services.monitor.ModuleControl;
 import org.apache.derby.iapi.services.monitor.Monitor;
 import org.apache.derby.iapi.services.sanity.SanityManager;
-
 import org.apache.derby.iapi.jdbc.ResourceAdapter;
-
 import org.apache.derby.iapi.error.StandardException;
 import org.apache.derby.iapi.store.access.AccessFactory;
 import org.apache.derby.iapi.store.access.xa.XAResourceManager;
 import org.apache.derby.iapi.store.access.xa.XAXactId;
 
-
+import java.util.Iterator;
 import java.util.Properties;
+
 import javolution.util.FastMap;
+
 import java.util.Enumeration;
+
 import javax.transaction.xa.XAException;
 
 
@@ -77,9 +77,9 @@ public class ResourceAdapterImpl
 	{
 		active = false;
 
-		for (Enumeration e = connectionTable.elements(); e.hasMoreElements(); ) {
+		for (Iterator e = connectionTable.keySet().iterator(); e.hasNext(); ) {
 
-			XATransactionState tranState = (XATransactionState) e.nextElement();
+			XATransactionState tranState = (XATransactionState) e.next();
 
 			try {
 				tranState.conn.close();

@@ -21,31 +21,29 @@
 
 package org.apache.derby.impl.tools.ij;
 
-import org.apache.derby.tools.JDBCDisplayUtil;
-import org.apache.derby.iapi.tools.i18n.*;
-
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
-
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.SQLWarning;
-import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Types;
-
-import java.util.Properties;
-import javolution.util.FastTable;
 import java.util.Locale;
+import java.util.Properties;
+
+import javolution.util.FastTable;
+
+import org.apache.derby.iapi.tools.i18n.LocalizedOutput;
+import org.apache.derby.iapi.tools.i18n.LocalizedResource;
+import org.apache.derby.tools.JDBCDisplayUtil;
 
 /**
 	Methods used to control setup for apps as
@@ -553,7 +551,7 @@ public final class util implements java.security.PrivilegedAction {
 	public static void DisplayFastTable(LocalizedOutput out, FastTable v) {
 		int l = v.size();
 		for (int i=0;i<l;i++)
-			out.println(v.elementAt(i));
+			out.println(v.get(i));
 	}
 
 	/**

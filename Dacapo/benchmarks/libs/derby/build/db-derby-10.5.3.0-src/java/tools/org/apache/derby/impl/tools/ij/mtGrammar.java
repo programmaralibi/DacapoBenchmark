@@ -3,8 +3,9 @@ package org.apache.derby.impl.tools.ij;
 
 import javolution.util.FastMap;
 import javolution.util.FastTable;
-import java.io.IOException;
-import org.apache.derby.iapi.tools.i18n.*;
+
+import org.apache.derby.iapi.tools.i18n.LocalizedInput;
+import org.apache.derby.iapi.tools.i18n.LocalizedOutput;
 
 public class mtGrammar implements mtGrammarConstants {
         private LocalizedOutput currOut;
@@ -64,7 +65,7 @@ public class mtGrammar implements mtGrammarConstants {
   }
 
   final public FastTable cases() throws ParseException {
-        FastTable testCases = new FastTable(5);
+        FastTable testCases = new FastTable();
     label_1:
     while (true) {
       testCase(testCases);
@@ -88,11 +89,11 @@ public class mtGrammar implements mtGrammarConstants {
     t = jj_consume_token(WORD);
     caseInfo(testCase);
                 testCase.setName(t.image);
-                testCases.addElement(testCase);
+                testCases.add(testCase);
   }
 
   final public FastTable init() throws ParseException {
-        FastTable testCases = new FastTable(5);
+        FastTable testCases = new FastTable();
     label_2:
     while (true) {
       initCase(testCases);
@@ -116,11 +117,11 @@ public class mtGrammar implements mtGrammarConstants {
     t = jj_consume_token(WORD);
     caseInfo(testCase);
                 testCase.setName(t.image);
-                testCases.addElement(testCase);
+                testCases.add(testCase);
   }
 
   final public FastTable last() throws ParseException {
-        FastTable testCases = new FastTable(1);
+        FastTable testCases = new FastTable();
     label_3:
     while (true) {
       lastCase(testCases);
@@ -144,7 +145,7 @@ public class mtGrammar implements mtGrammarConstants {
     t = jj_consume_token(WORD);
     caseInfo(testCase);
                 testCase.setName(t.image);
-                testCases.addElement(testCase);
+                testCases.add(testCase);
   }
 
   final public void caseInfo(mtTestCase testCase) throws ParseException {
@@ -523,8 +524,8 @@ public class mtGrammar implements mtGrammarConstants {
         jj_expentry[i] = jj_lasttokens[i];
       }
       boolean exists = false;
-      for (java.util.Enumeration e = jj_expentries.elements(); e.hasMoreElements();) {
-        int[] oldentry = (int[])(e.nextElement());
+      for (java.util.Iterator e = jj_expentries.iterator(); e.hasNext();) {
+        int[] oldentry = (int[])(e.next());
         if (oldentry.length == jj_expentry.length) {
           exists = true;
           for (int i = 0; i < jj_expentry.length; i++) {
@@ -536,13 +537,13 @@ public class mtGrammar implements mtGrammarConstants {
           if (exists) break;
         }
       }
-      if (!exists) jj_expentries.addElement(jj_expentry);
+      if (!exists) jj_expentries.add(jj_expentry);
       if (pos != 0) jj_lasttokens[(jj_endpos = pos) - 1] = kind;
     }
   }
 
   public ParseException generateParseException() {
-    jj_expentries.removeAllElements();
+    jj_expentries.clear();
     boolean[] la1tokens = new boolean[25];
     for (int i = 0; i < 25; i++) {
       la1tokens[i] = false;
@@ -564,7 +565,7 @@ public class mtGrammar implements mtGrammarConstants {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;
-        jj_expentries.addElement(jj_expentry);
+        jj_expentries.add(jj_expentry);
       }
     }
     jj_endpos = 0;
@@ -572,7 +573,7 @@ public class mtGrammar implements mtGrammarConstants {
     jj_add_error_token(0, 0);
     int[][] exptokseq = new int[jj_expentries.size()][];
     for (int i = 0; i < jj_expentries.size(); i++) {
-      exptokseq[i] = (int[])jj_expentries.elementAt(i);
+      exptokseq[i] = (int[])jj_expentries.get(i);
     }
     return new ParseException(token, exptokseq, mtGrammarConstants.tokenImage);
   }

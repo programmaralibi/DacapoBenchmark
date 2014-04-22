@@ -23,7 +23,6 @@ package org.apache.derby.impl.store.raw.data;
 
 
 import org.apache.derby.iapi.reference.MessageId;
-
 import org.apache.derby.impl.store.raw.data.AllocationActions;
 import org.apache.derby.impl.store.raw.data.BaseContainerHandle;
 import org.apache.derby.impl.store.raw.data.BasePage;
@@ -32,9 +31,7 @@ import org.apache.derby.impl.store.raw.data.LoggableActions;
 import org.apache.derby.impl.store.raw.data.PageActions;
 import org.apache.derby.impl.store.raw.data.RecordId;
 import org.apache.derby.impl.store.raw.data.ReclaimSpace;
-
 import org.apache.derby.iapi.services.info.ProductVersionHolder;
-
 import org.apache.derby.iapi.services.cache.CacheFactory;
 import org.apache.derby.iapi.services.cache.CacheManager;
 import org.apache.derby.iapi.services.cache.Cacheable;
@@ -49,7 +46,6 @@ import org.apache.derby.iapi.services.monitor.PersistentService;
 import org.apache.derby.iapi.services.diag.Performance;
 import org.apache.derby.iapi.services.sanity.SanityManager;
 import org.apache.derby.iapi.services.stream.HeaderPrintWriter;
-
 import org.apache.derby.iapi.error.StandardException;
 import org.apache.derby.iapi.services.i18n.MessageService;
 import org.apache.derby.iapi.store.access.AccessFactoryGlobals;
@@ -67,9 +63,7 @@ import org.apache.derby.iapi.store.raw.RawStoreFactory;
 import org.apache.derby.iapi.store.raw.StreamContainerHandle;
 import org.apache.derby.iapi.store.raw.Transaction;
 import org.apache.derby.iapi.store.raw.xact.RawTransaction;
-
 import org.apache.derby.iapi.store.access.RowSource;
-
 import org.apache.derby.io.StorageFactory;
 import org.apache.derby.io.WritableStorageFactory;
 import org.apache.derby.io.StorageFile;
@@ -85,13 +79,14 @@ import org.apache.derby.iapi.util.CheapDateFormatter;
 import org.apache.derby.iapi.util.ReuseFactory;
 import org.apache.derby.iapi.services.property.PropertyUtil;
 
+import java.util.Iterator;
 import java.util.Properties;
-import javolution.util.FastMap;
-import java.util.Enumeration;
 
+import javolution.util.FastMap;
+
+import java.util.Enumeration;
 import java.io.File;
 import java.io.IOException;
-
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.security.PrivilegedExceptionAction;
@@ -1640,10 +1635,10 @@ public class BaseDataFileFactory
 		{
 			synchronized(droppedTableStubInfo)
 			{
-				for (Enumeration e = droppedTableStubInfo.keys(); 
-                     e.hasMoreElements(); ) 
+				for (Iterator e = droppedTableStubInfo.keySet().iterator(); 
+                     e.hasNext(); ) 
 				{
-					LogInstant logInstant  = (LogInstant) e.nextElement();
+					LogInstant logInstant  = (LogInstant) e.next();
 					if(logInstant.lessThan(redoLWM))
 					{
 						
@@ -2773,10 +2768,10 @@ public class BaseDataFileFactory
 
         case POST_RECOVERY_REMOVE_ACTION:
         {
-			for (Enumeration e = postRecoveryRemovedFiles.elements(); 
-                    e.hasMoreElements(); )
+			for (Iterator e = postRecoveryRemovedFiles.keySet().iterator(); 
+                    e.hasNext(); )
             {
-				StorageFile f = (StorageFile) e.nextElement();
+				StorageFile f = (StorageFile) e.next();
 				if (f.exists())
                 {
 					boolean delete_status = f.delete();

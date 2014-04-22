@@ -23,9 +23,11 @@ package org.apache.derby.client;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.concurrent.CopyOnWriteFastTable;
-import javax.sql.StatementEventListener;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import javax.sql.StatementEvent;
+import javax.sql.StatementEventListener;
+
 import org.apache.derby.jdbc.ClientBaseDataSource;
 
 /**
@@ -43,9 +45,9 @@ public class ClientPooledConnection40 extends ClientPooledConnection {
      * ensuring that it can be safely iterated over even if other threads or
      * the listeners fired in the same thread add or remove listeners.
      */
-    private final CopyOnWriteFastTable<StatementEventListener>
+    private final CopyOnWriteArrayList<StatementEventListener>
             statementEventListeners =
-                    new CopyOnWriteFastTable<StatementEventListener>();
+                    new CopyOnWriteArrayList<StatementEventListener>();
 
     public ClientPooledConnection40(ClientBaseDataSource ds,
         org.apache.derby.client.am.LogWriter logWriter,

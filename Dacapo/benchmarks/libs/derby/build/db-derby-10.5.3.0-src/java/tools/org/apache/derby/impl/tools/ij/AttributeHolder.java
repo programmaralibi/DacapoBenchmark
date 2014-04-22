@@ -24,8 +24,12 @@ package org.apache.derby.impl.tools.ij;
 
 import org.apache.derby.iapi.reference.Attribute;
 import org.apache.derby.iapi.tools.i18n.LocalizedResource;
+
 import java.util.Locale;
+
 import javolution.util.FastTable;
+
+import java.util.Iterator;
 import java.util.Properties;
 import java.util.Enumeration;
 import java.util.StringTokenizer;
@@ -63,7 +67,7 @@ public class AttributeHolder {
     public void addError(String aString) {
       //Keep track of error message for later display.
       if (!errors.contains(aString))
-        errors.addElement(aString);
+        errors.add(aString);
     }
    public void check( FastTable validProps){
       checkName( validProps);
@@ -72,14 +76,14 @@ public class AttributeHolder {
     }
     void displayErrors(){
       //If no error are found then nothing is displayed.
-      Enumeration e = errors.elements();
+      Iterator e = errors.iterator();
       //In the first line, show the exact token that was parsed from
       //the URL.
-      if (e.hasMoreElements())
+      if (e.hasNext())
         display(LocalizedResource.getMessage("TL_urlLabel1", "[", getToken(), "]"));
       //Show all errors.  More than one error can be found for an attribute.
-      while (e.hasMoreElements()){
-        String aString = (String)e.nextElement();
+      while (e.hasNext()){
+        String aString = (String)e.next();
         displayIndented(aString);
       }
     }
@@ -92,11 +96,11 @@ public class AttributeHolder {
         if (!validProps.contains(anAtt)) {
           //Check for case spelling of the name.
           if (validProps.contains(anAtt.toLowerCase(java.util.Locale.ENGLISH))) {
-            errors.addElement(LocalizedResource.getMessage("TL_incorCase"));
+            errors.add(LocalizedResource.getMessage("TL_incorCase"));
           }
           //Check if this is even a valid attribute name.
           else {
-            errors.addElement(LocalizedResource.getMessage("TL_unknownAtt"));
+            errors.add(LocalizedResource.getMessage("TL_unknownAtt"));
           }
         }
         else {
@@ -114,7 +118,7 @@ public class AttributeHolder {
         //Check all attribute that require a boolean.
         if (URLCheck.getBooleanAttributes().contains(anAtt)) {
           if (!checkBoolean(aValue)) {
-            errors.addElement(LocalizedResource.getMessage("TL_trueFalse"));
+            errors.add(LocalizedResource.getMessage("TL_trueFalse"));
           }
         }
       }

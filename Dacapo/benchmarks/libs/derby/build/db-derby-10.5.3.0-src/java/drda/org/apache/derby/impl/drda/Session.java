@@ -26,8 +26,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Enumeration;
+import java.util.Iterator;
+
 import javolution.util.FastMap;
+
 import org.apache.derby.iapi.tools.i18n.LocalizedResource;
+
 import java.sql.SQLException;
 
 /**
@@ -110,9 +114,9 @@ class Session
 			sessionOutput.close();
 			clientSocket.close();
 			if (dbtable != null)
-				for (Enumeration e = dbtable.elements() ; e.hasMoreElements() ;) 
+				for (Iterator e = dbtable.keySet().iterator() ; e.hasNext() ;) 
 				{
-					((Database) e.nextElement()).close();
+					((Database) e.next()).close();
 				}
 			
 		}catch (IOException e) {} // ignore IOException when we are shutting down

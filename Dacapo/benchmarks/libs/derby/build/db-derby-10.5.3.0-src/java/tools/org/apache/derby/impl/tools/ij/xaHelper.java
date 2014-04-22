@@ -297,11 +297,11 @@ class xaHelper implements xaAbstractHelper
 		}
 
 		FastTable v = new FastTable();
-		v.addElement("");
-		v.addElement(LocalizedResource.getMessage("IJ_Reco0InDoubT", LocalizedResource.getNumber(val.length)));
-		v.addElement("");
+		v.add("");
+		v.add(LocalizedResource.getMessage("IJ_Reco0InDoubT", LocalizedResource.getNumber(val.length)));
+		v.add("");
 		for (int i = 0; i < val.length; i++)
-			v.addElement(LocalizedResource.getMessage("IJ_Tran01", LocalizedResource.getNumber(i+1), val[i].toString()));
+			v.add(LocalizedResource.getMessage("IJ_Tran01", LocalizedResource.getNumber(i+1), val[i].toString()));
 
 		return new ijFastTableResult(v,null);
 

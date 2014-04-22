@@ -79,6 +79,7 @@
           dir="${metadata.out.dir}"
           fork="yes"
           failonerror="true">
+                <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" /> </classpath>
     </java>
     <move file="${metadata.out.dir}/odbc_metadata.properties" tofile="${metadata.out.dir}/metadata.properties"/>
     <touch file="${odbc.donefile}"/>

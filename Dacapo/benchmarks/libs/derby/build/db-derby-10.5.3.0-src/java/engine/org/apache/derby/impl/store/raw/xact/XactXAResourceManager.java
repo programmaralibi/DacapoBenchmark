@@ -22,28 +22,23 @@
 package org.apache.derby.impl.store.raw.xact;
 
 import org.apache.derby.iapi.reference.SQLState;
-
 import org.apache.derby.iapi.services.context.ContextManager;
-
 import org.apache.derby.iapi.services.sanity.SanityManager;
-
 import org.apache.derby.iapi.error.StandardException;
-
 import org.apache.derby.iapi.store.access.xa.XAResourceManager;
 import org.apache.derby.iapi.store.access.xa.XAXactId;
 import org.apache.derby.iapi.store.access.AccessFactoryGlobals;
-
 import org.apache.derby.iapi.store.raw.GlobalTransactionId;
 import org.apache.derby.iapi.store.raw.RawStoreFactory;
 import org.apache.derby.iapi.store.raw.Transaction;
-
-
 import org.apache.derby.impl.store.raw.xact.GlobalXactId;
 import org.apache.derby.impl.store.raw.xact.TransactionTable;
 import org.apache.derby.impl.store.raw.xact.TransactionTableEntry;
 import org.apache.derby.impl.store.raw.xact.Xact;
 
 import java.util.Enumeration;
+import java.util.Iterator;
+
 import javolution.util.FastMap;
 
 import javax.transaction.xa.Xid;
@@ -259,11 +254,11 @@ public class XactXAResourceManager implements XAResourceManager
             {
                 int i = 0;
 
-                for (Enumeration e = trans_FastMap.elements(); 
-                     e.hasMoreElements(); i++) 
+                for (Iterator e = trans_FastMap.keySet().iterator(); 
+                     e.hasNext(); i++) 
                 {
                     Xact xact = 
-                        ((TransactionTableEntry) e.nextElement()).getXact();
+                        ((TransactionTableEntry) e.next()).getXact();
 
                     if (xact.isPrepared())
                     {

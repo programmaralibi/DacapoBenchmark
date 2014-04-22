@@ -1317,7 +1317,7 @@ public class RAMTransaction
      * Create a BackingStoreHashtable which contains all rows that qualify for
      * the described scan.
      **/
-    public BackingStoreFastMap createBackingStoreHashtableFromScan(
+    public BackingStoreFastMap createBackingStoreFastMapFromScan(
     long                    conglomId,
     int                     open_mode,
     int                     lock_level,
