@@ -37,11 +37,11 @@
 		</antcall>
 	</target>
 
-	<target name="pre-build" depends="clean, init, unpack"/>
+	<target name="pre-build" depends="clean, init"/>
 
 	<target name="clean">
 		<delete dir="${lib-output-dir}"/>
-		<delete dir="${lib-build-dir}"/>
+		<!--  <delete dir="${lib-build-dir}"/> -->
 	</target>
 
 	<target name="init" depends="clean">
