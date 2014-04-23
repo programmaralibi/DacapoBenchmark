@@ -47,8 +47,11 @@ import java.lang.ClassFormatError;
 import java.lang.Thread;
 import java.lang.reflect.Method;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.Locale;
+
 import javolution.util.FastTable;
+
 import java.sql.Timestamp;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -2257,8 +2260,8 @@ clp.list(System.out);
 	{
 		if (derbySystemHome==null || derbySystemHome.length() == 0)
 			derbySystemHome = userDirName;
-		testJvmProps.addElement("derby.system.home=" + derbySystemHome);
-		testJvmProps.addElement("derby.infolog.append=true ");
+		testJvmProps.add("derby.system.home=" + derbySystemHome);
+		testJvmProps.add("derby.infolog.append=true ");
 		// Why is this being done here
 		//if (jvm != null)
 		    //testJvmProps.addElement("jvm="+jvm.getName());
@@ -2305,37 +2308,37 @@ clp.list(System.out);
         }
         
         if ( ij.startsWith("ij") )
-            jvmProps.addElement("ij.defaultResourcePackage=" +
+            jvmProps.add("ij.defaultResourcePackage=" +
                 defaultPackageName);
         
         if ( (framework != null) )
         {
-            jvmProps.addElement("framework=" + framework);
+            jvmProps.add("framework=" + framework);
             if ((hostName != null) && (!hostName.equals("localhost")))
-            		jvmProps.addElement("hostName=" + hostName);
+            		jvmProps.add("hostName=" + hostName);
         }
         
         if (junitXASingle)
-            jvmProps.addElement ("derbyTesting.xa.single=true");
+            jvmProps.add("derbyTesting.xa.single=true");
 
         // if we're not jdk15, don't, we'll skip
         if ((testEncoding != null) && (jvmName.equals("jdk15")))
         {
-            jvmProps.addElement("derbyTesting.encoding=" + testEncoding);
-            jvmProps.addElement("file.encoding=" + testEncoding);
+            jvmProps.add("derbyTesting.encoding=" + testEncoding);
+            jvmProps.add("file.encoding=" + testEncoding);
             jvmflags = (jvmflags==null?"":jvmflags+" ") 
                          + "-Dfile.encoding=" + testEncoding; 
         } else if (isI18N) {
             // The I18N tests should be run with UTF-8 encoding to avoid
             // problems with characters that cannot be represented in the
             // default encoding (DERBY-244).
-            jvmProps.addElement("file.encoding=UTF-8");
+            jvmProps.add("file.encoding=UTF-8");
             jvmflags = (jvmflags==null ? "" : jvmflags + " ") +
                         "-Dfile.encoding=UTF-8";
         }
         
         if (upgradejarpath != null)
-            jvmProps.addElement("derbyTesting.jar.path=" + upgradejarpath);
+            jvmProps.add("derbyTesting.jar.path=" + upgradejarpath);
             
         if ( (jvmflags != null) && (jvmflags.length()>0) )
         {
@@ -2355,13 +2358,13 @@ clp.list(System.out);
             
             // MultiTest is special case, so pass on properties
             // related to encryption to MultiTest
-            jvmProps.addElement("encryption="+encryption);
+            jvmProps.add("encryption="+encryption);
             Properties props = new Properties();
             // parse and get only the special properties that are needed for the url 
             SpecialFlags.parse(testSpecialProps, props, new Properties());
             String encryptionAlgorithm = props.getProperty("testEncryptionAlgorithm");
             if(encryptionAlgorithm != null)
-                jvmProps.addElement("encryptionAlgorithm=\""+ Attribute.CRYPTO_ALGORITHM 
+                jvmProps.add("encryptionAlgorithm=\""+ Attribute.CRYPTO_ALGORITHM 
                         +"="+encryptionAlgorithm+"\"");
         }
         jvm.setD(jvmProps);
@@ -2385,67 +2388,67 @@ clp.list(System.out);
             if (isI18N) {
                 // DERBY-244: Use UTF-8 console encoding for the i18n tests to
                 // avoid MalformedInputException with the IBM jvm.
-                v.addElement("-Dconsole.encoding=UTF-8");
+                v.add("-Dconsole.encoding=UTF-8");
             } else if ((isNotAscii == null) || (isNotAscii.equals("false"))) {
-                v.addElement("-Dconsole.encoding=Cp1252" );
+                v.add("-Dconsole.encoding=Cp1252" );
             }
-            v.addElement("org.apache.derby.tools." + ij);
+            v.add("org.apache.derby.tools." + ij);
             if (ij.equals("ij"))
             {
                 //TODO: is there a setting/property we could check after which
             	// we can use v.addElement("-fr"); (read from the classpath?)
                 // then we can also use v.addElement(scriptFile);
-            	v.addElement("-f");
-                v.addElement(outDir.toString() + File.separatorChar + scriptFileName);
+            	v.add("-f");
+                v.add(outDir.toString() + File.separatorChar + scriptFileName);
             }
-            v.addElement("-p");
-            v.addElement(propString);
+            v.add("-p");
+            v.add(propString);
         }
         else if ( testType.equals("java") )
         {
             if (javaPath.length() > 0)
-                v.addElement(javaPath + "." + testBase);
+                v.add(javaPath + "." + testBase);
             else
-                v.addElement(testBase);
+                v.add(testBase);
             if (propString.length() > 0)
             {
-                v.addElement("-p");
-                v.addElement(propString);
+                v.add("-p");
+                v.add(propString);
             }
         }
         else if (testType.equals("unit"))
         {
-            v.addElement("org.apache.derbyTesting.unitTests.harness.UnitTestMain");
-            v.addElement("-p");
-            v.addElement(propString);
+            v.add("org.apache.derbyTesting.unitTests.harness.UnitTestMain");
+            v.add("-p");
+            v.add(propString);
         }
         else if (testType.equals("junit"))
         {
-            v.addElement("junit.textui.TestRunner");
+            v.add("junit.textui.TestRunner");
             if (javaPath.length() > 0) {
-                v.addElement(javaPath + "." + testBase);
+                v.add(javaPath + "." + testBase);
             } else {
-                v.addElement(testBase);
+                v.add(testBase);
             }
         }
         else if ( testType.equals("multi") )
         {
 	System.out.println("scriptiflename is: " + scriptFileName);
-            v.addElement("org.apache.derbyTesting.functionTests.harness.MultiTest");
-            v.addElement(scriptFileName);
-            v.addElement("-i");
-            v.addElement(mtestdir);
-            v.addElement("-o");
-            v.addElement(outDir.getPath());
-            v.addElement("-p");
-            v.addElement(propString);
+            v.add("org.apache.derbyTesting.functionTests.harness.MultiTest");
+            v.add(scriptFileName);
+            v.add("-i");
+            v.add(mtestdir);
+            v.add("-o");
+            v.add(outDir.getPath());
+            v.add("-p");
+            v.add(propString);
         }
 
         // Now convert the FastTable into a string array
         String[] sCmd = new String[v.size()];
         for (int i = 0; i < v.size(); i++)
         {
-            sCmd[i] = (String)v.elementAt(i);
+            sCmd[i] = (String)v.get(i);
         }
 
         return sCmd;
@@ -2968,9 +2971,9 @@ clp.list(System.out);
         	// Get the set of -D options that would be needed
         	// for a spawned VM and convert them to system properties.
     	    FastTable propList = jvm.getSecurityProps(null);
-    	    for (Enumeration e = propList.elements(); e.hasMoreElements();)
+    	    for (Iterator e = propList.iterator(); e.hasNext();)
     	    {
-    	    	String dashDOpt = (String) e.nextElement();
+    	    	String dashDOpt = (String) e.next();
     	    	if ("java.security.manager".equals(dashDOpt))
     	    		continue;
     	    	

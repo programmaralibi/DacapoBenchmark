@@ -733,7 +733,7 @@ public class T_SortController extends T_Generic
 			 MessageService.getTextMessage(SQLState.STORE_RTS_MERGE_RUNS_SIZE)),
 			 "[],",false);
             while (st.hasMoreTokens())
-                mergeRuns.addElement(Integer.valueOf(st.nextToken().trim()));
+                mergeRuns.add(Integer.valueOf(st.nextToken().trim()));
 
             if (mergeRuns.size() != numMergeRuns)
                 FAIL("(testSort) the number of elements in FastTable SortInfo.mergeRunsSize (value: " +
@@ -742,7 +742,7 @@ public class T_SortController extends T_Generic
 
             int totRunSize = 0;
             for (int i = 0; i < mergeRuns.size(); i++)
-                totRunSize += ((Integer) mergeRuns.elementAt(i)).intValue();
+                totRunSize += ((Integer) mergeRuns.get(i)).intValue();
             if (totRunSize != numRowsInput)
                FAIL("(testSort) the sum of the elements of the FastTable SortInfo.mergeRunsSize (value: " +
                 totRunSize + " ) is not equal to SortInfo.numRowsInput (value: " +
@@ -873,7 +873,7 @@ class T_DummySortObserver implements SortObserver
 	{
 		if (FastTable.size() < maxFreeListSize)
 		{
-			FastTable.addElement(objectArray);
+			FastTable.add(objectArray);
 		}
 	}
 
@@ -885,8 +885,8 @@ class T_DummySortObserver implements SortObserver
 		if (lastElement > 0)
 		{
 			DataValueDescriptor[] retval = 
-                (DataValueDescriptor[]) FastTable.elementAt(lastElement - 1);
-			FastTable.removeElementAt(lastElement - 1);
+                (DataValueDescriptor[]) FastTable.get(lastElement - 1);
+			FastTable.remove(lastElement - 1);
 			return retval;
 		}
 		return template.getRowArrayClone();

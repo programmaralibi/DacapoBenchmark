@@ -292,7 +292,7 @@ public class DerbyNetAutoStart
         String cmd[] = new String[ vCmd.size() + systemProperties.size() + 3];
         int i;
         for( i = 0; i < vCmd.size(); i++)
-            cmd[i] = (String) vCmd.elementAt(i);
+            cmd[i] = (String) vCmd.get(i);
         for( Enumeration e = systemProperties.keys(); e.hasMoreElements();)
         {
             String propName = (String) e.nextElement();

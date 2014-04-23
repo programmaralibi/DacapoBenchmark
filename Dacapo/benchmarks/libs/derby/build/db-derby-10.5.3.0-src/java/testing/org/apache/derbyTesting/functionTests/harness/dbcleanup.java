@@ -120,8 +120,8 @@ public class dbcleanup {
 		d = new Date();
 		System.out.println("dbcleanup starting: " + d);
 
-		Enumeration schemalist = null;
-		Enumeration list = null;
+		Iterator schemalist = null;
+		Iterator list = null;
 		FastTable schemavec = new FastTable();
 		FastTable tablevec = null;
 		// get a list of the user schemas
@@ -130,7 +130,7 @@ public class dbcleanup {
 			rs = s.executeQuery( " select schemaname from sys.sysschemas " +
 				" where schemaname <> 'SYS'"); 
 			while (rs.next()) { 
-				schemavec.addElement(new String(rs.getString(1)));
+				schemavec.add(new String(rs.getString(1)));
 			}
 			rs.close();
 			if (schemavec.size() > 1) {
@@ -150,8 +150,8 @@ public class dbcleanup {
 		boolean tabledependencyFound = false;
 		FastTable viewvec = null;
 		int count = 0;
-		for (schemalist = schemavec.elements(); schemalist.hasMoreElements();) {
-			schema = (String)schemalist.nextElement();
+		for (schemalist = schemavec.iterator(); schemalist.hasNext();) {
+			schema = (String)schemalist.next();
 			for (viewdependencyFound = true; viewdependencyFound;){
 				viewdependencyFound = false;
 				viewvec = findTables(conn, s, 'V', schema);
@@ -181,7 +181,7 @@ public class dbcleanup {
 					" and s.schemaname = '" + schema + "'");
 				for (count = 0; rs.next(); count++) { 
 					dbIsDirty = true;
-					stmtvec.addElement(new String(rs.getString(1)));
+					stmtvec.add(new String(rs.getString(1)));
 				}
 				rs.close();
 			} catch (SQLException  se) {
@@ -194,8 +194,8 @@ public class dbcleanup {
 			try {
 				System.out.println("schema " + schema);
 				System.out.println("dropping leftover statements: ");
-				for (list = stmtvec.elements(); list.hasMoreElements();) {
-					n = (String)list.nextElement();
+				for (list = stmtvec.iterator(); list.hasNext();) {
+					n = (String)list.next();
 					s.execute("drop statement " + n);
 					conn.commit();
 					System.out.println("\t" + n);
@@ -211,8 +211,8 @@ public class dbcleanup {
 		if (schemavec.size() > 1) {
 		System.out.println("dropping extra user schemas: ");
 		schemalist = null;
-		for (schemalist = schemavec.elements(); schemalist.hasMoreElements();) {
-			schema = (String)schemalist.nextElement();
+		for (schemalist = schemavec.iterator(); schemalist.hasNext();) {
+			schema = (String)schemalist.next();
 			if (schema.equals("APP")) continue;
 			if (schema == null) {
 				System.out.println("null schema in schemalist");
@@ -279,8 +279,8 @@ public class dbcleanup {
 		String objtype = null;
 		System.out.println("dropping " + tabletype + "(s)");
 
-		for (Enumeration list = tablevec.elements(); list.hasMoreElements();) {
-			n = (String)list.nextElement();
+		for (Iterator list = tablevec.iterator(); list.hasNext();) {
+			n = (String)list.next();
 			try {
 				s.execute("drop " + tabletype + " " + n);
 				conn.commit();
@@ -320,7 +320,7 @@ public class dbcleanup {
 				" and s.schemaname = '" + schema + "'" );
 			while (rs.next()) { 
 				dbIsDirty = true;
-				tableviewvec.addElement(new String(rs.getString(1)));
+				tableviewvec.add(new String(rs.getString(1)));
 			}
 			rs.close();
 		} catch (SQLException  se) {
@@ -351,7 +351,7 @@ public class dbcleanup {
 				" and aliastype = '" + aliastype + "'");
 			for (count = 0; rs.next(); count++) {
 				dbIsDirty = true;
-				aliasvec.addElement(new String(rs.getString(1)));
+				aliasvec.add(new String(rs.getString(1)));
 			}
 			rs.close();
 			conn.commit();
@@ -363,8 +363,8 @@ public class dbcleanup {
 
 		if (count > 1) {
 		System.out.println("dropping user aliases, type " + typestring + ": ");
-		for (Enumeration list = aliasvec.elements(); list.hasMoreElements();) {
-			n = (String)list.nextElement();
+		for (Iterator list = aliasvec.iterator(); list.hasNext();) {
+			n = (String)list.next();
 			try {
 				s.execute("drop " + typestring + " alias " + n);
 			} catch (SQLException  se) {

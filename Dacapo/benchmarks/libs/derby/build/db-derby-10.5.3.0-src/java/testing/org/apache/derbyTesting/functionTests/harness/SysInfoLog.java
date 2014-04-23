@@ -70,12 +70,12 @@ public class SysInfoLog
                 }
 
 				FastTable v = javavm.getCommandLine();
-                v.addElement("org.apache.derby.tools.sysinfo");
+                v.add("org.apache.derby.tools.sysinfo");
                 // Now convert the FastTable into a string array
                 String[] sCmd = new String[v.size()];
                 for (int i = 0; i < v.size(); i++)
                 {
-                    sCmd[i] = (String)v.elementAt(i);
+                    sCmd[i] = (String)v.get(i);
                     //System.out.println(sCmd[i]);
                 }
                 

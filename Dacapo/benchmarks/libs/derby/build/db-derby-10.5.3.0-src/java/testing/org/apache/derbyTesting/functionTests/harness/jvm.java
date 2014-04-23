@@ -176,15 +176,15 @@ public abstract class jvm {
     public FastTable getCommandLine()
     {
         FastTable v = new FastTable();
-        v.addElement(javaCmd);
-        v.addElement("-Duser.language=en");
-        v.addElement("-Duser.country=US");
+        v.add(javaCmd);
+        v.add("-Duser.language=en");
+        v.add("-Duser.country=US");
         if ( (flags != null) && (flags.length()>0) )
         {
             StringTokenizer st = new StringTokenizer(flags);
             while (st.hasMoreTokens())
             {
-                v.addElement(st.nextToken());
+                v.add(st.nextToken());
             }
         }
         return v;
@@ -378,8 +378,8 @@ public abstract class jvm {
 		return D;
 		}
 		
-		D.addElement("java.security.manager");
-		D.addElement("java.security.policy=" + pf.getAbsolutePath());
+		D.add("java.security.manager");
+		D.add("java.security.policy=" + pf.getAbsolutePath());
  
         Properties jusetup =
             SecurityManagerSetup.getPolicyFilePropertiesForOldHarness();
@@ -389,19 +389,19 @@ public abstract class jvm {
         for (Enumeration p = jusetup.keys(); p.hasMoreElements(); )
         {
             String key = (String) p.nextElement();
-            D.addElement(key + "=" + jusetup.getProperty(key));
+            D.add(key + "=" + jusetup.getProperty(key));
         }
 		
 
 		// file path to the codebase
-		D.addElement("derbyTesting.codedir=" + cb.getAbsolutePath());
+		D.add("derbyTesting.codedir=" + cb.getAbsolutePath());
 		String hostName = (System.getProperty("hostName"));
 		if (hostName == null)
 			hostName="localhost";
-		D.addElement("derbyTesting.serverhost=" + hostName);
+		D.add("derbyTesting.serverhost=" + hostName);
 		// in the case of testing with a remote host, this is irrelevant, 
 		// when testing 'normal' it is also localhost:
-		D.addElement("derbyTesting.clienthost=" + hostName);	 	
+		D.add("derbyTesting.clienthost=" + hostName);	 	
 		
 		return D;
 		

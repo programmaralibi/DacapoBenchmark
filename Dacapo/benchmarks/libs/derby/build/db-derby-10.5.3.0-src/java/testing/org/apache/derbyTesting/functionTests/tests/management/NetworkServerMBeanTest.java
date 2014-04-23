@@ -21,10 +21,15 @@
 
 package org.apache.derbyTesting.functionTests.tests.management;
 
+import java.util.Hashtable;
+
 import javolution.util.FastMap;
+
 import javax.management.ObjectName;
+
 import junit.framework.Test;
 import junit.framework.TestSuite;
+
 import org.apache.derbyTesting.junit.TestConfiguration;
 
 /**
@@ -79,7 +84,7 @@ public class NetworkServerMBeanTest extends MBeanTest {
             throws Exception {
         
         // get a reference to the NetworkServerMBean instance
-        FastMap<String, String> keyProps = new FastMap<String, String>();
+        Hashtable<String, String> keyProps = new Hashtable<String, String>();
         keyProps.put("type", "NetworkServer");
         return getDerbyMBeanName(keyProps);
     }

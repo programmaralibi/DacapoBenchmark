@@ -114,7 +114,7 @@ public class BasicUnitTestManager implements UnitTestManager, ModuleControl
 		// otherwise you will upset me.
 		if ( !namesOfTests.containsKey( testName ) )
 		{
-			FastTableOfTests.addElement(objectToTest);
+			FastTableOfTests.add(objectToTest);
 			namesOfTests.put( testName, testName );
 		}
 	}
@@ -240,14 +240,14 @@ public class BasicUnitTestManager implements UnitTestManager, ModuleControl
 		for(int ix = FastTableOfTests.size() - 1; ix >= 0 ; ix--){
 
 			UnitTest thisTest =
-				((UnitTest)FastTableOfTests.elementAt(ix));
+				((UnitTest)FastTableOfTests.get(ix));
 			if (thisTest.UnitTestDuration() <= this.testDuration &&
 				thisTest.UnitTestType() <= this.testType){
 				if (runATest(thisTest))
 					passCount++;
 				else
 					failCount++;
-				FastTableOfTests.removeElementAt(ix);
+				FastTableOfTests.remove(ix);
 			}
 			else{
 				skipCount++;

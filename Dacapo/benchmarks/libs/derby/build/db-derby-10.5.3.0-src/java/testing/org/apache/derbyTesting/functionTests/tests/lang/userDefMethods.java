@@ -39,14 +39,14 @@ public class userDefMethods
         ResultSet rs = s.executeQuery("SELECT c1 from new org.apache.derby.catalog.TriggerOldTransitionRows() AS EQ");
         FastTable keys = new FastTable();
         while(rs.next()){
-            keys.addElement(new Long(rs.getLong(1)));
+            keys.add(new Long(rs.getLong(1)));
         }
         rs.close();
 
         statement = 
         con.prepareStatement("delete from t1  where c1  = ?");
         for(int i = 0; i < keys.size() ; i++){ 
-           long key = ((Long)keys.elementAt(i)).longValue();
+           long key = ((Long)keys.get(i)).longValue();
            statement.setLong(1, key);
            statement.executeUpdate();
 		}

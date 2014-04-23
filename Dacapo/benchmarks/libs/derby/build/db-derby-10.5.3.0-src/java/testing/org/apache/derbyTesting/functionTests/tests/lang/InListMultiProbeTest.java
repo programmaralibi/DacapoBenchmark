@@ -1356,7 +1356,7 @@ public class InListMultiProbeTest extends BaseJDBCTestCase {
             throws SQLException
         {
             // This will be a list of String arrays.
-            List expected = new FastTable(foreignIdToRowsMap.size());
+            List expected = new FastTable();
 
             // Search the in-memory map to find all expected rows.
             for (int i = 0; i < foreignIds.length; i++)

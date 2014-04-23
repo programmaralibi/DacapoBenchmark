@@ -85,7 +85,7 @@ public class ByteArrayCombinerStreamTest
     public void testCombineWithExtraEmptyByteArray()
             throws IOException {
         byte[] array = {65,66,77,79};
-        FastTable list = new FastTable(2);
+        FastTable list = new FastTable();
         list.add(array);
         list.add(new byte[4]);
         combiner = new ByteArrayCombinerStream(list, array.length);
@@ -111,7 +111,7 @@ public class ByteArrayCombinerStreamTest
             throws IOException {
         int arrays = 100;
         byte[] array = {65,66,77,79};
-        FastTable list = new FastTable(arrays);
+        FastTable list = new FastTable();
         long length = 0;
         for (int i=0; i < arrays; i++) {
             list.add(array);
@@ -149,7 +149,7 @@ public class ByteArrayCombinerStreamTest
     public void testTruncateDataFromTwoArrays()
             throws IOException {
         int length = (defaultArray.length *2) -7;
-        FastTable list = new FastTable(2);
+        FastTable list = new FastTable();
         list.add(defaultArray);
         list.add(defaultArray);
         byte[] targetArray = new byte[length];
@@ -186,7 +186,7 @@ public class ByteArrayCombinerStreamTest
      * the specified length.
      */
     public void testTooLittleDataWithCombine() {
-        FastTable list = new FastTable(3);
+        FastTable list = new FastTable();
         byte[] data = {65,66,67,68,69};
         list.add(data);
         list.add(data);

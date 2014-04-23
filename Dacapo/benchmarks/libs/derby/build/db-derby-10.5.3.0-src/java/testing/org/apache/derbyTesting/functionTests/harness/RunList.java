@@ -198,7 +198,7 @@ public class RunList
              need to propagate to its subsuites, but not back to the very top
             */
             Properties subProps = null;
-            fullsuiteName = (String)suitesToRun.elementAt(i);
+            fullsuiteName = (String)suitesToRun.get(i);
             //System.out.println("fullsuiteName: " + fullsuiteName);
             String subSuite = fullsuiteName.substring(0,fullsuiteName.lastIndexOf(":"));
             //System.out.println("subSuite: " + subSuite);
@@ -354,45 +354,45 @@ public class RunList
 	    if ((javaCmd.length()>0) )
 	    {
 	        jvm.setJavaCmd(javaCmd);
-	        jvmProps.addElement("javaCmd=" + javaCmd);
+	        jvmProps.add("javaCmd=" + javaCmd);
 	    }
         if ( (testJavaFlags != null) && (testJavaFlags.length()>0) )
-            jvmProps.addElement("testJavaFlags=" + testJavaFlags);
+            jvmProps.add("testJavaFlags=" + testJavaFlags);
 	    if (classpath != null)
-	        jvmProps.addElement("classpath=" + classpath);
+	        jvmProps.add("classpath=" + classpath);
 	    if (classpathServer != null)
-	        jvmProps.addElement("classpathServer=" + classpathServer);
+	        jvmProps.add("classpathServer=" + classpathServer);
 	    if (jversion != null)
-	        jvmProps.addElement("jvm=" + jversion);
+	        jvmProps.add("jvm=" + jversion);
         if (framework != null)
-            jvmProps.addElement("framework=" + framework);
+            jvmProps.add("framework=" + framework);
         if (usesystem != null)
-            jvmProps.addElement("usesystem=" + usesystem);
+            jvmProps.add("usesystem=" + usesystem);
         if (shutdownurl != null)
-            jvmProps.addElement("shutdownurl=" + shutdownurl);
+            jvmProps.add("shutdownurl=" + shutdownurl);
         if (upgradetest != null)
-            jvmProps.addElement("upgradetest=" + upgradetest);       
+            jvmProps.add("upgradetest=" + upgradetest);       
         if (outcopy != null)
-            jvmProps.addElement("outcopy=" + outcopy);
+            jvmProps.add("outcopy=" + outcopy);
         if (useoutput != null)
-            jvmProps.addElement("useoutput=" + useoutput);
+            jvmProps.add("useoutput=" + useoutput);
         if (verbose == true)
-            jvmProps.addElement("verbose=true");
+            jvmProps.add("verbose=true");
         if ( (reportstderr != null) && (reportstderr.length()>0) )
-            jvmProps.addElement("reportstderr=" + reportstderr);
+            jvmProps.add("reportstderr=" + reportstderr);
 
         if ( (jvmflags != null) && (jvmflags.length()>0) )
         {
             // We want to pass this down to RunTest so it will
             // run an individual test with jvmflags like -nojit
-            jvmProps.addElement("jvmflags=" + jvmflags);
+            jvmProps.add("jvmflags=" + jvmflags);
         }
 
         if ( (timeout != null) && (timeout.length()>0) )
         {
             if (useprocess)
 			{
-                jvmProps.addElement("timeout=" + timeout);            
+                jvmProps.add("timeout=" + timeout);            
             }
             else
             {
@@ -400,69 +400,69 @@ public class RunList
             }
         }
 		if (Boolean.getBoolean("listOnly"))
-			jvmProps.addElement("listOnly=true");
+			jvmProps.add("listOnly=true");
 
         if (encryption != null)
-            jvmProps.addElement("encryption=" + encryption);
+            jvmProps.add("encryption=" + encryption);
         if (testEncryptionProvider != null)
-            jvmProps.addElement("testEncryptionProvider=" + testEncryptionProvider);
+            jvmProps.add("testEncryptionProvider=" + testEncryptionProvider);
         if (testEncryptionAlgorithm != null)
-            jvmProps.addElement("testEncryptionAlgorithm=" + testEncryptionAlgorithm);
+            jvmProps.add("testEncryptionAlgorithm=" + testEncryptionAlgorithm);
         if (jdk12test != null)
-            jvmProps.addElement("jdk12test=" + jdk12test);
+            jvmProps.add("jdk12test=" + jdk12test);
         if (jdk12exttest != null)
-            jvmProps.addElement("jdk12exttest=" + jdk12exttest);
+            jvmProps.add("jdk12exttest=" + jdk12exttest);
         if (keepfiles != null)
-            jvmProps.addElement("keepfiles=" + keepfiles);
+            jvmProps.add("keepfiles=" + keepfiles);
         if ( (outputdir != null) && (outputdir.length()>0) )
         {
-            jvmProps.addElement("outputdir=" + outputdir);
+            jvmProps.add("outputdir=" + outputdir);
         }
         if ( (topsuitedir != null) && (topsuitedir.length()>0) )
-            jvmProps.addElement("topsuitedir=" + topsuitedir);
+            jvmProps.add("topsuitedir=" + topsuitedir);
         else
-            jvmProps.addElement("topsuitedir=" + outputdir);
+            jvmProps.add("topsuitedir=" + outputdir);
         if (topreportdir != null)
-            jvmProps.addElement("topreportdir=" + topreportdir);
+            jvmProps.add("topreportdir=" + topreportdir);
         else
-            jvmProps.addElement("topreprtdir=" + topsuitedir);
+            jvmProps.add("topreprtdir=" + topsuitedir);
         if ( (runDir != null) && (runDir.exists()) )
-            jvmProps.addElement("rundir=" + runDir.getCanonicalPath());
+            jvmProps.add("rundir=" + runDir.getCanonicalPath());
         if ( (bootcp != null) && (bootcp.length()>0) )
-            jvmProps.addElement("bootcp=" + bootcp);
+            jvmProps.add("bootcp=" + bootcp);
         if ( (serverJvm != null) && (serverJvm.length()>0) )
-            jvmProps.addElement("serverJvm=" + serverJvm);
+            jvmProps.add("serverJvm=" + serverJvm);
         if ( (serverJvmName != null) && (serverJvmName.length()>0) )
-            jvmProps.addElement("serverJvmName=" + serverJvmName);
+            jvmProps.add("serverJvmName=" + serverJvmName);
         if (testEncoding != null)
-            jvmProps.addElement("derbyTesting.encoding=" + testEncoding);
+            jvmProps.add("derbyTesting.encoding=" + testEncoding);
         if (upgradejarpath != null)
-            jvmProps.addElement("derbyTesting.jar.path=" + upgradejarpath);
+            jvmProps.add("derbyTesting.jar.path=" + upgradejarpath);
         if ( (hostName != null) && (hostName.length()>0) )
-        	jvmProps.addElement("hostName=" + hostName);
+        	jvmProps.add("hostName=" + hostName);
         if ( useprocess == false )
-            jvmProps.addElement("useprocess=false");
+            jvmProps.add("useprocess=false");
         if ( skipsed.equals("true") )
-            jvmProps.addElement("skipsed=true");
+            jvmProps.add("skipsed=true");
         if ( systemdiff != null )
-            jvmProps.addElement("systemdiff=" + systemdiff);
+            jvmProps.add("systemdiff=" + systemdiff);
         if ( ijdefaultResourcePackage != null )
-            jvmProps.addElement("ij.defaultResourcePackage=" + ijdefaultResourcePackage);
+            jvmProps.add("ij.defaultResourcePackage=" + ijdefaultResourcePackage);
         if ( mtestdir != null )
-            jvmProps.addElement("mtestdir=" + mtestdir);
+            jvmProps.add("mtestdir=" + mtestdir);
         if (topSpecialProps.length()>0)
         {
-            jvmProps.addElement("testSpecialProps=" + topSpecialProps +
+            jvmProps.add("testSpecialProps=" + topSpecialProps +
             ((otherSpecialProps.length()>0)?
              ("^" + otherSpecialProps)
              :"")
             );
         }
         else if (otherSpecialProps.length()>0)
-            jvmProps.addElement("testSpecialProps=" + otherSpecialProps);
+            jvmProps.add("testSpecialProps=" + otherSpecialProps);
             
         if (derbyTestingXaSingle != null)
-            jvmProps.addElement ("derbyTesting.xa.single=" + derbyTestingXaSingle);
+            jvmProps.add("derbyTesting.xa.single=" + derbyTestingXaSingle);
         
         // Ensure any properties that define the default connection
         // for the tests to use a DataSource are passed from the
@@ -478,20 +478,20 @@ public class RunList
         {
         	String key = (String) e.nextElement();
         	if (key.startsWith("ij.dataSource"))
-        		jvmProps.addElement(key + "=" +  sysProps.getProperty(key)); 		
+        		jvmProps.add(key + "=" +  sysProps.getProperty(key)); 		
         }
 
-        jvmProps.addElement("suitename=" + suite);
+        jvmProps.add("suitename=" + suite);
 
         if ( (topSuiteName != null) && (topSuiteName.length()>0) )
-            jvmProps.addElement("topsuitename=" + topSuiteName);
+            jvmProps.add("topsuitename=" + topSuiteName);
 
         if (classpath != null)
             jvm.setClasspath(classpath);
 
         jvm.setD(jvmProps);
         FastTable v = jvm.getCommandLine();
-        v.addElement("org.apache.derbyTesting.functionTests.harness.RunTest");
+        v.add("org.apache.derbyTesting.functionTests.harness.RunTest");
 
         String str = "";
 	    String lastTest = null;
@@ -514,7 +514,7 @@ public class RunList
             int i = 0;
             for (i = 0; i < v.size(); i++)
             {
-                testCmd[i] = (String)v.elementAt(i);
+                testCmd[i] = (String)v.get(i);
                 verboseSb.append(testCmd[i] + " ");
             }
             testCmd[i++] = str;

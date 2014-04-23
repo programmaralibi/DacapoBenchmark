@@ -60,8 +60,9 @@
       verbose="${verbose}"
       srcdir="${derby.engine.src.dir}"
       destdir="${out.dir}">
-      <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
+      <classpath> 
         <pathelement path="${compile.classpath}"/>
+        <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
       </classpath>
       <include name="${derby.dir}/${cur.dir}/**"/>
     </javac>

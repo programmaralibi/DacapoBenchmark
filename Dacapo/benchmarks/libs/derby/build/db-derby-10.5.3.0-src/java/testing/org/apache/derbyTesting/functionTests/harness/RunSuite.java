@@ -184,13 +184,13 @@ public class RunSuite
         {
             // There is a single suite, not a list, just add it
             if (verbose) System.out.println("Suite to run: " + topparent+":"+topparent);
-            suitesToRun.addElement(topparent+":"+topparent);
+            suitesToRun.add(topparent+":"+topparent);
             // Use RunList class to issue the RunTest commands
             if (verbose) System.out.println("Now do RunList");
             //System.out.println("skipsed: " + skipsed);
             RunList rl = new RunList(suitesToRun, runDir, outDir, pwOut,
                 suiteProperties, specialProperties, topparent);
-            suitesToRun.removeAllElements();
+            suitesToRun.clear();
         }
         else
         {
@@ -204,14 +204,14 @@ public class RunSuite
                 p = getSuiteProperties(subparent, isTop);
                 if ( (p.getProperty("suites") == null) || (subparent.equals(topparent)) )
                 {
-                    suitesToRun.addElement(topparent+":"+subparent);
+                    suitesToRun.add(topparent+":"+subparent);
                     //System.out.println("Add to suitesToRun: " + topparent+":"+subparent);
                     // Use RunList class to issue the RunTest commands
                     if (verbose) System.out.println("Now do RunList");
                     //System.out.println("skipsed: " + skipsed);
                     RunList rl = new RunList(suitesToRun, runDir, outDir, pwOut,
                         suiteProperties, specialProperties, topparent);
-                    suitesToRun.removeAllElements();
+                    suitesToRun.clear();
                 }
                 else // This suite also has nested suites
                 {
@@ -223,7 +223,7 @@ public class RunSuite
                     //System.out.println("skipsed: " + skipsed);
                     RunList rl = new RunList(suitesToRun, runDir, outDir, pwOut,
                         suiteProperties, specialProperties, subparent);
-                    suitesToRun.removeAllElements();                    
+                    suitesToRun.clear();                    
                 }
             }
         }
@@ -240,7 +240,7 @@ public class RunSuite
             child = st.nextToken();
             if (child.equals(parent))
             {
-                suitesToRun.addElement(parent+":"+child);
+                suitesToRun.add(parent+":"+child);
                 //System.out.println("Add this: " + parent+":"+child);
             }
             else
@@ -248,7 +248,7 @@ public class RunSuite
                 p = getSuiteProperties(child, false);
                 if ( p.getProperty("suites") == null )
                 {
-                    suitesToRun.addElement(parent+":"+child);
+                    suitesToRun.add(parent+":"+child);
                     //System.out.println("Add this: " + parent+":"+child);
                 }
                 else

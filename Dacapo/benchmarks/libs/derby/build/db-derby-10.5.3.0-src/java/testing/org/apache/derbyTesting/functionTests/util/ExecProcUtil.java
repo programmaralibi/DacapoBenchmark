@@ -68,7 +68,7 @@ public class ExecProcUtil {
 
         int i = 0;
         for (i = 0; i < vCmd.size(); i++)
-            serverCmd[i] = (String) vCmd.elementAt(i);
+            serverCmd[i] = (String) vCmd.get(i);
 
         for (int j = 0; i < totalSize; i++)
             serverCmd[i] = args[j++];

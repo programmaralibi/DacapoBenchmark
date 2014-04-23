@@ -24,10 +24,11 @@ package org.apache.derbyTesting.unitTests.harness;
 import org.apache.derby.iapi.services.property.PropertyUtil;
 import org.apache.derby.iapi.services.context.ContextService;
 import org.apache.derby.iapi.services.monitor.Monitor;
-
 import org.apache.derby.iapi.services.context.Context;
 
 import java.util.Enumeration;
+import java.util.Iterator;
+
 import javolution.util.FastTable;
 
 public class T_Bomb implements Runnable { 
@@ -83,14 +84,14 @@ public class T_Bomb implements Runnable {
 	public synchronized static void registerBombable(T_Bombable b)
 	{
 		if (me == null) me = new T_Bomb();
-		me.v.addElement(b);
+		me.v.add(b);
 	}
 
 	public synchronized static void unRegisterBombable(T_Bombable b)
 	{
 		if (null == me || null == b )
             return;
-        me.v.removeElement(b);
+        me.v.remove(b);
         if( me.v.isEmpty())
         {
             me.armed = false;
@@ -135,9 +136,9 @@ public class T_Bomb implements Runnable {
 
 	private void performLastGasp()
 	{
-		for (Enumeration e = v.elements() ; e.hasMoreElements() ;) {
+		for (Iterator e = v.iterator(); e.hasNext() ;) {
 			try{
-             T_Bombable b = (T_Bombable)e.nextElement();
+             T_Bombable b = (T_Bombable)e.next();
 			 b.lastChance();
 			}
 

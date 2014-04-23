@@ -9,7 +9,7 @@ get-svn-revision:
 set-build-version-info:
 
 init:
-    [mkdir] Created dir: /home/amber/git/Dacapo/Dacapo/benchmarks/log/20140421-0301
+    [mkdir] Created dir: /home/amber/git/Dacapo/Dacapo/benchmarks/log/20140422-1036
      [echo] build.nickname=development
      [echo] build.version=head-runknown
 
@@ -26,12 +26,7 @@ init:
 cli:
 
 check-source:
-
-get-source:
-
-get-source-fix-checksum:
-
-get-source-verify-checksum:
+     [echo] No need to check
     [untar] Expanding: /home/amber/git/Dacapo/Dacapo/benchmarks/harness/downloads/commons-cli-1.2-bin.tar.gz into /home/amber/git/Dacapo/Dacapo/benchmarks/harness/build
     [unjar] Expanding: /home/amber/git/Dacapo/Dacapo/benchmarks/harness/build/commons-cli-1.2/commons-cli-1.2.jar into /home/amber/git/Dacapo/Dacapo/benchmarks/harness/dist
 
@@ -85,28 +80,16 @@ h2:
      [exec] url-source:
      [exec] 
      [exec] check-source:
-     [exec] 
-     [exec] get-source:
-     [exec] 
-     [exec] get-source-fix-checksum:
-     [exec] 
-     [exec] get-source-verify-checksum:
+     [exec]      [echo] No need to check
      [exec] 
      [exec] svn-source:
      [exec] 
      [exec] clean:
      [exec]    [delete] Deleting directory /home/amber/git/Dacapo/Dacapo/benchmarks/libs/junit/dist
-     [exec]    [delete] Deleting directory /home/amber/git/Dacapo/Dacapo/benchmarks/libs/junit/build
      [exec] 
      [exec] init:
      [exec]     [mkdir] Created dir: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/junit/dist
      [exec]     [mkdir] Created dir: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/junit/dist/jar
-     [exec] 
-     [exec] unzip:
-     [exec]     [mkdir] Created dir: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/junit/build
-     [exec]     [unzip] Expanding: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/junit/downloads/junit4.7.zip into /home/amber/git/Dacapo/Dacapo/benchmarks/libs/junit/build
-     [exec] 
-     [exec] unpack:
      [exec] 
      [exec] pre-build:
      [exec] 
@@ -127,12 +110,7 @@ h2:
      [exec] url-source:
      [exec] 
      [exec] check-source:
-     [exec] 
-     [exec] get-source:
-     [exec] 
-     [exec] get-source-fix-checksum:
-     [exec] 
-     [exec] get-source-verify-checksum:
+     [exec]      [echo] No need to check
      [exec] 
      [exec] svn-source:
      [exec] 
@@ -142,8 +120,6 @@ h2:
      [exec] init:
      [exec]     [mkdir] Created dir: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/h2/dist
      [exec]     [mkdir] Created dir: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/h2/dist/jar
-     [exec] 
-     [exec] unpack:
      [exec] 
      [exec] pre-build:
      [exec] 
@@ -164,35 +140,16 @@ h2:
      [exec] url-source:
      [exec] 
      [exec] check-source:
-     [exec] 
-     [exec] get-source:
-     [exec] 
-     [exec] get-source-fix-checksum:
-     [exec] 
-     [exec] get-source-verify-checksum:
+     [exec]      [echo] No need to check
      [exec] 
      [exec] svn-source:
      [exec] 
      [exec] clean:
      [exec]    [delete] Deleting directory /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/dist
-     [exec]    [delete] Deleting directory /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build
      [exec] 
      [exec] init:
      [exec]     [mkdir] Created dir: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/dist
      [exec]     [mkdir] Created dir: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/dist/jar
-     [exec] 
-     [exec] untar:
-     [exec]     [mkdir] Created dir: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build
-     [exec]     [untar] Expanding: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/downloads/db-derby-10.5.3.0-src.tar.gz into /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build
-     [exec] 
-     [exec] unpack:
-     [exec]     [patch] patching file db-derby-10.5.3.0-src/java/testing/org/apache/derbyTesting/system/oe/client/Load.java
-     [exec]     [patch] patching file db-derby-10.5.3.0-src/java/testing/org/apache/derbyTesting/system/oe/direct/Standard.java
-     [exec]     [patch] patching file db-derby-10.5.3.0-src/java/testing/org/apache/derbyTesting/system/oe/load/SimpleInsert.java
-     [exec]     [patch] patching file db-derby-10.5.3.0-src/java/testing/org/apache/derbyTesting/system/oe/schema/schema.sql
-     [exec]     [patch] patching file db-derby-10.5.3.0-src/java/testing/org/apache/derbyTesting/system/oe/util/OERandom.java
-     [exec]     [patch] patching file db-derby-10.5.3.0-src/java/testing/org/apache/derbyTesting/system/oe/client/Submitter.java
-     [exec]     [patch] Hunk #2 succeeded at 125 (offset -18 lines).
      [exec] 
      [exec] pre-build:
      [exec] 
@@ -205,8 +162,6 @@ h2:
      [exec] setInitialProperties:
      [exec] 
      [exec] init:
-     [exec]     [mkdir] Created dir: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
-     [exec]     [mkdir] Created dir: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/empty
      [exec] 
      [exec] ensuresanitystate:
      [exec] 
@@ -216,7 +171,6 @@ h2:
      [exec] 
      [exec] compile:
      [exec]     [javac] /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/java/build/org/apache/derbyPreBuild/build.xml:44: warning: 'includeantruntime' was not set, defaulting to build.sysclasspath=last; set to false for repeatable builds
-     [exec]     [javac] Compiling 1 source file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] build:
      [exec] 
@@ -229,61 +183,12 @@ h2:
      [exec] printCompilerProperties:
      [exec] 
      [exec] jsr169stubs:
-     [exec]     [mkdir] Created dir: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/stubs
-     [exec]     [mkdir] Created dir: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/stubs/jsr169
-     [exec]     [javac] Compiling 26 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/stubs/jsr169
      [exec] 
      [exec] jdbc3stubs:
-     [exec]     [mkdir] Created dir: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/stubs/jdbc3
-     [exec]     [javac] Compiling 43 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/stubs/jdbc3
      [exec] 
      [exec] jdbc4stubs:
-     [exec]     [mkdir] Created dir: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/stubs/jdbc4
-     [exec]     [javac] Compiling 93 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/stubs/jdbc4
-     [exec]     [javac] /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/java/stubs/jdbc4/java/sql/Date.java:25: warning: [deprecation] getHours() in java.util.Date has been deprecated
-     [exec]     [javac]     public  int 	getHours()  { return 0; }
-     [exec]     [javac]                 	^
-     [exec]     [javac] /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/java/stubs/jdbc4/java/sql/Date.java:26: warning: [deprecation] getMinutes() in java.util.Date has been deprecated
-     [exec]     [javac]     public  int 	getMinutes()    { return 0; }
-     [exec]     [javac]                 	^
-     [exec]     [javac] /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/java/stubs/jdbc4/java/sql/Date.java:27: warning: [deprecation] getSeconds() in java.util.Date has been deprecated
-     [exec]     [javac]     public  int 	getSeconds()    { return 0; }
-     [exec]     [javac]                 	^
-     [exec]     [javac] /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/java/stubs/jdbc4/java/sql/Date.java:28: warning: [deprecation] setHours(int) in java.util.Date has been deprecated
-     [exec]     [javac]     public  void 	setHours(int i) {  }
-     [exec]     [javac]                  	^
-     [exec]     [javac] /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/java/stubs/jdbc4/java/sql/Date.java:29: warning: [deprecation] setMinutes(int) in java.util.Date has been deprecated
-     [exec]     [javac]     public  void 	setMinutes(int i)   { }
-     [exec]     [javac]                  	^
-     [exec]     [javac] /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/java/stubs/jdbc4/java/sql/Date.java:30: warning: [deprecation] setSeconds(int) in java.util.Date has been deprecated
-     [exec]     [javac]     public  void 	setSeconds(int i)   { }
-     [exec]     [javac]                  	^
-     [exec]     [javac] /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/java/stubs/jdbc4/java/sql/Time.java:25: warning: [deprecation] getDate() in java.util.Date has been deprecated
-     [exec]     [javac]     public  int 	getDate() { return 0; }
-     [exec]     [javac]                 	^
-     [exec]     [javac] /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/java/stubs/jdbc4/java/sql/Time.java:26: warning: [deprecation] getDay() in java.util.Date has been deprecated
-     [exec]     [javac]     public  int 	getDay() { return 0; }
-     [exec]     [javac]                 	^
-     [exec]     [javac] /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/java/stubs/jdbc4/java/sql/Time.java:27: warning: [deprecation] getMonth() in java.util.Date has been deprecated
-     [exec]     [javac]     public  int 	getMonth() { return 0; }
-     [exec]     [javac]                 	^
-     [exec]     [javac] /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/java/stubs/jdbc4/java/sql/Time.java:28: warning: [deprecation] getYear() in java.util.Date has been deprecated
-     [exec]     [javac]     public  int 	getYear() { return 0; }
-     [exec]     [javac]                 	^
-     [exec]     [javac] /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/java/stubs/jdbc4/java/sql/Time.java:29: warning: [deprecation] setDate(int) in java.util.Date has been deprecated
-     [exec]     [javac]     public  void 	setDate(int i) {  }
-     [exec]     [javac]                  	^
-     [exec]     [javac] /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/java/stubs/jdbc4/java/sql/Time.java:30: warning: [deprecation] setMonth(int) in java.util.Date has been deprecated
-     [exec]     [javac]     public  void 	setMonth(int i) {  }
-     [exec]     [javac]                  	^
-     [exec]     [javac] /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/java/stubs/jdbc4/java/sql/Time.java:32: warning: [deprecation] setYear(int) in java.util.Date has been deprecated
-     [exec]     [javac]     public  void 	setYear(int i) {  }
-     [exec]     [javac]                  	^
-     [exec]     [javac] 13 warnings
      [exec] 
      [exec] felixStubs:
-     [exec]     [mkdir] Created dir: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/stubs/felix
-     [exec]     [javac] Compiling 25 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/stubs/felix
      [exec] 
      [exec] showenv:
      [exec]      [echo] 
@@ -302,8 +207,6 @@ h2:
      [exec] shared:
      [exec] 
      [exec] compile:
-     [exec]     [javac] Compiling 11 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
-     [exec]     [javac] Compiling 1 source file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] shared:
      [exec] 
@@ -330,21 +233,16 @@ h2:
      [exec] engine_169:
      [exec] 
      [exec] compile_reference:
-     [exec]     [javac] Compiling 11 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
-     [exec]     [javac] Compiling 2 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] compile_authentication:
-     [exec]     [javac] Compiling 2 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] authentication:
      [exec] 
      [exec] compile_security:
-     [exec]     [javac] Compiling 2 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] security:
      [exec] 
      [exec] compile_mbeans:
-     [exec]     [javac] Compiling 4 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] compile_io:
      [exec] 
@@ -353,31 +251,23 @@ h2:
      [exec] compile_iapi_error_jsr169:
      [exec] 
      [exec] compile_reference:
-     [exec]     [javac] Compiling 2 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] compile_util:
      [exec] 
      [exec] compile_types:
-     [exec]     [javac] Compiling 1 source file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
-     [exec]     [javac] Compiling 5 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
-     [exec]     [javac] Compiling 2 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
+     [exec]      [echo] /usr/lib/jvm/jdk1.5.0_22/jre/lib/charsets.jar:/usr/lib/jvm/jdk1.5.0_22/jre/lib/deploy.jar:/usr/lib/jvm/jdk1.5.0_22/jre/lib/javaws.jar:/usr/lib/jvm/jdk1.5.0_22/jre/lib/jce.jar:/usr/lib/jvm/jdk1.5.0_22/jre/lib/jsse.jar:/usr/lib/jvm/jdk1.5.0_22/jre/lib/plugin.jar:/usr/lib/jvm/jdk1.5.0_22/jre/lib/rt.jar:/home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/tools/java/xalan.jar:/home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/tools/java/serializer.jar;/home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/tools/java/xercesImpl.jar
      [exec] 
      [exec] compile_iapi_services_jsr169:
-     [exec]     [javac] Compiling 26 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] compile_iapi_services_io:
-     [exec]     [javac] Compiling 6 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] compile_iapi_store_jsr169:
-     [exec]     [javac] Compiling 11 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] compile_iapi_sql_jsr169:
      [exec] 
      [exec] compile_iapi_db:
-     [exec]     [javac] Compiling 5 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] compile_iapi_jdbc_jsr169:
-     [exec]     [javac] Compiling 6 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] compile_database:
      [exec] 
@@ -386,10 +276,8 @@ h2:
      [exec] compile_impl_169:
      [exec] 
      [exec] compile_impl_services_169:
-     [exec]     [javac] Compiling 53 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] compile_impl_io_169:
-     [exec]     [javac] Compiling 20 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] engine_j2se:
      [exec] 
@@ -400,6 +288,7 @@ h2:
      [exec] compile_util:
      [exec] 
      [exec] compile_types:
+     [exec]      [echo] /usr/lib/jvm/jdk1.5.0_22/jre/lib/charsets.jar:/usr/lib/jvm/jdk1.5.0_22/jre/lib/deploy.jar:/usr/lib/jvm/jdk1.5.0_22/jre/lib/javaws.jar:/usr/lib/jvm/jdk1.5.0_22/jre/lib/jce.jar:/usr/lib/jvm/jdk1.5.0_22/jre/lib/jsse.jar:/usr/lib/jvm/jdk1.5.0_22/jre/lib/plugin.jar:/usr/lib/jvm/jdk1.5.0_22/jre/lib/rt.jar:/home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/tools/java/xalan.jar:/home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/tools/java/serializer.jar;/home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/tools/java/xercesImpl.jar
      [exec] 
      [exec] compile_iapi_services_jsr169:
      [exec] 
@@ -422,7 +311,6 @@ h2:
      [exec] compile_crypto:
      [exec] 
      [exec] compile_crypto:
-     [exec]     [javac] Compiling 3 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] compile_jdbc3:
      [exec] 
@@ -431,7 +319,6 @@ h2:
      [exec] compile_iapi_store_jsr169:
      [exec] 
      [exec] compile_iapi_store_jdk13:
-     [exec]     [javac] Compiling 2 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] compile:
      [exec] 
@@ -444,25 +331,20 @@ h2:
      [exec] compile_iapi_jdbc:
      [exec] 
      [exec] compile_iapi_jdbc_stmt:
-     [exec]     [javac] Compiling 1 source file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] compile_iapi_jdbc_jsr169:
      [exec] 
      [exec] compile_iapi_jdbc_jdbc2:
-     [exec]     [javac] Compiling 3 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] compile_iapi_jdbc_jdbc3:
-     [exec]     [javac] Compiling 4 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] compile_jdbc4:
-     [exec]     [javac] Compiling 5 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] compile:
      [exec] 
      [exec] iapi:
      [exec] 
      [exec] compile_vti:
-     [exec]     [javac] Compiling 3 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] vti:
      [exec] 
@@ -477,15 +359,12 @@ h2:
      [exec] compile_impl_services_169:
      [exec] 
      [exec] compile_impl_services_jdk15:
-     [exec]     [javac] Compiling 9 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] compile_impl_services:
-     [exec]     [javac] Compiling 3 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] compile_impl_io_169:
      [exec] 
      [exec] compile_impl_io:
-     [exec]     [javac] Compiling 3 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] parser:
      [exec] 
@@ -494,78 +373,58 @@ h2:
      [exec] genParser:
      [exec] 
      [exec] compile:
-     [exec]     [javac] Compiling 154 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
-     [exec]      [copy] Copying 1 file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/impl/sql/catalog
      [exec] 
      [exec] compile_impl_store:
-     [exec]     [javac] Compiling 210 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] compile_impl_store_14:
-     [exec]     [javac] Compiling 2 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] compile:
      [exec] 
      [exec] compile:
-     [exec]     [javac] Compiling 15 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] compile_impl_jdbc:
      [exec] 
      [exec] compile_jsr169:
-     [exec]     [javac] Compiling 4 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
-     [exec]      [copy] Copying 1 file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/impl/jdbc
      [exec] 
      [exec] compile_jdbc3:
-     [exec]     [javac] Compiling 11 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] compile_jdbc4:
-     [exec]     [javac] Compiling 9 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] compile:
      [exec] 
      [exec] iapi:
      [exec] 
      [exec] compile_jsr169:
-     [exec]     [javac] Compiling 1 source file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] compile_jdbc2:
-     [exec]     [javac] Compiling 7 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] compile_jdbc3:
-     [exec]     [javac] Compiling 2 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] compile_jdbc4:
-     [exec]     [javac] Compiling 6 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] jdbc:
      [exec] 
      [exec] compile_osgi:
-     [exec]     [javac] Compiling 1 source file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] osgi:
      [exec] 
      [exec] compile_catalog:
-     [exec]     [javac] Compiling 5 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] catalog:
      [exec] 
      [exec] compile_diag:
-     [exec]     [javac] Compiling 8 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] diag:
-     [exec]      [copy] Copying 1 file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby
      [exec] 
      [exec] checkJ2MEmoduleprops:
      [exec] 
      [exec] J2ME_modules_edit:
-     [exec]     [touch] Creating /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/modulesJ2ME.done
      [exec] 
      [exec] engine_169_opt:
      [exec] 
      [exec] compile_jsr169_opt:
-     [exec]     [javac] Compiling 3 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] compile_jsr169_opt:
-     [exec]     [javac] Compiling 1 source file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] engine:
      [exec] 
@@ -574,8 +433,6 @@ h2:
      [exec] build_base:
      [exec] 
      [exec] compile:
-     [exec]      [copy] Copying 1 file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derbyBuild
-     [exec]     [javac] Compiling 20 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] build:
      [exec] 
@@ -598,10 +455,6 @@ h2:
      [exec] chksplit:
      [exec] 
      [exec] doSplit:
-     [exec]     [mkdir] Created dir: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/loc
-     [exec]      [java] split messages_en
-     [exec]      [java] Copied client messages for _en
-     [exec]     [touch] Creating /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/loc/messages_en.done
      [exec] 
      [exec] splitprops:
      [exec] 
@@ -612,9 +465,6 @@ h2:
      [exec] chksplit:
      [exec] 
      [exec] doSplit:
-     [exec]      [java] split messages_cs
-     [exec]      [java] Copied client messages for _cs
-     [exec]     [touch] Creating /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/loc/messages_cs.done
      [exec] 
      [exec] splitprops:
      [exec] 
@@ -625,9 +475,6 @@ h2:
      [exec] chksplit:
      [exec] 
      [exec] doSplit:
-     [exec]      [java] split messages_de_DE
-     [exec]      [java] Copied client messages for _de_DE
-     [exec]     [touch] Creating /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/loc/messages_de_DE.done
      [exec] 
      [exec] splitprops:
      [exec] 
@@ -638,9 +485,6 @@ h2:
      [exec] chksplit:
      [exec] 
      [exec] doSplit:
-     [exec]      [java] split messages_es
-     [exec]      [java] Copied client messages for _es
-     [exec]     [touch] Creating /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/loc/messages_es.done
      [exec] 
      [exec] splitprops:
      [exec] 
@@ -651,9 +495,6 @@ h2:
      [exec] chksplit:
      [exec] 
      [exec] doSplit:
-     [exec]      [java] split messages_hu
-     [exec]      [java] Copied client messages for _hu
-     [exec]     [touch] Creating /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/loc/messages_hu.done
      [exec] 
      [exec] splitprops:
      [exec] 
@@ -664,9 +505,6 @@ h2:
      [exec] chksplit:
      [exec] 
      [exec] doSplit:
-     [exec]      [java] split messages_ja_JP
-     [exec]      [java] Copied client messages for _ja_JP
-     [exec]     [touch] Creating /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/loc/messages_ja_JP.done
      [exec] 
      [exec] splitprops:
      [exec] 
@@ -677,9 +515,6 @@ h2:
      [exec] chksplit:
      [exec] 
      [exec] doSplit:
-     [exec]      [java] split messages_ko_KR
-     [exec]      [java] Copied client messages for _ko_KR
-     [exec]     [touch] Creating /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/loc/messages_ko_KR.done
      [exec] 
      [exec] splitprops:
      [exec] 
@@ -690,9 +525,6 @@ h2:
      [exec] chksplit:
      [exec] 
      [exec] doSplit:
-     [exec]      [java] split messages_qq_PP_testOnly
-     [exec]      [java] Copied client messages for _qq_PP_testOnly
-     [exec]     [touch] Creating /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/loc/messages_qq_PP_testOnly.done
      [exec] 
      [exec] splitprops:
      [exec] 
@@ -703,9 +535,6 @@ h2:
      [exec] chksplit:
      [exec] 
      [exec] doSplit:
-     [exec]      [java] split messages_pl
-     [exec]      [java] Copied client messages for _pl
-     [exec]     [touch] Creating /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/loc/messages_pl.done
      [exec] 
      [exec] splitprops:
      [exec] 
@@ -716,9 +545,6 @@ h2:
      [exec] chksplit:
      [exec] 
      [exec] doSplit:
-     [exec]      [java] split messages_pt_BR
-     [exec]      [java] Copied client messages for _pt_BR
-     [exec]     [touch] Creating /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/loc/messages_pt_BR.done
      [exec] 
      [exec] splitprops:
      [exec] 
@@ -729,9 +555,6 @@ h2:
      [exec] chksplit:
      [exec] 
      [exec] doSplit:
-     [exec]      [java] split messages_ru
-     [exec]      [java] Copied client messages for _ru
-     [exec]     [touch] Creating /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/loc/messages_ru.done
      [exec] 
      [exec] splitprops:
      [exec] 
@@ -742,9 +565,6 @@ h2:
      [exec] chksplit:
      [exec] 
      [exec] doSplit:
-     [exec]      [java] split messages_zh_CN
-     [exec]      [java] Copied client messages for _zh_CN
-     [exec]     [touch] Creating /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/loc/messages_zh_CN.done
      [exec] 
      [exec] splitprops:
      [exec] 
@@ -755,9 +575,6 @@ h2:
      [exec] chksplit:
      [exec] 
      [exec] doSplit:
-     [exec]      [java] split messages_zh_TW
-     [exec]      [java] Copied client messages for _zh_TW
-     [exec]     [touch] Creating /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/loc/messages_zh_TW.done
      [exec] 
      [exec] splitprops:
      [exec] 
@@ -768,9 +585,6 @@ h2:
      [exec] chksplit:
      [exec] 
      [exec] doSplit:
-     [exec]      [java] split messages_it
-     [exec]      [java] Copied client messages for _it
-     [exec]     [touch] Creating /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/loc/messages_it.done
      [exec] 
      [exec] splitprops:
      [exec] 
@@ -781,9 +595,6 @@ h2:
      [exec] chksplit:
      [exec] 
      [exec] doSplit:
-     [exec]      [java] split messages_fr
-     [exec]      [java] Copied client messages for _fr
-     [exec]     [touch] Creating /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/loc/messages_fr.done
      [exec] 
      [exec] locales:
      [exec] 
@@ -794,28 +605,23 @@ h2:
      [exec] storeless:
      [exec] 
      [exec] storeless:
-     [exec]     [mkdir] Created dir: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes.storeless
-     [exec]      [copy] Copying 1 file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes.storeless/org/apache/derby
-     [exec]     [javac] Compiling 4 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes.storeless
      [exec] 
      [exec] tools:
      [exec] 
      [exec] tools_base:
      [exec] 
      [exec] compile_tools_impl:
-     [exec]     [javac] Compiling 55 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
+     [exec]     [javac] Compiling 1 source file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] compile:
      [exec] 
      [exec] compile_tools_iapi:
      [exec] 
      [exec] compile:
-     [exec]     [javac] Compiling 2 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] tools:
      [exec] 
      [exec] copyfiles:
-     [exec]      [copy] Copying 27 files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/loc
      [exec] 
      [exec] locales:
      [exec] 
@@ -826,9 +632,6 @@ h2:
      [exec] drda:
      [exec] 
      [exec] compile:
-     [exec]     [javac] Compiling 1 source file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
-     [exec]     [javac] Compiling 3 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
-     [exec]     [javac] Compiling 2 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] drda:
      [exec] 
@@ -837,15 +640,12 @@ h2:
      [exec] checkservletjar:
      [exec] 
      [exec] servlet:
-     [exec]     [javac] Compiling 1 source file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] copyfiles:
-     [exec]      [copy] Copying 1 file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/drda
      [exec] 
      [exec] drda:
      [exec] 
      [exec] copyfiles:
-     [exec]      [copy] Copying 28 files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/loc/drda
      [exec] 
      [exec] locales:
      [exec] 
@@ -858,23 +658,16 @@ h2:
      [exec] chkodbcgen:
      [exec] 
      [exec] odbcMeta:
-     [exec]    [delete] Deleting: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/impl/jdbc/metadata.properties
-     [exec]      [copy] Copying 1 file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/impl/jdbc
-     [exec]      [move] Moving 1 file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/impl/jdbc
-     [exec]     [touch] Creating /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/impl/jdbc/odbcmeta.done
      [exec] 
      [exec] tools_run:
      [exec] 
      [exec] compile_tools_iapi_run:
-     [exec]     [javac] Compiling 1 source file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] client:
      [exec] 
      [exec] compile:
-     [exec]     [javac] Compiling 140 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] compile_jdbc4:
-     [exec]     [javac] Compiling 21 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] client:
      [exec] 
@@ -891,19 +684,6 @@ h2:
      [exec] ckversioninfo:
      [exec] 
      [exec] writeversioninfo:
-     [exec]     [mkdir] Created dir: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/info
-     [exec] 
-     [exec] infowriter:
-     [exec] [propertyfile] Creating new property file: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/info/DBMS.properties
-     [exec] 
-     [exec] infowriter:
-     [exec] [propertyfile] Creating new property file: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/info/tools.properties
-     [exec] 
-     [exec] infowriter:
-     [exec] [propertyfile] Creating new property file: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/info/net.properties
-     [exec] 
-     [exec] infowriter:
-     [exec] [propertyfile] Creating new property file: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/info/dnc.properties
      [exec] 
      [exec] versioninfo:
      [exec] 
@@ -911,119 +691,20 @@ h2:
      [exec] 
      [exec] localeinfo:
      [exec] 
-     [exec] buildlocaleinfo:
-     [exec] 
-     [exec] localeinfowriter:
-     [exec] [propertyfile] Creating new property file: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/info/locale_cs.properties
-     [exec] 
-     [exec] buildlocaleinfo:
-     [exec] 
-     [exec] localeinfowriter:
-     [exec] [propertyfile] Creating new property file: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/info/locale_de_DE.properties
-     [exec] 
-     [exec] buildlocaleinfo:
-     [exec] 
-     [exec] localeinfowriter:
-     [exec] [propertyfile] Creating new property file: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/info/locale_es.properties
-     [exec] 
-     [exec] buildlocaleinfo:
-     [exec] 
-     [exec] localeinfowriter:
-     [exec] [propertyfile] Creating new property file: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/info/locale_fr.properties
-     [exec] 
-     [exec] buildlocaleinfo:
-     [exec] 
-     [exec] localeinfowriter:
-     [exec] [propertyfile] Creating new property file: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/info/locale_hu.properties
-     [exec] 
-     [exec] buildlocaleinfo:
-     [exec] 
-     [exec] localeinfowriter:
-     [exec] [propertyfile] Creating new property file: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/info/locale_it.properties
-     [exec] 
-     [exec] buildlocaleinfo:
-     [exec] 
-     [exec] localeinfowriter:
-     [exec] [propertyfile] Creating new property file: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/info/locale_ja_JP.properties
-     [exec] 
-     [exec] buildlocaleinfo:
-     [exec] 
-     [exec] localeinfowriter:
-     [exec] [propertyfile] Creating new property file: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/info/locale_ko_KR.properties
-     [exec] 
-     [exec] buildlocaleinfo:
-     [exec] 
-     [exec] localeinfowriter:
-     [exec] [propertyfile] Creating new property file: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/info/locale_pl.properties
-     [exec] 
-     [exec] buildlocaleinfo:
-     [exec] 
-     [exec] localeinfowriter:
-     [exec] [propertyfile] Creating new property file: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/info/locale_pt_BR.properties
-     [exec] 
-     [exec] buildlocaleinfo:
-     [exec] 
-     [exec] localeinfowriter:
-     [exec] [propertyfile] Creating new property file: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/info/locale_ru.properties
-     [exec] 
-     [exec] buildlocaleinfo:
-     [exec] 
-     [exec] localeinfowriter:
-     [exec] [propertyfile] Creating new property file: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/info/locale_zh_CN.properties
-     [exec] 
-     [exec] buildlocaleinfo:
-     [exec] 
-     [exec] localeinfowriter:
-     [exec] [propertyfile] Creating new property file: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/info/locale_zh_TW.properties
-     [exec] 
      [exec] buildsource:
      [exec] 
      [exec] vti-demo:
      [exec] 
      [exec] compile-vtidemo:
-     [exec]     [javac] Compiling 18 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
-     [exec]     [javac] /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/java/demo/vtis/java/org/apache/derbyDemo/vtis/core/VTITemplate.java:354: warning: [deprecation] getUnicodeStream(java.lang.String) in java.sql.ResultSet has been deprecated
-     [exec]     [javac]     public java.io.InputStream getUnicodeStream(String columnName) throws SQLException {
-     [exec]     [javac]                                ^
-     [exec]     [javac] /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/java/demo/vtis/java/org/apache/derbyDemo/vtis/core/VTITemplate.java:300: warning: [deprecation] getBigDecimal(java.lang.String,int) in java.sql.ResultSet has been deprecated
-     [exec]     [javac]     public BigDecimal getBigDecimal(String columnName, int scale) throws SQLException {
-     [exec]     [javac]                       ^
-     [exec]     [javac] /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/java/demo/vtis/java/org/apache/derbyDemo/vtis/core/VTITemplate.java:209: warning: [deprecation] getUnicodeStream(int) in java.sql.ResultSet has been deprecated
-     [exec]     [javac]     public java.io.InputStream getUnicodeStream(int columnIndex) throws SQLException {
-     [exec]     [javac]                                ^
-     [exec]     [javac] /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/java/demo/vtis/java/org/apache/derbyDemo/vtis/core/VTITemplate.java:155: warning: [deprecation] getBigDecimal(int,int) in java.sql.ResultSet has been deprecated
-     [exec]     [javac]     public BigDecimal getBigDecimal(int columnIndex, int scale) throws SQLException {
-     [exec]     [javac]                       ^
-     [exec]     [javac] 4 warnings
+     [exec]      [echo] classpath = /usr/lib/jvm/jdk1.5.0_22/jre/lib/charsets.jar:/usr/lib/jvm/jdk1.5.0_22/jre/lib/deploy.jar:/usr/lib/jvm/jdk1.5.0_22/jre/lib/javaws.jar:/usr/lib/jvm/jdk1.5.0_22/jre/lib/jce.jar:/usr/lib/jvm/jdk1.5.0_22/jre/lib/jsse.jar:/usr/lib/jvm/jdk1.5.0_22/jre/lib/plugin.jar:/usr/lib/jvm/jdk1.5.0_22/jre/lib/rt.jar
      [exec] 
      [exec] demo:
      [exec] 
      [exec] compile:
-     [exec]     [javac] Compiling 2 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
-     [exec]     [javac] Compiling 3 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
-     [exec]     [javac] Compiling 2 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
-     [exec]     [javac] Compiling 3 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] compile:
-     [exec]     [javac] Compiling 1 source file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] checktoursdb:
-     [exec] 
-     [exec] toursdb:
-     [exec] 
-     [exec] compile:
-     [exec] 
-     [exec] buildschema:
-     [exec]      [echo] Begin building toursdb
-     [exec] 
-     [exec] loadtables:
-     [exec] 
-     [exec] jarup:
-     [exec]       [zip] Building zip: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/java/demo/toursdb/toursdb.jar
-     [exec]      [echo] Finished building toursdb
-     [exec] 
-     [exec] copyfiles:
-     [exec]      [copy] Copying 13 files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derbyTesting/functionTests/tests/demo
      [exec] 
      [exec] toursdb:
      [exec] 
@@ -1034,518 +715,159 @@ h2:
      [exec] testing:
      [exec] 
      [exec] junitcomponents:
-     [exec]     [javac] Compiling 1 source file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
-     [exec]     [javac] Compiling 13 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] init:
-     [exec]     [mkdir] Created dir: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derbyTesting/functionTests/harness
      [exec] 
      [exec] compile:
-     [exec]     [javac] Compiling 45 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] copyfiles:
-     [exec]      [copy] Copying 1 file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derbyTesting/functionTests/harness
      [exec] 
      [exec] FTharness:
      [exec] 
      [exec] copyfiles:
-     [exec]      [copy] Copying 1 file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derbyTesting/functionTests/testData/v1
-     [exec]      [copy] Copying 1 file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derbyTesting/functionTests/testData/v2
-     [exec]      [copy] Copying 15 files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derbyTesting/functionTests/testData/ImportExport
-     [exec]      [copy] Copying 3 files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derbyTesting/functionTests/testData/ResultSetStream
-     [exec]      [copy] Copying 1 file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derbyTesting/functionTests/testData/ConnectionMethods
-     [exec]      [copy] Copying 21 files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derbyTesting/functionTests/testData/serializedDataSources
      [exec] 
      [exec] compile_jdk15:
-     [exec]     [javac] Compiling 1 source file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] testdata:
      [exec] 
      [exec] copyfiles:
-     [exec]      [copy] Copying 4 files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derbyTesting/functionTests/util
      [exec] 
      [exec] compile:
-     [exec]     [javac] Compiling 49 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
-     [exec]     [javac] Compiling 2 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] FTpolicy:
      [exec] 
      [exec] util:
      [exec] 
      [exec] unitTests:
-     [exec]     [javac] Compiling 80 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
-     [exec]      [copy] Copying 4 files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derbyTesting/unitTests
      [exec] 
      [exec] copyfiles:
-     [exec]      [copy] Copying 23 files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derbyTesting/functionTests/multi/stress
      [exec] 
      [exec] FTstress:
      [exec] 
      [exec] compilex:
-     [exec]     [javac] Compiling 5 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] FTOtestsubdir:
      [exec] 
      [exec] compilet1:
-     [exec]     [javac] Compiling 1 source file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] copyfiles:
-     [exec]      [copy] Copying 1 file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derbyTesting/functionTests/tests/junitTests/derbyNet
      [exec] 
      [exec] FTOtestsubdir:
      [exec] 
      [exec] compilet1:
-     [exec]     [javac] Compiling 74 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] compilex:
      [exec] 
      [exec] compilet2:
-     [exec]     [javac] Compiling 9 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] compileSuite:
-     [exec]     [javac] Compiling 1 source file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] copyfiles:
-     [exec]      [copy] Copying 24 files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derbyTesting/functionTests/tests/jdbcapi
      [exec] 
      [exec] FTOtestsubdir:
      [exec] 
      [exec] compilet1:
-     [exec]     [javac] Compiling 129 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] compilet2:
      [exec] 
      [exec] compilet3:
-     [exec]     [javac] Compiling 1 source file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] compilett4:
      [exec] 
      [exec] copyfiles:
-     [exec]      [copy] Copying 168 files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derbyTesting/functionTests/tests/lang
      [exec] 
      [exec] FTOtestsubdir:
      [exec] 
      [exec] compile:
-     [exec]     [javac] Compiling 32 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
-     [exec]     [javac] Compiling 1 source file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] copyfiles:
-     [exec]      [copy] Copying 167 files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derbyTesting/functionTests/tests/store
      [exec] 
      [exec] FTOtestsubdir:
      [exec] 
      [exec] compilet1:
-     [exec]     [javac] Compiling 3 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] copyfiles:
      [exec] 
      [exec] FTOtestsubdir:
      [exec] 
      [exec] compile:
-     [exec]     [javac] Compiling 3 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] copyfiles:
-     [exec]      [copy] Copying 15 files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derbyTesting/functionTests/tests/storetests
      [exec] 
      [exec] FTOtestsubdir:
      [exec] 
      [exec] compilet2:
      [exec] 
      [exec] compilet1:
-     [exec]     [javac] Compiling 16 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] copyfiles:
-     [exec]      [copy] Copying 37 files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derbyTesting/functionTests/tests/tools
      [exec] 
      [exec] FTOtestsubdir:
      [exec] 
      [exec] copyfiles:
-     [exec]      [copy] Copying 126 files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derbyTesting/functionTests/tests/nist
      [exec] 
      [exec] nistsuites:
      [exec] 
      [exec] FTOtestsubdir:
      [exec] 
      [exec] compile:
-     [exec]     [javac] Compiling 2 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] copy:
      [exec] 
      [exec] FTOtestsubdir:
      [exec] 
      [exec] compilet2:
-     [exec]     [javac] Compiling 1 source file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] compilet1:
-     [exec]     [javac] Compiling 31 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] copyfiles:
-     [exec]      [copy] Copying 30 files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derbyTesting/functionTests/tests/derbynet
      [exec] 
      [exec] FTOtestsubdir:
      [exec] 
      [exec] copyfiles:
-     [exec]      [copy] Copying 54 files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derbyTesting/functionTests/tests/unit
      [exec] 
      [exec] FTOtestsubdir:
      [exec] 
      [exec] compile:
-     [exec]     [javac] Compiling 4 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] copyfiles:
-     [exec]      [copy] Copying 17 files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derbyTesting/functionTests/tests/i18n
-     [exec]      [copy] Copying 6 files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derbyTesting/functionTests/tests/i18n/data
      [exec] 
      [exec] FTOtestsubdir:
      [exec] 
      [exec] copyfiles:
-     [exec]      [copy] Copying 1 file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derbyTesting/functionTests/tests/jdbc4
      [exec] 
      [exec] compile_jdbc4:
-     [exec]     [javac] Compiling 30 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
-     [exec]     [javac] Note: Some input files use unchecked or unsafe operations.
-     [exec]     [javac] Note: Recompile with -Xlint:unchecked for details.
      [exec] 
      [exec] compile:
      [exec] 
      [exec] compile:
-     [exec]     [javac] Compiling 2 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
      [exec] 
      [exec] copyfiles:
-     [exec]      [copy] Copying 2 files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derbyTesting/functionTests/tests/perf
      [exec] 
      [exec] FTOtestsubdir:
      [exec] 
      [exec] compile_jdk15:
      [exec]     [javac] Compiling 12 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
-     [exec] 
-     [exec] compile:
-     [exec] 
-     [exec] memorytests:
-     [exec]     [javac] Compiling 6 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
-     [exec] 
-     [exec] compile:
-     [exec]     [javac] Compiling 2 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
-     [exec] 
-     [exec] copy:
-     [exec] 
-     [exec] FTOtestsubdir:
-     [exec] 
-     [exec] multitests:
-     [exec]     [javac] Compiling 3 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
-     [exec] 
-     [exec] compilet1:
-     [exec]     [javac] Compiling 10 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
-     [exec] 
-     [exec] FTOtestsubdir:
-     [exec] 
-     [exec] compilet1:
-     [exec]     [javac] Compiling 54 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
-     [exec] 
-     [exec] FTOtestsubdir:
-     [exec] 
-     [exec] compilet1:
-     [exec] 
-     [exec] compilet2:
-     [exec]     [javac] Compiling 1 source file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
-     [exec] 
-     [exec] copyfiles:
-     [exec]      [copy] Copying 1 file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derbyTesting/functionTests/tests/largedata
-     [exec] 
-     [exec] FTOtestsubdir:
-     [exec] 
-     [exec] copyfiles:
-     [exec]      [copy] Copying 443 files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derbyTesting/functionTests/master
-     [exec]      [copy] Copied 9 empty directories to 1 empty directory under /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derbyTesting/functionTests/master
-     [exec] 
-     [exec] FTmaster:
-     [exec] 
-     [exec] junitsuites:
-     [exec]     [javac] Compiling 1 source file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
-     [exec] 
-     [exec] copyfiles:
-     [exec]      [copy] Copying 66 files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derbyTesting/functionTests/suites
-     [exec] 
-     [exec] suites:
-     [exec] 
-     [exec] mailjdbc:
-     [exec]     [javac] Compiling 10 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
-     [exec]      [copy] Copying 1 file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derbyTesting/system/mailjdbc/schema
-     [exec]      [copy] Copying 1 file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derbyTesting/system/mailjdbc
-     [exec] 
-     [exec] nstest:
-     [exec]     [javac] Compiling 11 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
-     [exec] 
-     [exec] orderentry:
-     [exec]     [javac] Compiling 27 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
-     [exec]      [copy] Copying 7 files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derbyTesting/system/oe/schema
-     [exec] 
-     [exec] optimizer:
-     [exec]     [javac] Compiling 13 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
-     [exec] 
-     [exec] sttest:
-     [exec]     [javac] Compiling 6 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
-     [exec] 
-     [exec] perfcomponents:
-     [exec]     [javac] Compiling 1 source file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
-     [exec]     [javac] Compiling 24 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes
-     [exec] 
-     [exec] pptesting:
-     [exec] 
-     [exec] compile:
-     [exec]     [mkdir] Created dir: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes.pptesting
-     [exec]     [javac] Compiling 12 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes.pptesting
-     [exec] 
-     [exec] pptesting-build:
-     [exec] 
-     [exec] runmessagecheck:
-     [exec] 
-     [exec] all:
-     [exec] 
-     [exec] setissane:
-     [exec] 
-     [exec] sanitynamesane:
-     [exec] 
-     [exec] sanitynameinsane:
-     [exec] 
-     [exec] setsanityname:
-     [exec] 
-     [exec] getsvnversion:
-     [exec] 
-     [exec] initjars:
-     [exec]     [mkdir] Created dir: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/jars/insane
-     [exec]     [mkdir] Created dir: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/jars/insane/lists
-     [exec]      [echo] Revision number set to Unversioned directory.
-     [exec] 
-     [exec] derbyjar:
-     [exec]      [echo] Beginning derby.jar insane build
-     [exec]     [mkdir] Created dir: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/jars/insane/lists/org/apache/derby
-     [exec]      [echo]  creating derby.jar class list 
-     [exec]      [echo]  creating new DBMS.properties file
-     [exec] 
-     [exec] infowriter:
-     [exec] [propertyfile] Updating property file: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/info/DBMS.properties
-     [exec] 
-     [exec] meta-inf-common:
-     [exec]     [mkdir] Created dir: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/jars/insane/lists/META-INF
-     [exec]      [copy] Copying 2 files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/jars/insane/lists/META-INF
-     [exec] 
-     [exec] declare-autoloadable-driver:
-     [exec]     [mkdir] Created dir: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/jars/insane/lists/META-INF/services
-     [exec] 
-     [exec] derbyjarwithosgi:
-     [exec] 
-     [exec] make-core-derbyjar-manifest:
-     [exec] 
-     [exec] make-locale-classpath-manifest:
-     [exec]       [jar] Building jar: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/jars/insane/derby.jar
-     [exec]       [jar] Updating jar: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/jars/insane/derby.jar
-     [exec] 
-     [exec] derbytoolsjar:
-     [exec]      [echo] Beginning derbytools.jar insane build
-     [exec]      [echo]  creating tools.list 
-     [exec]      [echo]  creating new tools.properties file 
-     [exec] 
-     [exec] infowriter:
-     [exec] [propertyfile] Updating property file: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/info/tools.properties
-     [exec] 
-     [exec] meta-inf-common:
-     [exec]      [copy] Copying 2 files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/jars/insane/lists/META-INF
-     [exec] 
-     [exec] make-locale-classpath-manifest:
-     [exec]       [jar] Building jar: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/jars/insane/derbytools.jar
-     [exec]       [jar] Updating jar: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/jars/insane/derbytools.jar
-     [exec] 
-     [exec] derbynetjar:
-     [exec]      [echo] Beginning derbynet.jar insane build
-     [exec]      [echo]  creating net.list
-     [exec]      [echo]  creating new net.properties file 
-     [exec] 
-     [exec] infowriter:
-     [exec] [propertyfile] Updating property file: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/info/net.properties
-     [exec] 
-     [exec] meta-inf-common:
-     [exec]      [copy] Copying 2 files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/jars/insane/lists/META-INF
-     [exec]       [jar] Building jar: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/jars/insane/derbynet.jar
-     [exec]       [jar] Updating jar: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/jars/insane/derbynet.jar
-     [exec] 
-     [exec] derbyclientjar:
-     [exec]      [echo] Beginning derbyclient.jar insane build
-     [exec]      [copy] Copying 1 file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/jars/insane/lists
-     [exec]      [echo]  creating new dnc.properties file 
-     [exec] 
-     [exec] infowriter:
-     [exec] [propertyfile] Updating property file: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/info/dnc.properties
-     [exec] 
-     [exec] meta-inf-common:
-     [exec]      [copy] Copying 2 files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/jars/insane/lists/META-INF
-     [exec] 
-     [exec] make-core-derbyjar-manifest:
-     [exec] 
-     [exec] make-locale-classpath-manifest:
-     [exec] 
-     [exec] declare-autoloadable-driver:
-     [exec]       [jar] Building jar: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/jars/insane/derbyclient.jar
-     [exec] 
-     [exec] derbyrunjar:
-     [exec]      [echo] Beginning derbyrun.jar build
-     [exec] 
-     [exec] meta-inf-common:
-     [exec]      [copy] Copying 2 files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/jars/insane/lists/META-INF
-     [exec]       [jar] Building jar: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/jars/insane/derbyrun.jar
-     [exec] 
-     [exec] derbywar:
-     [exec]      [echo] Beginning derby.war  build
-     [exec]       [zip] Building zip: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/jars/insane/derby.war
-     [exec] 
-     [exec] derbylocalejars:
-     [exec] 
-     [exec] meta-inf-common:
-     [exec]      [copy] Copying 2 files to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/jars/insane/lists/META-INF
-     [exec] 
-     [exec] localejar:
-     [exec]      [echo] Building derbyLocale_cs.jar
-     [exec] 
-     [exec] localeinfowriter:
-     [exec] [propertyfile] Updating property file: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/info/locale_cs.properties
-     [exec]       [jar] Building jar: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/jars/insane/derbyLocale_cs.jar
-     [exec] 
-     [exec] localejar:
-     [exec]      [echo] Building derbyLocale_de_DE.jar
-     [exec] 
-     [exec] localeinfowriter:
-     [exec] [propertyfile] Updating property file: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/info/locale_de_DE.properties
-     [exec]       [jar] Building jar: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/jars/insane/derbyLocale_de_DE.jar
-     [exec] 
-     [exec] localejar:
-     [exec]      [echo] Building derbyLocale_es.jar
-     [exec] 
-     [exec] localeinfowriter:
-     [exec] [propertyfile] Updating property file: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/info/locale_es.properties
-     [exec]       [jar] Building jar: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/jars/insane/derbyLocale_es.jar
-     [exec] 
-     [exec] localejar:
-     [exec]      [echo] Building derbyLocale_fr.jar
-     [exec] 
-     [exec] localeinfowriter:
-     [exec] [propertyfile] Updating property file: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/info/locale_fr.properties
-     [exec]       [jar] Building jar: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/jars/insane/derbyLocale_fr.jar
-     [exec] 
-     [exec] localejar:
-     [exec]      [echo] Building derbyLocale_hu.jar
-     [exec] 
-     [exec] localeinfowriter:
-     [exec] [propertyfile] Updating property file: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/info/locale_hu.properties
-     [exec]       [jar] Building jar: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/jars/insane/derbyLocale_hu.jar
-     [exec] 
-     [exec] localejar:
-     [exec]      [echo] Building derbyLocale_it.jar
-     [exec] 
-     [exec] localeinfowriter:
-     [exec] [propertyfile] Updating property file: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/info/locale_it.properties
-     [exec]       [jar] Building jar: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/jars/insane/derbyLocale_it.jar
-     [exec] 
-     [exec] localejar:
-     [exec]      [echo] Building derbyLocale_ja_JP.jar
-     [exec] 
-     [exec] localeinfowriter:
-     [exec] [propertyfile] Updating property file: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/info/locale_ja_JP.properties
-     [exec]       [jar] Building jar: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/jars/insane/derbyLocale_ja_JP.jar
-     [exec] 
-     [exec] localejar:
-     [exec]      [echo] Building derbyLocale_ko_KR.jar
-     [exec] 
-     [exec] localeinfowriter:
-     [exec] [propertyfile] Updating property file: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/info/locale_ko_KR.properties
-     [exec]       [jar] Building jar: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/jars/insane/derbyLocale_ko_KR.jar
-     [exec] 
-     [exec] localejar:
-     [exec]      [echo] Building derbyLocale_pl.jar
-     [exec] 
-     [exec] localeinfowriter:
-     [exec] [propertyfile] Updating property file: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/info/locale_pl.properties
-     [exec]       [jar] Building jar: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/jars/insane/derbyLocale_pl.jar
-     [exec] 
-     [exec] localejar:
-     [exec]      [echo] Building derbyLocale_pt_BR.jar
-     [exec] 
-     [exec] localeinfowriter:
-     [exec] [propertyfile] Updating property file: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/info/locale_pt_BR.properties
-     [exec]       [jar] Building jar: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/jars/insane/derbyLocale_pt_BR.jar
-     [exec] 
-     [exec] localejar:
-     [exec]      [echo] Building derbyLocale_ru.jar
-     [exec] 
-     [exec] localeinfowriter:
-     [exec] [propertyfile] Updating property file: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/info/locale_ru.properties
-     [exec]       [jar] Building jar: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/jars/insane/derbyLocale_ru.jar
-     [exec] 
-     [exec] localejar:
-     [exec]      [echo] Building derbyLocale_zh_CN.jar
-     [exec] 
-     [exec] localeinfowriter:
-     [exec] [propertyfile] Updating property file: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/info/locale_zh_CN.properties
-     [exec]       [jar] Building jar: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/jars/insane/derbyLocale_zh_CN.jar
-     [exec] 
-     [exec] localejar:
-     [exec]      [echo] Building derbyLocale_zh_TW.jar
-     [exec] 
-     [exec] localeinfowriter:
-     [exec] [propertyfile] Updating property file: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/classes/org/apache/derby/info/locale_zh_TW.properties
-     [exec]       [jar] Building jar: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/jars/insane/derbyLocale_zh_TW.jar
-     [exec] 
-     [exec] ckderbytesting:
-     [exec] 
-     [exec] derbytestingjar:
-     [exec]       [zip] Building zip: /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/jars/insane/derbyTesting.jar
-     [exec] 
-     [exec] buildjars:
-     [exec] 
-     [exec] jar:
-     [exec]      [copy] Copying 1 file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/dist/jar
-     [exec]      [copy] Copying 1 file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/dist/jar
-     [exec]      [copy] Copying 1 file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/dist/jar
-     [exec]      [copy] Copying 1 file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/dist/jar
-     [exec]      [copy] Copying 1 file to /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/dist/jar
-     [exec] 
-     [exec] complete:
-     [exec]       [jar] Updating jar: /home/amber/git/Dacapo/Dacapo/benchmarks/dacapo.jar
-     [exec] 
-     [exec] all:
-     [exec] 
-     [exec] bm-build:
-     [exec] 
-     [exec] jar:
-     [exec] 
-     [exec] data:
-     [exec]       [zip] Warning: skipping zip archive /home/amber/git/Dacapo/Dacapo/benchmarks/bms/h2/dist/dat/h2.zip because no files were included.
-     [exec] 
-     [exec] benchmark:
-     [exec] 
-     [exec] config:
-     [exec]      [copy] Copying 1 file to /home/amber/git/Dacapo/Dacapo/benchmarks/bms/h2/dist/cnf
-     [exec] 
-     [exec] bm-harness:
-     [exec]     [javac] /home/amber/git/Dacapo/Dacapo/benchmarks/bms/h2/build.xml:27: warning: 'includeantruntime' was not set, defaulting to build.sysclasspath=last; set to false for repeatable builds
-     [exec]     [javac] Compiling 6 source files to /home/amber/git/Dacapo/Dacapo/benchmarks/bms/h2/dist
-     [exec]     [javac] Note: /home/amber/git/Dacapo/Dacapo/benchmarks/bms/h2/src/org/dacapo/h2/TPCC.java uses or overrides a deprecated API.
-     [exec]     [javac] Note: Recompile with -Xlint:deprecation for details.
-     [exec]     [javac] Note: Some input files use unchecked or unsafe operations.
-     [exec]     [javac] Note: Recompile with -Xlint:unchecked for details.
-     [exec]       [jar] Building jar: /home/amber/git/Dacapo/Dacapo/benchmarks/bms/h2/dist/jar/tpcc.jar
-     [exec]    [delete] Deleting directory /home/amber/git/Dacapo/Dacapo/benchmarks/bms/h2/dist/org/dacapo/h2
-     [exec] 
-     [exec] harness:
-     [exec] 
-     [exec] build:
-     [exec] 
-     [exec] complete:
-     [exec]       [jar] Updating jar: /home/amber/git/Dacapo/Dacapo/benchmarks/dacapo.jar
-     [exec] 
-     [exec] all:
-     [exec] 
-     [exec] BUILD SUCCESSFUL
-     [exec] Total time: 2 minutes 34 seconds
+     [exec]     [javac] /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/java/testing/org/apache/derbyTesting/functionTests/tests/management/NetworkServerMBeanTest.java:84: getDerbyMBeanName(java.util.Hashtable<java.lang.String,java.lang.String>) in org.apache.derbyTesting.functionTests.tests.management.MBeanTest cannot be applied to (javolution.util.FastMap<java.lang.String,java.lang.String>)
+     [exec]     [javac]         return getDerbyMBeanName(keyProps);
+     [exec]     [javac]                ^
+     [exec]     [javac] /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/java/testing/org/apache/derbyTesting/functionTests/tests/management/VersionMBeanTest.java:82: getDerbyMBeanName(java.util.Hashtable<java.lang.String,java.lang.String>) in org.apache.derbyTesting.functionTests.tests.management.MBeanTest cannot be applied to (javolution.util.FastMap<java.lang.String,java.lang.String>)
+     [exec]     [javac]         return getDerbyMBeanName(keyProps);
+     [exec]     [javac]                ^
+     [exec]     [javac] /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/java/testing/org/apache/derbyTesting/functionTests/tests/management/VersionMBeanTest.java:108: getDerbyMBeanName(java.util.Hashtable<java.lang.String,java.lang.String>) in org.apache.derbyTesting.functionTests.tests.management.MBeanTest cannot be applied to (javolution.util.FastMap<java.lang.String,java.lang.String>)
+     [exec]     [javac]         return getDerbyMBeanName(keyProps);
+     [exec]     [javac]                ^
+     [exec]     [javac] 3 errors
+     [exec] 
+     [exec] BUILD FAILED
+     [exec] /home/amber/git/Dacapo/Dacapo/benchmarks/bms/common.xml:35: The following error occurred while executing this line:
+     [exec] /home/amber/git/Dacapo/Dacapo/benchmarks/libs/libs.xml:20: The following error occurred while executing this line:
+     [exec] /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build.xml:32: The following error occurred while executing this line:
+     [exec] /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/build.xml:499: The following error occurred while executing this line:
+     [exec] /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/java/testing/build.xml:80: The following error occurred while executing this line:
+     [exec] /home/amber/git/Dacapo/Dacapo/benchmarks/libs/derby/build/db-derby-10.5.3.0-src/java/testing/org/apache/derbyTesting/functionTests/tests/management/build.xml:53: Compile failed; see the compiler error output for details.
+     [exec] 
+     [exec] Total time: 8 seconds
 
 compile:
 
@@ -1555,6 +877,3 @@ build.status.pass:
 
 dist:
      [move] Moving 1 file to /home/amber/git/Dacapo/Dacapo/benchmarks
-
-BUILD SUCCESSFUL
-Total time: 2 minutes 38 seconds

@@ -46,7 +46,7 @@ public class ConnectionHandling {
         conn = null;
         
         FastTable list = new FastTable();
-        list.ensureCapacity(30000);
+        //list.ensureCapacity(30000);
         
         Properties p = new Properties();
         
@@ -80,7 +80,7 @@ public class ConnectionHandling {
         
         System.out.println(list.size() + " successful connections");
         
-        list.ensureCapacity(list.size() + 500);
+        //list.ensureCapacity(list.size() + 500);
         
         // try to make 500 more connection requests.
         int fail_sqloome = 0;

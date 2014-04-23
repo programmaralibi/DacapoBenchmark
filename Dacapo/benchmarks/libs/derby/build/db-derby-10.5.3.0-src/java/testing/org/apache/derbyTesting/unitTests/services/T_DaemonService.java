@@ -46,7 +46,7 @@ public class T_DaemonService extends T_MultiThreadedIterations
 	public T_DaemonService()
 	{
 		super();
-		serviceRecord = new FastTable(9, 1);
+		serviceRecord = new FastTable();
 		random = new Random();
 	}
 
@@ -141,12 +141,12 @@ public class T_DaemonService extends T_MultiThreadedIterations
 	{
 		// add a couple of subscriptions to the deamon
 		T_Serviceable s1 = new T_Serviceable(false);  // not on demand
-		serviceRecord.addElement(s1);
+		serviceRecord.add(s1);
 		int clientNumber1 = daemon.subscribe(s1, false);
 		s1.setClientNumber(clientNumber1);
 
 		T_Serviceable s2 = new T_Serviceable(true);  // on demand only
-		serviceRecord.addElement(s2);
+		serviceRecord.add(s2);
 		int clientNumber2 = daemon.subscribe(s2, true);
 		s2.setClientNumber(clientNumber2);
 
@@ -172,19 +172,19 @@ public class T_DaemonService extends T_MultiThreadedIterations
 		int requeue = 10;
 
 		T_Serviceable e1 = new T_Serviceable(1); // service now and don't requeue
-		serviceRecord.addElement(e1);
+		serviceRecord.add(e1);
 		daemon.enqueue(e1, true);
 
 		T_Serviceable e2 = new T_Serviceable(requeue); // service now and requeue
-		serviceRecord.addElement(e2);
+		serviceRecord.add(e2);
 		daemon.enqueue(e2, true);
 
 		T_Serviceable e3 = new T_Serviceable(1); // don't requeue
-		serviceRecord.addElement(e3);
+		serviceRecord.add(e3);
 		daemon.enqueue(e3, false);
 
 		T_Serviceable e4 = new T_Serviceable(requeue); // requeue
-		serviceRecord.addElement(e4);
+		serviceRecord.add(e4);
 		daemon.enqueue(e4, false);
 
 		randomSleep();
@@ -210,11 +210,11 @@ public class T_DaemonService extends T_MultiThreadedIterations
 	private void T03(DaemonService daemon) throws T_Fail, StandardException
 	{
 		T_Serviceable s1 = new T_Serviceable(false);  // unsubscribe this laster
-		serviceRecord.addElement(s1);
+		serviceRecord.add(s1);
 		int sub1 = daemon.subscribe(s1, false);
 
 		T_Serviceable e1 = new T_Serviceable(1); 
-		serviceRecord.addElement(e1);
+		serviceRecord.add(e1);
 		daemon.enqueue(e1, false); // enqueue the same thing 5 times
 		daemon.enqueue(e1, false);
 		daemon.enqueue(e1, false);
@@ -222,7 +222,7 @@ public class T_DaemonService extends T_MultiThreadedIterations
 		daemon.enqueue(e1, false);
 
 		T_Serviceable s2 = new T_Serviceable(false); // not on demand
-		serviceRecord.addElement(s2);
+		serviceRecord.add(s2);
 		int sub2 = daemon.subscribe(s2, false); 
 		int realsub2 = daemon.subscribe(s2, false); 
 		s2.setClientNumber(realsub2);
@@ -281,7 +281,7 @@ public class T_DaemonService extends T_MultiThreadedIterations
 	{
 		for (int i = 0; i < serviceRecord.size(); i++)
 		{
-			T_Serviceable check = (T_Serviceable)serviceRecord.elementAt(i);
+			T_Serviceable check = (T_Serviceable)serviceRecord.get(i);
 			if (check != null)
 			{
 				if (check.subscribed)

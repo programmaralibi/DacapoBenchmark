@@ -21,12 +21,18 @@ limitations under the License.
 
 package org.apache.derbyDemo.vtis.snapshot;
 
-import java.io.*;
-import java.lang.reflect.*;
-import java.sql.*;
-import java.util.*;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashSet;
 
-import org.apache.derbyDemo.vtis.core.*;
+import javolution.util.FastMap;
+import javolution.util.FastTable;
+import vtis.java.org.apache.derbyDemo.vtis.core.QueryVTIHelper;
+import vtis.java.org.apache.derbyDemo.vtis.core.VTIHelper;
 
 /**
  * <p>

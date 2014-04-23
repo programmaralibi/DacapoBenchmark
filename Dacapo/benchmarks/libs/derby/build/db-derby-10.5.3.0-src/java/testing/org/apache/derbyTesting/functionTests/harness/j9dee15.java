@@ -74,7 +74,7 @@ public class j9dee15 extends jvm {
         StringTokenizer st = new StringTokenizer(s);
         while (st.hasMoreTokens())
         {
-            v.addElement(st.nextToken());
+            v.add(st.nextToken());
         }
         return v;
 	}
@@ -108,7 +108,7 @@ public class j9dee15 extends jvm {
         if (D != null)
           for (int i=0; i<D.size();i++) {
 	        sb.append(" -D");
-	        sb.append((String)(D.elementAt(i)));
+	        sb.append((String)(D.get(i)));
           }
     }
 	public String getDintro() { return "-D"; }

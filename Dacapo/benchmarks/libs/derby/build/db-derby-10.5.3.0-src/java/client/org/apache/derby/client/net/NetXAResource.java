@@ -43,8 +43,10 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+
 import javax.sql.XAConnection;
 import javax.transaction.xa.XAException;
 import javax.transaction.xa.XAResource;
@@ -455,9 +457,9 @@ public class NetXAResource implements XAResource {
                 numXid = conn_.indoubtTransactions_.size();
                 xidList = new Xid[numXid];
                 int i = 0;
-                for (Enumeration e = conn_.indoubtTransactions_.keys();
-                     e.hasMoreElements(); i++) {
-                    xidList[i] = (Xid) e.nextElement();
+                for (Iterator e = conn_.indoubtTransactions_.keySet().iterator();
+                     e.hasNext(); i++) {
+                    xidList[i] = (Xid) e.next();
                 }
             }
         } catch (SqlException sqle) {

@@ -66,60 +66,60 @@ public class Sed
     	
         // FastTable for storing lines to be deleted
         FastTable deleteLines = new FastTable();
-        deleteLines.addElement("^ij version.*$");
-        deleteLines.addElement("^\\*\\*\\*\\* Test Run Started .* \\*\\*\\*\\*$");
-        deleteLines.addElement("^\\*\\*\\*\\* Test Run Completed .* \\*\\*\\*\\*$");
-        deleteLines.addElement("^ELAPSED TIME = [0-9]* milliseconds$");
-        deleteLines.addElement("^\\^\\?$");
-        //deleteLines.addElement("^\\.$"); // originally to remove lines with a dot
-        deleteLines.addElement("^S.*ij> $");
-        deleteLines.addElement("^ *$");
-        deleteLines.addElement("^Server StackTrace:$");
-        deleteLines.addElement("^\\[ *$");
-        deleteLines.addElement("^\\] *$");
-        deleteLines.addElement("^\\[$");
-        deleteLines.addElement("^\\]$");
-        deleteLines.addElement("^<not available>\\]$");
-        deleteLines.addElement("^(.*at .*)\\(.*:[0-9].*\\)$");
-        deleteLines.addElement("^(.*at .*)\\(*.java\\)$");
-        deleteLines.addElement("^(.*at .*)\\(Compiled Code\\)$");
-        deleteLines.addElement("^(.*at .*)\\(Interpreted Code\\)$");
-        deleteLines.addElement("^(.*at .*)\\(Unknown Source\\)$");
-        deleteLines.addElement("^(.*at .*)\\(Native Method\\)$");
-        deleteLines.addElement("^\\tat $"); // rare case of incomplete stack trace line
-        deleteLines.addElement("optimizer estimated cost");
-        deleteLines.addElement("optimizer estimated row count");
-        deleteLines.addElement("Using executables built for native_threads");
-        deleteLines.addElement("Estimate of memory used");
-        deleteLines.addElement("Size of merge runs");
-        deleteLines.addElement("Number of merge runs");
-        deleteLines.addElement("Sort type");
-        deleteLines.addElement("Optimization started at .*$");
-        deleteLines.addElement("WARNING 02000: No row was found for FETCH, UPDATE or DELETE");
+        deleteLines.add("^ij version.*$");
+        deleteLines.add("^\\*\\*\\*\\* Test Run Started .* \\*\\*\\*\\*$");
+        deleteLines.add("^\\*\\*\\*\\* Test Run Completed .* \\*\\*\\*\\*$");
+        deleteLines.add("^ELAPSED TIME = [0-9]* milliseconds$");
+        deleteLines.add("^\\^\\?$");
+        //deleteLines.add("^\\.$"); // originally to remove lines with a dot
+        deleteLines.add("^S.*ij> $");
+        deleteLines.add("^ *$");
+        deleteLines.add("^Server StackTrace:$");
+        deleteLines.add("^\\[ *$");
+        deleteLines.add("^\\] *$");
+        deleteLines.add("^\\[$");
+        deleteLines.add("^\\]$");
+        deleteLines.add("^<not available>\\]$");
+        deleteLines.add("^(.*at .*)\\(.*:[0-9].*\\)$");
+        deleteLines.add("^(.*at .*)\\(*.java\\)$");
+        deleteLines.add("^(.*at .*)\\(Compiled Code\\)$");
+        deleteLines.add("^(.*at .*)\\(Interpreted Code\\)$");
+        deleteLines.add("^(.*at .*)\\(Unknown Source\\)$");
+        deleteLines.add("^(.*at .*)\\(Native Method\\)$");
+        deleteLines.add("^\\tat $"); // rare case of incomplete stack trace line
+        deleteLines.add("optimizer estimated cost");
+        deleteLines.add("optimizer estimated row count");
+        deleteLines.add("Using executables built for native_threads");
+        deleteLines.add("Estimate of memory used");
+        deleteLines.add("Size of merge runs");
+        deleteLines.add("Number of merge runs");
+        deleteLines.add("Sort type");
+        deleteLines.add("Optimization started at .*$");
+        deleteLines.add("WARNING 02000: No row was found for FETCH, UPDATE or DELETE");
         // deleteLines for stack traces from j9 jvm to match those above for other jvms
-        deleteLines.addElement("Stack trace:");	
-        deleteLines.addElement("^.*java/.*\\<init\\>\\(.*\\)V");
-        deleteLines.addElement("^.*org/apache/derby/.*\\(.*\\).*$");	
+        deleteLines.add("Stack trace:");	
+        deleteLines.add("^.*java/.*\\<init\\>\\(.*\\)V");
+        deleteLines.add("^.*org/apache/derby/.*\\(.*\\).*$");	
         // next for j9 stack trace with jarfiles test run.
-        deleteLines.addElement("^.*java/.*\\(.*\\).*$");
-        deleteLines.addElement("^\\[.*db2jcc.jar\\] [0-9].[1-9] - .*$");	
-        deleteLines.addElement("^\\[.*db2jcc_license_c.jar\\] [1-9].[0-9] - .*$");	
-        deleteLines.addElement("^XSDB.*$");
+        deleteLines.add("^.*java/.*\\(.*\\).*$");
+        deleteLines.add("^\\[.*db2jcc.jar\\] [0-9].[1-9] - .*$");	
+        deleteLines.add("^\\[.*db2jcc_license_c.jar\\] [1-9].[0-9] - .*$");	
+        deleteLines.add("^XSDB.*$");
 
 		// JUnit noise
-        deleteLines.addElement("^\\.*$");
-        deleteLines.addElement("^Time: [0-9].*$");
-        deleteLines.addElement("^OK \\(.*$");
+        deleteLines.add("^\\.*$");
+        deleteLines.add("^Time: [0-9].*$");
+        deleteLines.add("^OK \\(.*$");
 
         // FastTables for substitutions
         FastTable searchStrings = new FastTable();
-        searchStrings.addElement("^Transaction:\\(.*\\) *\\|"); 
-        searchStrings.addElement("^Read [0-9]* of [0-9]* bytes$");
-        searchStrings.addElement("Directory .*connect.wombat.seg0");
+        searchStrings.add("^Transaction:\\(.*\\) *\\|"); 
+        searchStrings.add("^Read [0-9]* of [0-9]* bytes$");
+        searchStrings.add("Directory .*connect.wombat.seg0");
         // Filter for constraint names - bug 5622 - our internal constraint names are too long. To be db2 compatible, we have reworked them.
         StringBuffer constraintNameFilter = new StringBuffer(); 
         constraintNameFilter.append("SQL[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]");
-        searchStrings.addElement(constraintNameFilter.toString());
+        searchStrings.add(constraintNameFilter.toString());
         // Filter for uuids
         StringBuffer uuidFilter = new StringBuffer();
         uuidFilter.append("[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]-");
@@ -127,145 +127,145 @@ public class Sed
         uuidFilter.append("[0-9a-f][0-9a-f][0-9a-f][0-9a-f]-");
         uuidFilter.append("[0-9a-f][0-9a-f][0-9a-f][0-9a-f]-");
         uuidFilter.append("[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]");
-        searchStrings.addElement(uuidFilter.toString());
+        searchStrings.add(uuidFilter.toString());
         // Filter for timestamps
         StringBuffer timestampFilter = new StringBuffer();
         timestampFilter.append( "[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9] " );
         timestampFilter.append( "[0-9][0-9]:[0-9][0-9]:[0-9][0-9].[0-9]* *" );
-        searchStrings.addElement( timestampFilter.toString() );
+        searchStrings.add( timestampFilter.toString() );
         // 3 digit year
         timestampFilter = new StringBuffer();
         timestampFilter.append( "[0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9] " );
         timestampFilter.append( "[0-9][0-9]:[0-9][0-9]:[0-9][0-9].[0-9]* *" );
-        searchStrings.addElement( timestampFilter.toString() );
+        searchStrings.add( timestampFilter.toString() );
         // ibm13 year
         timestampFilter = new StringBuffer();
         timestampFilter.append( "[0-9]-[0-9][0-9]-[0-9][0-9] " );
         timestampFilter.append( "[0-9][0-9]:[0-9][0-9]:[0-9][0-9].[0-9]* *" );
-        searchStrings.addElement( timestampFilter.toString() );
+        searchStrings.add( timestampFilter.toString() );
         // Filter remove transaction id's from deadlock messages
-        searchStrings.addElement("^  Waiting XID : {.*}");
-        searchStrings.addElement("^  Granted XID : .*$");
-        searchStrings.addElement("^The selected victim is XID : .*");
+        searchStrings.add("^  Waiting XID : {.*}");
+        searchStrings.add("^  Granted XID : .*$");
+        searchStrings.add("^The selected victim is XID : .*");
         // Filters for build numbers
-        searchStrings.addElement("(beta - )\\(([0-9]*)\\)");
-        searchStrings.addElement("Level2CostEstimateImpl: .*");
+        searchStrings.add("(beta - )\\(([0-9]*)\\)");
+        searchStrings.add("Level2CostEstimateImpl: .*");
         // Filter for xa tests for the numbers representing the db name (it can change)
-        searchStrings.addElement("^Transaction ([0-9])* : \\(([0-9]*)\\,([0-9a-f]*)\\,([0-9a-f]*)\\)");
+        searchStrings.add("^Transaction ([0-9])* : \\(([0-9]*)\\,([0-9a-f]*)\\,([0-9a-f]*)\\)");
         // Filter for optimizer number for zindexesLevel1 test (due to a change in display width for the test)
-        searchStrings.addElement("^Modifying access paths using optimizer .[0-9]*");
-        searchStrings.addElement("CDWS[0-9]*");
-        searchStrings.addElement("IXWS[0-9]*");
+        searchStrings.add("^Modifying access paths using optimizer .[0-9]*");
+        searchStrings.add("CDWS[0-9]*");
+        searchStrings.add("IXWS[0-9]*");
         // for j9, to eliminate intermittent failures due to this problem in j9:
-        searchStrings.addElement("FAILED STACK MAP");
+        searchStrings.add("FAILED STACK MAP");
         if (isJCC)
         {
-            searchStrings.addElement("[ ]*\\|");
-            searchStrings.addElement("^--*");
+            searchStrings.add("[ ]*\\|");
+            searchStrings.add("^--*");
         }
 
         //Filter to suppress absould paths in error message for roll forward recovery tests 
-        searchStrings.addElement("Directory.*.wombat.already.exists");
-        searchStrings.addElement("Directory.*.extinout/crwombatlog/log.*.exists");
+        searchStrings.add("Directory.*.wombat.already.exists");
+        searchStrings.add("Directory.*.extinout/crwombatlog/log.*.exists");
 
         // Filter for "DB2ConnectionCorrelator" text that can be printed as
         // part of some JCC error messages.
-        searchStrings.addElement("  DB2ConnectionCorrelator: [0-9A-Z.]*");
+        searchStrings.add("  DB2ConnectionCorrelator: [0-9A-Z.]*");
 		// Filter for SAX exception name diffs between jvms.
-        searchStrings.addElement("org.xml.sax.SAX.*$");
+        searchStrings.add("org.xml.sax.SAX.*$");
         // Filter out localhost, or hostName
-        searchStrings.addElement(hostName);
+        searchStrings.add(hostName);
 
 		if ( isJDBC4 )
 		{
 			// Filters for the sql exception class names which appear in
 			// exception messages. These are different in JDBC3 and JDBC4.
-			searchStrings.addElement("java.sql.SQLDataException:");
-			searchStrings.addElement("java.sql.SQLDataSetSyncException:");
-			searchStrings.addElement("java.sql.SQLException:");
-			searchStrings.addElement("java.sql.SQLFeatureNotSupportedException:");
-			searchStrings.addElement("java.sql.SQLIntegrityConstraintViolationException:");
-			searchStrings.addElement("java.sql.SQLInvalidAuthorizationSpecException:");
-			searchStrings.addElement("java.sql.SQLNonTransientConnectionException:");
-			searchStrings.addElement("java.sql.SQLNonTransientException:");
-			searchStrings.addElement("java.sql.SQLRuntimeException:");
-			searchStrings.addElement("java.sql.SQLSyntaxErrorException:");
-			searchStrings.addElement("java.sql.SQLTimeoutException:");
-			searchStrings.addElement("java.sql.SQLTransactionRollbackException:");
-			searchStrings.addElement("java.sql.SQLTransientConnectionException:");
-			searchStrings.addElement("java.sql.SQLTransientException:");
+			searchStrings.add("java.sql.SQLDataException:");
+			searchStrings.add("java.sql.SQLDataSetSyncException:");
+			searchStrings.add("java.sql.SQLException:");
+			searchStrings.add("java.sql.SQLFeatureNotSupportedException:");
+			searchStrings.add("java.sql.SQLIntegrityConstraintViolationException:");
+			searchStrings.add("java.sql.SQLInvalidAuthorizationSpecException:");
+			searchStrings.add("java.sql.SQLNonTransientConnectionException:");
+			searchStrings.add("java.sql.SQLNonTransientException:");
+			searchStrings.add("java.sql.SQLRuntimeException:");
+			searchStrings.add("java.sql.SQLSyntaxErrorException:");
+			searchStrings.add("java.sql.SQLTimeoutException:");
+			searchStrings.add("java.sql.SQLTransactionRollbackException:");
+			searchStrings.add("java.sql.SQLTransientConnectionException:");
+			searchStrings.add("java.sql.SQLTransientException:");
 
 			// The JDBC4 error from the driver is a little chattier
-			searchStrings.addElement("No suitable driver found for [0-9A-Za-z:]*");			
-			searchStrings.addElement("No suitable driver;[0-9A-Za-z:=]*");			
-			searchStrings.addElement("SQL Exception: No suitable driver");			
+			searchStrings.add("No suitable driver found for [0-9A-Za-z:]*");			
+			searchStrings.add("No suitable driver;[0-9A-Za-z:=]*");			
+			searchStrings.add("SQL Exception: No suitable driver");			
 
 			// Timestamp diagnostic looks a little different under jdk16
-			searchStrings.addElement("\\[\\.fffffffff\\]");			
+			searchStrings.add("\\[\\.fffffffff\\]");			
 		}
 		
         FastTable subStrings = new FastTable();
-        subStrings.addElement("Transaction:(XXX)|");
-        subStrings.addElement("Read ... bytes");
-        subStrings.addElement("Directory DBLOCATION/seg0");
-        subStrings.addElement("xxxxGENERATED-IDxxxx");
-        subStrings.addElement("xxxxFILTERED-UUIDxxxx");
-        subStrings.addElement("xxxxxxFILTERED-TIMESTAMPxxxxx");
-        subStrings.addElement("xxxxxxFILTERED-TIMESTAMPxxxxx");
-        subStrings.addElement("xxxxxxFILTERED-TIMESTAMPxxxxx");
+        subStrings.add("Transaction:(XXX)|");
+        subStrings.add("Read ... bytes");
+        subStrings.add("Directory DBLOCATION/seg0");
+        subStrings.add("xxxxGENERATED-IDxxxx");
+        subStrings.add("xxxxFILTERED-UUIDxxxx");
+        subStrings.add("xxxxxxFILTERED-TIMESTAMPxxxxx");
+        subStrings.add("xxxxxxFILTERED-TIMESTAMPxxxxx");
+        subStrings.add("xxxxxxFILTERED-TIMESTAMPxxxxx");
         // remove transaction id's from deadlock messages
-        subStrings.addElement("  Waiting XID : {WWW,QQQ}");
-        subStrings.addElement("  Granted XID : {GGG.QQQ}...");
-        subStrings.addElement("The selected victim is XID : VVV");
+        subStrings.add("  Waiting XID : {WWW,QQQ}");
+        subStrings.add("  Granted XID : {GGG.QQQ}...");
+        subStrings.add("The selected victim is XID : VVV");
         // sub build numbers
-        subStrings.addElement("$1(xxXXxxFILTERED-BUILD-NUMBERxxXXxx)");
-        subStrings.addElement("Level2CostEstimateImpl: xxXXxxFILTERED-INFORMATIONxxXXxx");
+        subStrings.add("$1(xxXXxxFILTERED-BUILD-NUMBERxxXXxx)");
+        subStrings.add("Level2CostEstimateImpl: xxXXxxFILTERED-INFORMATIONxxXXxx");
         // sub for db name in xa tests (it can change)
-        subStrings.addElement("Transaction $1 : ($2,FILTERED,FILTERED)");
+        subStrings.add("Transaction $1 : ($2,FILTERED,FILTERED)");
         // sub for optimizer number for zindexesLevel1 test
-        subStrings.addElement("Modifying access paths using optimizer FILTERED_NUMBER");
-        subStrings.addElement("CDWSno");
-        subStrings.addElement("IXWSno"); 
+        subStrings.add("Modifying access paths using optimizer FILTERED_NUMBER");
+        subStrings.add("CDWSno");
+        subStrings.add("IXWSno"); 
         // for j9, to eliminate intermittent failures due to this problem in j9:
-        subStrings.addElement("");
+        subStrings.add("");
         // for JCC replace multiple blanks with one blank to handle differences
         // in display width
         if (isJCC)
         {
-            subStrings.addElement(" |");
-            subStrings.addElement("-----"); 
+            subStrings.add(" |");
+            subStrings.add("-----"); 
         }
-        subStrings.addElement("Directory DBLOCATION/wombat already exists");
-        subStrings.addElement("Directory 'extinout<sp>crwombatlog<sp>log' exists");
+        subStrings.add("Directory DBLOCATION/wombat already exists");
+        subStrings.add("Directory 'extinout<sp>crwombatlog<sp>log' exists");
         // ignore the 'DB2ConnectionCorrelator' thing altogether.
-        subStrings.addElement("");
+        subStrings.add("");
 		// Filter for SAX exception name diffs between jvms.
-        subStrings.addElement("xxxFILTERED-SAX-EXCEPTIONxxx'.");
+        subStrings.add("xxxFILTERED-SAX-EXCEPTIONxxx'.");
         // Filter out localhost, or hostName
-        subStrings.addElement("xxxFILTERED_HOSTNAMExxx");
+        subStrings.add("xxxFILTERED_HOSTNAMExxx");
 
 		if ( isJDBC4 )
 		{
-			subStrings.addElement(SQL_EXCEPTION_FILTERED_SUBSTITUTION);
-			subStrings.addElement(SQL_EXCEPTION_FILTERED_SUBSTITUTION);
-			subStrings.addElement(SQL_EXCEPTION_FILTERED_SUBSTITUTION);
-			subStrings.addElement(SQL_EXCEPTION_FILTERED_SUBSTITUTION);
-			subStrings.addElement(SQL_EXCEPTION_FILTERED_SUBSTITUTION);
-			subStrings.addElement(SQL_EXCEPTION_FILTERED_SUBSTITUTION);
-			subStrings.addElement(SQL_EXCEPTION_FILTERED_SUBSTITUTION);
-			subStrings.addElement(SQL_EXCEPTION_FILTERED_SUBSTITUTION);
-			subStrings.addElement(SQL_EXCEPTION_FILTERED_SUBSTITUTION);
-			subStrings.addElement(SQL_EXCEPTION_FILTERED_SUBSTITUTION);
-			subStrings.addElement(SQL_EXCEPTION_FILTERED_SUBSTITUTION);
-			subStrings.addElement(SQL_EXCEPTION_FILTERED_SUBSTITUTION);
-			subStrings.addElement(SQL_EXCEPTION_FILTERED_SUBSTITUTION);
-			subStrings.addElement(SQL_EXCEPTION_FILTERED_SUBSTITUTION);
+			subStrings.add(SQL_EXCEPTION_FILTERED_SUBSTITUTION);
+			subStrings.add(SQL_EXCEPTION_FILTERED_SUBSTITUTION);
+			subStrings.add(SQL_EXCEPTION_FILTERED_SUBSTITUTION);
+			subStrings.add(SQL_EXCEPTION_FILTERED_SUBSTITUTION);
+			subStrings.add(SQL_EXCEPTION_FILTERED_SUBSTITUTION);
+			subStrings.add(SQL_EXCEPTION_FILTERED_SUBSTITUTION);
+			subStrings.add(SQL_EXCEPTION_FILTERED_SUBSTITUTION);
+			subStrings.add(SQL_EXCEPTION_FILTERED_SUBSTITUTION);
+			subStrings.add(SQL_EXCEPTION_FILTERED_SUBSTITUTION);
+			subStrings.add(SQL_EXCEPTION_FILTERED_SUBSTITUTION);
+			subStrings.add(SQL_EXCEPTION_FILTERED_SUBSTITUTION);
+			subStrings.add(SQL_EXCEPTION_FILTERED_SUBSTITUTION);
+			subStrings.add(SQL_EXCEPTION_FILTERED_SUBSTITUTION);
+			subStrings.add(SQL_EXCEPTION_FILTERED_SUBSTITUTION);
 
-			subStrings.addElement("No suitable driver");
-			subStrings.addElement("No suitable driver");
-			subStrings.addElement("java.sql.SQLException: No suitable driver");
+			subStrings.add("No suitable driver");
+			subStrings.add("No suitable driver");
+			subStrings.add("java.sql.SQLException: No suitable driver");
 
-			subStrings.addElement(".fffffffff");
+			subStrings.add(".fffffffff");
 		}
 
 		doWork(srcFile, dstFile, null, deleteLines, searchStrings, subStrings, isSed, isI18N);
@@ -281,14 +281,14 @@ public class Sed
 
         // FastTables for substitutions
         FastTable searchStrings = new FastTable();
-        searchStrings.addElement("[ ]*\\|");
-        searchStrings.addElement("^--*");
+        searchStrings.add("[ ]*\\|");
+        searchStrings.add("^--*");
 
         FastTable subStrings = new FastTable();
         // true and false show up as 1 and 0 in JCC. 
         //because they have no boolean support
-        subStrings.addElement(" |");
-        subStrings.addElement("-----");
+        subStrings.add(" |");
+        subStrings.add("-----");
 
         doWork(null, dstFile, is, deleteLines, searchStrings, subStrings, null);
 
@@ -345,8 +345,8 @@ public class Sed
                         subName = st2.nextToken();
                         if (!patName.equals("") && !subName.equals(""))
                         {
-                            searchStrings.addElement(patName);
-                            subStrings.addElement(subName);
+                            searchStrings.add(patName);
+                            subStrings.add(subName);
                         }
                     //System.out.println("pattern = " + patName + " substitute " + subName);
                     }
@@ -360,7 +360,7 @@ public class Sed
                     while (st.hasMoreTokens())
                     {
                         patternName = st.nextToken();
-                        deleteLines.addElement(patternName);
+                        deleteLines.add(patternName);
                     }
                 }
             }
@@ -390,12 +390,12 @@ public class Sed
         {
             try
             {
-                regex = (String)deleteLines.elementAt(i);
+                regex = (String)deleteLines.get(i);
                 //System.out.println("The pattern: " + regex);
                 Pattern pattern = pcompiler.compile(regex);
                 if (pattern == null)
                     System.out.println("pattern is null");
-                delPatternFastTable.addElement(pattern);
+                delPatternFastTable.add(pattern);
             }
             catch(MalformedPatternException e)
             {
@@ -409,12 +409,12 @@ public class Sed
         {
             try
             {
-                regex = (String)searchStrings.elementAt(i);
+                regex = (String)searchStrings.get(i);
                 //System.out.println("The pattern: " + regex);
                 Pattern pattern = pcompiler.compile(regex);
                 if (pattern == null)
                     System.out.println("pattern is null");
-                subPatternFastTable.addElement(pattern);
+                subPatternFastTable.add(pattern);
             }
             catch(MalformedPatternException e)
             {
@@ -490,10 +490,10 @@ public class Sed
             {
                 for (j = 0; j < delPatternFastTable.size(); j++)
                 {
-                    if ( matcher.contains( str, (Pattern)delPatternFastTable.elementAt(j) ) )
+                    if ( matcher.contains( str, (Pattern)delPatternFastTable.get(j) ) )
                     {
                         //System.out.println("***Match found to delete line***");
-                        String tmpp = ((Pattern)delPatternFastTable.elementAt(j)).getPattern();
+                        String tmpp = ((Pattern)delPatternFastTable.get(j)).getPattern();
                         //System.out.println("***Pattern is: " + tmpp);
 
                         // In this case we are removing the line, so don't write it out
@@ -513,10 +513,10 @@ public class Sed
                 for (j = 0; j < subPatternFastTable.size(); j++)
                 {
                     input = new PatternMatcherInput(str);
-                    Pattern patt = (Pattern)subPatternFastTable.elementAt(j);
+                    Pattern patt = (Pattern)subPatternFastTable.get(j);
                     String pstr = patt.getPattern();
                     //System.out.println("Pattern string is " + pstr);
-                    String sub = (String)subStrings.elementAt(j);
+                    String sub = (String)subStrings.get(j);
                     if (sub.indexOf("$") > 0)
                     {
                         perlsub.setSubstitution(sub);

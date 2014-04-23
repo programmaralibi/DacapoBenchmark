@@ -2106,7 +2106,7 @@ public class GroupByTest extends BaseJDBCTestCase {
                                         Collection rows2,
                                         boolean all) {
         Collection bagOrSet = newBagOrSet(all);
-        List copyOfRows2 = new FastTable(rows2);
+        List copyOfRows2 = new FastTable();
         // could use retainAll() for sets, but need other behaviour for bags
         for (Iterator it = rows1.iterator(); it.hasNext(); ) {
             Object x = it.next();
@@ -2160,7 +2160,7 @@ public class GroupByTest extends BaseJDBCTestCase {
      * @return the values of {@code results} in a list of lists
      */
     private static List resultArrayToList(String[][] results) {
-        FastTable rows = new FastTable(results.length);
+        FastTable rows = new FastTable();
         for (int i = 0; i < results.length; i++) {
             rows.add(Arrays.asList(results[i]));
         }

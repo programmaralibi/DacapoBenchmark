@@ -188,5 +188,5 @@ public class FormatableHashtable extends Hashtable implements Formatable
 	 *
 	 *	@return	the formatID of this class
 	 */
-	public	int	getTypeFormatId()	{ return StoredFormatIds.FORMATABLE_HASHTABLE_V01_ID; }
+	public	int	getTypeFormatId()	{ return StoredFormatIds.FORMATABLE_FastMap_V01_ID; }
 }

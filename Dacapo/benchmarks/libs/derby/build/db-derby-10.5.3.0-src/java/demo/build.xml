@@ -49,9 +49,10 @@
       srcdir="nserverdemo"
       destdir="${out.dir}"
       includes="Simple*">
-      <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
+      <classpath> 
         <pathelement path="${java14compile.classpath}"/>
         <pathelement location="${jcc}"/>
+        <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
       </classpath>
     </javac>
     <javac
@@ -69,9 +70,10 @@
       destdir="${out.dir}"
       includes="nserverdemo/**"
       excludes="nserverdemo/Simple*">
-      <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
+      <classpath>
         <pathelement path="${java14compile.classpath}"/>
         <pathelement location="${jcc}"/>
+         <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
       </classpath>
     </javac>
     <!-- "simple" demos under java/demo/ (SimpleApp, SimpleMobileApp) -->
@@ -88,9 +90,10 @@
       verbose="${verbose}"
       srcdir="${derby.demo.src.dir}/simple:${derby.demo.src.dir}/simplemobile"
       destdir="${out.dir}">
-      <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
+      <classpath> 
         <pathelement location="${javasrc.dir};${jcc}"/>
         <pathelement path="${java14compile.classpath};${jcc}"/>
+        <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
       </classpath>
     </javac>
     <javac
@@ -128,7 +131,8 @@
   </target>
 
   <target name="compile-vtidemo">
-    <javac
+      <echo message="classpath = ${java15compile.classpath}" />
+<!--     <javac
       source="1.5"
       target="1.5"
       bootclasspath="${empty}"
@@ -141,12 +145,13 @@
       verbose="${verbose}"
       srcdir="${derby.demo.src.dir}/vtis/java"
       destdir="${out.dir}">
-      <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
+      <classpath>
         <pathelement path="${java15compile.classpath}"/>
+    	<pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
       </classpath>
-       <!-- <compilerarg value="-Xlint:unchecked"/> -->
+       <compilerarg value="-Xlint:unchecked"/>
     </javac>
-  </target>
+ -->  </target>
 
 
 </project>

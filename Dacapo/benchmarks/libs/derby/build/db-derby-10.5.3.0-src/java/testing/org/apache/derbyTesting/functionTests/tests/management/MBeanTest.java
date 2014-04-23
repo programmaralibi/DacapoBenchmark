@@ -24,8 +24,7 @@ package org.apache.derbyTesting.functionTests.tests.management;
 import java.io.IOException;
 import java.security.AccessController;
 import java.security.PrivilegedExceptionAction;
-import javolution.util.FastTable;
-import javolution.util.FastMap;
+import java.util.Hashtable;
 import java.util.Set;
 
 import javax.management.AttributeNotFoundException;
@@ -38,6 +37,7 @@ import javax.management.NotCompliantMBeanException;
 import javax.management.ObjectName;
 import javax.management.ReflectionException;
 
+import javolution.util.FastTable;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
@@ -310,7 +310,7 @@ abstract class MBeanTest extends BaseJDBCTestCase {
      * @param keyProperties Set of key properties, may be modified by this call.
      * @return ObjectName to access MBean.
      */
-    protected ObjectName getDerbyMBeanName(FastMap<String,String> keyProperties)
+    protected ObjectName getDerbyMBeanName(Hashtable<String,String> keyProperties)
         throws Exception
     {
         String systemIdentifier = (String)

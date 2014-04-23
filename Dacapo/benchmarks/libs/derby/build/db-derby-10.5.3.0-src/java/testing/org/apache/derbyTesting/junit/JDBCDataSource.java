@@ -113,10 +113,10 @@ public class JDBCDataSource {
      */
     static FastMap getDataSourceProperties(TestConfiguration config) 
     {
-        FastMap beanProperties = new FastMap() {
-            beanProperties.put("serverName", config.getHostName());
-            beanProperties.put("portNumber", new Integer(config.getPort()));
-        }
+        FastMap beanProperties = new FastMap(); 
+        beanProperties.put("serverName", config.getHostName());
+        beanProperties.put("portNumber", new Integer(config.getPort()));
+    
         
         beanProperties.put("databaseName", config.getDefaultDatabaseName());
         beanProperties.put("user", config.getUserName());

@@ -79,10 +79,10 @@ public class derbyrunjartest {
         }
 
         FastTable cmd = jvm.getCommandLine();
-        cmd.addElement("-jar");
-        cmd.addElement(loc);
+        cmd.add("-jar");
+        cmd.add(loc);
         for (int i=0; i < args.length; i++) {
-            cmd.addElement(args[i]);
+            cmd.add(args[i]);
         }
         String command = concatenate((String[]) cmd.toArray(new String[0]));
 

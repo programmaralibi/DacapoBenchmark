@@ -38,7 +38,8 @@
     <!-- We only compile SqlXmlUtil against JDK 1.4 because it   -->
     <!-- relies on several XML classes that are part of 1.4 but  -->
     <!-- that aren't in 1.3.                                     -->
-    <javac
+    <echo message="${java14compile.classpath};${xercesImpl}"/>
+      <javac
       source="1.4"
       target="1.4"
       bootclasspath="${empty}"
@@ -51,8 +52,9 @@
       verbose="${verbose}"
       srcdir="${derby.engine.src.dir}"
       destdir="${out.dir}">
-      <classpath> <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
-        <pathelement path="${java14compile.classpath};${xercesImpl}"/>
+      <classpath> 
+        <pathelement path="/usr/share/ant/lib/javolution-core-java-6.1.0-SNAPSHOT.jar" />
+        <pathelement path=".;${java14compile.classpath};${xercesImpl}"/>
       </classpath>
       <include name="${derby.dir}/iapi/types/SqlXmlUtil.java"/>
     </javac>

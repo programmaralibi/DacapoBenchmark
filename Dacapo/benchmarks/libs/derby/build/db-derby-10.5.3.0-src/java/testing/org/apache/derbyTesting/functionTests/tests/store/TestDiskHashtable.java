@@ -1,6 +1,6 @@
 /*
 
-   Derby - Class org.apache.derbyTesting.functionTests.tests.store.TestDiskFastMap
+   Derby - Class org.apache.derbyTesting.functionTests.tests.store.TestDiskHashtable
 
    Licensed to the Apache Software Foundation (ASF) under one or more
    contributor license agreements.  See the NOTICE file distributed with
@@ -25,17 +25,17 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 import java.util.BitSet;
 import java.util.Enumeration;
+import java.util.Vector;
+
 import javolution.util.FastMap;
-import javolution.util.FastTable;
 
 import org.apache.derby.iapi.error.PublicAPI;
 import org.apache.derby.iapi.error.StandardException;
 import org.apache.derby.iapi.sql.conn.ConnectionUtil;
 import org.apache.derby.iapi.sql.conn.LanguageConnectionContext;
-import org.apache.derby.iapi.store.access.DiskFastMap;
+import org.apache.derby.iapi.store.access.DiskHashtable;
 import org.apache.derby.iapi.store.access.KeyHasher;
 import org.apache.derby.iapi.store.access.TransactionController;
 import org.apache.derby.iapi.types.DataValueDescriptor;
@@ -47,7 +47,7 @@ import org.apache.derby.tools.ij;
 import org.apache.derbyTesting.functionTests.util.TestUtil;
 
 /**
- * This program tests the org.apache.derby.iapi.store.access.DiskFastMap class.
+ * This program tests the org.apache.derby.iapi.store.access.DiskHashtable class.
  * The unit test interface is not used because that is undocumented and very difficult to decipher.
  * Furthermore it is difficult to diagnose problems when using the unit test interface.
  *
@@ -55,7 +55,7 @@ import org.apache.derbyTesting.functionTests.util.TestUtil;
  *
  * @version 1.0
  */
-public class TestDiskFastMap 
+public class TestDiskHashtable 
 {
     private TransactionController tc;
     private int failed = 0;
@@ -64,7 +64,7 @@ public class TestDiskFastMap
     {
         int failed = 1;
 
-		REPORT("Test DiskFastMap starting");
+		REPORT("Test DiskHashtable starting");
         try
         {
 			// use the ij utility to read the property file and
@@ -72,8 +72,8 @@ public class TestDiskFastMap
 			ij.getPropertyArg(args);
 			Connection conn = ij.startJBMS();
             Statement stmt = conn.createStatement();
-            stmt.execute("CREATE FUNCTION testDiskFastMap() returns INTEGER EXTERNAL NAME 'org.apache.derbyTesting.functionTests.tests.store.TestDiskFastMap.runTests' LANGUAGE JAVA PARAMETER STYLE JAVA");
-            ResultSet rs = stmt.executeQuery( "values( testDiskFastMap())");
+            stmt.execute("CREATE FUNCTION testDiskHashtable() returns INTEGER EXTERNAL NAME 'org.apache.derbyTesting.functionTests.tests.store.TestDiskHashtable.runTests' LANGUAGE JAVA PARAMETER STYLE JAVA");
+            ResultSet rs = stmt.executeQuery( "values( testDiskHashtable())");
             if( rs.next())
                 failed = rs.getInt(1);
             stmt.close();
@@ -106,11 +106,11 @@ public class TestDiskFastMap
     
     public static int runTests() throws SQLException
     {
-        TestDiskFastMap tester = new TestDiskFastMap();
+        TestDiskHashtable tester = new TestDiskHashtable();
         return tester.doIt();
     }
 
-    private TestDiskFastMap() throws SQLException
+    private TestDiskHashtable() throws SQLException
     {
         LanguageConnectionContext lcc = ConnectionUtil.getCurrentLCC();
         if( lcc == null)
@@ -170,8 +170,8 @@ public class TestDiskFastMap
                                  DataValueDescriptor[][] rows)
         throws StandardException
     {
-        DiskFastMap dht = 
-            new DiskFastMap(
+        DiskHashtable dht = 
+            new DiskHashtable(
                     tc, 
                     template, 
                     (int[]) null, // default collation
@@ -181,7 +181,24 @@ public class TestDiskFastMap
 
         boolean[] isDuplicate = new boolean[ rows.length];
         boolean[] found = new boolean[ rows.length];
-        FastMap simpleHash = new FastMap()
+        FastMap simpleHash = new FastMap();
+
+        testElements( removeDups, dht, keyCols, 0, rows, simpleHash, isDuplicate, found);
+
+        for( int i = 0; i < rows.length; i++)
+        {
+            Object key = KeyHasher.buildHashKey( rows[i], keyCols);
+            Vector al = (Vector) simpleHash.get( key);
+            isDuplicate[i] = (al != null);
+            if( al == null)
+            {
+                al = new Vector(4);
+                simpleHash.put( key, al);
+            }
+            if( (!removeDups) || !isDuplicate[i])
+                al.add( rows[i]);
+            
+            if( dht.put( key, rows[i]) != (removeDups ? (!isDuplicate[i]) : true))
                 REPORT_FAILURE( "  put returned wrong value on row " + i);
 
             for( int j = 0; j <= i; j++)
@@ -209,7 +226,7 @@ public class TestDiskFastMap
         dht.close();
     } // end of testOneVariant
 
-    private void testLargeTable( DiskFastMap dht,
+    private void testLargeTable( DiskHashtable dht,
                                  int[] keyCols,
                                  DataValueDescriptor[] aRow)
         throws StandardException
@@ -296,7 +313,7 @@ public class TestDiskFastMap
     } // end of testLargeTable
 
     private void testElements( boolean removeDups,
-                               DiskFastMap dht,
+                               DiskHashtable dht,
                                int[] keyCols,
                                int rowCount,
                                DataValueDescriptor[][] rows,
@@ -318,9 +335,9 @@ public class TestDiskFastMap
             }
             if( el instanceof DataValueDescriptor[])
                 checkElement( (DataValueDescriptor[]) el, rowCount, rows, found);
-            else if( el instanceof FastTable)
+            else if( el instanceof Vector)
             {
-                FastTable v = (FastTable) el;
+                Vector v = (Vector) el;
                 for( int i = 0; i < v.size(); i++)
                     checkElement( (DataValueDescriptor[]) v.get(i), rowCount, rows, found);
             }
@@ -381,9 +398,9 @@ public class TestDiskFastMap
             DataValueDescriptor[] row1 = (DataValueDescriptor[]) r1;
             DataValueDescriptor[] row2;
             
-            if( r2 instanceof FastTable)
+            if( r2 instanceof Vector)
             {
-                FastTable v2 = (FastTable) r2;
+                Vector v2 = (Vector) r2;
                 if( v2.size() != 1)
                     return false;
                 row2 = (DataValueDescriptor[]) v2.elementAt(0);
@@ -402,12 +419,12 @@ public class TestDiskFastMap
             }
             return true;
         }
-        if( r1 instanceof FastTable)
+        if( r1 instanceof Vector)
         {
-            if( !(r2 instanceof FastTable))
+            if( !(r2 instanceof Vector))
                 return false;
-            FastTable v1 = (FastTable) r1;
-            FastTable v2 = (FastTable) r2;
+            Vector v1 = (Vector) r1;
+            Vector v2 = (Vector) r2;
             if( v1.size() != v2.size())
                 return false;
             for( int i = v1.size() - 1; i >= 0; i--)

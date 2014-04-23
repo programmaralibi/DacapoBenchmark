@@ -22,13 +22,14 @@
 //SimpleDiff.java
 package org.apache.derbyTesting.functionTests.harness;
 
-import java.io.IOException;
 import java.io.BufferedInputStream;
-import javolution.util.FastTable;
-import java.io.File;
-import java.io.PrintWriter;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Vector;
+
+import javolution.util.FastTable;
 
 public class SimpleDiff
 {
@@ -82,7 +83,7 @@ public class SimpleDiff
         aLine = input.readLine();
         while (aLine != null)
         {
-            vec.addElement(aLine);
+            vec.add(aLine);
             //count++;
             aLine = input.readLine();
         }
@@ -91,7 +92,9 @@ public class SimpleDiff
         String rV[] = new String[vec.size()];
         //debug(2, ""+count + " lines in " + filename);
         debug(2, ""+vec.size() + " lines in input");
-        vec.copyInto(rV);
+        for(int index=0; index<vec.size(); index++) {
+        	rV[index] = (String)vec.get(index);
+        }
 
         return rV;
     }
@@ -156,16 +159,16 @@ public class SimpleDiff
                         foundMatch = true;
                         if (checkCount > 1)
                         {
-                            returnVec.addElement(currentLine1 + "a" + (currentLine2 + 1) + "," + (currentLine2 + checkCount));
+                            returnVec.add(currentLine1 + "a" + (currentLine2 + 1) + "," + (currentLine2 + checkCount));
                         }
                         else
                         {
-                            returnVec.addElement(currentLine1 + "a" + (currentLine2 + 1));
+                            returnVec.add(currentLine1 + "a" + (currentLine2 + 1));
                         }
 
                         for (int j = 0; j < checkCount; j++)
                         {
-                            returnVec.addElement("> " +
+                            returnVec.add("> " +
                                   file2.lineAt(currentLine2 + j) );
                         }
                         currentLine2 = currentLine2 + checkCount;
@@ -197,16 +200,16 @@ public class SimpleDiff
                             foundMatch = true;
                             if (checkCount > 1)
                             {
-                                returnVec.addElement((currentLine1 + 1) + "," + (currentLine1 + checkCount) + "d" + currentLine2);
+                                returnVec.add((currentLine1 + 1) + "," + (currentLine1 + checkCount) + "d" + currentLine2);
                             }
                             else
                             {
-                                returnVec.addElement((currentLine1 + 1) + "d" + currentLine2);
+                                returnVec.add((currentLine1 + 1) + "d" + currentLine2);
                             }
 
                             for (int j = 0; j < checkCount; j++)
                             {
-                                returnVec.addElement("< " +
+                                returnVec.add("< " +
                                       file1.lineAt(currentLine1 + j) );
 
                             }
@@ -222,8 +225,8 @@ public class SimpleDiff
                 if (!foundMatch)
                 {
                     debug(1, currentLine1 + ": NOMATCH");
-                    returnVec.addElement((currentLine1 + 1) +" del");// + (currentLine2 + 1));
-                    returnVec.addElement("< " + file1.lineAt(currentLine1));
+                    returnVec.add((currentLine1 + 1) +" del");// + (currentLine2 + 1));
+                    returnVec.add("< " + file1.lineAt(currentLine1));
                     currentLine1++;
                 }
                 else
@@ -238,18 +241,18 @@ public class SimpleDiff
 
         if (file1.isValidOffset(currentLine1))
         {
-            returnVec.addElement((currentLine2) + " del");
+            returnVec.add((currentLine2) + " del");
             for (int i = currentLine1; file1.isValidOffset(i); i++)
             {
-                returnVec.addElement("< " + file1.lineAt(i));
+                returnVec.add("< " + file1.lineAt(i));
             }
         }
         if (file2.isValidOffset(currentLine2))
         {
-            returnVec.addElement((currentLine1) + " add");
+            returnVec.add((currentLine1) + " add");
             for (int i = currentLine2; file2.isValidOffset(i); i++)
             {
-                returnVec.addElement("> " + file2.lineAt(i));
+                returnVec.add("> " + file2.lineAt(i));
             }
         }
 
@@ -263,7 +266,9 @@ public class SimpleDiff
 
 
         String [] returnArray = new String[returnVec.size()];
-        returnVec.copyInto(returnArray);
+        for(int index=0; index<returnVec.size(); index++ ) {
+        	returnArray[index] = (String)returnVec.get(index);
+        }
         return returnArray;
 
 
@@ -366,7 +371,7 @@ public class SimpleDiff
         }
     }
 
-    class DiffBuffer extends FastTable
+    class DiffBuffer extends Vector
     {
 
 

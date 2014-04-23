@@ -20,14 +20,24 @@
 package org.apache.derbyTesting.junit;
 
 import java.io.IOException;
-import java.sql.*;
-import javolution.util.FastTable;
+import java.sql.BatchUpdateException;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.ParameterMetaData;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.SQLWarning;
+import java.sql.Statement;
+import java.sql.Types;
 import java.util.Arrays;
 import java.util.BitSet;
 import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.Locale;
 
+import javolution.util.FastTable;
 import junit.framework.Assert;
 
 /**
@@ -1194,12 +1204,12 @@ public class JDBC {
         Assert.assertEquals("Unexpected column count",
                             expectedRows[0].length, rsmd.getColumnCount());
 
-        FastTable expected = new FastTable(expectedRows.length);
+        FastTable expected = new FastTable();
         for (int i = 0; i < expectedRows.length; i++) {
             Assert.assertEquals("Different column count in expectedRows",
                                 expectedRows[0].length, expectedRows[i].length);
             if (asTrimmedStrings) {
-                FastTable row = new FastTable(expectedRows[i].length);
+                FastTable row = new FastTable();
                 for (int j = 0; j < expectedRows[i].length; j++) {
                     String val = (String) expectedRows[i][j];
                     row.add(val == null ? null : val.trim());
@@ -1210,9 +1220,9 @@ public class JDBC {
             }
         }
 
-        FastTable actual = new FastTable(expectedRows.length);
+        FastTable actual = new FastTable();
         while (rs.next()) {
-            FastTable row = new FastTable(expectedRows[0].length);
+            FastTable row = new FastTable();
             for (int i = 1; i <= expectedRows[0].length; i++) {
                 if (asTrimmedStrings) {
                     String s = rs.getString(i);

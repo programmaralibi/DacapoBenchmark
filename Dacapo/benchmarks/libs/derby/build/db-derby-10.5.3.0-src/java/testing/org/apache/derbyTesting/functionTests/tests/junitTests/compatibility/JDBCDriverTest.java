@@ -28,14 +28,28 @@
 
 package org.apache.derbyTesting.functionTests.tests.junitTests.compatibility;
 
-import java.io.*;
-import java.math.*;
-import java.sql.*;
-import java.util.*;
+import java.io.ByteArrayInputStream;
+import java.io.CharArrayReader;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.Reader;
+import java.io.Writer;
+import java.math.BigDecimal;
+import java.sql.Blob;
+import java.sql.CallableStatement;
+import java.sql.Clob;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.sql.Types;
+import java.util.List;
 
-import junit.framework.*;
-
-import org.apache.derbyTesting.functionTests.util.DerbyJUnitTest;
+import javolution.util.FastMap;
 
 public	class	JDBCDriverTest	extends	CompatibilitySuite
 {
@@ -206,7 +220,31 @@ public	class	JDBCDriverTest	extends	CompatibilitySuite
 	/////////////////////////////////////////////////////////////
 
 	// map derby type name to type descriptor
-	private	static	FastMap		_types = new FastMap()
+	private	static	FastMap		_types = new FastMap();	// maps Derby type names to TypeDescriptors
+
+	// map jdbc type to index into COERCIONS
+	private	static	FastMap		_coercionIndex = new FastMap();	// maps jdbc types to legal coercions
+
+	/////////////////////////////////////////////////////////////
+	//
+	//	CONSTRUCTOR
+	//
+	/////////////////////////////////////////////////////////////
+	
+	public	JDBCDriverTest() {}
+
+	/////////////////////////////////////////////////////////////
+	//
+	//	TEST ENTRY POINTS
+	//
+	/////////////////////////////////////////////////////////////
+
+	/**
+	 * <p>
+	 * Sanity check the integrity of this test suite.
+	 * </p>
+	 */
+	public	void	testSanity()
 	{
 		assertEquals
 			( "ALL_TYPES.length == ROW_1.length", ALL_TYPES.length, ROW_1.length );

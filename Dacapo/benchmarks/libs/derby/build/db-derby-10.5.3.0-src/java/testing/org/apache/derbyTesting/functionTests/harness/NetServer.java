@@ -178,7 +178,7 @@ public class NetServer
             // The jvmflags property can be used to set any kind of JVM option.
         }
 
-        jvmProps.addElement("derby.system.home=" + homeDirName);
+        jvmProps.add("derby.system.home=" + homeDirName);
 		jvm.setD(jvmProps);
 		jvm.setSecurityProps();
         // For some platforms (like Mac) the process exec command
@@ -186,12 +186,12 @@ public class NetServer
         // first because some strings (paths) could have spaces
 	FastTable vCmd = jvm.getCommandLine();
 	for (int i = 0; i < startcmd.length; i++)
-	    vCmd.addElement(startcmd[i]);
+	    vCmd.add(startcmd[i]);
 
 	String serverCmd[] = new String[vCmd.size()];
 	for (int i = 0; i < vCmd.size(); i++)
 	{
-	    serverCmd[i] = (String)vCmd.elementAt(i);
+	    serverCmd[i] = (String)vCmd.get(i);
 	    System.out.print(serverCmd[i] + " ");
 	}
 	System.out.println("");
@@ -286,7 +286,7 @@ public class NetServer
 	FastTable connV = new FastTable();
 	for (int i = 0; i < jvmCmd.size(); i++)
 	{
-	    connV.addElement((String)jvmCmd.elementAt(i));
+	    connV.add((String)jvmCmd.get(i));
         }
 	
 	String[] stopcmd1 = (String[]) frameworkInfo[STOP_CMD1_POS];
@@ -305,19 +305,19 @@ public class NetServer
 
 
 		for (int i = 0; i < stopcmd1.length; i++)
-		    connV.addElement(stopcmd1[i]);
+		    connV.add(stopcmd1[i]);
 		
 		String[] connCmd = new String[connV.size()];
 		for (int i = 0; i < connV.size(); i++)
 		{
-		    connCmd[i] = (String)connV.elementAt(i);
+		    connCmd[i] = (String)connV.get(i);
 		}		    
 		
 		
 		FastTable stopV = new FastTable();
 		for (int i = 0; i < jvmCmd.size(); i++)
 		{
-		    stopV.addElement((String)jvmCmd.elementAt(i));
+		    stopV.add((String)jvmCmd.get(i));
 		}
 
 		Process prconn = Runtime.getRuntime().exec(connCmd);
@@ -329,12 +329,12 @@ public class NetServer
 		if (stopcmd2 != null)
 		{
 		    for (int i = 0; i < stopcmd2.length; i++)
-			stopV.addElement(stopcmd2[i]);
+			stopV.add(stopcmd2[i]);
 		    
 		    String[] stopCmd = new String[stopV.size()];
 		    for (int i = 0; i < stopV.size(); i++)
 		    {
-			stopCmd[i] = (String)stopV.elementAt(i);
+			stopCmd[i] = (String)stopV.get(i);
 		    }
 		    
 		    Process prstop = Runtime.getRuntime().exec(stopCmd);

@@ -21,15 +21,26 @@
 
 package org.apache.derbyTesting.functionTests.tests.jdbc4;
 
-import junit.framework.*;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.Reader;
+import java.io.StringReader;
+import java.io.Writer;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.sql.Clob;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
-import org.apache.derbyTesting.junit.BaseJDBCTestCase;
-import org.apache.derbyTesting.junit.TestConfiguration;
-
-import java.sql.*;
-import java.io.*;
-import java.lang.reflect.*;
-import java.util.*;
+import javolution.util.FastMap;
+import javolution.util.FastTable;
+import junit.framework.Test;
 
 /* This class is used to store the details of the methods that
  * throw a SQLFeatureNotSupportedException in the implementation
@@ -45,7 +56,9 @@ import java.util.*;
  */
 import org.apache.derbyTesting.functionTests.util.streams.CharAlphabet;
 import org.apache.derbyTesting.functionTests.util.streams.LoopingAlphabetReader;
+import org.apache.derbyTesting.junit.BaseJDBCTestCase;
 import org.apache.derbyTesting.junit.DatabasePropertyTestSetup;
+import org.apache.derbyTesting.junit.TestConfiguration;
 class ExemptClobMD {
     /** The Name of the method. */
     private String methodName_;

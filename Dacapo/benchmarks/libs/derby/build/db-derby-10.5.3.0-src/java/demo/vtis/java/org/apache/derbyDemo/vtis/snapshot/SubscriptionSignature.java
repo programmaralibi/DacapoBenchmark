@@ -21,7 +21,8 @@ limitations under the License.
 
 package org.apache.derbyDemo.vtis.snapshot;
 
-import java.lang.annotation.*;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 /**
  * <p>

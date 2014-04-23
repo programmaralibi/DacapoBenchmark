@@ -22,8 +22,8 @@ limitations under the License.
 package org.apache.derbyTesting.functionTests.tests.jdbcapi;
 
 import java.lang.reflect.Method;
-import javolution.util.FastTable;
-import javolution.util.FastMap;
+import java.util.ArrayList;
+import java.util.Hashtable;
 
 import javax.naming.Context;
 import javax.naming.NamingException;
@@ -78,7 +78,7 @@ public class XAJNDITest extends BaseJDBCTestCase {
     private InitialDirContext getInitialDirContext()
     {
         try {
-            FastMap env = new FastMap();
+            Hashtable env = new Hashtable();
             // using properties - these will have been passed in.
             String ldapContextFactory=getSystemProperty("derbyTesting.ldapContextFactory");
             if (ldapContextFactory == null || ldapContextFactory.length() < 1)
@@ -146,7 +146,7 @@ public class XAJNDITest extends BaseJDBCTestCase {
      */
     private static String[] getPropertyBeanList(Object ds) {
         Method[] allMethods = ds.getClass().getMethods();
-        FastTable properties = new FastTable();
+        ArrayList properties = new ArrayList();
 
         for (int i = 0; i < allMethods.length; i++) {
             Method method = allMethods[i];

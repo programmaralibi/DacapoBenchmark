@@ -28,10 +28,13 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.FileInputStream;
 import java.io.BufferedInputStream;
-import javolution.util.FastTable;
-import java.util.Enumeration;
-import org.apache.derby.impl.tools.ij.*;
 
+import javolution.util.FastTable;
+
+import java.util.Enumeration;
+import java.util.Iterator;
+
+import org.apache.derby.impl.tools.ij.*;
 import org.apache.derby.iapi.tools.i18n.LocalizedResource;
 import org.apache.derby.iapi.tools.i18n.LocalizedOutput;
 import org.apache.derbyTesting.functionTests.util.TestUtil;
@@ -407,11 +410,11 @@ public class MultiTest
 			return;
 		}
 
-		Enumeration e = cases.elements();
+		Iterator e = cases.iterator();
 
-		while (e.hasMoreElements())
+		while (e.hasNext())
 		{
-			testCase = (mtTestCase)e.nextElement();
+			testCase = (mtTestCase)e.next();
 			String testName = testCase.getFile();
 			System.out.println("...running "+descr+" via "+testName);
 			String logFileName = 
